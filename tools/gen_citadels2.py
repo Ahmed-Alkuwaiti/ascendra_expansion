@@ -16,7 +16,7 @@ from citadel_detail import (rootbound_detail, stormwatch_detail, ashen_detail, r
                             stormwatch_gimmicks, ashen_gimmicks)
 from citadel_detail2 import rootbound_grand, stormwatch_grand, ashen_grand
 
-OUT = '/home/claude/aurelia/src/main/resources/data/aurelia/structures'
+OUT = __import__('paths').RES + '/data/aurelia/structures'
 AIR = 'minecraft:air'
 PASSABLE = {AIR, 'minecraft:lily_pad', 'minecraft:sweet_berry_bush', 'minecraft:end_rod', 'minecraft:cave_vines', 'minecraft:cave_vines_plant',
             'minecraft:skeleton_skull', 'minecraft:ladder', 'minecraft:cobweb', 'minecraft:moss_carpet', 'minecraft:red_mushroom', 'minecraft:brown_mushroom',

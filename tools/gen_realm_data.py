@@ -1,7 +1,7 @@
 import copy, json, os
 
-D = '/home/claude/aurelia/src/main/resources/data/aurelia'
-V = '/home/claude/vanilla'
+D = __import__('paths').RES + '/data/aurelia'
+V = __import__('paths').VANILLA
 
 
 def write(path, obj):

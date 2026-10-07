@@ -1,6 +1,6 @@
 import json, os, urllib.request
 
-D = '/home/claude/aurelia/src/main/resources/data/aurelia'
+D = __import__('paths').RES + '/data/aurelia'
 
 
 def write(path, obj):

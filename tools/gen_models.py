@@ -1,7 +1,7 @@
 """Emit MobModels.java (generated) from mobspecs."""
 import mobspecs
 
-OUT = '/home/claude/aurelia/src/main/java/com/aurelia/client/MobModels.java'
+OUT = __import__('paths').JAVA + '/client/MobModels.java'
 
 
 def f(v):

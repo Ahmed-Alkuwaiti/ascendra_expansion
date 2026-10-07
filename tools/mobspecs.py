@@ -10,7 +10,7 @@ import random
 
 from PIL import Image, ImageDraw
 
-ASSETS = '/home/claude/aurelia/src/main/resources/assets/aurelia'
+ASSETS = __import__('paths').RES + '/assets/aurelia'
 
 
 def part(name, size, origin, pivot=(0, 0, 0), rot=(0, 0, 0), style='bark', anim='none', eyes=None, parent=None):
@@ -444,3 +444,6 @@ if __name__ == '__main__':
     b = build_all()
     for k, v in b.items():
         print(f"{k}: {len(v['parts'])} parts, texture {v['sheet']}x{v['sheet']}")
+
+import mobs_act2  # noqa: E402  (act two: three Wardens and nine guards)
+mobs_act2.register(MOBS, STYLES, GLOW_STYLES, part)

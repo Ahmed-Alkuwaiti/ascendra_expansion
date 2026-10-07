@@ -1,10 +1,10 @@
 import copy, json, os, random
 from PIL import Image, ImageDraw
 
-ROOT = '/home/claude/aurelia/src/main/resources'
+ROOT = __import__('paths').RES
 A = f'{ROOT}/assets/aurelia'
 D = f'{ROOT}/data/aurelia'
-V = '/home/claude/vanilla'
+V = __import__('paths').VANILLA
 
 
 def write(path, obj):

@@ -1,5 +1,5 @@
 import nbtlib, glob, json, urllib.request, os, re, collections
-R = '/home/claude/aurelia/src/main/resources'; A = R + '/assets/aurelia'; D = R + '/data/aurelia'; J = '/home/claude/aurelia/src/main/java/com/aurelia'
+R = __import__('paths').RES; A = R + '/assets/aurelia'; D = R + '/data/aurelia'; J = __import__('paths').JAVA
 reg = set(json.load(urllib.request.urlopen('https://raw.githubusercontent.com/misode/mcmeta/1.20.1-registries/block/data.json')))
 props = json.load(urllib.request.urlopen('https://raw.githubusercontent.com/misode/mcmeta/1.20.1-summary/blocks/data.json'))
 src = {c: open(f'{J}/registry/{c}.java').read() for c in ('ModBlocks', 'ModItems', 'ModEntities')}
