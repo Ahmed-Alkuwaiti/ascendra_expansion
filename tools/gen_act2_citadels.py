@@ -677,6 +677,207 @@ def rimefast():
     return g
 
 
+# ================================================================================================ SUNSCAR
+# The mirror puzzle, designed by sun_puzzle.design(): court cells (i, j), i east, j south. Lighting the three lenses takes
+# 3, 5 and 5 flips from the starting state, and nothing is lit at the start. analyse() re-checks it every build.
+SUN_MIRRORS = [(12, 11), (9, 2), (15, 2), (2, 2), (15, 13), (9, 4), (13, 13), (12, 4)]
+SUN_INIT = (True, False, False, False, False, True, False, False)
+SUN_LENSES = [(-1, 4), (12, -1), (17, 11)]
+SUN_SOURCE = (13, 16)
+SUN_PILLARS = {(4, 9), (10, 9), (4, 1), (10, 15)}
+SUN_OPENINGS = {(7, 17), (8, 17), (9, 17)}
+
+
+def sunscar():
+    import sun_puzzle
+    best, _ = sun_puzzle.analyse(SUN_MIRRORS, SUN_INIT, SUN_LENSES, SUN_PILLARS, SUN_SOURCE, 'N', SUN_OPENINGS)
+    assert min(best.values()) >= 2 and max(best.values()) < 99, best
+    assert not sun_puzzle.trace(SUN_MIRRORS, SUN_INIT, SUN_LENSES, SUN_PILLARS, SUN_SOURCE, 'N', SUN_OPENINGS)[0]
+    W = L = 65
+    H = 60
+    C = 32
+    G = 8
+    F = G + 1                                                   # court floor; the beam travels at F + 1
+    rnd = random.Random(606)
+    g = Grid(W, H, L)
+    RS, CRS, SRS, CH = 'minecraft:red_sandstone', 'minecraft:cut_red_sandstone', 'minecraft:smooth_red_sandstone', 'minecraft:chiseled_red_sandstone'
+    GOLD, RG = 'minecraft:gold_block', 'minecraft:red_stained_glass'
+    CX0, CZ0 = C - 8, C - 8
+
+    def cell(i, j):
+        return CX0 + i, CZ0 + j
+
+    # ---- the desert floor
+    for x in range(W):
+        for z in range(L):
+            if math.hypot(x - C, z - C) > 31.8 and max(abs(x - C), abs(z - C)) > 29:
+                continue
+            for y in range(0, G):
+                g.set(x, y, z, RS if y < G - 2 else 'minecraft:red_sand')
+            g.set(x, G, z, 'minecraft:red_sand')
+            for y in range(G + 1, H):
+                g.set(x, y, z, AIR)
+            if rnd.random() < 0.01:
+                g.set(x, G + 1, z, 'minecraft:dead_bush')
+
+    # ---- the stepped temple: four tiers of red sandstone round a court open to the sun
+    tiers = [(20, G + 1, G + 5), (16, G + 6, G + 10), (13, G + 11, G + 15), (10, G + 16, G + 19)]
+    for half, y0, y1 in tiers:
+        for x in range(C - half, C + half + 1):
+            for z in range(C - half, C + half + 1):
+                rim = max(abs(x - C), abs(z - C)) == half
+                for y in range(y0, y1 + 1):
+                    if y == y1:
+                        g.set(x, y, z, SRS)
+                    elif rim and y == y0 + 1:
+                        g.set(x, y, z, 'minecraft:orange_terracotta')
+                    else:
+                        g.set(x, y, z, CRS if rim else RS)
+        for (sx, sz) in [(-1, -1), (1, -1), (-1, 1), (1, 1)]:
+            g.set(C + sx * half, y1 + 1, C + sz * half, GOLD)
+    # the court: carved out of every tier, floor inlaid with a sun
+    for x in range(C - 8, C + 9):
+        for z in range(C - 8, C + 9):
+            for y in range(F + 1, H):
+                g.set(x, y, z, AIR)
+            d = math.hypot(x - C, z - C)
+            g.set(x, F, z, 'minecraft:yellow_terracotta' if d < 2.5 else ('minecraft:orange_terracotta' if abs(d - 5) < 0.6 or
+                  (d < 8 and (int(math.degrees(math.atan2(z - C, x - C))) // 15) % 2 == 0 and d > 2.5 and d < 4.5) else SRS))
+    for x in range(C - 9, C + 10):                               # a gold rim round the court mouth, at the top
+        for z in (C - 9, C + 9):
+            g.set(x, G + 20, z, GOLD if (x % 4 == 0) else CH)
+            g.set(z, G + 20, x, GOLD if (x % 4 == 0) else CH)
+    # four sun pillars in the court (obstacles to the beam)
+    for (i, j) in SUN_PILLARS:
+        x, z = cell(i, j)
+        for y in range(F + 1, F + 5):
+            g.set(x, y, z, CRS if y < F + 4 else CH)
+        g.set(x, F + 5, z, 'minecraft:ochre_froglight', {'axis': 'y'})
+    # the Sunwell, the mirrors, the lenses
+    sx_, sz_ = cell(*SUN_SOURCE)
+    g.set(sx_, F + 1, sz_, 'aurelia:sunwell', {'facing': 'north'})
+    for (i, j), slash in zip(SUN_MIRRORS, SUN_INIT):
+        x, z = cell(i, j)
+        g.set(x, F + 1, z, 'aurelia:sun_mirror', {'slash': str(slash).lower()})
+        g.set(x, F, z, GOLD)
+    for (i, j) in SUN_LENSES:
+        x, z = cell(i, j)
+        g.set(x, F + 1, z, 'aurelia:sun_lens', {'filled': 'false'})
+        g.set(x, F + 2, z, GOLD)
+    # the portal in the north wall, framed in gold, red glass behind
+    for y in range(F + 1, F + 6):
+        g.set(C - 2, y, C - 9, CH)
+        g.set(C + 2, y, C - 9, CH)
+    for x in range(C - 1, C + 2):
+        for y in range(F + 1, F + 5):
+            g.set(x, y, C - 10, RG)
+            g.set(x, y, C - 9, AIR)
+    g.box(C - 2, F + 5, C - 9, C + 2, F + 5, C - 9, GOLD)
+    g.set(C, F + 1, C - 9, 'aurelia:waygate', {'realm': 'scarlet', 'active': 'false'})
+    lectern(g, C - 4, F + 1, C + 7, 'east', 'The Sunscar Citadel',
+            ["Kharzul kept the Sovereign's hours. When she asked for more time he did not argue. He simply began to take it, "
+             "a grain at a time, from everyone else in the Scarlet Sands.",
+             "The court is barred by the Sun Seal while the Sandglass Sentinels still stand.",
+             "The Sunwell throws a beam of light while the sun is up. Each mirror turns it a quarter turn; touch a mirror to flip it, "
+             "and the light runs again. Lead the beam through all three lenses, one at a time. A lit lens stays lit."])
+    # side chambers off the court, east and west, each with a chest
+    for sgn in (-1, 1):
+        for x in range(C + sgn * 9, C + sgn * 15, sgn):
+            for z in range(C - 2, C + 3):
+                for y in range(F + 1, F + 5):
+                    g.set(x, y, z, AIR if (abs(x - C) > 9 or z == C) and y < F + 4 else RS)
+                g.set(x, F, z, SRS)
+        g.set(C + sgn * 9, F + 3, C, RS)
+        chest(g, C + sgn * 14, F + 1, C, 'aurelia:chests/sunscar_cache', 'west' if sgn > 0 else 'east')
+        g.set(C + sgn * 12, F + 3, C - 2, 'minecraft:ochre_froglight', {'axis': 'y'})
+
+    # ---- the corridor in from the south face, sealed with the Sun Seal
+    for z in range(C + 9, C + 22):
+        for x in range(C - 1, C + 2):
+            for y in range(F + 1, F + 5):
+                g.set(x, y, z, AIR)
+            g.set(x, F, z, 'aurelia:sunflare_plate' if (z == C + 17 and x == C) else SRS)
+        for x in (C - 2, C + 2):
+            if z % 3 == 0:
+                g.set(x, F + 3, z, 'minecraft:ochre_froglight', {'axis': 'y'})
+    for z in (C + 10, C + 11):
+        for x in range(C - 1, C + 2):
+            for y in range(F + 1, F + 5):
+                g.set(x, y, z, 'aurelia:sun_seal')
+    for y in range(F + 1, F + 8):                                # a great gate in the south face
+        for x in (C - 3, C + 3):
+            g.set(x, y, C + 21, CH)
+    g.box(C - 3, F + 7, C + 21, C + 3, F + 7, C + 21, GOLD)
+    for x in range(C - 2, C + 3):
+        for y in range(F + 5, F + 7):
+            g.set(x, y, C + 21, RG)
+
+    # ---- the avenue to the gate: pillars with sun-caps, sunflare plates, two lion-sphinxes at the mouth
+    for z in range(C + 22, C + 32):
+        for x in range(C - 2, C + 3):
+            g.set(x, G, z, 'aurelia:sunflare_plate' if (z in (C + 25, C + 29) and x == C) else CRS)
+    for z in range(C + 23, C + 32, 3):
+        for x in (C - 4, C + 4):
+            for y in range(G + 1, G + 7):
+                g.set(x, y, z, CRS if y < G + 6 else CH)
+            g.set(x, G + 7, z, GOLD)
+            g.set(x, G + 8, z, RG)
+    for sgn in (-1, 1):
+        bx = C + sgn * 7
+        g.box(bx - 1, G + 1, C + 27, bx + 1, G + 2, C + 31, CRS)
+        g.box(bx - 1, G + 3, C + 30, bx + 1, G + 5, C + 31, CRS)
+        g.set(bx, G + 4, C + 32 if C + 32 < L else C + 31, RG)
+        g.box(bx - 1, G + 6, C + 30, bx + 1, G + 6, C + 31, 'minecraft:yellow_terracotta')
+
+    # ---- ramps up the east and west faces to the second terrace, and a small shrine on its north side
+    for sgn in (-1, 1):
+        for dist in range(25, 16, -1):
+            x, y = C + sgn * dist, G + 1 + (25 - dist)
+            for z in range(C - 1, C + 2):
+                for yy in range(G + 1, y):
+                    g.set(x, yy, z, RS)
+                g.set(x, y, z, 'minecraft:red_sandstone_stairs', stairs('west' if sgn > 0 else 'east'))
+                for yy in range(y + 1, y + 4):
+                    if abs(x - C) <= 20 or yy > G:
+                        g.set(x, yy, z, AIR)
+    for x in range(C - 3, C + 4):
+        for z in range(C - 16, C - 13):
+            g.set(x, G + 10, z, SRS)
+            for y in range(G + 11, G + 15):
+                g.set(x, y, z, AIR)
+    for (px, pz) in [(C - 3, C - 16), (C + 3, C - 16), (C - 3, C - 14), (C + 3, C - 14)]:
+        for y in range(G + 11, G + 15):
+            g.set(px, y, pz, CRS)
+    g.box(C - 3, G + 15, C - 16, C + 3, G + 15, C - 14, SRS)
+    g.set(C, G + 16, C - 15, GOLD)
+    chest(g, C, G + 11, C - 15, 'aurelia:chests/sunscar_cache', 'south')
+    g.set(C - 1, G + 11, C - 15, 'minecraft:red_candle', {'candles': '3', 'lit': 'true', 'waterlogged': 'false'})
+
+    # ---- four glass-tipped obelisks round the temple
+    for (sx, sz) in [(-1, -1), (1, -1), (-1, 1), (1, 1)]:
+        ox, oz = C + sx * 25, C + sz * 25
+        for y in range(G + 1, G + 17):
+            w = 1 if y < G + 12 else 0
+            for x in range(ox - w, ox + w + 1):
+                for z in range(oz - w, oz + w + 1):
+                    g.set(x, y, z, CRS if y % 4 else CH)
+        for y in range(G + 17, G + 20):
+            g.set(ox, y, oz, RG)
+        g.set(ox, G + 20, oz, GOLD)
+        g.box(ox - 2, G + 1, oz - 2, ox + 2, G + 1, oz + 2, SRS)
+
+    # ---- garrison
+    for (x, z) in [(C - 3, C + 24), (C + 3, C + 24), (C - 1, C + 18), (C + 1, C + 14)]:
+        g.ground_guard('aurelia:sandglass_sentinel', x, z, G + 1, 3)
+    for (x, z) in [(C - 18, C - 6), (C + 18, C + 6), (C - 6, C - 15), (C + 15, C - 15)]:
+        g.ground_guard('aurelia:sunseer', x, z, G + 8, 3)
+    for (x, z) in [(C - 22, C + 14), (C + 22, C + 14), (C - 24, C - 4), (C + 24, C - 10), (C + 10, C + 28)]:
+        g.ground_guard('aurelia:glasswing_scarab', x, z, G + 1, 2)
+    g.save('sunscar_citadel')
+    return g
+
+
 if __name__ == '__main__':
     tidewrack()
     rimefast()
+    sunscar()

@@ -4,8 +4,8 @@ import sys
 
 import nbtlib
 
-NOCOLLIDE = ('air', 'water', 'ladder', 'seagrass', 'kelp', 'sea_pickle', 'carpet', 'torch', 'candle', 'vein', 'rail', 'dead_bush', 'fern', 'vine')
-EXACT = {'snow', 'grass', 'tall_grass', 'tube_coral', 'brain_coral', 'bubble_coral', 'fire_coral', 'horn_coral', 'chain', 'lever'}
+NOCOLLIDE = ('water', 'ladder', 'seagrass', 'kelp', 'sea_pickle', 'carpet', 'torch', 'candle', 'vein', 'rail', 'dead_bush', 'fern', 'vine')
+EXACT = {'air', 'cave_air', 'snow', 'grass', 'tall_grass', 'tube_coral', 'brain_coral', 'bubble_coral', 'fire_coral', 'horn_coral', 'chain', 'lever'}
 
 
 def load(path):
