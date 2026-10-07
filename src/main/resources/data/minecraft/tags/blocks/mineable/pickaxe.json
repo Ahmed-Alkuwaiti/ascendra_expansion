@@ -22,6 +22,8 @@
     "aurelia:sunflare_plate",
     "aurelia:chronite_block",
     "aurelia:time_snare",
-    "aurelia:unmaking_anchor"
+    "aurelia:unmaking_anchor",
+    "aurelia:chronite_ore",
+    "aurelia:bloomspore_ore"
   ]
 }

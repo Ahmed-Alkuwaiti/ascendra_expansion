@@ -16,6 +16,9 @@ import com.aurelia.entity.Vorath;
 import com.aurelia.entity.WhiteSilence;
 import com.aurelia.entity.Vexor;
 import com.aurelia.entity.Unmaker;
+import com.aurelia.entity.RealmCritter;
+import com.aurelia.entity.FlyingCritter;
+import com.aurelia.entity.JellyCritter;
 import com.aurelia.entity.BloomMother;
 import com.aurelia.entity.Gearskitter;
 import com.aurelia.entity.Secondhand;
@@ -194,7 +197,34 @@ public class ModEntities {
     public static final RegistryObject<EntityType<Unmaker>> UNMAKER = ENTITIES.register("unmaker",
             () -> EntityType.Builder.of(Unmaker::new, MobCategory.MONSTER).sized(8.0f, 18.0f).clientTrackingRange(16).fireImmune().build(id("unmaker")));
 
+
+    // ==================================================================== realm wildlife
+    public static final RegistryObject<EntityType<RealmCritter>> MOSSLING = ENTITIES.register("mossling",
+            () -> EntityType.Builder.<RealmCritter>of(RealmCritter::new, MobCategory.CREATURE).sized(0.8f, 0.7f).clientTrackingRange(8).build(id("mossling")));
+    public static final RegistryObject<EntityType<FlyingCritter>> CLOUD_RAY = ENTITIES.register("cloud_ray",
+            () -> EntityType.Builder.<FlyingCritter>of(FlyingCritter::new, MobCategory.CREATURE).sized(2.2f, 0.6f).clientTrackingRange(8).build(id("cloud_ray")));
+    public static final RegistryObject<EntityType<RealmCritter>> EMBER_BEETLE = ENTITIES.register("ember_beetle",
+            () -> EntityType.Builder.<RealmCritter>of(RealmCritter::new, MobCategory.CREATURE).sized(0.7f, 0.5f).clientTrackingRange(8).fireImmune().build(id("ember_beetle")));
+    public static final RegistryObject<EntityType<JellyCritter>> LANTERN_JELLY = ENTITIES.register("lantern_jelly",
+            () -> EntityType.Builder.<JellyCritter>of(JellyCritter::new, MobCategory.WATER_AMBIENT).sized(0.8f, 1.2f).clientTrackingRange(8).build(id("lantern_jelly")));
+    public static final RegistryObject<EntityType<RealmCritter>> FROST_HARE = ENTITIES.register("frost_hare",
+            () -> EntityType.Builder.<RealmCritter>of(RealmCritter::new, MobCategory.CREATURE).sized(0.5f, 0.7f).clientTrackingRange(8).build(id("frost_hare")));
+    public static final RegistryObject<EntityType<RealmCritter>> SAND_SKINK = ENTITIES.register("sand_skink",
+            () -> EntityType.Builder.<RealmCritter>of(RealmCritter::new, MobCategory.CREATURE).sized(0.6f, 0.4f).clientTrackingRange(8).build(id("sand_skink")));
+    public static final RegistryObject<EntityType<RealmCritter>> COGLING = ENTITIES.register("cogling",
+            () -> EntityType.Builder.<RealmCritter>of(RealmCritter::new, MobCategory.CREATURE).sized(0.7f, 0.6f).clientTrackingRange(8).build(id("cogling")));
+    public static final RegistryObject<EntityType<FlyingCritter>> SPORE_PUFF = ENTITIES.register("spore_puff",
+            () -> EntityType.Builder.<FlyingCritter>of(FlyingCritter::new, MobCategory.CREATURE).sized(0.8f, 0.9f).clientTrackingRange(8).build(id("spore_puff")));
+
     public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(MOSSLING.get(), RealmCritter.createAttributes().build());
+        event.put(CLOUD_RAY.get(), FlyingCritter.createAttributes().build());
+        event.put(EMBER_BEETLE.get(), RealmCritter.createAttributes().build());
+        event.put(LANTERN_JELLY.get(), JellyCritter.createAttributes().build());
+        event.put(FROST_HARE.get(), RealmCritter.createAttributes().build());
+        event.put(SAND_SKINK.get(), RealmCritter.createAttributes().build());
+        event.put(COGLING.get(), RealmCritter.createAttributes().build());
+        event.put(SPORE_PUFF.get(), FlyingCritter.createAttributes().build());
         event.put(UNMAKER.get(), Unmaker.createAttributes().build());
         event.put(MOSSBACK_TITAN.get(), MossbackTitan.createAttributes().build());
         event.put(TEMPEST_ROC.get(), TempestRoc.createAttributes().build());
@@ -235,6 +265,23 @@ public class ModEntities {
     }
 
     public static void registerSpawns(SpawnPlacementRegisterEvent event) {
+        // realm wildlife
+        event.register(MOSSLING.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(CLOUD_RAY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(EMBER_BEETLE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(LANTERN_JELLY.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                net.minecraft.world.entity.animal.WaterAnimal::checkSurfaceWaterAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(FROST_HARE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(SAND_SKINK.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(COGLING.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(SPORE_PUFF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                RealmCritter::checkCritterSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
         event.register(GROVE_ANT.get(), SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.OR);

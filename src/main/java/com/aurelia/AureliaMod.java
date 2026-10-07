@@ -29,5 +29,6 @@ public class AureliaMod {
         bus.addListener(ModEntities::registerSpawns);
         MinecraftForge.EVENT_BUS.register(new CrownEvents());
         MinecraftForge.EVENT_BUS.register(new ActTwoEvents());
+        MinecraftForge.EVENT_BUS.register(new com.aurelia.event.KitEvents());
     }
 }

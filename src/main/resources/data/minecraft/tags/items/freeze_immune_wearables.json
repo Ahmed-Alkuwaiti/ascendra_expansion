@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:rime_helmet",
+    "aurelia:rime_chestplate",
+    "aurelia:rime_leggings",
+    "aurelia:rime_boots"
+  ]
+}

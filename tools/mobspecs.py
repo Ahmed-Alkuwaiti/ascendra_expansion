@@ -453,3 +453,6 @@ mobs_act3.register(MOBS, STYLES, GLOW_STYLES, part)
 
 import mobs_act4  # noqa: E402  (the finale: the Unmaker)
 mobs_act4.register(MOBS, STYLES, GLOW_STYLES, part)
+
+import mobs_act5  # noqa: E402  (realm wildlife: one passive creature per realm)
+mobs_act5.register(MOBS, STYLES, GLOW_STYLES, part)

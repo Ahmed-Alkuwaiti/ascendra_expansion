@@ -72,6 +72,12 @@
         "weight": 10,
         "minCount": 3,
         "maxCount": 6
+      },
+      {
+        "type": "aurelia:lantern_jelly",
+        "weight": 20,
+        "minCount": 2,
+        "maxCount": 4
       }
     ],
     "misc": []

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "M",
+    "B",
+    "S"
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:rime_crystal"
+    },
+    "B": {
+      "item": "aurelia:rime_block"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "aurelia:hushblade"
+  }
+}

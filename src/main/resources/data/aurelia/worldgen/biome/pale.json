@@ -37,7 +37,14 @@
         "maxCount": 3
       }
     ],
-    "creature": [],
+    "creature": [
+      {
+        "type": "aurelia:frost_hare",
+        "weight": 12,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
     "ambient": [],
     "axolotls": [],
     "underground_water_creature": [],

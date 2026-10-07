@@ -84,6 +84,11 @@ NONSOLID = {'air', 'cave_air', 'water', 'lava', 'vine', 'glow_lichen', 'moss_car
             'kelp_plant', 'sea_pickle', 'crimson_roots', 'nether_sprouts', 'soul_fire', 'fire', 'campfire', 'soul_campfire', 'iron_bars',
             'lightning_rod', 'bell'}
 
+ROCK = {'deepslate', 'tuff', 'cobbled_deepslate', 'stone', 'andesite', 'blackstone', 'calcite', 'diorite', 'packed_ice', 'prismarine',
+        'dark_prismarine', 'bone_block', 'mossy_cobblestone', 'terracotta', 'orange_terracotta', 'red_terracotta', 'yellow_terracotta',
+        'white_terracotta', 'basalt', 'magma_block'}
+REALM_ORE = {'grove': 'verdant_ore', 'skyreach': 'stormglass_ore', 'hollow': 'emberheart_ore', 'drowned': 'tidestone_ore', 'pale': 'rime_ore',
+             'scarlet': 'sunglass_ore', 'clockwork': 'chronite_ore', 'mycelial': 'bloomspore_ore'}
 THEMES = {
     'grove': dict(vine=0.12, moss=0.18, lichen=0.0, snow=False, roots=0.03, cobweb=0.02, lantern='lantern', banner='green',
                   flowers=['grass', 'fern', 'poppy', 'dandelion', 'allium', 'blue_orchid', 'oxeye_daisy', 'grass']),
@@ -214,6 +219,17 @@ def enrich(g, name):
             v = pick(rnd, VARIANTS[s])
             if v != s:
                 b[p] = (M + v, (), None)
+
+    # ---- 2a: ore in the rock. The Clockwork Rift's floating stone holds Chronite; each Last Realm island its realm's ore.
+    ore = None
+    if name.startswith('rift_'):
+        ore = 'aurelia:chronite_ore'
+    elif name.startswith('last_island_'):
+        ore = 'aurelia:' + REALM_ORE[name[len('last_island_'):]]
+    if ore:
+        for p, c in list(b.items()):
+            if plain(p) and c[0][len(M):] in ROCK and p not in protect and rnd.random() < 0.045:
+                b[p] = (ore, (), None)
 
     # ---- 2b: architecture. Lintels and sills round windows, inlaid borders round room floors, capitals and bases on pillars.
     def glassy(q):

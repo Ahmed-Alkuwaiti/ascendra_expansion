@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "M M",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:verdant_shard"
+    }
+  },
+  "result": {
+    "item": "aurelia:verdant_leggings"
+  }
+}

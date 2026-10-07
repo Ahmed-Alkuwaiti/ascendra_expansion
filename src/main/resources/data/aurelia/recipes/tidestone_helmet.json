@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:tidestone_shard"
+    }
+  },
+  "result": {
+    "item": "aurelia:tidestone_helmet"
+  }
+}

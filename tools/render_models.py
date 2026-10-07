@@ -63,6 +63,8 @@ def render(parts, tex, glow, yaw=-35, pitch=22, size=900, margin=40, bg=None, sc
     L = np.array(light) / np.linalg.norm(light)
     quads = []
     for p in parts:
+        if p.get('hidden'):
+            continue
         R, t = frames[p['name']]
         for (a, b, c, rect) in faces_of(p):
             pts = [V @ (t + R @ np.array(q, dtype=float)) for q in (a, b, c)]

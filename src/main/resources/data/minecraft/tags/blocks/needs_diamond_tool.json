@@ -6,6 +6,8 @@
     "aurelia:sunglass_ore",
     "aurelia:tidestone_block",
     "aurelia:rime_block",
-    "aurelia:sunglass_block"
+    "aurelia:sunglass_block",
+    "aurelia:chronite_ore",
+    "aurelia:bloomspore_ore"
   ]
 }

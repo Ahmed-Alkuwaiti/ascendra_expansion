@@ -6,6 +6,14 @@ import com.aurelia.item.AurelianCrownItem;
 import com.aurelia.item.EternalCrownItem;
 import com.aurelia.item.HandOfGenesisItem;
 import com.aurelia.item.RelicItem;
+import com.aurelia.item.RealmArmorItem;
+import com.aurelia.item.RealmArmorMaterial;
+import com.aurelia.item.RealmTier;
+import com.aurelia.item.RealmWeaponItem;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ArmorItem;
 import com.aurelia.entity.AureliaBoss;
 import com.aurelia.world.Realm;
 import javax.annotation.Nullable;
@@ -321,5 +329,152 @@ public class ModItems {
             return LIVING_SPORE.get();
         }
         return null;
+    }
+
+    // ==================================================================== realm kits: armor, weapons, food, wildlife
+    public static final RegistryObject<Item> VERDANT_HELMET = ITEMS.register("verdant_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VERDANT_CHESTPLATE = ITEMS.register("verdant_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VERDANT_LEGGINGS = ITEMS.register("verdant_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VERDANT_BOOTS = ITEMS.register("verdant_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> THORNROOT_BLADE = ITEMS.register("thornroot_blade",
+            () -> new RealmWeaponItem(RealmTier.VERDANT, 5, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VERDANT_FIG = ITEMS.register("verdant_fig",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> MOSSLING_EGG = ITEMS.register("mossling_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.MOSSLING, 0x4A6830, 0xE6D25A, new Item.Properties()));
+    public static final RegistryObject<Item> STORMGLASS_HELMET = ITEMS.register("stormglass_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> STORMGLASS_CHESTPLATE = ITEMS.register("stormglass_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> STORMGLASS_LEGGINGS = ITEMS.register("stormglass_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> STORMGLASS_BOOTS = ITEMS.register("stormglass_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GALECUTTER = ITEMS.register("galecutter",
+            () -> new RealmWeaponItem(RealmTier.STORMGLASS, 4, -2.4f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SKY_JELLY = ITEMS.register("sky_jelly",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.SLOW_FALLING, 300, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> CLOUD_RAY_EGG = ITEMS.register("cloud_ray_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CLOUD_RAY, 0xCEE2F0, 0x5AB4E6, new Item.Properties()));
+    public static final RegistryObject<Item> EMBERHEART_HELMET = ITEMS.register("emberheart_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> EMBERHEART_CHESTPLATE = ITEMS.register("emberheart_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> EMBERHEART_LEGGINGS = ITEMS.register("emberheart_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> EMBERHEART_BOOTS = ITEMS.register("emberheart_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SOULBRAND = ITEMS.register("soulbrand",
+            () -> new RealmWeaponItem(RealmTier.EMBERHEART, 7, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> CHARRED_MORSEL = ITEMS.register("charred_morsel",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.7f).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 600, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> EMBER_BEETLE_EGG = ITEMS.register("ember_beetle_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.EMBER_BEETLE, 0x181416, 0xFF8C28, new Item.Properties()));
+    public static final RegistryObject<Item> TIDESTONE_HELMET = ITEMS.register("tidestone_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> TIDESTONE_CHESTPLATE = ITEMS.register("tidestone_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> TIDESTONE_LEGGINGS = ITEMS.register("tidestone_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> TIDESTONE_BOOTS = ITEMS.register("tidestone_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> UNDERTOW_FANG = ITEMS.register("undertow_fang",
+            () -> new RealmWeaponItem(RealmTier.TIDESTONE, 5, -2.7f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GLOWING_GEL = ITEMS.register("glowing_gel",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> LANTERN_JELLY_EGG = ITEMS.register("lantern_jelly_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.LANTERN_JELLY, 0x5AD2C8, 0xDCFFFA, new Item.Properties()));
+    public static final RegistryObject<Item> RIME_HELMET = ITEMS.register("rime_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> RIME_CHESTPLATE = ITEMS.register("rime_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> RIME_LEGGINGS = ITEMS.register("rime_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> RIME_BOOTS = ITEMS.register("rime_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> HUSHBLADE = ITEMS.register("hushblade",
+            () -> new RealmWeaponItem(RealmTier.RIME, 4, -2.2f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> FROST_HARE_HAUNCH = ITEMS.register("frost_hare_haunch",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.9f).build())));
+    public static final RegistryObject<Item> FROST_HARE_EGG = ITEMS.register("frost_hare_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.FROST_HARE, 0xEEF2F6, 0xDCAAB4, new Item.Properties()));
+    public static final RegistryObject<Item> SUNGLASS_HELMET = ITEMS.register("sunglass_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SUNGLASS_CHESTPLATE = ITEMS.register("sunglass_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SUNGLASS_LEGGINGS = ITEMS.register("sunglass_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SUNGLASS_BOOTS = ITEMS.register("sunglass_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GLASS_REAPER = ITEMS.register("glass_reaper",
+            () -> new RealmWeaponItem(RealmTier.SUNGLASS, 6, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SUNBAKED_TAIL = ITEMS.register("sunbaked_tail",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> SAND_SKINK_EGG = ITEMS.register("sand_skink_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SAND_SKINK, 0xC44628, 0xF0BE78, new Item.Properties()));
+    public static final RegistryObject<Item> CHRONITE_HELMET = ITEMS.register("chronite_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_CHESTPLATE = ITEMS.register("chronite_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_LEGGINGS = ITEMS.register("chronite_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_BOOTS = ITEMS.register("chronite_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SECOND_HAND = ITEMS.register("second_hand",
+            () -> new RealmWeaponItem(RealmTier.CHRONITE, 2, -1.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> TICKBERRY = ITEMS.register("tickberry",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.4f).effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> COGLING_EGG = ITEMS.register("cogling_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.COGLING, 0xC49646, 0xAA46FF, new Item.Properties()));
+    public static final RegistryObject<Item> BLOOMSPORE_HELMET = ITEMS.register("bloomspore_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> BLOOMSPORE_CHESTPLATE = ITEMS.register("bloomspore_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> BLOOMSPORE_LEGGINGS = ITEMS.register("bloomspore_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> BLOOMSPORE_BOOTS = ITEMS.register("bloomspore_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SPORE_LASH = ITEMS.register("spore_lash",
+            () -> new RealmWeaponItem(RealmTier.BLOOMSPORE, 7, -3.1f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> PUFFCAP = ITEMS.register("puffcap",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8f).effect(() -> new MobEffectInstance(MobEffects.SATURATION, 1, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
+    public static final RegistryObject<Item> SPORE_PUFF_EGG = ITEMS.register("spore_puff_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SPORE_PUFF, 0xC846BE, 0xFFDCFA, new Item.Properties()));
+    public static final RegistryObject<Item> CHRONITE_ORE = ITEMS.register("chronite_ore",
+            () -> new BlockItem(ModBlocks.CHRONITE_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BLOOMSPORE_ORE = ITEMS.register("bloomspore_ore",
+            () -> new BlockItem(ModBlocks.BLOOMSPORE_ORE.get(), new Item.Properties()));
+
+    /** What each realm creature eats, follows and breeds on. */
+    public static Item critterFood(net.minecraft.world.entity.EntityType<?> type) {
+        if (type == ModEntities.MOSSLING.get()) {
+            return VERDANT_FIG.get();
+        }
+        if (type == ModEntities.CLOUD_RAY.get()) {
+            return SKY_JELLY.get();
+        }
+        if (type == ModEntities.EMBER_BEETLE.get()) {
+            return CHARRED_MORSEL.get();
+        }
+        if (type == ModEntities.LANTERN_JELLY.get()) {
+            return GLOWING_GEL.get();
+        }
+        if (type == ModEntities.FROST_HARE.get()) {
+            return FROST_HARE_HAUNCH.get();
+        }
+        if (type == ModEntities.SAND_SKINK.get()) {
+            return SUNBAKED_TAIL.get();
+        }
+        if (type == ModEntities.COGLING.get()) {
+            return TICKBERRY.get();
+        }
+        if (type == ModEntities.SPORE_PUFF.get()) {
+            return PUFFCAP.get();
+        }
+        return net.minecraft.world.item.Items.WHEAT;
     }
 }

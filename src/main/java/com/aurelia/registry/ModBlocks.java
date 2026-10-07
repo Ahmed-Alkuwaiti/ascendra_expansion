@@ -211,4 +211,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> UNMAKING_ANCHOR = BLOCKS.register("unmaking_anchor",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(2.0f, 6.0f).noLootTable()
                     .lightLevel(state -> 9).sound(SoundType.AMETHYST)));
+
+    // ==================================================================== realm kits: the two rift ores
+    public static final RegistryObject<Block> CHRONITE_ORE = BLOCKS.register("chronite_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(4.0f, 5.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 6).sound(SoundType.DEEPSLATE), UniformInt.of(3, 7)));
+    public static final RegistryObject<Block> BLOOMSPORE_ORE = BLOCKS.register("bloomspore_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(4.0f, 5.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 7).sound(SoundType.STONE), UniformInt.of(3, 7)));
 }

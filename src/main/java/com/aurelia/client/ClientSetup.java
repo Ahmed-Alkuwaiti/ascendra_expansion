@@ -33,6 +33,7 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        ArmorModels.register(event);
         MobModels.register(event);
     }
 
@@ -89,6 +90,22 @@ public class ClientSetup {
                 MobModels.GLASSWING_SCARAB_SHADOW, "glasswing_scarab", false);
         spec(event, ModEntities.VEXOR.get(), MobModels.VEXOR, MobModels.VEXOR_NAMES, MobModels.VEXOR_ANIMS,
                 MobModels.VEXOR_SHADOW, "vexor", false);
+        spec(event, ModEntities.MOSSLING.get(), MobModels.MOSSLING, MobModels.MOSSLING_NAMES, MobModels.MOSSLING_ANIMS,
+                MobModels.MOSSLING_SHADOW, "mossling", false);
+        spec(event, ModEntities.CLOUD_RAY.get(), MobModels.CLOUD_RAY, MobModels.CLOUD_RAY_NAMES, MobModels.CLOUD_RAY_ANIMS,
+                MobModels.CLOUD_RAY_SHADOW, "cloud_ray", false);
+        spec(event, ModEntities.EMBER_BEETLE.get(), MobModels.EMBER_BEETLE, MobModels.EMBER_BEETLE_NAMES, MobModels.EMBER_BEETLE_ANIMS,
+                MobModels.EMBER_BEETLE_SHADOW, "ember_beetle", false);
+        spec(event, ModEntities.LANTERN_JELLY.get(), MobModels.LANTERN_JELLY, MobModels.LANTERN_JELLY_NAMES, MobModels.LANTERN_JELLY_ANIMS,
+                MobModels.LANTERN_JELLY_SHADOW, "lantern_jelly", false);
+        spec(event, ModEntities.FROST_HARE.get(), MobModels.FROST_HARE, MobModels.FROST_HARE_NAMES, MobModels.FROST_HARE_ANIMS,
+                MobModels.FROST_HARE_SHADOW, "frost_hare", false);
+        spec(event, ModEntities.SAND_SKINK.get(), MobModels.SAND_SKINK, MobModels.SAND_SKINK_NAMES, MobModels.SAND_SKINK_ANIMS,
+                MobModels.SAND_SKINK_SHADOW, "sand_skink", false);
+        spec(event, ModEntities.COGLING.get(), MobModels.COGLING, MobModels.COGLING_NAMES, MobModels.COGLING_ANIMS,
+                MobModels.COGLING_SHADOW, "cogling", false);
+        spec(event, ModEntities.SPORE_PUFF.get(), MobModels.SPORE_PUFF, MobModels.SPORE_PUFF_NAMES, MobModels.SPORE_PUFF_ANIMS,
+                MobModels.SPORE_PUFF_SHADOW, "spore_puff", false);
         spec(event, ModEntities.UNMAKER.get(), MobModels.UNMAKER, MobModels.UNMAKER_NAMES, MobModels.UNMAKER_ANIMS,
                 MobModels.UNMAKER_SHADOW, "unmaker", false);
         spec(event, ModEntities.BLOOM_MOTHER.get(), MobModels.BLOOM_MOTHER, MobModels.BLOOM_MOTHER_NAMES, MobModels.BLOOM_MOTHER_ANIMS,
