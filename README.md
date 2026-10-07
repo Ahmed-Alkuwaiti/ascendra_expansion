@@ -1,6 +1,8 @@
 # Aurelia: The Shattered Crown (Forge 1.20.1)
 
-Three realms, three Wardens, one broken crown. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
+Six realms, six Wardens, one broken crown. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
+
+**Act one** (the Grove, Skyreach, the Hollow) reforges the Crown of Aurelia. **Act two** (the Drowned Expanse, the Pale Wastes, the Scarlet Sands) fills its three empty settings and ends with the **Ascendant Crown**. Act two is described in its own section below.
 
 ## The shape of it
 
@@ -138,6 +140,114 @@ Each realm combines vanilla terrain generation with structures and features the 
 - **Hanging stalactites** (5 variants, 24 to 46 blocks) fixed to the bedrock ceiling, with glowstone nodules.
 - **Giant red fungi** on basalt, **lava falls** (custom springs), soul-fire patches and glowstone clusters.
 
+
+# Act two: the outer realms
+
+The Crown of Aurelia comes back with three empty settings. Crafting it points you at the sea; a second book, *The Outer Chronicle*, waits on the first outer realm you reach.
+
+| Citadel | Portal to | Where it generates | Opens for | The rite |
+|---|---|---|---|---|
+| **Tidewrack Citadel**: a drowned sea-fortress on a reef | The Drowned Expanse | ocean, lukewarm, warm and cold ocean (not deep) | the **Crown of Aurelia**, held or worn | **Ring five Tide Bells as the tide rises** |
+| **Rimefast Citadel**: a hushed abbey in the snow | The Pale Wastes | snowy plains, snowy taiga, ice spikes, snowy slopes, grove | **Leviathan's Pearl** | **Crouch, perfectly still, on four Hush Stones** |
+| **Sunscar Citadel**: a stepped sun temple | The Scarlet Sands | desert and badlands | **Frozen Tear** | **Turn the Sun Mirrors so the Sunwell's beam lights three lenses** |
+
+`/locate structure aurelia:tidewrack_citadel` (also `aurelia:rimefast_citadel`, `aurelia:sunscar_citadel`).
+
+A crown counts as every relic that went into it: the Crown of Aurelia opens every act one portal and the Drowned Expanse, and the Ascendant Crown opens all six. Finished realms can always be revisited.
+
+## The rites
+
+- **Tide Bells (Tidewrack).** Down a spiral stair under the keep, in a dry vault under the reef, five bells stand on pedestals 0 to 4 blocks tall, shuffled round the room. Ring them from the floor bell to the tallest; each voice is higher than the last. A bell rung out of turn silences them all, and the sea surges (slowness, mining fatigue, 4 damage). The lecterns give the rule.
+- **Hush Stones (Rimefast).** Four stones in the chapel aisles. Crouch on one and stay perfectly still for five seconds; the action bar counts it. Standing up, moving, or taking a hit restarts it. The Hushwraiths shriek at anyone moving upright (darkness, and the whole garrison gets speed and strength), so clear the chapel or be very careful.
+- **Sun Mirrors (Sunscar).** The court is open to the sky. The Sunwell fires north only while the sun is up (right-click it or any mirror to fire). Each of the eight mirrors turns the beam 90 degrees; right-clicking one flips it between `/` and `\`. Lenses let the beam through and stay lit. Lighting the three lenses takes 3, 5 and 5 flips from the starting layout; a solver checks this every time the citadel is generated. `previews/16_sunscar_mirror_court.png` shows the court from above.
+
+Each citadel also has a seal and a floor trap, like act one:
+
+| Citadel | Seal (falls when its guardians are dead) | Floor trap |
+|---|---|---|
+| Tidewrack | **Coral Seal**, a cage of coral over the shaft down to the vault. 4 Coralclad Juggernauts. | **Brine Grates** on the causeways: drag at your legs and squeeze the air out of you. |
+| Rimefast | **Rime Seal** across the chapel doors. 4 Rimeguards. | **Frost Runes** in the path: freeze you in place. |
+| Sunscar | **Sun Seal** across the corridor into the court. 4 Sandglass Sentinels. | **Sunflare Plates** on the avenue: blinding light and a burn. |
+
+### Citadel architecture
+
+**Tidewrack** (65 x 72 x 65, placed at y 40 so its lagoon meets the sea): a reef of rock, sand and coral; a broken ring of sea wall with a wall-walk, battlements and three breaches; a sea gate with a half-raised portcullis; four round towers with landings, ladders and caches; three causeways over the lagoon; a keep on a rock island with buttresses and sea-lantern pillars; a striped lighthouse you climb from the hall to a lantern gallery; the wreck of the Sovereign's flagship broken against the inside of the wall; and, under it all, the Bell Vault, a dry dome under the reef. Checked: no air pocket below the waterline touches water.
+
+**Rimefast** (65 x 58 x 65): a curtain wall with four round towers under spruce cones and a gatehouse; a braziered path; a nave with buttresses, lancet windows, pillars of packed ice and calcite, pews, a vaulted ceiling under a steep tiled roof, and an apse holding the portal; sculk creeping round the four Hush Stones; a belltower whose bell was taken (the frame and chain still hang); a cloister round a frozen fountain; a refectory; a graveyard with two kneeling ice statues.
+
+**Sunscar** (65 x 60 x 65): a four-tier stepped temple round a deep court open to the sun, with a sun mosaic in the floor; a colonnade avenue with two sphinxes; a gold-framed portal; side chambers off the court; ramps up the east and west faces to a terrace shrine; four glass-tipped obelisks.
+
+Every portal, ritual block, chest and lectern in all three citadels is checked reachable on foot from the entrance (with the seal open).
+
+## The guards
+
+| | Heavy (holds the seal) | Special | Fast |
+|---|---|---|---|
+| **Tidewrack** | **Coralclad Juggernaut** (120 HP, armour 10): hurls its anchor at anyone 4 to 14 blocks away and hauls them in | **Tidecaller** (50 HP): keeps its distance, opens whirlpools under you (slowness, mining fatigue), heals the garrison | **Razorclaw** (44 HP): a reef crab that pounces and pins you |
+| **Rimefast** | **Rimeguard** (120 HP, armour 10): its glaive freezes you; hitting it chills you | **Hushwraith** (40 HP): cannot notice a crouching player beyond 4 blocks; shrieks at anyone moving upright | **Rimefang** (46 HP): gaunt white wolf, frost bite |
+| **Sunscar** | **Sandglass Sentinel** (130 HP, armour 12): throws projectiles back at the shooter; a heavy blow knocks out a blinding cloud of sand | **Sunseer** (45 HP): marks you with a line of light, then burns the spot a second later; step aside | **Glasswing Scarab** (40 HP): burrows and bursts out beside you; its bite withers |
+
+Guards drop their realm's material (tidestone shard, rime crystal, sunglass shard) and vanilla extras. All guards in the Tidewrack can breathe underwater.
+
+## The outer Wardens
+
+All three use the same damage caps, phase thresholds (66%, 33%), dread pulse, darkened sky and heartbeat as act one.
+
+- **Vorath, the Tide Devourer** (4500 HP, 252 parts). An abyssal leviathan with a barnacled skull-head, a gaping maw of needle teeth, a glowing lure, six eyes, spined gill frills, clawed flippers, and a long body that undulates down to a bladed fluke. He circles the arena *under the water*, where he takes only 30% damage.
+  **Gimmick: the Tide Bells.** Three bells hang at the edge of the arena ring. Ring one and he is dragged up against the stone, **exposed** for 7 seconds (full damage, caps raised 2.5x); that bell then needs 30 seconds to recover.
+  **Devour:** a ring of bubbles marks where you stand; he breaches beside the ring and lunges across it. **Undertow** drags everyone toward the sea. Phase 2 adds **Tidal Surge** (a wave that throws you back) and **Call of the Deep** (drowned climb onto the ring). Phase 3: devours come in pairs and the undertow is stronger. His pearl lands on the arena stone, not in the sea.
+  His arena: the standard pad ringed by open deep water out to 26 blocks, carved whatever the terrain was.
+- **The White Silence** (5000 HP, 163 parts). A gaunt faceless figure in a torn shroud: a porcelain mask with no mouth and a glowing crack, a halo of icicles, arms that reach its knees, a cold lantern on a chain, an icicle lance, a frozen heart in an open ribcage. It floats above the snow.
+  **Cold:** standing near it freezes you (leather armour keeps the cold out, as in vanilla; the four arena braziers thaw you). **Ice Lance:** a line of frost, then ice tears up along it.
+  **Gimmick: the White.** Every half minute it draws breath (a 3-second warning title), turns invisible and blinds everyone for 8 seconds. Anyone who moves without crouching, jumps, or strikes it standing up is **heard**: it appears behind them and strikes hard. Its heart, lantern and lance still glow while it is invisible. A player who creeps up crouching and hits it **shatters its composure**: the White ends and it staggers for 5 seconds (full damage, caps 2.5x). Phase 2 adds **Pale Mirages**, exact copies that shatter into frost (slowness and freezing) when struck. Phase 3: the White comes more often and lasts longer.
+- **Kharzul, the Glass Reaper** (6000 HP, 214 parts). A hunched four-armed reaper of bone and red glass in a torn crimson shroud, an hourglass burning in his open ribcage, a turning crown of glass blades, glass bursting from his shoulders and spine, and a scythe whose blade is a curved pane of red glass. His glass turns half of every blow aside and **throws projectiles back** at the shooter.
+  **Reaping Arc:** a red ring marks a band around him; after a breath his scythe sweeps it. Hug him or get clear.
+  **Gimmick: the Last Grain.** He turns his hourglass for 5 seconds, then its light burns everyone it can see for **60% of their health**. Keep stone between you and him; the light melts the block that stopped it, so cover runs out. Afterwards his glass is **overheated** for 6 seconds (full damage, caps 2.5x). His arena has four 3 x 3 sandstone pillars, rebuilt every time he wakes. Phase 2 adds **Glass Rain** (marked circles where shards fall) and Glasswing Scarabs. Phase 3: a second, wider arc follows each sweep and the last grain falls sooner.
+
+## Progression, act two
+
+1. Craft the **Crown of Aurelia**. Hold or wear it at the **Tidewrack Citadel**'s portal after ringing the bells.
+2. Vorath drops a **Leviathan's Pearl**. The **Rimefast** portal opens for it.
+3. The White Silence drops a **Frozen Tear**. The **Sunscar** portal opens for it.
+4. Kharzul drops the **Reaper's Hourglass**. **Ascendant Crown** = Crown of Aurelia + pearl + tear + hourglass + Block of Tidestone + Block of Rime + Block of Sunglass.
+
+The Ascendant Crown (helmet, never breaks; armour 8, toughness 6) gives everything the Crown does plus Conduit Power, Dolphin's Grace, Fire Resistance, Strength, Haste, and immunity to freezing.
+
+## The outer realms
+
+Each is a single-biome dimension built on the vanilla overworld terrain shape with its own sea level and surface rules.
+
+**The Drowned Expanse**: the overworld flooded to y 96. Plains and forests lie 15 to 30 blocks under dark green water; hills and mountains are islands. Underwater floors of sand, gravel and mud; grass and moss above the waterline; mangroves, kelp, coral and sea pickles; drowned and Razorclaws, glow squid and fish. Permanent dusk. Structures: **sunken watchtowers** rising from the sea floor through the surface, **wrecks of the Sovereign's fleet** listing at the waterline, **leviathan skeletons** on the sea floor, a **reef shrine** on stilts and a **drowned lighthouse** on a rock (both outposts, with guards and a chest).
+
+**The Pale Wastes**: snow over packed ice, ice cliffs, pockets of powder snow (careful), frozen lakes, ice spikes, snowy spruces, falling snow. Strays and Rimefangs. Grey half-light before dawn, forever. Structures: **kneeling colossi of ice** with their hands over their faces, a **fallen colossus** head and hand in the snow, **ice spires**, a **frozen caravan** and a **hushed shrine** (outposts).
+
+**The Scarlet Sands**: red sand on red sandstone with banded terracotta in every cliff, and no sea at all: the ocean basins are dry red canyons. Dead bushes and cactus; husks and Glasswing Scarabs; a sun that never moves. Water evaporates (the dimension is ultrawarm). Structures: **red glass monoliths**, **buried giants** (a skull with glass eyes and a ribcage arching out of the sand), a **Sunseer camp** and a **glassworks** (outposts).
+
+| Ore | Where | Drops | Storage block |
+|---|---|---|---|
+| Tidestone Ore | Drowned Expanse stone and deepslate | Tidestone Shard | Block of Tidestone (light) |
+| Rime Ore | Pale Wastes stone and deepslate | Rime Crystal | Block of Rime (light) |
+| Sunglass Ore | Scarlet Sands stone and deepslate | Sunglass Shard | Block of Sunglass (light) |
+
+Outer ores need a **diamond** pickaxe. Outpost and citadel chests hold 4 to 9 of their realm's material.
+
+## Testing act two
+
+- `/place structure aurelia:tidewrack_citadel ~ ~ ~` works anywhere, but the citadel expects to sit at y 40 in the sea; for the real thing use `/locate`. Also `aurelia:rimefast_citadel`, `aurelia:sunscar_citadel`.
+- Skip a rite: `/setblock <x> <y> <z> aurelia:waygate[realm=drowned,active=true]` (also `pale`, `scarlet`).
+- Visit a realm: `/execute in aurelia:drowned run tp @s 0 120 0` (also `aurelia:pale`, `aurelia:scarlet`). Entering through a Waygate builds the arena.
+- Spawn eggs for all three Wardens, the nine guards and the Pale Mirage are in the creative tab.
+- The Sunwell only fires during the day. `/time set day` if you are testing at night.
+
+## Known risks, act two (untested in game)
+
+- **Vorath swims by steering himself** (no gravity, his own water drag) rather than with vanilla swim AI. If he gets stuck on terrain, his arena's water ring is the first thing to check; it is carved 26 blocks out from the altar.
+- **The White Silence's "heard" test** compares each player's position between ticks: more than 0.09 blocks sideways or 0.1 up, while not crouching, counts as noise. If it feels unfair, raise those numbers in `WhiteSilence.tickWhite`.
+- **Flooded terrain**: the Drowned Expanse is the overworld router with the sea at 96. Aquifers may leave a few odd dry caves or flooded pockets.
+- **The Tidewrack Citadel** is placed at an absolute height (y 40). Over a sea floor deeper than that, its reef floats with a gap underneath; it only generates in the shallower ocean biomes to keep that rare.
+- **Model and hitbox**: Vorath's body is far longer than his 5 x 3.2 hitbox, which sits round his chest and head. Hit him there.
+- **`Level.isDay()`** gates the Sunwell. If the build fails on that name, replace it with `level.getDayTime() % 24000 < 12500`.
+
 ## Building the jar
 
 1. Install **JDK 17**.
@@ -171,7 +281,8 @@ If something fails, send me `logs/latest.log` (and the file from `crash-reports/
 - **Guard drops**: `data/aurelia/loot_tables/entities/*.json`.
 - **Warden stats and damage limits**: see above.
 - **Realm structure frequency**: `spacing` and `separation` in the matching `structure_set` files (`skyreach_*_islands`, `grove_pillars`, `grove_ruins`, `hollow_*`).
-- **Mob shapes and textures**: generated from box-by-box specs (`tools/mobspecs.py` and `tools/bosses_v2.py`); ask me and I will change a model and regenerate it.
+- **Mob shapes and textures**: generated from box-by-box specs (`tools/mobspecs.py`, `tools/bosses_v3.py`, and for act two `tools/bosses_act2.py` and `tools/mobs_act2.py`); ask me and I will change a model and regenerate it.
+- **Act two**: citadels in `tools/gen_act2_citadels.py`, realm structures in `tools/gen_act2_realms.py`, dimensions/biomes/assets/loot in `tools/gen_act2_data.py`. `tools/validate_all.py`, `tools/check_citadels.py` and `tools/check_vanilla_refs.py` re-run every check. Preview images come from `tools/render_previews.py`.
 
 ## Known risks (I could not launch Minecraft)
 

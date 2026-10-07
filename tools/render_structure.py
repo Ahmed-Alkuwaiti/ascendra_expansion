@@ -88,6 +88,8 @@ def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=Non
         x, y, z = (float(v) for v in e['pos'])
         for _ in range(rot % 4):
             x, z = L - z, x
+        if (cut is not None and z > cut + 1) or (cutx is not None and x > cutx + 1):
+            continue
         ents.append((x, y, z, str(e['nbt']['id']).split(':')[1]))
     opaque = {k for k, v in blocks.items() if not any(s in v for s in ('glass', 'water', 'leaves', 'bars', 'fence', 'wall', 'lantern', 'ladder')) and not any(s in v for s in THIN)}
     if scale is None:
