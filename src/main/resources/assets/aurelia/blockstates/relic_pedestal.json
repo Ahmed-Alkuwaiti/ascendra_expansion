@@ -1,0 +1,52 @@
+{
+ "variants": {
+  "realm=grove,filled=false": {
+   "model": "aurelia:block/relic_pedestal_grove"
+  },
+  "realm=grove,filled=true": {
+   "model": "aurelia:block/relic_pedestal_grove_filled"
+  },
+  "realm=skyreach,filled=false": {
+   "model": "aurelia:block/relic_pedestal_skyreach"
+  },
+  "realm=skyreach,filled=true": {
+   "model": "aurelia:block/relic_pedestal_skyreach_filled"
+  },
+  "realm=hollow,filled=false": {
+   "model": "aurelia:block/relic_pedestal_hollow"
+  },
+  "realm=hollow,filled=true": {
+   "model": "aurelia:block/relic_pedestal_hollow_filled"
+  },
+  "realm=drowned,filled=false": {
+   "model": "aurelia:block/relic_pedestal_drowned"
+  },
+  "realm=drowned,filled=true": {
+   "model": "aurelia:block/relic_pedestal_drowned_filled"
+  },
+  "realm=pale,filled=false": {
+   "model": "aurelia:block/relic_pedestal_pale"
+  },
+  "realm=pale,filled=true": {
+   "model": "aurelia:block/relic_pedestal_pale_filled"
+  },
+  "realm=scarlet,filled=false": {
+   "model": "aurelia:block/relic_pedestal_scarlet"
+  },
+  "realm=scarlet,filled=true": {
+   "model": "aurelia:block/relic_pedestal_scarlet_filled"
+  },
+  "realm=clockwork,filled=false": {
+   "model": "aurelia:block/relic_pedestal_clockwork"
+  },
+  "realm=clockwork,filled=true": {
+   "model": "aurelia:block/relic_pedestal_clockwork_filled"
+  },
+  "realm=mycelial,filled=false": {
+   "model": "aurelia:block/relic_pedestal_mycelial"
+  },
+  "realm=mycelial,filled=true": {
+   "model": "aurelia:block/relic_pedestal_mycelial_filled"
+  }
+ }
+}

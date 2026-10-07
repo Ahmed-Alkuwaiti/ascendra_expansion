@@ -41,7 +41,7 @@ for f in sorted(glob.glob(paths.JAVA + '/**/*.java', recursive=True)):
                        for i in reg['sound_event'] if i.split('.')[0] in ('entity', 'block', 'item', 'ambient', 'particle')):
                     continue
             bad.append((f.split('/')[-1], cls, name))
-for b in ('drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'):
+for b in ('drowned', 'pale', 'scarlet', 'clockwork', 'mycelial', 'last'):
     j = json.load(open(f'{paths.RES}/data/aurelia/worldgen/biome/{b}.json'))
     for step in j['features']:
         for feat in step:

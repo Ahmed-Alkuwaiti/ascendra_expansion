@@ -47,6 +47,12 @@
     },
     "realm=mycelial,active=true": {
       "model": "aurelia:block/waygate_mycelial_on"
+    },
+    "realm=last,active=false": {
+      "model": "aurelia:block/waygate_last_off"
+    },
+    "realm=last,active=true": {
+      "model": "aurelia:block/waygate_last_on"
     }
   }
 }

@@ -15,6 +15,7 @@ import com.aurelia.entity.Tidecaller;
 import com.aurelia.entity.Vorath;
 import com.aurelia.entity.WhiteSilence;
 import com.aurelia.entity.Vexor;
+import com.aurelia.entity.Unmaker;
 import com.aurelia.entity.BloomMother;
 import com.aurelia.entity.Gearskitter;
 import com.aurelia.entity.Secondhand;
@@ -189,7 +190,12 @@ public class ModEntities {
     public static final RegistryObject<EntityType<HuskGuard>> HUSK_GUARD = ENTITIES.register("husk_guard",
             () -> EntityType.Builder.of(HuskGuard::new, MobCategory.MONSTER).sized(0.9f, 2.6f).clientTrackingRange(8).build(id("husk_guard")));
 
+    // ==================================================================== the finale
+    public static final RegistryObject<EntityType<Unmaker>> UNMAKER = ENTITIES.register("unmaker",
+            () -> EntityType.Builder.of(Unmaker::new, MobCategory.MONSTER).sized(8.0f, 18.0f).clientTrackingRange(16).fireImmune().build(id("unmaker")));
+
     public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(UNMAKER.get(), Unmaker.createAttributes().build());
         event.put(MOSSBACK_TITAN.get(), MossbackTitan.createAttributes().build());
         event.put(TEMPEST_ROC.get(), TempestRoc.createAttributes().build());
         event.put(HOLLOW_KING.get(), HollowKing.createAttributes().build());

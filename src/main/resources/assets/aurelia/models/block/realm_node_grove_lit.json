@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/realm_node_grove_lit_top",
+    "side": "aurelia:block/realm_node_grove_lit_side"
+  }
+}

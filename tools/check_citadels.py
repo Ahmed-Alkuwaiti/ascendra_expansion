@@ -4,12 +4,13 @@ import check_struct as cs
 STRUCT = __import__('paths').RES + '/data/aurelia/structures/'
 CASES = [('tidewrack_citadel', 'coral_seal', (32, 24, 58), 22), ('rimefast_citadel', 'rime_seal', (32, 13, 59), None),
          ('sunscar_citadel', 'sun_seal', (32, 9, 62), None),
-         ('paradox_keep', 'paradox_seal', (48, 10, 95), None), ('spore_cathedral', 'root_seal', (48, 7, 90), None)]
+         ('paradox_keep', 'paradox_seal', (48, 10, 95), None), ('spore_cathedral', 'root_seal', (48, 7, 90), None),
+         ('convergence_gate', 'none', (40, 7, 76), None)]
 ok = True
 for name, seal, start, water in CASES:
     b, size = cs.load(STRUCT + name + '.nbt')
     b = {k: ('air' if v == seal else v) for k, v in b.items()}
-    targets = [k for k, v in b.items() if v in ('waygate', 'chest', 'hush_stone', 'tide_bell', 'lectern', 'sun_mirror', 'sunwell', 'clock_dial', 'spore_valve')]
+    targets = [k for k, v in b.items() if v in ('waygate', 'chest', 'hush_stone', 'tide_bell', 'lectern', 'sun_mirror', 'sunwell', 'clock_dial', 'spore_valve', 'relic_pedestal')]
     bad = []
     for k in targets:
         if not cs.walk(b, start, lambda p, k=k: abs(p[0] - k[0]) + abs(p[2] - k[2]) <= 2 and -1 <= k[1] - p[1] <= 4)[0]:

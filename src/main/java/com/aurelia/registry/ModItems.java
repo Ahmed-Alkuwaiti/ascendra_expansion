@@ -4,6 +4,11 @@ import com.aurelia.AureliaMod;
 import com.aurelia.item.AscendantCrownItem;
 import com.aurelia.item.AurelianCrownItem;
 import com.aurelia.item.EternalCrownItem;
+import com.aurelia.item.HandOfGenesisItem;
+import com.aurelia.item.RelicItem;
+import com.aurelia.entity.AureliaBoss;
+import com.aurelia.world.Realm;
+import javax.annotation.Nullable;
 import com.aurelia.item.LoreItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -243,4 +248,78 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.SPORE_DRIFTER, 0x96289F, 0xFF46DC, new Item.Properties()));
     public static final RegistryObject<Item> HUSK_GUARD_EGG = ITEMS.register("husk_guard_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.HUSK_GUARD, 0xE0D8C6, 0x6E2A78, new Item.Properties()));
+
+    // ==================================================================== the finale
+    public static final RegistryObject<Item> ROOTBOUND_HEART = ITEMS.register("rootbound_heart",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.rootbound_heart.lore"));
+    public static final RegistryObject<Item> STORM_TALON = ITEMS.register("storm_talon",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.storm_talon.lore"));
+    public static final RegistryObject<Item> SOVEREIGN_HAND = ITEMS.register("sovereign_hand",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.sovereign_hand.lore"));
+    public static final RegistryObject<Item> ABYSSAL_FANG = ITEMS.register("abyssal_fang",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.abyssal_fang.lore"));
+    public static final RegistryObject<Item> FROZEN_VOICE = ITEMS.register("frozen_voice",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.frozen_voice.lore"));
+    public static final RegistryObject<Item> GLASS_STINGER = ITEMS.register("glass_stinger",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.glass_stinger.lore"));
+    public static final RegistryObject<Item> CHRONAL_EYE = ITEMS.register("chronal_eye",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.chronal_eye.lore"));
+    public static final RegistryObject<Item> LIVING_SPORE = ITEMS.register("living_spore",
+            () -> new RelicItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.living_spore.lore"));
+    public static final RegistryObject<Item> HAND_OF_GENESIS = ITEMS.register("hand_of_genesis",
+            () -> new HandOfGenesisItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> RELIC_PEDESTAL = ITEMS.register("relic_pedestal",
+            () -> new BlockItem(ModBlocks.RELIC_PEDESTAL.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> REALM_NODE = ITEMS.register("realm_node",
+            () -> new BlockItem(ModBlocks.REALM_NODE.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> UNMAKING_ANCHOR = ITEMS.register("unmaking_anchor",
+            () -> new BlockItem(ModBlocks.UNMAKING_ANCHOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> UNMAKER_EGG = ITEMS.register("unmaker_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.UNMAKER, 0xE2DAC8, 0x1C1A22, new Item.Properties()));
+
+    /** The relic each realm's Warden leaves behind, in realm order. */
+    @Nullable
+    public static Item relicFor(Realm realm) {
+        return switch (realm) {
+            case GROVE -> ROOTBOUND_HEART.get();
+            case SKYREACH -> STORM_TALON.get();
+            case HOLLOW -> SOVEREIGN_HAND.get();
+            case DROWNED -> ABYSSAL_FANG.get();
+            case PALE -> FROZEN_VOICE.get();
+            case SCARLET -> GLASS_STINGER.get();
+            case CLOCKWORK -> CHRONAL_EYE.get();
+            case MYCELIAL -> LIVING_SPORE.get();
+            default -> null;
+        };
+    }
+
+    /** The relic a Warden drops on death, or null (the Unmaker drops none). */
+    @Nullable
+    public static Item relicOf(AureliaBoss boss) {
+        if (boss instanceof com.aurelia.entity.MossbackTitan) {
+            return ROOTBOUND_HEART.get();
+        }
+        if (boss instanceof com.aurelia.entity.TempestRoc) {
+            return STORM_TALON.get();
+        }
+        if (boss instanceof com.aurelia.entity.HollowKing) {
+            return SOVEREIGN_HAND.get();
+        }
+        if (boss instanceof com.aurelia.entity.Vorath) {
+            return ABYSSAL_FANG.get();
+        }
+        if (boss instanceof com.aurelia.entity.WhiteSilence) {
+            return FROZEN_VOICE.get();
+        }
+        if (boss instanceof com.aurelia.entity.Kharzul) {
+            return GLASS_STINGER.get();
+        }
+        if (boss instanceof com.aurelia.entity.Vexor) {
+            return CHRONAL_EYE.get();
+        }
+        if (boss instanceof com.aurelia.entity.BloomMother) {
+            return LIVING_SPORE.get();
+        }
+        return null;
+    }
 }

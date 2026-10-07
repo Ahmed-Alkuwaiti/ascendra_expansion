@@ -98,7 +98,18 @@ public enum Realm implements StringRepresentable {
                     "Crouch and touch the altar to wake the Bloom Mother. She does not move. She does not need to.",
                     "Three spore valves stand round the floor. When she inhales, wrench them open and let her choke."
             },
-            () -> ModItems.HOUR_CORE.get(), () -> ModEntities.BLOOM_MOTHER.get());
+            () -> ModItems.HOUR_CORE.get(), () -> ModEntities.BLOOM_MOTHER.get()),
+
+    // ---- The finale: the realm every other realm was cut from. Its gate opens for the eight relics, laid on their pedestals.
+    LAST("last", 100,
+            Blocks.SMOOTH_SANDSTONE, Blocks.BLACKSTONE, Blocks.PEARLESCENT_FROGLIGHT,
+            "The Last Realm", "Every world was cut from this one. Something is still holding the knife.", ChatFormatting.DARK_PURPLE,
+            new String[] {
+                    "A ring of stone in the dark, and round it, on eight bridges, a piece of every realm you have walked.",
+                    "Crouch and touch the altar to wake the Unmaker. When it borrows a Warden's power, the realm's node on the rim lights: touch it.",
+                    "Whatever you have learned, you will need all of it."
+            },
+            () -> null, () -> ModEntities.UNMAKER.get());
 
     public final String id;
     public final ResourceKey<Level> dimension;

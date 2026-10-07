@@ -230,6 +230,14 @@ public abstract class AureliaBoss extends Monster {
         drop.setDefaultPickUpDelay();
         drop.setGlowingTag(true);
         this.level().addFreshEntity(drop);
+        Item relic = com.aurelia.registry.ModItems.relicOf(this);
+        if (relic != null) {                     // each Warden also leaves a relic for the Convergence Gate
+            net.minecraft.world.entity.item.ItemEntity r = new net.minecraft.world.entity.item.ItemEntity(this.level(), at.x, at.y + 0.5, at.z,
+                    new ItemStack(relic));
+            r.setDefaultPickUpDelay();
+            r.setGlowingTag(true);
+            this.level().addFreshEntity(r);
+        }
     }
 
     /** Where the Warden's relic lands. Vorath dies at sea, so he leaves his on the arena stone instead. */

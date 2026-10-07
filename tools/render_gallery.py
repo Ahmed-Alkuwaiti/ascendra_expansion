@@ -484,3 +484,31 @@ if __name__ == '__main__':
     for s in secs:
         print(s)
         globals()[s](out)
+
+
+# ------------------------------------------------------------------------------------------------ the finale
+LAST_REALMS = ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial']
+
+
+def last_realm_scene(with_pad=True):
+    """The Last Realm hub as ArenaBuilder.last() assembles it: the core round the pad, an island at the end of every bridge."""
+    sc = Scene()
+    C, F = 56, 40
+    sc.place('last_core', 0, 0, 0, keep_air=False)
+    for k, realm in enumerate(LAST_REALMS):
+        a = math.radians(k * 45)
+        sc.place(f'last_island_{realm}', C + round(66 * math.cos(a)) - 17, 0, C + round(66 * math.sin(a)) - 17, keep_air=False)
+    if with_pad:
+        for dx in range(-12, 13):
+            for dz in range(-12, 13):
+                if dx * dx + dz * dz <= 144:
+                    for dy in range(2, 7):
+                        sc.set(C + dx, F - dy, C + dz, 'blackstone')
+                    sc.set(C + dx, F - 1, C + dz, 'smooth_sandstone' if (dx * dx + dz * dz) % 7 else 'chiseled_sandstone')
+        for (cx, cz) in [(-8, -8), (8, -8), (-8, 8), (8, 8)]:
+            for dy in range(4):
+                sc.set(C + cx, F + dy, C + cz, 'smooth_sandstone')
+            sc.set(C + cx, F + 4, C + cz, 'pearlescent_froglight')
+        sc.set(C, F, C, 'aurelia:warden_altar')
+        sc.set(C, F, C + 9, 'aurelia:waygate')
+    return sc

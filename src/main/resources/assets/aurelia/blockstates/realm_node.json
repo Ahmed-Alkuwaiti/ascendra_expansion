@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "realm=grove,lit=false": {
+      "model": "aurelia:block/realm_node_grove_dark"
+    },
+    "realm=grove,lit=true": {
+      "model": "aurelia:block/realm_node_grove_lit"
+    },
+    "realm=skyreach,lit=false": {
+      "model": "aurelia:block/realm_node_skyreach_dark"
+    },
+    "realm=skyreach,lit=true": {
+      "model": "aurelia:block/realm_node_skyreach_lit"
+    },
+    "realm=hollow,lit=false": {
+      "model": "aurelia:block/realm_node_hollow_dark"
+    },
+    "realm=hollow,lit=true": {
+      "model": "aurelia:block/realm_node_hollow_lit"
+    },
+    "realm=drowned,lit=false": {
+      "model": "aurelia:block/realm_node_drowned_dark"
+    },
+    "realm=drowned,lit=true": {
+      "model": "aurelia:block/realm_node_drowned_lit"
+    },
+    "realm=pale,lit=false": {
+      "model": "aurelia:block/realm_node_pale_dark"
+    },
+    "realm=pale,lit=true": {
+      "model": "aurelia:block/realm_node_pale_lit"
+    },
+    "realm=scarlet,lit=false": {
+      "model": "aurelia:block/realm_node_scarlet_dark"
+    },
+    "realm=scarlet,lit=true": {
+      "model": "aurelia:block/realm_node_scarlet_lit"
+    },
+    "realm=clockwork,lit=false": {
+      "model": "aurelia:block/realm_node_clockwork_dark"
+    },
+    "realm=clockwork,lit=true": {
+      "model": "aurelia:block/realm_node_clockwork_lit"
+    },
+    "realm=mycelial,lit=false": {
+      "model": "aurelia:block/realm_node_mycelial_dark"
+    },
+    "realm=mycelial,lit=true": {
+      "model": "aurelia:block/realm_node_mycelial_lit"
+    }
+  }
+}

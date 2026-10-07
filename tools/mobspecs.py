@@ -102,7 +102,7 @@ def unfolded(size):
 
 def pack(parts):
     rects = sorted(range(len(parts)), key=lambda i: -unfolded(parts[i]['size'])[1])
-    for sheet in (64, 128, 256, 512):
+    for sheet in (64, 128, 256, 512, 1024):
         x = y = row_h = 0
         ok = True
         pos = {}
@@ -450,3 +450,6 @@ mobs_act2.register(MOBS, STYLES, GLOW_STYLES, part)
 
 import mobs_act3  # noqa: E402  (act three: Vexor, the Bloom Mother and six guards)
 mobs_act3.register(MOBS, STYLES, GLOW_STYLES, part)
+
+import mobs_act4  # noqa: E402  (the finale: the Unmaker)
+mobs_act4.register(MOBS, STYLES, GLOW_STYLES, part)

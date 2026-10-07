@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:last",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:last",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:last"
+    }
+  }
+}

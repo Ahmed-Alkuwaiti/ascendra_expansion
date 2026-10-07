@@ -6,6 +6,8 @@ import com.aurelia.block.ClockDialBlock;
 import com.aurelia.block.MasterClockBlock;
 import com.aurelia.block.SporeValveBlock;
 import com.aurelia.block.PuzzleNodeBlock;
+import com.aurelia.block.RealmNodeBlock;
+import com.aurelia.block.RelicPedestalBlock;
 import com.aurelia.block.SealBlock;
 import com.aurelia.block.SunMirrorBlock;
 import com.aurelia.block.SunwellBlock;
@@ -198,4 +200,15 @@ public class ModBlocks {
     public static final RegistryObject<Block> BLOOMSPORE_BLOCK = BLOCKS.register("bloomspore_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(2.0f, 3.0f)
                     .lightLevel(state -> 12).sound(SoundType.SHROOMLIGHT)));
+
+    // ==================================================================== the finale
+    public static final RegistryObject<Block> RELIC_PEDESTAL = BLOCKS.register("relic_pedestal",
+            () -> new RelicPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(-1.0f, 3600000.0f).noOcclusion()
+                    .lightLevel(state -> state.getValue(RelicPedestalBlock.FILLED) ? 12 : 3).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> REALM_NODE = BLOCKS.register("realm_node",
+            () -> new RealmNodeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> state.getValue(RealmNodeBlock.LIT) ? 15 : 4).sound(SoundType.AMETHYST)));
+    public static final RegistryObject<Block> UNMAKING_ANCHOR = BLOCKS.register("unmaking_anchor",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(2.0f, 6.0f).noLootTable()
+                    .lightLevel(state -> 9).sound(SoundType.AMETHYST)));
 }

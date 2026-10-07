@@ -2,7 +2,11 @@ package com.aurelia.world;
 
 import com.aurelia.block.TideBellBlock;
 import com.aurelia.registry.ModBlocks;
+import com.aurelia.AureliaMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,6 +25,7 @@ public final class ArenaBuilder {
             case SCARLET -> raiseScarletPillars(level, c);
             case CLOCKWORK -> clockwork(level, c);
             case MYCELIAL -> mycelial(level, c);
+            case LAST -> last(level, c);
             default -> { }
         }
     }
@@ -170,5 +175,39 @@ public final class ArenaBuilder {
                 }
             }
         }
+    }
+
+    // ---- the Last Realm
+
+    /** The Realm Nodes stand this far from the altar, in realm order at 45 degree steps; the islands twice as far and more. */
+    public static final int NODE_RADIUS = 22;
+    public static final int ISLAND_DISTANCE = 66;
+
+    public static BlockPos nodePos(BlockPos c, Realm realm) {
+        double a = Math.toRadians(realm.ordinal() * 45.0);
+        return c.offset((int) Math.round(Math.cos(a) * NODE_RADIUS), 1, (int) Math.round(Math.sin(a) * NODE_RADIUS));
+    }
+
+    /** The arena ring, its nodes and bridges round the pad, and an island for every realm at the end of each bridge. */
+    private static void last(ServerLevel level, BlockPos c) {
+        restoreLast(level, c);
+        for (Realm realm : Realm.values()) {
+            if (realm == Realm.LAST) {
+                continue;
+            }
+            double a = Math.toRadians(realm.ordinal() * 45.0);
+            BlockPos origin = c.offset((int) Math.round(Math.cos(a) * ISLAND_DISTANCE) - 17, -40, (int) Math.round(Math.sin(a) * ISLAND_DISTANCE) - 17);
+            place(level, "last_island_" + realm.id, origin);
+        }
+    }
+
+    /** Puts the arena back as it was (the Unmaker eats pieces of it). The template never touches the pad itself. */
+    public static void restoreLast(ServerLevel level, BlockPos c) {
+        place(level, "last_core", c.offset(-56, -40, -56));
+    }
+
+    private static void place(ServerLevel level, String name, BlockPos origin) {
+        StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(AureliaMod.MODID, name));
+        template.placeInWorld(level, origin, origin, new StructurePlaceSettings(), level.random, 2);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:convergence_gate",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 44,
+    "separation": 16,
+    "salt": 71920509
+  }
+}

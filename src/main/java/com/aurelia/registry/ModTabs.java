@@ -118,6 +118,19 @@ public class ModTabs {
                         out.accept(ModItems.ROOT_GRUB_EGG.get());
                         out.accept(ModItems.SPORE_DRIFTER_EGG.get());
                         out.accept(ModItems.HUSK_GUARD_EGG.get());
+                        out.accept(ModItems.ROOTBOUND_HEART.get());
+                        out.accept(ModItems.STORM_TALON.get());
+                        out.accept(ModItems.SOVEREIGN_HAND.get());
+                        out.accept(ModItems.ABYSSAL_FANG.get());
+                        out.accept(ModItems.FROZEN_VOICE.get());
+                        out.accept(ModItems.GLASS_STINGER.get());
+                        out.accept(ModItems.CHRONAL_EYE.get());
+                        out.accept(ModItems.LIVING_SPORE.get());
+                        out.accept(ModItems.HAND_OF_GENESIS.get());
+                        out.accept(ModItems.RELIC_PEDESTAL.get());
+                        out.accept(ModItems.REALM_NODE.get());
+                        out.accept(ModItems.UNMAKING_ANCHOR.get());
+                        out.accept(ModItems.UNMAKER_EGG.get());
                     })
                     .build());
 }

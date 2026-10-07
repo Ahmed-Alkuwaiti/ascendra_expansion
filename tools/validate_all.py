@@ -7,11 +7,12 @@ src = {c: open(f'{J}/registry/{c}.java').read() for c in ('ModBlocks', 'ModItems
 mod_blocks = set(re.findall(r'BLOCKS\.register\("([a-z_]+)"', src['ModBlocks'])); mod_items = set(re.findall(r'ITEMS\.register\("([a-z_]+)"', src['ModItems']))
 mod_ents = set(re.findall(r'register\("([a-z_]+)"', src['ModEntities']))
 TF = ['true', 'false']
-CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'active': TF}, 'spore_planter': {'filled': TF},
+CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial', 'last'], 'active': TF}, 'spore_planter': {'filled': TF},
           'storm_pylon': {'filled': TF}, 'soul_socket': {'filled': TF}, 'hush_stone': {'filled': TF}, 'sun_lens': {'filled': TF},
           'tide_bell': {'note': ['0', '1', '2', '3', '4'], 'rung': TF}, 'sun_mirror': {'slash': TF},
           'sunwell': {'facing': ['north', 'south', 'east', 'west']}, 'clock_dial': {'hour': [str(i) for i in range(12)], 'filled': TF},
-          'master_clock': {'hour': [str(i) for i in range(12)]}, 'spore_valve': {'open': TF, 'locked': TF}}
+          'master_clock': {'hour': [str(i) for i in range(12)]}, 'spore_valve': {'open': TF, 'locked': TF},
+          'relic_pedestal': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'filled': TF}, 'realm_node': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'lit': TF}}
 PASS = {'minecraft:seagrass', 'minecraft:kelp_plant', 'minecraft:snow', 'minecraft:white_candle', 'minecraft:light_blue_candle', 'minecraft:red_candle',
         'minecraft:sculk_vein', 'minecraft:dead_bush', 'minecraft:sea_pickle', 'minecraft:tube_coral', 'minecraft:brain_coral', 'minecraft:bubble_coral',
         'minecraft:fire_coral', 'minecraft:horn_coral', 'minecraft:light_blue_carpet', 'aurelia:tide_bell', 'minecraft:campfire', 'minecraft:iron_bars',
@@ -47,7 +48,7 @@ for f in sorted(glob.glob(D + '/structures/*.nbt')):
             here, below = blocks.get((x, y, z)), blocks.get((x, y - 1, z))
             if here is not None and here not in PASS: problems.append((base, eid, (x, y, z), 'inside', here))
             if below is None or below in PASS: problems.append((base, eid, (x, y, z), 'no ground', below))
-    if base.endswith('_citadel.nbt') or base in ('paradox_keep.nbt', 'spore_cathedral.nbt'):
+    if base.endswith('_citadel.nbt') or base in ('paradox_keep.nbt', 'spore_cathedral.nbt', 'convergence_gate.nbt', 'last_core.nbt'):
         c = collections.Counter(blocks.values())
         print(' ', base, f'{os.path.getsize(f)//1024} KB palette {len(names)}', {k.split(':')[1]: v for k, v in c.items() if k.startswith('aurelia:') and 'ore' not in k}, 'chests', c['minecraft:chest'])
 print(f'structures: {n} files; problems:', problems if problems else 'none')

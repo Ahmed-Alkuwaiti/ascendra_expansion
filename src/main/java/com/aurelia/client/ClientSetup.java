@@ -89,6 +89,8 @@ public class ClientSetup {
                 MobModels.GLASSWING_SCARAB_SHADOW, "glasswing_scarab", false);
         spec(event, ModEntities.VEXOR.get(), MobModels.VEXOR, MobModels.VEXOR_NAMES, MobModels.VEXOR_ANIMS,
                 MobModels.VEXOR_SHADOW, "vexor", false);
+        spec(event, ModEntities.UNMAKER.get(), MobModels.UNMAKER, MobModels.UNMAKER_NAMES, MobModels.UNMAKER_ANIMS,
+                MobModels.UNMAKER_SHADOW, "unmaker", false);
         spec(event, ModEntities.BLOOM_MOTHER.get(), MobModels.BLOOM_MOTHER, MobModels.BLOOM_MOTHER_NAMES, MobModels.BLOOM_MOTHER_ANIMS,
                 MobModels.BLOOM_MOTHER_SHADOW, "bloom_mother", false);
         spec(event, ModEntities.GEARSKITTER.get(), MobModels.GEARSKITTER, MobModels.GEARSKITTER_NAMES, MobModels.GEARSKITTER_ANIMS,

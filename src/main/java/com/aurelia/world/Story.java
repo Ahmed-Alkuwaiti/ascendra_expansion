@@ -72,6 +72,14 @@ public final class Story {
                     + "the Sovereign's lullaby, slowed down until it sounded like growing. "
                     + "The Bloom Heart is warm. Set it in the Ascendant Crown beside the Hour Core, and the crown will be eternal.";
 
+    // ---- The finale ----
+    public static final String UNMAKER_PHASE = "The Unmaker opens its hands. Somewhere far off, a realm you saved begins to come apart.";
+    public static final String UNMAKER_FINAL = "The shell bursts outward and hangs in the dark. There is only the heart now, and it is hungry.";
+    public static final String UNMAKER_DEATH =
+            "The heart folds in on itself and goes out. The eight shards in the halo drift down, one by one, and go home. "
+                    + "\"I made them,\" it says, from everywhere. \"I only wanted them back.\" "
+                    + "Where the heart was, a hand of bone and gold is waiting. It fits you.";
+
     public static void title(ServerPlayer player, String title, String subtitle, ChatFormatting color) {
         player.connection.send(new ClientboundSetTitlesAnimationPacket(15, 90, 30));
         player.connection.send(new ClientboundSetSubtitleTextPacket(
