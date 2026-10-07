@@ -54,3 +54,25 @@ KIT = {
                      food='puffcap', food_name='Puffcap', food_power='Saturation and Regeneration.', ore='bloomspore_ore'),
 }
 PIECES = ['helmet', 'chestplate', 'leggings', 'boots']
+
+# The Unmaker's own gear: one armor set and one blade, forged from what it drops (the Heart of the Unmade) and a piece of every realm.
+# Tuned above everything else in the mod and above the usual endgame of a pack like Ascendra (netherite: 8 attack, 20 armor, 12 toughness).
+UNMADE = dict(
+    armor='unmade', armor_name='Regalia of the Unmade',
+    pieces={'helmet': 'Crown of the Unmade', 'chestplate': 'Heartplate of the Unmade', 'leggings': 'Greaves of the Unmade',
+            'boots': 'Treads of the Unmade'},
+    stats='30 armor (the game\'s cap), 20 toughness (the cap), full knockback immunity, +5 max health per piece (+10 hearts in all).',
+    bonus=[
+        'Strength II, Resistance I, Fire Resistance, Night Vision, Water Breathing; poison, wither, freezing and falling cannot touch you.',
+        'Event Horizon: no single blow can take more than 30% of your health, and half of all arrows and projectiles are swallowed.',
+        'Eightfold Retaliation: whatever strikes you takes 6 damage and one realm\'s curse: rooted, struck, burned, dragged, frozen, cut, slowed or poisoned.',
+        'The Last Heart: a killing blow leaves you at half health instead, with Absorption IV and a shockwave that throws back and hurts everything near you (once every 2 minutes).',
+        'Crouch in mid-air to drift down slowly.',
+    ],
+    weapon='worldbreaker', weapon_name='Worldbreaker',
+    weapon_stats='24 attack damage, 1.0 speed, 1.5 blocks of extra reach.',
+    weapon_power='Unmaking: every hit also deals 3% of the target\'s max health (up to 15 more), and carries the next of the eight realm powers in turn: root, storm, fire, tide, frost, sweep, time, spores.',
+    weapon_ability='Singularity: a black hole opens six blocks ahead, drags in everything within twelve blocks, then collapses (30 damage, Wither II, slowed). 20 s.',
+    material='unmade_heart', material_name='Heart of the Unmade',
+    material_lore='What was left in the Unmaker when the worlds were taken back. Two fall with it every time it dies.',
+)

@@ -131,6 +131,12 @@ public class ModTabs {
                         out.accept(ModItems.REALM_NODE.get());
                         out.accept(ModItems.UNMAKING_ANCHOR.get());
                         out.accept(ModItems.UNMAKER_EGG.get());
+                        out.accept(ModItems.UNMADE_HEART.get());
+                        out.accept(ModItems.UNMADE_HELMET.get());
+                        out.accept(ModItems.UNMADE_CHESTPLATE.get());
+                        out.accept(ModItems.UNMADE_LEGGINGS.get());
+                        out.accept(ModItems.UNMADE_BOOTS.get());
+                        out.accept(ModItems.WORLDBREAKER.get());
                         out.accept(ModItems.VERDANT_HELMET.get());
                         out.accept(ModItems.VERDANT_CHESTPLATE.get());
                         out.accept(ModItems.VERDANT_LEGGINGS.get());

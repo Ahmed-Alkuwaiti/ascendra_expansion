@@ -277,5 +277,21 @@
   "item.aurelia.armor_bonus.bloomspore": "Full set: Night Vision; poison and wither cannot touch you; it feeds you when hungry; allies near you regenerate; anyone who strikes you is poisoned.",
   "item.aurelia.puffcap.power": "Saturation and Regeneration.",
   "block.aurelia.chronite_ore": "Chronite Ore",
-  "block.aurelia.bloomspore_ore": "Bloomspore Ore"
+  "block.aurelia.bloomspore_ore": "Bloomspore Ore",
+  "item.aurelia.unmade_heart": "Heart of the Unmade",
+  "item.aurelia.unmade_heart.lore": "What was left in the Unmaker when the worlds were taken back. Two fall with it every time it dies.",
+  "item.aurelia.unmade_helmet": "Crown of the Unmade",
+  "item.aurelia.unmade_chestplate": "Heartplate of the Unmade",
+  "item.aurelia.unmade_leggings": "Greaves of the Unmade",
+  "item.aurelia.unmade_boots": "Treads of the Unmade",
+  "item.aurelia.armor_bonus.unmade": "Full set, the Regalia of the Unmade:",
+  "item.aurelia.armor_bonus.unmade.0": "Strength II, Resistance I, Fire Resistance, Night Vision, Water Breathing; poison, wither, freezing and falling cannot touch you.",
+  "item.aurelia.armor_bonus.unmade.1": "Event Horizon: no single blow can take more than 30% of your health, and half of all arrows and projectiles are swallowed.",
+  "item.aurelia.armor_bonus.unmade.2": "Eightfold Retaliation: whatever strikes you takes 6 damage and one realm's curse: rooted, struck, burned, dragged, frozen, cut, slowed or poisoned.",
+  "item.aurelia.armor_bonus.unmade.3": "The Last Heart: a killing blow leaves you at half health instead, with Absorption IV and a shockwave that throws back and hurts everything near you (once every 2 minutes).",
+  "item.aurelia.armor_bonus.unmade.4": "Crouch in mid-air to drift down slowly.",
+  "item.aurelia.worldbreaker": "Worldbreaker",
+  "item.aurelia.worldbreaker.power": "Unmaking: every hit also deals 3% of the target's max health (up to 15 more), and carries the next of the eight realm powers in turn: root, storm, fire, tide, frost, sweep, time, spores.",
+  "item.aurelia.worldbreaker.ability": "Singularity: a black hole opens six blocks ahead, drags in everything within twelve blocks, then collapses (30 damage, Wither II, slowed). 20 s.",
+  "item.aurelia.worldbreaker.lore": "Eight swords, melted into one by the thing that broke them."
 }

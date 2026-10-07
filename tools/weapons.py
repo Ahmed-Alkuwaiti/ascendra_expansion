@@ -190,8 +190,48 @@ def spore_lash():
     return m
 
 
+SHARDS = ['shard_g', 'shard_c', 'shard_v', 'shard_t', 'shard_i', 'shard_r', 'shard_y', 'shard_m']
+
+
+def worldbreaker():
+    """The Unmaker's blade, forged from all eight realm greatswords: a broad bone-white cleaver edged in black, a black hole for a
+    guard ringed by its burning accretion disc, the eight realm stones set down the fuller, and pieces of edge coming loose."""
+    m = Model('worldbreaker')
+    grip(m, 'regalia_b', 'gold', 'accretion2', y0=-16, length=11)
+    m.box((C - 3.5, -5, C - 2.0), (C + 3.5, 2, C + 2.0), 'regalia_w')                      # the guard block
+    m.box((C - 3, -4.5, C - 2.8), (C + 3, 1.5, C + 2.8), 'abyss')                          # the black hole, both faces
+    m.box((C - 4, -3.5, C - 2.4), (C + 4, 0.5, C + 2.4), 'abyss')
+    m.box((C - 2, -5.5, C - 2.4), (C + 2, 2.5, C + 2.4), 'abyss')
+    m.box((C - 0.8, -2.3, C - 3.1), (C + 0.8, -0.7, C + 3.1), 'accretion2')
+    m.ring((C, -1.5, C), 6.0, 16, (1.6, 1.6, 1.2), 'accretion', plane='xy')
+    m.ring((C, -1.5, C), 7.6, 20, (1.1, 1.1, 0.9), 'accretion3', plane='xy')
+    for sx in (-1, 1):                                                                      # swept-up wing guards, white over black
+        x0 = C + sx * 4.5
+        m.box((min(x0, x0 + sx * 8), -3.5, C - 1.4), (max(x0, x0 + sx * 8), -0.5, C + 1.4), 'regalia_w', 'z', 22.5 * sx, (x0, -2, C))
+        m.box((min(x0, x0 + sx * 7), -5, C - 1.0), (max(x0, x0 + sx * 7), -3.4, C + 1.0), 'regalia_b', 'z', 22.5 * sx, (x0, -2, C))
+        m.box((C + sx * 12 - 1, 0, C - 0.8), (C + sx * 12 + 1, 5, C + 0.8), 'gold', 'z', -22.5 * sx, (C + sx * 12, 0, C))
+        m.box((C + sx * 12.5 - 0.5, 4.5, C - 0.5), (C + sx * 12.5 + 0.5, 7.5, C + 0.5), 'regalia_w', 'z', -22.5 * sx, (C + sx * 12.5, 4.5, C))
+    blade(m, 2, 29, 11, 'regalia_b', 'regalia_w', 'accretion2', depth=2.6, taper=0.5)
+    for i in range(6):                                                                      # bone plates laid over the black core
+        a, b = 2 + 27 * i / 6, 2 + 27 * (i + 1) / 6 - 0.6
+        ww = 11 * (1 - 0.5 * i / 6)
+        for sx in (-1, 1):
+            m.box((C + min(sx * 1.6, sx * (ww / 2 - 0.4)), a + 0.3, C - 1.55), (C + max(sx * 1.6, sx * (ww / 2 - 0.4)), b, C + 1.55), 'regalia_w')
+    for i, sh in enumerate(SHARDS):                                                         # the eight realm stones down the fuller
+        y = 4.5 + i * 2.9
+        m.box((C - 1.0, y, C - 1.7), (C + 1.0, y + 2.0, C + 1.7), sh, 'z', 45, (C, y + 1.0, C))
+    for i, y in enumerate((7, 12, 17, 22)):                                                 # chips of edge breaking away
+        ww = 11 * (1 - 0.5 * (y - 2) / 27)
+        for sx in (-1, 1):
+            x = C + sx * (ww / 2 + 1.9 + (i % 2) * 0.6)
+            m.box((x - 0.7, y, C - 0.5), (x + 0.7, y + 1.8, C + 0.5), 'regalia_b' if (i + (sx > 0)) % 2 else 'regalia_w', 'z', 45 if sx > 0 else -45)
+    m.box((C - 0.5, 29, C - 0.4), (C + 0.5, 31.5, C + 0.4), 'accretion2')
+    return m
+
+
 WEAPONS = [('thornroot_blade', thornroot_blade), ('galecutter', galecutter), ('soulbrand', soulbrand), ('undertow_fang', undertow_fang),
-           ('hushblade', hushblade), ('glass_reaper', glass_reaper), ('second_hand', second_hand), ('spore_lash', spore_lash)]
+           ('hushblade', hushblade), ('glass_reaper', glass_reaper), ('second_hand', second_hand), ('spore_lash', spore_lash),
+           ('worldbreaker', worldbreaker)]
 
 DISPLAY = {
     'thirdperson_righthand': {'rotation': [0, -90, 0], 'translation': [0, 12, 0.5], 'scale': [0.85, 0.85, 0.85]},
@@ -205,13 +245,18 @@ DISPLAY = {
 }
 
 
+# The Worldbreaker is wider and heavier than the realm blades; it sits a little larger in the hand.
+DISPLAY_BIG = {k: dict(v, scale=[c * (1.12 if k.startswith(('third', 'first')) else 1.0) for c in v['scale']]) for k, v in DISPLAY.items()}
+
+
 def write_all():
     for i, (key, fn) in enumerate(WEAPONS):
         m = fn()
         img, where = texture(styles_of(m), 900 + i)
         img.save(f'{ASSETS}/textures/item/{key}.png')
         write_json(f'{ASSETS}/models/item/{key}.json', {'textures': {'t': f'aurelia:item/{key}', 'particle': f'aurelia:item/{key}'},
-                                                       'display': DISPLAY, 'elements': json_elements(m.els, where)})
+                                                       'display': DISPLAY_BIG if key == 'worldbreaker' else DISPLAY,
+                                                       'elements': json_elements(m.els, where)})
 
 
 if __name__ == '__main__':

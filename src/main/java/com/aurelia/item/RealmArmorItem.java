@@ -1,6 +1,9 @@
 package com.aurelia.item;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -9,6 +12,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -66,6 +72,22 @@ public class RealmArmorItem extends ArmorItem {
         consumer.accept(new com.aurelia.client.RealmArmorClient(piece()));
     }
 
+    private static final UUID[] VIGOR = {UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e01"), UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e02"),
+            UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e03"), UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e04")};
+
+    /** Each piece of the Unmaker's regalia also adds 5 max health. */
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> base = super.getAttributeModifiers(slot, stack);
+        if (this.realm != RealmArmorMaterial.UNMADE || slot != this.getEquipmentSlot()) {
+            return base;
+        }
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> out = ImmutableMultimap.builder();
+        out.putAll(base);
+        out.put(Attributes.MAX_HEALTH, new AttributeModifier(VIGOR[slot.getIndex()], "Unmade vigor", 5.0, AttributeModifier.Operation.ADDITION));
+        return out.build();
+    }
+
     @Override
     public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer) {
         return this.realm == RealmArmorMaterial.RIME && this.getType() == Type.BOOTS;
@@ -74,5 +96,16 @@ public class RealmArmorItem extends ArmorItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.aurelia.armor_bonus." + this.realm.id()).withStyle(ChatFormatting.GOLD));
+        if (this.realm == RealmArmorMaterial.UNMADE) {
+            for (int i = 0; i < 5; i++) {
+                tooltip.add(Component.literal(" ").append(Component.translatable("item.aurelia.armor_bonus.unmade." + i))
+                        .withStyle(i == 3 ? ChatFormatting.LIGHT_PURPLE : ChatFormatting.GRAY));
+            }
+        }
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return this.realm == RealmArmorMaterial.UNMADE || super.isFoil(stack);
     }
 }

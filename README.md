@@ -217,6 +217,36 @@ Each has an on-hit power and a right-click special on a cooldown:
 
 Known risk: the greatswords' hand poses are set by display transforms I could not see in game. If one is held at an odd angle, adjust `DISPLAY` in `tools/weapons.py` (or the model in Blockbench).
 
+## The Unmaker's gear: the Regalia of the Unmade and the Worldbreaker
+
+![The Unmaker's gear](previews/43_unmaker_gear.jpg)
+
+The Unmaker drops two **Hearts of the Unmade** every time it dies, beside the Hand of Genesis, and its altar can be woken again. Five Hearts (three kills) make the full kit.
+
+| Item | Recipe (3 x 3) |
+|---|---|
+| Crown, Heartplate, Greaves, Treads of the Unmade | a Heart in the centre, one storage block of each of the eight realm materials round it |
+| Worldbreaker | a Heart in the centre, all eight realm greatswords round it |
+
+**How it is tuned.** I could not open Ascendra's mod list from here, so I tuned against vanilla netherite (8 damage; 20 armor, 12 toughness) and the top weapons of the usual endgame boss mods (roughly 12 to 16 damage). The Worldbreaker sits well above both. Its percentage bite keeps it useful against bosses with thousands of health.
+
+- **Regalia of the Unmade:** 30 armor and 20 toughness for the set (both are the game's caps), full knockback immunity, and +5 max health per piece (+10 hearts in all). Durability is 66x, against netherite's 37x.
+- **Full-set powers:**
+  - Strength II, Resistance I, Fire Resistance, Night Vision and Water Breathing. Poison, wither, freezing and fall damage cannot touch you.
+  - *Event Horizon:* no single blow takes more than 30% of your health (`/kill` and the void still work), and half of all projectiles are swallowed.
+  - *Eightfold Retaliation:* whatever strikes you takes 6 damage plus one realm's curse at random.
+  - *The Last Heart:* a killing blow leaves you at half health instead, with Absorption IV, Resistance V for 3 seconds, and a shockwave that hurts and throws back everything within 8 blocks. Once every 2 minutes.
+  - Crouch in mid-air to drift down.
+- **Worldbreaker:** 24 attack damage, 1.0 speed, +1.5 blocks of reach, 4000 durability.
+  - *Unmaking:* every hit also deals 3% of the target's max health (up to 15 more). It also cycles through the eight realm on-hit powers in turn (root, storm, fire, tide, frost, sweep, time, spores); the tooltip shows the next one.
+  - *Singularity* (right-click, 20 s): a black hole opens six blocks ahead, drags in every enemy within twelve blocks, and collapses for 30 damage with Wither II.
+
+Models:
+- The armor is built by `gen_armor.unmade`: a bone mask, a crown of spikes, black horns, a halo of the eight realm stones, a black-hole heart with its accretion disc, and eight realm blades spread from the back like wings.
+- The sword is `weapons.worldbreaker`.
+- The Heart is `tools/gen_unmade.py`.
+- Every number lives in `kit_data.UNMADE` (text) and in `RealmArmorMaterial.UNMADE`, `RealmTier.UNMADE` and `WorldbreakerItem` (stats).
+
 # Act two: the outer realms
 
 The Crown of Aurelia comes back with three empty settings. Crafting it points you at the sea; a second book, *The Outer Chronicle*, waits on the first outer realm you reach.

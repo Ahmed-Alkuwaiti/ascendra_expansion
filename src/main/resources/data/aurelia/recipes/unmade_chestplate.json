@@ -1,0 +1,41 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "category": "equipment",
+ "pattern": [
+  "ABC",
+  "HUD",
+  "GFE"
+ ],
+ "key": {
+  "A": {
+   "item": "aurelia:verdant_block"
+  },
+  "B": {
+   "item": "aurelia:stormglass_block"
+  },
+  "C": {
+   "item": "aurelia:emberheart_block"
+  },
+  "D": {
+   "item": "aurelia:tidestone_block"
+  },
+  "E": {
+   "item": "aurelia:rime_block"
+  },
+  "F": {
+   "item": "aurelia:sunglass_block"
+  },
+  "G": {
+   "item": "aurelia:chronite_block"
+  },
+  "H": {
+   "item": "aurelia:bloomspore_block"
+  },
+  "U": {
+   "item": "aurelia:unmade_heart"
+  }
+ },
+ "result": {
+  "item": "aurelia:unmade_chestplate"
+ }
+}

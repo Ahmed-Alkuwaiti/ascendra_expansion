@@ -102,5 +102,9 @@ def section():
              'Sneak and use it to switch to the next power.</p><dl class="facts">')
     for name, realm, desc in POWERS:
         o.append(f'<dt>{e(realm)}</dt><dd><b>{e(name)}</b>: {e(desc)}</dd>')
-    o.append('</dl></div></div></div></section>')
+    o.append('</dl></div></div>')
+    o.append('<h3 class="sub">The Unmaker\'s gear: the Regalia of the Unmade and the Worldbreaker</h3>')
+    o.append(fig('finale/unmaker_gear.webp', 'Two Hearts of the Unmade fall with every kill. Each piece takes a Heart and a block of all eight realms; '
+                 'the Worldbreaker takes a Heart and all eight realm greatswords.'))
+    o.append('</div></section>')
     return '\n'.join(o)

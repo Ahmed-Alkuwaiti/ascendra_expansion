@@ -4,6 +4,7 @@ import com.aurelia.item.RealmArmorItem;
 import com.aurelia.item.RealmArmorMaterial;
 import com.aurelia.item.RealmTier;
 import com.aurelia.item.RealmWeaponItem;
+import com.aurelia.item.WorldbreakerItem;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,6 +28,7 @@ import net.minecraft.world.item.enchantment.FrostWalkerEnchantment;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -37,6 +40,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  */
 public class KitEvents {
     private static final String BORROWED = "aurelia_borrowed_time";
+    private static final String LAST_HEART = "aurelia_last_heart";
     private final Map<UUID, ArrayDeque<Vec3>> history = new HashMap<>();
 
     private static void keep(Player p, MobEffect effect, int amplifier) {
@@ -52,6 +56,7 @@ public class KitEvents {
             case RIME -> ParticleTypes.SNOWFLAKE;
             case SUNGLASS -> ParticleTypes.WAX_OFF;
             case CHRONITE -> ParticleTypes.REVERSE_PORTAL;
+            case UNMADE -> ParticleTypes.END_ROD;
             default -> ParticleTypes.CRIMSON_SPORE;
         };
     }
@@ -130,17 +135,88 @@ public class KitEvents {
                     ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 0, true, true));
                 }
             }
+            case UNMADE -> {                                               // the Regalia of the Unmade
+                keep(p, MobEffects.DAMAGE_BOOST, 1);
+                keep(p, MobEffects.DAMAGE_RESISTANCE, 0);
+                keep(p, MobEffects.FIRE_RESISTANCE, 0);
+                keep(p, MobEffects.NIGHT_VISION, 0);
+                keep(p, MobEffects.WATER_BREATHING, 0);
+                p.removeEffect(MobEffects.POISON);
+                p.removeEffect(MobEffects.WITHER);
+                p.setTicksFrozen(0);
+                if (p.level() instanceof ServerLevel level) {
+                    level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.0, p.getZ(), 8, 0.4, 0.8, 0.4, 0.05);
+                }
+            }
             default -> { }
+        }
+    }
+
+    /** The Unmade glide: crouching in mid-air while falling lets the wearer drift down. Checked every tick so it answers at once. */
+    @SubscribeEvent
+    public void onGlide(TickEvent.PlayerTickEvent event) {
+        Player p = event.player;
+        if (event.phase == TickEvent.Phase.END && !p.level().isClientSide && !p.onGround() && p.isCrouching()
+                && p.getDeltaMovement().y < -0.1 && RealmArmorItem.fullSet(p) == RealmArmorMaterial.UNMADE) {
+            p.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 10, 0, true, false, true));
         }
     }
 
     /** Sunglass turns a third of projectiles aside before they land. */
     @SubscribeEvent
     public void onAttacked(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player p && event.getSource().getDirectEntity() instanceof Projectile
-                && RealmArmorItem.fullSet(p) == RealmArmorMaterial.SUNGLASS && p.getRandom().nextInt(3) == 0) {
+        if (!(event.getEntity() instanceof Player p) || !(event.getSource().getDirectEntity() instanceof Projectile)) {
+            return;
+        }
+        RealmArmorMaterial set = RealmArmorItem.fullSet(p);
+        if (set == RealmArmorMaterial.SUNGLASS && p.getRandom().nextInt(3) == 0) {
             event.setCanceled(true);
             p.level().playSound(null, p.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0f, 1.5f);
+        } else if (set == RealmArmorMaterial.UNMADE && p.getRandom().nextBoolean()) {     // Event Horizon swallows half of them
+            event.setCanceled(true);
+            event.getSource().getDirectEntity().discard();
+            if (p.level() instanceof ServerLevel level) {
+                level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.3, 0.4, 0.3, 0.1);
+            }
+            p.level().playSound(null, p.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8f, 0.5f);
+        }
+    }
+
+    /** Event Horizon: while the regalia is worn, no single blow takes more than 30% of the wearer's health. */
+    @SubscribeEvent
+    public void onDamage(LivingDamageEvent event) {
+        if (event.getEntity() instanceof Player p && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                && RealmArmorItem.fullSet(p) == RealmArmorMaterial.UNMADE) {
+            event.setAmount(Math.min(event.getAmount(), p.getMaxHealth() * 0.3f));
+        }
+    }
+
+    /** Eightfold Retaliation: one realm's curse, chosen at random, on whatever strikes the Unmade. */
+    private static void retaliate(Player p, LivingEntity attacker) {
+        attacker.hurt(p.damageSources().thorns(p), 6.0f);
+        switch (p.getRandom().nextInt(8)) {
+            case 0 -> attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 3));
+            case 1 -> {
+                if (p.level() instanceof ServerLevel level) {
+                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
+                    if (bolt != null) {
+                        bolt.moveTo(attacker.getX(), attacker.getY(), attacker.getZ());
+                        bolt.setVisualOnly(true);
+                        level.addFreshEntity(bolt);
+                    }
+                }
+                attacker.hurt(p.damageSources().lightningBolt(), 6.0f);
+            }
+            case 2 -> attacker.setSecondsOnFire(8);
+            case 3 -> {
+                Vec3 in = p.position().subtract(attacker.position()).normalize().scale(0.8);
+                attacker.push(in.x, 0.2, in.z);
+                attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1));
+            }
+            case 4 -> attacker.setTicksFrozen(attacker.getTicksRequiredToFreeze() + 120);
+            case 5 -> attacker.hurt(p.damageSources().thorns(p), 4.0f);
+            case 6 -> attacker.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1));
+            default -> attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
         }
     }
 
@@ -172,9 +248,14 @@ public class KitEvents {
                         attacker.setTicksFrozen(attacker.getTicksRequiredToFreeze() + 100);
                     }
                     case BLOOMSPORE -> attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 1));
+                    case UNMADE -> retaliate(p, attacker);
                     default -> { }
                 }
             }
+        }
+        if (event.getSource().getDirectEntity() instanceof LivingEntity attacker && attacker != victim
+                && attacker.getMainHandItem().getItem() instanceof WorldbreakerItem) {               // Unmaking
+            event.setAmount(event.getAmount() + WorldbreakerItem.unmaking(victim));
         }
         if (event.getSource().getDirectEntity() instanceof LivingEntity attacker
                 && attacker.getMainHandItem().getItem() instanceof RealmWeaponItem weapon) {
@@ -189,7 +270,15 @@ public class KitEvents {
     /** Chronite's Borrowed Time: the blow that would kill you throws you back five seconds instead. */
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
-        if (!(event.getEntity() instanceof Player p) || RealmArmorItem.fullSet(p) != RealmArmorMaterial.CHRONITE) {
+        if (!(event.getEntity() instanceof Player p) || event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return;
+        }
+        RealmArmorMaterial set = RealmArmorItem.fullSet(p);
+        if (set == RealmArmorMaterial.UNMADE) {
+            lastHeart(event, p);
+            return;
+        }
+        if (set != RealmArmorMaterial.CHRONITE) {
             return;
         }
         CompoundTag data = p.getPersistentData();
@@ -215,9 +304,40 @@ public class KitEvents {
                 .withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE), true);
     }
 
+    /** The Last Heart: the Unmade refuse a killing blow once every two minutes, and the refusal throws back everything near. */
+    private static void lastHeart(LivingDeathEvent event, Player p) {
+        CompoundTag data = p.getPersistentData();
+        long now = p.level().getGameTime();
+        if (now - data.getLong(LAST_HEART) < 2400) {
+            return;
+        }
+        data.putLong(LAST_HEART, now);
+        event.setCanceled(true);
+        p.setHealth(p.getMaxHealth() * 0.5f);
+        p.clearFire();
+        p.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 600, 3));
+        p.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 4));
+        for (LivingEntity e : p.level().getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(8.0), e -> e != p && e.isAlive()
+                && !(e instanceof Player))) {
+            e.hurt(p.damageSources().playerAttack(p), 12.0f);
+            Vec3 out = e.position().subtract(p.position()).normalize().scale(1.8);
+            e.push(out.x, 0.6, out.z);
+            e.hurtMarked = true;
+        }
+        if (p.level() instanceof ServerLevel level) {
+            level.sendParticles(ParticleTypes.SONIC_BOOM, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
+            level.sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1, p.getZ(), 150, 0.5, 1.0, 0.5, 0.5);
+        }
+        p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 2.0f, 0.7f);
+        p.level().playSound(null, p.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0f, 0.6f);
+        p.displayClientMessage(net.minecraft.network.chat.Component.literal("The Last Heart. You were unmade, and you refused.")
+                .withStyle(net.minecraft.ChatFormatting.DARK_PURPLE), true);
+    }
+
     @SubscribeEvent
     public void onFall(LivingFallEvent event) {
-        if (event.getEntity() instanceof Player p && RealmArmorItem.fullSet(p) == RealmArmorMaterial.STORMGLASS) {
+        RealmArmorMaterial set = event.getEntity() instanceof Player p ? RealmArmorItem.fullSet(p) : null;
+        if (set == RealmArmorMaterial.STORMGLASS || set == RealmArmorMaterial.UNMADE) {
             event.setDistance(0.0f);
             event.setDamageMultiplier(0.0f);
         }

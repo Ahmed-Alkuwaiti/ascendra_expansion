@@ -1,0 +1,41 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "category": "equipment",
+ "pattern": [
+  "ABC",
+  "HUD",
+  "GFE"
+ ],
+ "key": {
+  "A": {
+   "item": "aurelia:thornroot_blade"
+  },
+  "B": {
+   "item": "aurelia:galecutter"
+  },
+  "C": {
+   "item": "aurelia:soulbrand"
+  },
+  "D": {
+   "item": "aurelia:undertow_fang"
+  },
+  "E": {
+   "item": "aurelia:hushblade"
+  },
+  "F": {
+   "item": "aurelia:glass_reaper"
+  },
+  "G": {
+   "item": "aurelia:second_hand"
+  },
+  "H": {
+   "item": "aurelia:spore_lash"
+  },
+  "U": {
+   "item": "aurelia:unmade_heart"
+  }
+ },
+ "result": {
+  "item": "aurelia:worldbreaker"
+ }
+}

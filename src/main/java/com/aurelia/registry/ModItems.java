@@ -10,6 +10,7 @@ import com.aurelia.item.RealmArmorItem;
 import com.aurelia.item.RealmArmorMaterial;
 import com.aurelia.item.RealmTier;
 import com.aurelia.item.RealmWeaponItem;
+import com.aurelia.item.WorldbreakerItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -284,6 +285,20 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.UNMAKING_ANCHOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> UNMAKER_EGG = ITEMS.register("unmaker_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.UNMAKER, 0xE2DAC8, 0x1C1A22, new Item.Properties()));
+
+    // ---- the Unmaker's own gear: its Heart, the Regalia of the Unmade and the Worldbreaker
+    public static final RegistryObject<Item> UNMADE_HEART = ITEMS.register("unmade_heart",
+            () -> new LoreItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.unmade_heart.lore"));
+    public static final RegistryObject<Item> UNMADE_HELMET = ITEMS.register("unmade_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> UNMADE_CHESTPLATE = ITEMS.register("unmade_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> UNMADE_LEGGINGS = ITEMS.register("unmade_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> UNMADE_BOOTS = ITEMS.register("unmade_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> WORLDBREAKER = ITEMS.register("worldbreaker",
+            () -> new WorldbreakerItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
     /** The relic each realm's Warden leaves behind, in realm order. */
     @Nullable

@@ -19,7 +19,9 @@ public enum RealmArmorMaterial implements ArmorMaterial {
     RIME("rime", 37, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.05f, () -> ModItems.RIME_CRYSTAL.get()),
     SUNGLASS("sunglass", 38, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.1f, () -> ModItems.SUNGLASS_SHARD.get()),
     CHRONITE("chronite", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.CHRONITE_SHARD.get()),
-    BLOOMSPORE("bloomspore", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.BLOOMSPORE.get());
+    BLOOMSPORE("bloomspore", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.BLOOMSPORE.get()),
+    // The Unmaker's regalia: 30 armor and 20 toughness in all (both the game's caps), full knockback immunity. Netherite: 20 / 12 / 0.4.
+    UNMADE("unmade", 66, new int[] {5, 11, 9, 5}, 25, 5.0f, 0.25f, () -> ModItems.UNMADE_HEART.get());
 
     private static final int[] BASE_DURABILITY = {11, 16, 15, 13};   // helmet, chestplate, leggings, boots
     private final String name;

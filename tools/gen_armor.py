@@ -20,7 +20,11 @@ STYLE = {   # base plate, trim, dark, glow, and the realm's special material
     'scarlet': ('sandstone_r', 'gold', 'robe_red', 'sun_glow', 'glass_red'),
     'clockwork': ('iron_dk', 'brass', 'brass_d', 'rift_glow', 'clockface'),
     'mycelial': ('petal_c', 'cap_m', 'flesh_p', 'bloom_glow', 'root_c'),
+    'unmade': ('regalia_w', 'gold', 'regalia_b', 'accretion2', 'abyss'),
 }
+SHARDS = ['shard_g', 'shard_c', 'shard_v', 'shard_t', 'shard_i', 'shard_r', 'shard_y', 'shard_m']   # one stone per realm, in realm order
+SETS = REALMS + ['unmade']                                           # the eight realm sets, then the Unmaker's
+ARMOR_ID = dict({r: KIT[r]['armor'] for r in REALMS}, unmade='unmade')
 
 
 class Piece:
@@ -377,8 +381,98 @@ def bloomspore(piece, st):
     return p
 
 
+def unmade(piece, st):
+    """The Regalia of the Unmade, cut from the Unmaker's shell: bone-white plate over black, a black hole for a heart, a halo of the
+    eight realm stones behind the crown, eight realm blades fanned from the back like broken wings, horns that curl back past the
+    shoulders. Every piece carries the eight stones somewhere."""
+    p = Piece()
+    base, trim, dark, glow, special = st
+    if piece == 'helmet':
+        p.add('helm', (10, 10, 10), (-5, -1, -5), style=dark)
+        p.add('mask', (9, 10, 1), (-4.5, -1.5, 5), style=base)
+        p.add('maskSlit', (1, 8, 1), (-0.5, -0.5, 5.6), style=glow)
+        for sx in (-1, 1):
+            p.add('eye' + side(sx), (2, 1, 1), (sx * 2.5 - 1, 4.5, 5.6), style='accretion')
+        p.add('brow', (11, 2, 2), (-5.5, 7.5, 4.5), style=trim)
+        p.add('browGem', (3, 3, 1), (-1.5, 7, 6.3), style=special)
+        p.add('browGemLight', (1, 1, 1), (-0.5, 8, 6.9), style=glow)
+        p.add('crownBand', (11, 2, 11), (-5.5, 9, -5.5), style=trim)
+        for k in range(7):                                           # a crown of bone spikes, tallest at the brow
+            a = math.pi * (k - 3) / 7
+            h = 5 + (3 - abs(k - 3)) * 2.2
+            sp = p.add(f'spike{k}', (2, h, 2), (-1, 0, -1), (4.6 * math.sin(a), 10.5, 4.6 * math.cos(a) - 0.5),
+                       rot=(0.28 * math.cos(a), 0, -0.28 * math.sin(a)), style=base)
+            p.add(f'spikeTip{k}', (1, 2, 1), (-0.5, 0, -0.5), (0, h, 0), parent=sp, style=trim)
+        for sx in (-1, 1):                                           # great black horns, sweeping out and curling up past the crown
+            L = side(sx)
+            h1 = p.add('horn' + L, (4, 8, 4), (-2, 0, -2), (sx * 4.5, 5, -1), rot=(-0.2, 0, -sx * 1.15), style=dark)
+            h2 = p.add('horn2' + L, (3, 8, 3), (-1.5, 0, -1.5), (0, 7.5, 0), rot=(-0.1, 0, sx * 0.75), parent=h1, style=dark)
+            h3 = p.add('horn3' + L, (2, 7, 2), (-1, 0, -1), (0, 7.5, 0), rot=(0.15, 0, sx * 0.55), parent=h2, style=base)
+            p.add('hornTip' + L, (1, 4, 1), (-0.5, 0, -0.5), (0, 6.5, 0), rot=(0.25, 0, sx * 0.3), parent=h3, style=trim)
+            p.add('hornBand' + L, (4.5, 1, 4.5), (-2.25, 5, -2.25), parent=h1, style=trim)
+            p.add('hornBand2' + L, (3.5, 1, 3.5), (-1.75, 5, -1.75), parent=h2, style=trim)
+        halo = p.add('halo', (2, 2, 1), (-1, -1, -0.5), (0, 9, -7.5), style=special)   # the halo of the eight realms
+        for k in range(20):
+            p.add(f'haloRing{k}', (4, 1, 1), (-2, 11.5, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 10), parent=halo, style=trim)
+        for k, sh in enumerate(SHARDS):
+            a = k * math.pi / 4 + math.pi / 8
+            p.add(f'haloStone{k}', (2, 6, 2), (-1, 12.5, -1), (0, 0, 0), rot=(0, 0, a), parent=halo, style=sh)
+    elif piece == 'chestplate':
+        chest_base(p, st)
+        p.add('heart', (6, 6, 2), (-3, -9, 3), style=special, parent='body')            # a black hole where the heart should be
+        p.add('heartLight', (2, 2, 1), (-1, -7, 4.6), style=glow, parent='body')
+        disc = p.add('disc', (1, 1, 1), (-0.5, -0.5, -0.5), (0, -6, 4.4), parent='body', style=special)
+        for k in range(12):
+            p.add(f'discSeg{k}', (2.4, 1, 1), (-1.2, 3.6, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 6), parent=disc,
+                  style='accretion' if k % 2 else 'accretion3')
+        for sx in (-1, 1):
+            for k, y in enumerate((-2.5, -5, -7.5, -10)):
+                p.add(f'rib{side(sx)}{k}', (3, 1, 1), (-1.5, -0.5, -0.5), (sx * 4, y, 3.4), rot=(0, 0, sx * 0.3), parent='body', style=dark)
+
+        def shell(p, arm, sx, L):                                   # Unmaker shell plates stacked on each shoulder
+            cx = -1 if sx < 0 else 1
+            p.add('shell' + L, (10, 3, 8), (-5, 6, -4), (cx, 0, 0), rot=(0, 0, -sx * 0.35), parent=arm, style='unmade_w2')
+            p.add('shell2' + L, (8, 3, 6), (-4, 8.5, -3), (cx, 0, 0), rot=(0, 0, -sx * 0.55), parent=arm, style=base)
+            p.add('shellGlow' + L, (1, 1, 8.5), (-0.5, 7.5, -4.25), (cx + sx * 3, 0, 0), parent=arm, style='accretion')
+        pauldrons(p, st, 11, 6, 10, spikes=3, spike_style=dark, extra=shell)
+        wings = p.add('wingRoot', (5, 5, 2), (-2.5, -2.5, -1), (0, -4, -3.5), parent='body', style=special)
+        ring_ = p.add('backRing', (1, 1, 1), (-0.5, -0.5, -0.5), (0, 0, -1.2), parent=wings, style=special)
+        for k in range(16):
+            p.add(f'backRingSeg{k}', (3, 1, 1), (-1.5, 5.5, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 8), parent=ring_,
+                  style='accretion' if k % 2 else 'accretion3')
+        for k, sh in enumerate(SHARDS):                              # eight realm blades spread like broken wings, four a side
+            sx, i = (-1, k) if k < 4 else (1, k - 4)
+            a = -sx * (0.75 + i * 0.36)
+            b = p.add(f'wing{k}', (3, 5, 2), (-1.5, 1, -1), (0, 0, -1), rot=(-0.3, 0, a), parent=wings, style=base)
+            p.add(f'wingBlade{k}', (2, 15 - i * 2, 1), (-1, 5.5, -0.5), (0, 0, 0), parent=b, style=sh)
+    elif piece == 'leggings':
+        legs_base(p, st)
+        p.add('tabard', (6, 7, 1), (-3, -20, 3.2), parent='body', style=dark)
+        p.add('tabardGlow', (1, 6, 1), (-0.5, -19.5, 3.6), parent='body', style=glow)
+        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
+            L = side(sx)
+            p.add('tasset' + L, (5, 6, 1), (-2.5, -7, 2.6), parent=leg, style=dark)
+            p.add('kneeCap' + L, (5, 3, 3), (-2.5, -10, 1.5), parent=leg, style=trim)
+            p.add('kneeSpike' + L, (1, 1, 4), (-0.5, -9, 4), parent=leg, style=dark)
+            p.add('thighGlow' + L, (1, 6, 1), (sx * 2.5 - 0.5, -7, -0.5), parent=leg, style='accretion')
+            p.add('hipFin' + L, (1, 5, 3), (-0.5, 0, -1.5), (sx * 2.8, -2, 0), rot=(0, 0, -sx * 0.45), parent=leg, style=base)
+    else:
+        boots_base(p, st)
+        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
+            L = side(sx)
+            for k, x in enumerate((-2, 0, 2)):
+                p.add(f'claw{L}{k}', (1, 1, 4), (-0.5, 0, 0), (x, -13, 4.5), rot=(0.45, 0, 0), parent=leg, style=base)
+            p.add('heel' + L, (1, 1, 4), (-0.5, -0.5, -4), (0, -12, -3), rot=(-0.35, 0, 0), parent=leg, style=dark)
+            for k in range(4):                                       # four realm stones on each cuff: eight across the pair
+                a = k * math.pi / 2 + math.pi / 4
+                sh = SHARDS[k + (0 if sx < 0 else 4)]
+                p.add(f'cuffStone{L}{k}', (1, 2, 1), (-0.5, 0, -0.5), (3.8 * math.cos(a), -7, 3.8 * math.sin(a)), parent=leg, style=sh)
+            p.add('ankleFin' + L, (1, 4, 4), (-0.5, 0, -2), (sx * 3.2, -11, 0), rot=(0, 0, -sx * 0.5), parent=leg, style='accretion')
+    return p
+
+
 BUILD = {'grove': verdant, 'skyreach': stormglass, 'hollow': emberheart, 'drowned': tidestone, 'pale': rime, 'scarlet': sunglass,
-         'clockwork': chronite, 'mycelial': bloomspore}
+         'clockwork': chronite, 'mycelial': bloomspore, 'unmade': unmade}
 
 
 def piece_parts(realm, piece):
@@ -392,12 +486,12 @@ def f(v):
 
 def build_all():
     out = {}
-    for i, realm in enumerate(REALMS):
+    for i, realm in enumerate(SETS):
         for j, piece in enumerate(PIECES):
             parts = piece_parts(realm, piece)
             img, sheet = mobspecs.paint(parts, 400 + i * 10 + j)
             img.info.pop('glow', None)
-            name = f'{KIT[realm]["armor"]}_{piece}'
+            name = f'{ARMOR_ID[realm]}_{piece}'
             img.save(f'{mobspecs.ASSETS}/textures/models/armor/{name}.png')
             out[name] = (parts, sheet)
     return out
@@ -475,7 +569,7 @@ def icons():
     import render_models as rm
     from PIL import Image
     views = {'helmet': (-28, 12), 'chestplate': (-20, 8), 'leggings': (-20, 8), 'boots': (-28, 18)}
-    for realm in REALMS:
+    for realm in SETS:
         for piece in PIECES:
             parts = preview_parts(realm, [piece], mannequin=False)
             tex, _ = mobspecs.paint(parts, 7)
@@ -505,7 +599,7 @@ def icons():
                             c = px[nx, ny]
                             rp[x, y] = (c[0] // 3, c[1] // 3, c[2] // 3, 255)
                             break
-            res.save(f'{mobspecs.ASSETS}/textures/item/{KIT[realm]["armor"]}_{piece}.png')
+            res.save(f'{mobspecs.ASSETS}/textures/item/{ARMOR_ID[realm]}_{piece}.png')
 
 
 if __name__ == '__main__':

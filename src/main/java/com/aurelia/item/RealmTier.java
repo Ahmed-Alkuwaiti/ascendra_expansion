@@ -15,7 +15,8 @@ public enum RealmTier implements Tier {
     RIME(2100, 4.5f, () -> ModItems.RIME_CRYSTAL.get()),
     SUNGLASS(2200, 5.0f, () -> ModItems.SUNGLASS_SHARD.get()),
     CHRONITE(2500, 5.0f, () -> ModItems.CHRONITE_SHARD.get()),
-    BLOOMSPORE(2500, 5.5f, () -> ModItems.BLOOMSPORE.get());
+    BLOOMSPORE(2500, 5.5f, () -> ModItems.BLOOMSPORE.get()),
+    UNMADE(4000, 8.0f, () -> ModItems.UNMADE_HEART.get());          // the Worldbreaker only
 
     private final int uses;
     private final float damage;
