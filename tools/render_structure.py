@@ -10,6 +10,18 @@ import nbtlib
 from PIL import Image, ImageDraw, ImageFont
 
 COLORS = {
+    'cracked_stone_bricks': (118, 117, 118), 'chiseled_stone_bricks': (120, 119, 120), 'polished_andesite': (132, 135, 134), 'granite': (149, 103, 85),
+    'cracked_deepslate_tiles': (52, 52, 53), 'cracked_polished_blackstone_bricks': (44, 37, 43), 'chiseled_polished_blackstone': (53, 48, 56),
+    'smooth_red_sandstone': (181, 98, 31), 'cut_sandstone': (217, 206, 159), 'chiseled_sandstone': (216, 203, 155), 'smooth_sandstone': (223, 214, 170),
+    'coarse_dirt': (119, 85, 59), 'rooted_dirt': (144, 103, 76), 'packed_mud': (142, 106, 79), 'blue_ice': (116, 167, 253),
+    'vine': (40, 95, 30), 'glow_lichen': (112, 160, 130), 'moss_carpet': (89, 109, 45), 'hanging_roots': (160, 115, 90), 'cobweb': (220, 220, 225),
+    'barrel': (134, 100, 58), 'bookshelf': (117, 94, 59), 'composter': (115, 75, 40), 'crafting_table': (130, 95, 60), 'cartography_table': (100, 80, 60),
+    'smithing_table': (60, 60, 70), 'blast_furnace': (90, 90, 95), 'lodestone': (140, 140, 145), 'loom': (150, 120, 90), 'decorated_pot': (150, 85, 60),
+    'skeleton_skull': (200, 200, 200), 'chain': (60, 64, 76), 'snow': (240, 250, 250), 'dead_bush': (120, 85, 40), 'poppy': (200, 30, 30),
+    'dandelion': (240, 220, 40), 'allium': (180, 110, 230), 'blue_orchid': (40, 160, 230), 'oxeye_daisy': (230, 230, 220), 'cornflower': (70, 100, 220),
+    'azure_bluet': (220, 230, 240), 'lily_of_the_valley': (240, 240, 240), 'sea_pickle': (110, 140, 50), 'white_candle': (230, 230, 230),
+    'red_candle': (180, 40, 40), 'potted_fern': (110, 70, 50), 'potted_red_mushroom': (150, 60, 50), 'potted_cornflower': (110, 70, 50),
+    'potted_wither_rose': (60, 50, 40), 'potted_crimson_fungus': (140, 40, 50),
     'basalt': (80, 81, 86), 'polished_basalt': (99, 98, 100), 'soul_soil': (75, 57, 46), 'soul_sand': (81, 62, 50), 'jungle_log': (85, 67, 25),
     'jungle_leaves': (48, 120, 30), 'cactus': (85, 127, 43), 'quartz_bricks': (234, 229, 221), 'quartz_block': (236, 230, 223), 'purple_wool': (122, 42, 173),
     'candle': (230, 210, 160), 'mushroom_stem_': (203, 196, 185), 'magma_block': (142, 63, 31), 'crimson_stem': (92, 25, 29), 'netherrack': (97, 38, 38),
@@ -54,12 +66,19 @@ AUR = {'tide_bell': (220, 180, 70), 'coral_seal': (226, 86, 110), 'waygate': (25
        'clock_dial': (250, 215, 110), 'master_clock': (255, 235, 140), 'spore_valve': (120, 200, 120), 'paradox_seal': (150, 70, 220),
        'root_seal': (110, 70, 40), 'time_snare': (170, 120, 230), 'root_snare': (100, 70, 50), 'chronite_block': (130, 90, 210), 'bloomspore_block': (220, 90, 190)}
 ground_block = 'minecraft:grass_block'
-SKIP = {'minecraft:air', 'minecraft:cave_air', 'minecraft:structure_void'}
+SKIP = {'minecraft:air', 'minecraft:cave_air', 'minecraft:structure_void', 'minecraft:glow_lichen'}   # lichen is a flat film in game
 THIN = ('carpet', 'pressure_plate', 'rail', 'snow', 'vein', 'torch', 'candle')
+
+
+DYES = {'white': (233, 236, 236), 'orange': (240, 118, 19), 'magenta': (189, 68, 179), 'light_blue': (58, 175, 217), 'yellow': (248, 197, 39),
+        'lime': (112, 185, 25), 'pink': (237, 141, 172), 'gray': (62, 68, 71), 'light_gray': (142, 142, 134), 'cyan': (21, 137, 145),
+        'purple': (121, 42, 172), 'blue': (53, 57, 157), 'brown': (114, 71, 40), 'green': (84, 109, 27), 'red': (160, 39, 34), 'black': (20, 21, 25)}
 
 
 def color(name):
     ns, key = name.split(':')
+    if key.endswith('_banner'):
+        return DYES.get(key.replace('_wall_banner', '').replace('_banner', ''), (200, 200, 200))
     if ns == 'aurelia':
         return AUR.get(key, (255, 0, 255))
     if key in COLORS:

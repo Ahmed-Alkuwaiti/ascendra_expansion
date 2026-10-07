@@ -141,6 +141,27 @@ Each realm combines vanilla terrain generation with structures and features the 
 - **Giant red fungi** on basalt, **lava falls** (custom springs), soul-fire patches and glowstone clusters.
 
 
+## Detailing pass (every structure)
+
+`tools/enrich.py` runs on every template as it is saved, so all 90 structures share it. The average template went from 18.6 to 26.5 block types; the big citadels from about 40 to about 60.
+- **Weathering.** Plain masonry and stone are mixed with their cracked, mossy, chiseled and neighbouring variants.
+- **Architecture.**
+  - Quoins on convex wall corners.
+  - Lintels and sills round every window.
+  - Inlaid borders where room floors meet walls.
+  - Capitals and bases on free-standing pillars.
+- **Furniture** in the corners of roofed rooms, chosen per realm: barrels, bookshelves, smithing tables, lodestones, decorated pots, candles, potted plants, skulls.
+- **Realm dressing:**
+  - ivy and moss in the Grove;
+  - snow on every open ledge in the Pale Wastes;
+  - glow lichen and hanging roots in the deep places;
+  - lanterns on chains from high ceilings;
+  - cobwebs in upper corners;
+  - realm-coloured banners on tall walls;
+  - flowers and mushrooms in the grass.
+
+It never touches the mod's own blocks or anything within two blocks of them, and never decorates a guard's cell or anything in or beside water. It never blocks the Sunscar beam, and keeps furniture out of passage bends. The reachability checks still pass for every citadel and the Last Realm.
+
 # Act two: the outer realms
 
 The Crown of Aurelia comes back with three empty settings. Crafting it points you at the sea; a second book, *The Outer Chronicle*, waits on the first outer realm you reach.

@@ -283,7 +283,7 @@ Eight realms in three acts, then the finale. Each one is reached through a citad
 <p class="lede" style="margin-top:14px">Each realm's portal block, dormant and awake. A Waygate opens only for the relic of the realm before it; the crowns count as every relic that went into them.</p>
 </div></section>
 </main>
-<footer><div class="wrap">Renders are flat-shaded previews made outside the game: block colours are approximate, and models show their glow textures at full brightness as they do in game. Click any picture to enlarge it.</div></footer>
+<footer><div class="wrap">Every structure in the mod goes through a detailing pass (tools/enrich.py) when it is generated: weathered and mixed masonry, quoins on corners, lintels and sills round windows, inlaid floor borders, furniture in room corners, and realm dressing (ivy, moss, snow, hanging roots, cobwebs, lanterns on chains, banners, flowers). Glow lichen is left out of these pictures because in game it is a thin film. Renders are flat-shaded previews made outside the game: block colours are approximate, and models show their glow textures at full brightness as they do in game. Click any picture to enlarge it.</div></footer>
 <dialog id="zoom"><img id="zoomimg" alt=""><p id="zoomcap"></p></dialog>
 <script>
 (function () {{

@@ -5,7 +5,9 @@ import sys
 import nbtlib
 
 NOCOLLIDE = ('water', 'ladder', 'seagrass', 'kelp', 'sea_pickle', 'carpet', 'torch', 'candle', 'vein', 'rail', 'dead_bush', 'fern', 'vine')
-EXACT = {'air', 'cave_air', 'snow', 'grass', 'tall_grass', 'tube_coral', 'brain_coral', 'bubble_coral', 'fire_coral', 'horn_coral', 'chain', 'lever'}
+EXACT = {'air', 'cave_air', 'snow', 'grass', 'tall_grass', 'tube_coral', 'brain_coral', 'bubble_coral', 'fire_coral', 'horn_coral', 'chain', 'lever',
+         'red_mushroom', 'brown_mushroom', 'poppy', 'dandelion', 'allium', 'blue_orchid', 'azure_bluet', 'oxeye_daisy', 'cornflower',
+         'lily_of_the_valley', 'crimson_roots', 'nether_sprouts', 'hanging_roots', 'glow_lichen', 'cobweb', 'spore_blossom'}
 
 
 def load(path):
@@ -29,7 +31,7 @@ def leaks(blocks, water_top):
 
 
 def passable(n):
-    return n is None or n in EXACT or (any(k in n for k in NOCOLLIDE) and 'wall' not in n and 'block' not in n)
+    return n is None or n in EXACT or n.endswith('_wall_banner') or (any(k in n for k in NOCOLLIDE) and 'wall' not in n and 'block' not in n)
 
 
 def walk(blocks, start, goal_fn, limit=400000):

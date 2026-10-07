@@ -27,6 +27,9 @@ PASSABLE = {AIR, 'minecraft:lily_pad', 'minecraft:sweet_berry_bush', 'minecraft:
             'minecraft:allium', 'minecraft:azure_bluet', 'minecraft:oxeye_daisy', 'minecraft:lily_of_the_valley', 'minecraft:poppy'}
 
 
+ENRICH = True      # run the detailing pass (enrich.py) on every template as it is saved
+
+
 class Grid:
     def __init__(self, W, H, L):
         self.W, self.H, self.L = W, H, L
@@ -86,6 +89,9 @@ class Grid:
         return False
 
     def save(self, name):
+        if ENRICH:
+            import enrich
+            self.enriched = enrich.enrich(self, name)
         palette, index, blocks = [], {}, []
         for (x, y, z), (bname, props, nbt) in sorted(self.b.items()):
             key = (bname, props)
@@ -104,7 +110,7 @@ class Grid:
                          'entities': List[Compound](self.entities)})
         os.makedirs(OUT, exist_ok=True)
         nbtlib.File(root, gzipped=True).save(f'{OUT}/{name}.nbt')
-        print(f'{name}: {len(blocks)} blocks, {len(self.entities)} guards, size {self.W}x{self.H}x{self.L}')
+        print(f'{name}: {len(blocks)} blocks ({getattr(self, "enriched", 0)} details), {len(self.entities)} guards, size {self.W}x{self.H}x{self.L}')
 
 
 # ------------------------------------------------------------------ shared helpers
