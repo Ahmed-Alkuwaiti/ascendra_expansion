@@ -40,5 +40,8 @@ public class AurelianCrownItem extends ArmorItem {
         tooltip.add(Component.literal(" - Regeneration, Resistance, Night Vision").withStyle(ChatFormatting.YELLOW));
         tooltip.add(Component.literal(" - Water Breathing").withStyle(ChatFormatting.YELLOW));
         tooltip.add(Component.literal(" - Never breaks").withStyle(ChatFormatting.YELLOW));
+        tooltip.add(Component.empty());
+        tooltip.add(Component.literal("Three of its settings sit empty. Somewhere under the sea, a bell answers.")
+                .withStyle(ChatFormatting.DARK_AQUA, ChatFormatting.ITALIC));
     }
 }

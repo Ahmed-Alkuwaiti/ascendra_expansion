@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.AABB;
 
 /** Wakes a citadel's portal once every puzzle node of one type in range is filled. */
@@ -22,6 +23,11 @@ public final class PuzzleLogic {
     private PuzzleLogic() {}
 
     public static void check(ServerLevel level, BlockPos origin, Block nodeBlock) {
+        check(level, origin, nodeBlock, PuzzleNodeBlock.FILLED);
+    }
+
+    /** As above, for node blocks that record "done" in a different boolean property (the Tide Bells use RUNG). */
+    public static void check(ServerLevel level, BlockPos origin, Block nodeBlock, BooleanProperty done) {
         int total = 0;
         int filled = 0;
         List<BlockPos> portals = new ArrayList<>();
@@ -33,7 +39,7 @@ public final class PuzzleLogic {
             BlockState s = level.getBlockState(p);
             if (s.is(nodeBlock)) {
                 total++;
-                if (s.getValue(PuzzleNodeBlock.FILLED)) {
+                if (s.getValue(done)) {
                     filled++;
                 }
             } else if (s.getBlock() instanceof WaygateBlock && !s.getValue(WaygateBlock.ACTIVE)) {

@@ -9,16 +9,32 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public enum AurelianArmorMaterial implements ArmorMaterial {
-    AURELIAN;
+    // Texture: assets/aurelia/textures/models/armor/<name>_layer_1.png
+    AURELIAN("aurelian", 3000, 6, 4.0f, 0.1f),
+    ASCENDANT("ascendant", 6000, 8, 6.0f, 0.25f);
+
+    private final String name;
+    private final int durability;
+    private final int defense;
+    private final float toughness;
+    private final float knockbackResistance;
+
+    AurelianArmorMaterial(String name, int durability, int defense, float toughness, float knockbackResistance) {
+        this.name = name;
+        this.durability = durability;
+        this.defense = defense;
+        this.toughness = toughness;
+        this.knockbackResistance = knockbackResistance;
+    }
 
     @Override
     public int getDurabilityForType(ArmorItem.Type type) {
-        return 3000;
+        return this.durability;
     }
 
     @Override
     public int getDefenseForType(ArmorItem.Type type) {
-        return 6;
+        return this.defense;
     }
 
     @Override
@@ -38,17 +54,16 @@ public enum AurelianArmorMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        // Texture: assets/aurelia/textures/models/armor/aurelian_layer_1.png
-        return AureliaMod.MODID + ":aurelian";
+        return AureliaMod.MODID + ":" + this.name;
     }
 
     @Override
     public float getToughness() {
-        return 4.0f;
+        return this.toughness;
     }
 
     @Override
     public float getKnockbackResistance() {
-        return 0.1f;
+        return this.knockbackResistance;
     }
 }

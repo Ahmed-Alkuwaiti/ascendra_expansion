@@ -63,6 +63,34 @@ public class ClientSetup {
         spec(event, ModEntities.CINDER_HOUND.get(), MobModels.CINDER_HOUND, MobModels.CINDER_HOUND_NAMES, MobModels.CINDER_HOUND_ANIMS,
                 MobModels.CINDER_HOUND_SHADOW, "cinder_hound", false);
 
+        spec(event, ModEntities.VORATH.get(), MobModels.VORATH, MobModels.VORATH_NAMES, MobModels.VORATH_ANIMS,
+                MobModels.VORATH_SHADOW, "vorath", true);
+        spec(event, ModEntities.WHITE_SILENCE.get(), MobModels.WHITE_SILENCE, MobModels.WHITE_SILENCE_NAMES, MobModels.WHITE_SILENCE_ANIMS,
+                MobModels.WHITE_SILENCE_SHADOW, "white_silence", false);
+        spec(event, ModEntities.KHARZUL.get(), MobModels.KHARZUL, MobModels.KHARZUL_NAMES, MobModels.KHARZUL_ANIMS,
+                MobModels.KHARZUL_SHADOW, "kharzul", false);
+        spec(event, ModEntities.CORALCLAD_JUGGERNAUT.get(), MobModels.CORALCLAD_JUGGERNAUT, MobModels.CORALCLAD_JUGGERNAUT_NAMES, MobModels.CORALCLAD_JUGGERNAUT_ANIMS,
+                MobModels.CORALCLAD_JUGGERNAUT_SHADOW, "coralclad_juggernaut", false);
+        spec(event, ModEntities.TIDECALLER.get(), MobModels.TIDECALLER, MobModels.TIDECALLER_NAMES, MobModels.TIDECALLER_ANIMS,
+                MobModels.TIDECALLER_SHADOW, "tidecaller", false);
+        spec(event, ModEntities.RAZORCLAW.get(), MobModels.RAZORCLAW, MobModels.RAZORCLAW_NAMES, MobModels.RAZORCLAW_ANIMS,
+                MobModels.RAZORCLAW_SHADOW, "razorclaw", false);
+        spec(event, ModEntities.RIMEGUARD.get(), MobModels.RIMEGUARD, MobModels.RIMEGUARD_NAMES, MobModels.RIMEGUARD_ANIMS,
+                MobModels.RIMEGUARD_SHADOW, "rimeguard", false);
+        spec(event, ModEntities.HUSHWRAITH.get(), MobModels.HUSHWRAITH, MobModels.HUSHWRAITH_NAMES, MobModels.HUSHWRAITH_ANIMS,
+                MobModels.HUSHWRAITH_SHADOW, "hushwraith", false);
+        spec(event, ModEntities.RIMEFANG.get(), MobModels.RIMEFANG, MobModels.RIMEFANG_NAMES, MobModels.RIMEFANG_ANIMS,
+                MobModels.RIMEFANG_SHADOW, "rimefang", false);
+        spec(event, ModEntities.SANDGLASS_SENTINEL.get(), MobModels.SANDGLASS_SENTINEL, MobModels.SANDGLASS_SENTINEL_NAMES, MobModels.SANDGLASS_SENTINEL_ANIMS,
+                MobModels.SANDGLASS_SENTINEL_SHADOW, "sandglass_sentinel", false);
+        spec(event, ModEntities.SUNSEER.get(), MobModels.SUNSEER, MobModels.SUNSEER_NAMES, MobModels.SUNSEER_ANIMS,
+                MobModels.SUNSEER_SHADOW, "sunseer", false);
+        spec(event, ModEntities.GLASSWING_SCARAB.get(), MobModels.GLASSWING_SCARAB, MobModels.GLASSWING_SCARAB_NAMES, MobModels.GLASSWING_SCARAB_ANIMS,
+                MobModels.GLASSWING_SCARAB_SHADOW, "glasswing_scarab", false);
+        // the White Silence's reflections wear her model and her texture
+        spec(event, ModEntities.PALE_MIRAGE.get(), MobModels.WHITE_SILENCE, MobModels.WHITE_SILENCE_NAMES, MobModels.WHITE_SILENCE_ANIMS,
+                MobModels.WHITE_SILENCE_SHADOW, "white_silence", false);
+
         event.registerEntityRenderer(ModEntities.GROVE_ANT.get(),
                 ctx -> new ScaledRenderer<GroveAnt, SpiderModel<GroveAnt>>(ctx,
                         new SpiderModel<GroveAnt>(ctx.bakeLayer(ModelLayers.SPIDER)), 1.0f, 1.3f, tex("grove_ant")));

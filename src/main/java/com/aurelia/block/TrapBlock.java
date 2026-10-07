@@ -18,9 +18,12 @@ import net.minecraft.world.level.block.state.BlockState;
  *  SPORE (Rootbound): a puff of poison and slowness.
  *  GALE  (Stormwatch): a launch pad. Throws you about 20 blocks up with slow falling, so you can reach the bridges.
  *  EMBER (Ashen): a burst of flame.
+ *  BRINE (Tidewrack): an undertow grate. Drags at your legs and squeezes the air from your lungs.
+ *  FROST (Rimefast): a frost rune. Freezes you where you stand.
+ *  SUNFLARE (Sunscar): a mirrored plate. Blinding light and a burn.
  */
 public class TrapBlock extends Block {
-    public enum Kind { SPORE, GALE, EMBER }
+    public enum Kind { SPORE, GALE, EMBER, BRINE, FROST, SUNFLARE }
 
     private final Kind kind;
 
@@ -56,6 +59,38 @@ public class TrapBlock extends Block {
                     serverLevel.sendParticles(ParticleTypes.FLAME, x, y, z, 30, 0.4, 0.5, 0.4, 0.05);
                     if (player.tickCount % 20 == 0) {
                         serverLevel.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0f, 0.8f);
+                    }
+                }
+                case BRINE -> {
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 3));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 120, 1));
+                    player.setAirSupply(Math.max(-10, player.getAirSupply() - 30));
+                    player.setDeltaMovement(player.getDeltaMovement().multiply(0.3, 1.0, 0.3).add(0.0, -0.3, 0.0));
+                    player.hurtMarked = true;
+                    serverLevel.sendParticles(ParticleTypes.BUBBLE_COLUMN_UP, x, y - 0.6, z, 20, 0.4, 0.3, 0.4, 0.05);
+                    if (player.tickCount % 20 == 0) {
+                        serverLevel.playSound(null, pos, SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_INSIDE, SoundSource.BLOCKS, 1.0f, 0.8f);
+                    }
+                }
+                case FROST -> {
+                    if (player.canFreeze()) {
+                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze() + 60, player.getTicksFrozen() + 16));
+                    }
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
+                    serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, x, y, z, 24, 0.4, 0.5, 0.4, 0.03);
+                    if (player.tickCount % 20 == 0) {
+                        serverLevel.playSound(null, pos, SoundEvents.POWDER_SNOW_STEP, SoundSource.BLOCKS, 1.0f, 0.6f);
+                    }
+                }
+                case SUNFLARE -> {
+                    player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 50, 0));
+                    player.setSecondsOnFire(3);
+                    if (player.tickCount % 10 == 0) {
+                        player.hurt(player.damageSources().hotFloor(), 2.0f);
+                    }
+                    serverLevel.sendParticles(ParticleTypes.END_ROD, x, y, z, 16, 0.3, 0.6, 0.3, 0.05);
+                    if (player.tickCount % 20 == 0) {
+                        serverLevel.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.5f, 1.8f);
                     }
                 }
             }

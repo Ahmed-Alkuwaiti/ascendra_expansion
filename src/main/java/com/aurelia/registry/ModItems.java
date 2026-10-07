@@ -1,6 +1,7 @@
 package com.aurelia.registry;
 
 import com.aurelia.AureliaMod;
+import com.aurelia.item.AscendantCrownItem;
 import com.aurelia.item.AurelianCrownItem;
 import com.aurelia.item.LoreItem;
 import net.minecraft.world.item.BlockItem;
@@ -111,4 +112,88 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.SOUL_JAILER, 0x14181F, 0x5AE6FF, new Item.Properties()));
     public static final RegistryObject<Item> CINDER_HOUND_EGG = ITEMS.register("cinder_hound_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.CINDER_HOUND, 0x30292E, 0xFF6E1C, new Item.Properties()));
+
+    // ==================================================================== act two
+    public static final RegistryObject<Item> TIDE_BELL = ITEMS.register("tide_bell",
+            () -> new BlockItem(ModBlocks.TIDE_BELL.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> HUSH_STONE = ITEMS.register("hush_stone",
+            () -> new BlockItem(ModBlocks.HUSH_STONE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUNWELL = ITEMS.register("sunwell",
+            () -> new BlockItem(ModBlocks.SUNWELL.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> SUN_MIRROR = ITEMS.register("sun_mirror",
+            () -> new BlockItem(ModBlocks.SUN_MIRROR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUN_LENS = ITEMS.register("sun_lens",
+            () -> new BlockItem(ModBlocks.SUN_LENS.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CORAL_SEAL = ITEMS.register("coral_seal",
+            () -> new BlockItem(ModBlocks.CORAL_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RIME_SEAL = ITEMS.register("rime_seal",
+            () -> new BlockItem(ModBlocks.RIME_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUN_SEAL = ITEMS.register("sun_seal",
+            () -> new BlockItem(ModBlocks.SUN_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BRINE_GRATE = ITEMS.register("brine_grate",
+            () -> new BlockItem(ModBlocks.BRINE_GRATE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FROST_RUNE = ITEMS.register("frost_rune",
+            () -> new BlockItem(ModBlocks.FROST_RUNE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUNFLARE_PLATE = ITEMS.register("sunflare_plate",
+            () -> new BlockItem(ModBlocks.SUNFLARE_PLATE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TIDESTONE_ORE = ITEMS.register("tidestone_ore",
+            () -> new BlockItem(ModBlocks.TIDESTONE_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RIME_ORE = ITEMS.register("rime_ore",
+            () -> new BlockItem(ModBlocks.RIME_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUNGLASS_ORE = ITEMS.register("sunglass_ore",
+            () -> new BlockItem(ModBlocks.SUNGLASS_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TIDESTONE_BLOCK = ITEMS.register("tidestone_block",
+            () -> new BlockItem(ModBlocks.TIDESTONE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RIME_BLOCK = ITEMS.register("rime_block",
+            () -> new BlockItem(ModBlocks.RIME_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SUNGLASS_BLOCK = ITEMS.register("sunglass_block",
+            () -> new BlockItem(ModBlocks.SUNGLASS_BLOCK.get(), new Item.Properties()));
+
+    // ---- outer realm materials
+    public static final RegistryObject<Item> TIDESTONE_SHARD = ITEMS.register("tidestone_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.tidestone_shard.lore"));
+    public static final RegistryObject<Item> RIME_CRYSTAL = ITEMS.register("rime_crystal",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.rime_crystal.lore"));
+    public static final RegistryObject<Item> SUNGLASS_SHARD = ITEMS.register("sunglass_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "item.aurelia.sunglass_shard.lore"));
+
+    // ---- the outer Wardens' relics
+    public static final RegistryObject<Item> LEVIATHAN_PEARL = ITEMS.register("leviathan_pearl",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.leviathan_pearl.lore"));
+    public static final RegistryObject<Item> FROZEN_TEAR = ITEMS.register("frozen_tear",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.frozen_tear.lore"));
+    public static final RegistryObject<Item> REAPERS_HOURGLASS = ITEMS.register("reapers_hourglass",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.reapers_hourglass.lore"));
+
+    // ---- the capstone
+    public static final RegistryObject<Item> ASCENDANT_CROWN = ITEMS.register("ascendant_crown",
+            () -> new AscendantCrownItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
+    // ---- spawn eggs
+    public static final RegistryObject<Item> VORATH_EGG = ITEMS.register("vorath_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.VORATH, 0x10222C, 0x46FFD6, new Item.Properties()));
+    public static final RegistryObject<Item> WHITE_SILENCE_EGG = ITEMS.register("white_silence_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.WHITE_SILENCE, 0xE2E4E6, 0xAAEEFF, new Item.Properties()));
+    public static final RegistryObject<Item> KHARZUL_EGG = ITEMS.register("kharzul_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.KHARZUL, 0x7A1A1E, 0xFF4A3C, new Item.Properties()));
+    public static final RegistryObject<Item> PALE_MIRAGE_EGG = ITEMS.register("pale_mirage_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.PALE_MIRAGE, 0xB0B6BE, 0xE2F6FF, new Item.Properties()));
+    public static final RegistryObject<Item> CORALCLAD_JUGGERNAUT_EGG = ITEMS.register("coralclad_juggernaut_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CORALCLAD_JUGGERNAUT, 0xA87A34, 0x46FFD6, new Item.Properties()));
+    public static final RegistryObject<Item> TIDECALLER_EGG = ITEMS.register("tidecaller_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.TIDECALLER, 0x1E4648, 0x5AD2FF, new Item.Properties()));
+    public static final RegistryObject<Item> RAZORCLAW_EGG = ITEMS.register("razorclaw_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.RAZORCLAW, 0xE2566E, 0xCEC6B0, new Item.Properties()));
+    public static final RegistryObject<Item> RIMEGUARD_EGG = ITEMS.register("rimeguard_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.RIMEGUARD, 0xC4D6E4, 0xAAEEFF, new Item.Properties()));
+    public static final RegistryObject<Item> HUSHWRAITH_EGG = ITEMS.register("hushwraith_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HUSHWRAITH, 0xB0B6BE, 0x09080B, new Item.Properties()));
+    public static final RegistryObject<Item> RIMEFANG_EGG = ITEMS.register("rimefang_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.RIMEFANG, 0xD4D6D8, 0xAAEEFF, new Item.Properties()));
+    public static final RegistryObject<Item> SANDGLASS_SENTINEL_EGG = ITEMS.register("sandglass_sentinel_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SANDGLASS_SENTINEL, 0xB25628, 0xFFBA50, new Item.Properties()));
+    public static final RegistryObject<Item> SUNSEER_EGG = ITEMS.register("sunseer_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SUNSEER, 0x7A1A1E, 0xFFD65A, new Item.Properties()));
+    public static final RegistryObject<Item> GLASSWING_SCARAB_EGG = ITEMS.register("glasswing_scarab_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.GLASSWING_SCARAB, 0x341E1E, 0xFF4A3C, new Item.Properties()));
 }

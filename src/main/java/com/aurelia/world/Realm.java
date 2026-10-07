@@ -46,7 +46,38 @@ public enum Realm implements StringRepresentable {
                     "Crouch and touch the Warden's Altar to face the Hollow King.",
                     "The Waygate behind you still hums. It remembers the way back."
             },
-            () -> ModItems.STORM_SHARD.get(), () -> ModEntities.HOLLOW_KING.get());
+            () -> ModItems.STORM_SHARD.get(), () -> ModEntities.HOLLOW_KING.get()),
+
+    // ---- Act two: the outer realms. Their portals open for the Crown, then for each new Warden's relic.
+    DROWNED("drowned", 97,
+            Blocks.PRISMARINE_BRICKS, Blocks.DARK_PRISMARINE, Blocks.SEA_LANTERN,
+            "The Drowned Expanse", "The sea that swallowed the Sovereign's fleet. It is still hungry.", ChatFormatting.DARK_AQUA,
+            new String[] {
+                    "Black water in every direction, and somewhere beneath it, something enormous turning over in its sleep.",
+                    "The altar stands on a ring of stone with open sea all around it. Crouch and touch it to call Vorath.",
+                    "Three Tide Bells hang at the edge of the ring. Vorath hates their voice. Ring one and he must come up for air."
+            },
+            () -> ModItems.CROWN.get(), () -> ModEntities.VORATH.get()),
+
+    PALE("pale", Integer.MIN_VALUE,
+            Blocks.CALCITE, Blocks.PACKED_ICE, Blocks.SOUL_LANTERN,
+            "The Pale Wastes", "Every sound that was ever made here was taken away.", ChatFormatting.WHITE,
+            new String[] {
+                    "Snow, and fog, and no sound at all. Not your footsteps. Not your breath.",
+                    "Crouch and touch the altar to wake the White Silence. It hunts by sound: when the white comes, crouch and be still.",
+                    "Stand by the braziers if the cold gets into your bones."
+            },
+            () -> ModItems.LEVIATHAN_PEARL.get(), () -> ModEntities.WHITE_SILENCE.get()),
+
+    SCARLET("scarlet", Integer.MIN_VALUE,
+            Blocks.CUT_RED_SANDSTONE, Blocks.RED_SANDSTONE, Blocks.OCHRE_FROGLIGHT,
+            "The Scarlet Sands", "The sun never moves here. Neither does anything else, for long.", ChatFormatting.RED,
+            new String[] {
+                    "Red sand to the horizon under a sun that never sets. Glass crunches under your boots.",
+                    "Crouch and touch the altar to wake Kharzul, the Glass Reaper.",
+                    "When the last grain falls, his light burns everything it can see. Keep stone between you and him."
+            },
+            () -> ModItems.FROZEN_TEAR.get(), () -> ModEntities.KHARZUL.get());
 
     public final String id;
     public final ResourceKey<Level> dimension;
@@ -79,7 +110,7 @@ public enum Realm implements StringRepresentable {
         this.boss = boss;
     }
 
-    /** The previous Warden's shard you must hold to use this realm's portal, or null for none. */
+    /** The item you must hold (or wear) to use this realm's portal, or null for none. */
     @Nullable
     public Item requiredItem() {
         return requiredItem.get();

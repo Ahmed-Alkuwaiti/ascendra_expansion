@@ -55,7 +55,8 @@ public class AltarBlock extends Block {
         if (boss == null) {
             return InteractionResult.CONSUME;
         }
-        boss.moveTo(pos.getX() + 0.5, pos.getY() + 1 + boss.spawnHeightOffset(), pos.getZ() - 4.5, 0.0f, 0.0f);
+        net.minecraft.world.phys.Vec3 at = boss.spawnPosition(pos);
+        boss.moveTo(at.x, at.y, at.z, 0.0f, 0.0f);
         boss.setArena(pos);
         serverLevel.addFreshEntity(boss);
 

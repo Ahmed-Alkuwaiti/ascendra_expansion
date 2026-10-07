@@ -126,6 +126,11 @@ public abstract class AureliaBoss extends Monster {
         return 0.0;
     }
 
+    /** Where the boss appears when woken at the given altar. Bosses that live in water or air override this. */
+    public net.minecraft.world.phys.Vec3 spawnPosition(BlockPos altar) {
+        return new net.minecraft.world.phys.Vec3(altar.getX() + 0.5, altar.getY() + 1 + spawnHeightOffset(), altar.getZ() - 4.5);
+    }
+
     public void setArena(BlockPos pos) {
         this.arena = pos;
     }
@@ -219,7 +224,17 @@ public abstract class AureliaBoss extends Monster {
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
         super.dropCustomDeathLoot(source, looting, recentlyHit);
-        this.spawnAtLocation(new ItemStack(shardItem()));
+        net.minecraft.world.phys.Vec3 at = lootPosition();
+        net.minecraft.world.entity.item.ItemEntity drop = new net.minecraft.world.entity.item.ItemEntity(this.level(), at.x, at.y, at.z,
+                new ItemStack(shardItem()));
+        drop.setDefaultPickUpDelay();
+        drop.setGlowingTag(true);
+        this.level().addFreshEntity(drop);
+    }
+
+    /** Where the Warden's relic lands. Vorath dies at sea, so he leaves his on the arena stone instead. */
+    protected net.minecraft.world.phys.Vec3 lootPosition() {
+        return this.position().add(0.0, 0.5, 0.0);
     }
 
     @Override

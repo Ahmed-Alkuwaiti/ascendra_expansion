@@ -38,6 +38,26 @@ public final class Story {
                     + "\"I took the dark into myself so it could not reach the others,\" she says. \"Finish what I started.\" "
                     + "A Void Shard cools in the ash. Three shards, and a block of each realm's heart-stone: verdant, stormglass, emberheart. Reforge the crown.";
 
+    // ---- Act two: the outer realms ----
+    public static final String VORATH_PHASE = "Vorath rolls over in the deep, and the whole sea tilts with him.";
+    public static final String VORATH_FINAL = "Vorath stops circling. He is not hunting any more. He is simply hungry.";
+    public static final String VORATH_DEATH =
+            "Vorath sinks, slowly, and for the first time in an age the sea lies flat and quiet. "
+                    + "\"They were safe inside me,\" rumbles the deep. \"Nothing could drown them twice.\" "
+                    + "A Leviathan's Pearl rolls onto the stone. Carry it north to the Rimefast Citadel in the snow; its portal will know you.";
+    public static final String SILENCE_PHASE = "The White Silence tilts its mask. It has heard enough of you to make copies.";
+    public static final String SILENCE_FINAL = "The snow stops falling. Even the wind holds its breath.";
+    public static final String SILENCE_DEATH =
+            "The mask cracks down the middle. Behind it there is no face, only a voice you last heard in the Hollow: "
+                    + "\"Thank you for being quiet with me.\" "
+                    + "A Frozen Tear lies in the snow where it stood. Carry it south to the Sunscar Citadel in the desert.";
+    public static final String KHARZUL_PHASE = "Kharzul flips his hourglass. The sand begins to fall upward.";
+    public static final String KHARZUL_FINAL = "Cracks race across the Reaper's glass. He does not slow down. He has never once slowed down.";
+    public static final String KHARZUL_DEATH =
+            "The hourglass in Kharzul's chest shatters and the sand pours out at last. "
+                    + "\"She asked me for more time,\" he says. \"I took it from everyone else.\" "
+                    + "The Reaper's Hourglass cools in your hand. Set it in the Crown beside the pearl and the tear.";
+
     public static void title(ServerPlayer player, String title, String subtitle, ChatFormatting color) {
         player.connection.send(new ClientboundSetTitlesAnimationPacket(15, 90, 30));
         player.connection.send(new ClientboundSetSubtitleTextPacket(
@@ -48,6 +68,32 @@ public final class Story {
 
     public static void narrate(Player player, String line) {
         player.sendSystemMessage(Component.literal(line).withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+    }
+
+    /** The second book, found the first time a player reaches one of the outer realms. */
+    public static ItemStack secondChronicle() {
+        String[] pages = {
+                "THE OUTER CHRONICLE\n\nYou have reforged the Crown of Aurelia. Look closely at it. "
+                        + "Three of its settings are empty, and they always were.",
+                "Aurelia had three realms. Beyond them lay three more, and the Sovereign never spoke of them: "
+                        + "the Drowned Expanse, the Pale Wastes, and the Scarlet Sands.",
+                "Vorath kept the sea that carried her fleet. The White Silence kept every sound she could not bear to hear. "
+                        + "Kharzul kept her time, and gave her as much of it as he could steal.",
+                "When the crown broke, the outer Wardens did not sour. They kept going, exactly as they had been told, "
+                        + "and that was worse.",
+                "Each Tidewrack, Rimefast and Sunscar citadel holds a door, and a rite to open it. "
+                        + "Bring the pearl, the tear and the hourglass home, and the crown will finally be finished.\n\n- The Last Archivist"
+        };
+        ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+        var tag = book.getOrCreateTag();
+        tag.putString("title", "The Outer Chronicle");
+        tag.putString("author", "The Last Archivist");
+        ListTag list = new ListTag();
+        for (String page : pages) {
+            list.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(page))));
+        }
+        tag.put("pages", list);
+        return book;
     }
 
     /** The written book given to a player the first time they enter any realm. */

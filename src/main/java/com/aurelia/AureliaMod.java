@@ -1,5 +1,6 @@
 package com.aurelia;
 
+import com.aurelia.event.ActTwoEvents;
 import com.aurelia.event.CrownEvents;
 import com.aurelia.registry.ModBlocks;
 import com.aurelia.registry.ModEntities;
@@ -12,7 +13,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
  * Aurelia: The Shattered Crown
- * Three realms, three Wardens, one broken crown.
+ * Six realms, six Wardens, one broken crown.
  */
 @Mod(AureliaMod.MODID)
 public class AureliaMod {
@@ -27,5 +28,6 @@ public class AureliaMod {
         bus.addListener(ModEntities::registerAttributes);
         bus.addListener(ModEntities::registerSpawns);
         MinecraftForge.EVENT_BUS.register(new CrownEvents());
+        MinecraftForge.EVENT_BUS.register(new ActTwoEvents());
     }
 }

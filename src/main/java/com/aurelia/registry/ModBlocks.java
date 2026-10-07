@@ -4,6 +4,9 @@ import com.aurelia.AureliaMod;
 import com.aurelia.block.AltarBlock;
 import com.aurelia.block.PuzzleNodeBlock;
 import com.aurelia.block.SealBlock;
+import com.aurelia.block.SunMirrorBlock;
+import com.aurelia.block.SunwellBlock;
+import com.aurelia.block.TideBellBlock;
 import com.aurelia.block.TrapBlock;
 import com.aurelia.block.WaygateBlock;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -102,5 +105,65 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops().lightLevel(state -> 10).sound(SoundType.AMETHYST)));
     public static final RegistryObject<Block> EMBERHEART_BLOCK = BLOCKS.register("emberheart_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(5.0f, 6.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 12).sound(SoundType.AMETHYST)));
+
+    // ==================================================================== act two
+    // ---- citadel rituals
+    public static final RegistryObject<Block> TIDE_BELL = BLOCKS.register("tide_bell",
+            () -> new TideBellBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(-1.0f, 3600000.0f)
+                    .noOcclusion().lightLevel(state -> state.getValue(TideBellBlock.RUNG) ? 12 : 4).sound(SoundType.ANVIL)));
+    public static final RegistryObject<Block> HUSH_STONE = BLOCKS.register("hush_stone",
+            () -> new PuzzleNodeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> state.getValue(PuzzleNodeBlock.FILLED) ? 12 : 2).sound(SoundType.CALCITE),
+                    PuzzleNodeBlock.Kind.HUSH, () -> null));
+    public static final RegistryObject<Block> SUNWELL = BLOCKS.register("sunwell",
+            () -> new SunwellBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> 13).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> SUN_MIRROR = BLOCKS.register("sun_mirror",
+            () -> new SunMirrorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(-1.0f, 3600000.0f)
+                    .noOcclusion().sound(SoundType.GLASS)));
+    public static final RegistryObject<Block> SUN_LENS = BLOCKS.register("sun_lens",
+            () -> new PuzzleNodeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(-1.0f, 3600000.0f)
+                    .noOcclusion().lightLevel(state -> state.getValue(PuzzleNodeBlock.FILLED) ? 15 : 3).sound(SoundType.GLASS),
+                    PuzzleNodeBlock.Kind.LENS, () -> null));
+
+    // ---- seals and floor traps
+    public static final RegistryObject<Block> CORAL_SEAL = BLOCKS.register("coral_seal",
+            () -> new SealBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).strength(-1.0f, 3600000.0f).noLootTable()
+                    .lightLevel(state -> 5).sound(SoundType.CORAL_BLOCK), () -> ModEntities.CORALCLAD_JUGGERNAUT.get(), "Coralclad Juggernaut"));
+    public static final RegistryObject<Block> RIME_SEAL = BLOCKS.register("rime_seal",
+            () -> new SealBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(-1.0f, 3600000.0f).noLootTable()
+                    .lightLevel(state -> 6).sound(SoundType.GLASS), () -> ModEntities.RIMEGUARD.get(), "Rimeguard"));
+    public static final RegistryObject<Block> SUN_SEAL = BLOCKS.register("sun_seal",
+            () -> new SealBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(-1.0f, 3600000.0f).noLootTable()
+                    .lightLevel(state -> 8).sound(SoundType.STONE), () -> ModEntities.SANDGLASS_SENTINEL.get(), "Sandglass Sentinel"));
+    public static final RegistryObject<Block> BRINE_GRATE = BLOCKS.register("brine_grate",
+            () -> new TrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_WART_BLOCK).strength(3.0f).lightLevel(state -> 4)
+                    .sound(SoundType.METAL), TrapBlock.Kind.BRINE));
+    public static final RegistryObject<Block> FROST_RUNE = BLOCKS.register("frost_rune",
+            () -> new TrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(3.0f).lightLevel(state -> 6)
+                    .sound(SoundType.GLASS), TrapBlock.Kind.FROST));
+    public static final RegistryObject<Block> SUNFLARE_PLATE = BLOCKS.register("sunflare_plate",
+            () -> new TrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(3.0f).lightLevel(state -> 8)
+                    .sound(SoundType.METAL), TrapBlock.Kind.SUNFLARE));
+
+    // ---- outer realm ores and storage blocks
+    public static final RegistryObject<Block> TIDESTONE_ORE = BLOCKS.register("tidestone_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).strength(3.5f, 4.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 5).sound(SoundType.STONE), UniformInt.of(3, 6)));
+    public static final RegistryObject<Block> RIME_ORE = BLOCKS.register("rime_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(3.5f, 4.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 3).sound(SoundType.STONE), UniformInt.of(3, 6)));
+    public static final RegistryObject<Block> SUNGLASS_ORE = BLOCKS.register("sunglass_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(3.5f, 4.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 5).sound(SoundType.STONE), UniformInt.of(3, 6)));
+    public static final RegistryObject<Block> TIDESTONE_BLOCK = BLOCKS.register("tidestone_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).strength(5.0f, 6.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 10).sound(SoundType.AMETHYST)));
+    public static final RegistryObject<Block> RIME_BLOCK = BLOCKS.register("rime_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.ICE).strength(5.0f, 6.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 8).sound(SoundType.AMETHYST)));
+    public static final RegistryObject<Block> SUNGLASS_BLOCK = BLOCKS.register("sunglass_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0f, 6.0f)
                     .requiresCorrectToolForDrops().lightLevel(state -> 12).sound(SoundType.AMETHYST)));
 }

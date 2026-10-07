@@ -1,6 +1,19 @@
 package com.aurelia.registry;
 
 import com.aurelia.AureliaMod;
+import com.aurelia.entity.CoralcladJuggernaut;
+import com.aurelia.entity.GlasswingScarab;
+import com.aurelia.entity.Hushwraith;
+import com.aurelia.entity.Kharzul;
+import com.aurelia.entity.PaleMirage;
+import com.aurelia.entity.Razorclaw;
+import com.aurelia.entity.Rimefang;
+import com.aurelia.entity.Rimeguard;
+import com.aurelia.entity.SandglassSentinel;
+import com.aurelia.entity.Sunseer;
+import com.aurelia.entity.Tidecaller;
+import com.aurelia.entity.Vorath;
+import com.aurelia.entity.WhiteSilence;
 import com.aurelia.entity.AshboundKnight;
 import com.aurelia.entity.BrambleSentinel;
 import com.aurelia.entity.CalciteSentinel;
@@ -97,6 +110,59 @@ public class ModEntities {
             () -> EntityType.Builder.of(CinderHound::new, MobCategory.MONSTER)
                     .sized(1.0f, 1.4f).clientTrackingRange(8).fireImmune().build(id("cinder_hound")));
 
+    // ==================================================================== act two
+    public static final RegistryObject<EntityType<Vorath>> VORATH = ENTITIES.register("vorath",
+            () -> EntityType.Builder.of(Vorath::new, MobCategory.MONSTER)
+                    .sized(5.0f, 3.2f).clientTrackingRange(12).build(id("vorath")));
+
+    public static final RegistryObject<EntityType<WhiteSilence>> WHITE_SILENCE = ENTITIES.register("white_silence",
+            () -> EntityType.Builder.of(WhiteSilence::new, MobCategory.MONSTER)
+                    .sized(1.6f, 7.2f).clientTrackingRange(10).immuneTo(net.minecraft.world.level.block.Blocks.POWDER_SNOW).build(id("white_silence")));
+
+    public static final RegistryObject<EntityType<Kharzul>> KHARZUL = ENTITIES.register("kharzul",
+            () -> EntityType.Builder.of(Kharzul::new, MobCategory.MONSTER)
+                    .sized(2.0f, 6.8f).clientTrackingRange(10).fireImmune().build(id("kharzul")));
+
+    public static final RegistryObject<EntityType<PaleMirage>> PALE_MIRAGE = ENTITIES.register("pale_mirage",
+            () -> EntityType.Builder.of(PaleMirage::new, MobCategory.MONSTER)
+                    .sized(1.6f, 7.2f).clientTrackingRange(10).immuneTo(net.minecraft.world.level.block.Blocks.POWDER_SNOW).build(id("pale_mirage")));
+
+    public static final RegistryObject<EntityType<CoralcladJuggernaut>> CORALCLAD_JUGGERNAUT = ENTITIES.register("coralclad_juggernaut",
+            () -> EntityType.Builder.of(CoralcladJuggernaut::new, MobCategory.MONSTER)
+                    .sized(1.3f, 2.8f).clientTrackingRange(8).build(id("coralclad_juggernaut")));
+
+    public static final RegistryObject<EntityType<Tidecaller>> TIDECALLER = ENTITIES.register("tidecaller",
+            () -> EntityType.Builder.of(Tidecaller::new, MobCategory.MONSTER)
+                    .sized(0.8f, 2.3f).clientTrackingRange(8).build(id("tidecaller")));
+
+    public static final RegistryObject<EntityType<Razorclaw>> RAZORCLAW = ENTITIES.register("razorclaw",
+            () -> EntityType.Builder.of(Razorclaw::new, MobCategory.MONSTER)
+                    .sized(1.4f, 0.9f).clientTrackingRange(8).build(id("razorclaw")));
+
+    public static final RegistryObject<EntityType<Rimeguard>> RIMEGUARD = ENTITIES.register("rimeguard",
+            () -> EntityType.Builder.of(Rimeguard::new, MobCategory.MONSTER)
+                    .sized(0.9f, 2.5f).clientTrackingRange(8).immuneTo(net.minecraft.world.level.block.Blocks.POWDER_SNOW).build(id("rimeguard")));
+
+    public static final RegistryObject<EntityType<Hushwraith>> HUSHWRAITH = ENTITIES.register("hushwraith",
+            () -> EntityType.Builder.of(Hushwraith::new, MobCategory.MONSTER)
+                    .sized(0.8f, 2.4f).clientTrackingRange(8).immuneTo(net.minecraft.world.level.block.Blocks.POWDER_SNOW).build(id("hushwraith")));
+
+    public static final RegistryObject<EntityType<Rimefang>> RIMEFANG = ENTITIES.register("rimefang",
+            () -> EntityType.Builder.of(Rimefang::new, MobCategory.MONSTER)
+                    .sized(0.9f, 1.4f).clientTrackingRange(8).immuneTo(net.minecraft.world.level.block.Blocks.POWDER_SNOW).build(id("rimefang")));
+
+    public static final RegistryObject<EntityType<SandglassSentinel>> SANDGLASS_SENTINEL = ENTITIES.register("sandglass_sentinel",
+            () -> EntityType.Builder.of(SandglassSentinel::new, MobCategory.MONSTER)
+                    .sized(1.4f, 2.8f).clientTrackingRange(8).fireImmune().build(id("sandglass_sentinel")));
+
+    public static final RegistryObject<EntityType<Sunseer>> SUNSEER = ENTITIES.register("sunseer",
+            () -> EntityType.Builder.of(Sunseer::new, MobCategory.MONSTER)
+                    .sized(0.8f, 2.3f).clientTrackingRange(8).fireImmune().build(id("sunseer")));
+
+    public static final RegistryObject<EntityType<GlasswingScarab>> GLASSWING_SCARAB = ENTITIES.register("glasswing_scarab",
+            () -> EntityType.Builder.of(GlasswingScarab::new, MobCategory.MONSTER)
+                    .sized(1.1f, 0.9f).clientTrackingRange(8).fireImmune().build(id("glasswing_scarab")));
+
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(MOSSBACK_TITAN.get(), MossbackTitan.createAttributes().build());
         event.put(TEMPEST_ROC.get(), TempestRoc.createAttributes().build());
@@ -113,6 +179,19 @@ public class ModEntities {
         event.put(ASHBOUND_KNIGHT.get(), AshboundKnight.createAttributes().build());
         event.put(SOUL_JAILER.get(), SoulJailer.createAttributes().build());
         event.put(CINDER_HOUND.get(), CinderHound.createAttributes().build());
+        event.put(VORATH.get(), Vorath.createAttributes().build());
+        event.put(WHITE_SILENCE.get(), WhiteSilence.createAttributes().build());
+        event.put(KHARZUL.get(), Kharzul.createAttributes().build());
+        event.put(PALE_MIRAGE.get(), PaleMirage.createAttributes().build());
+        event.put(CORALCLAD_JUGGERNAUT.get(), CoralcladJuggernaut.createAttributes().build());
+        event.put(TIDECALLER.get(), Tidecaller.createAttributes().build());
+        event.put(RAZORCLAW.get(), Razorclaw.createAttributes().build());
+        event.put(RIMEGUARD.get(), Rimeguard.createAttributes().build());
+        event.put(HUSHWRAITH.get(), Hushwraith.createAttributes().build());
+        event.put(RIMEFANG.get(), Rimefang.createAttributes().build());
+        event.put(SANDGLASS_SENTINEL.get(), SandglassSentinel.createAttributes().build());
+        event.put(SUNSEER.get(), Sunseer.createAttributes().build());
+        event.put(GLASSWING_SCARAB.get(), GlasswingScarab.createAttributes().build());
     }
 
     public static void registerSpawns(SpawnPlacementRegisterEvent event) {
@@ -124,6 +203,16 @@ public class ModEntities {
                 SpawnPlacementRegisterEvent.Operation.OR);
         event.register(HOLLOW_SHADE.get(), SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR);
+        // the outer realms' natural wildlife (their citadel garrisons are placed by the structures)
+        event.register(RAZORCLAW.get(), SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(RIMEFANG.get(), SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(GLASSWING_SCARAB.get(), SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.OR);
     }
 }

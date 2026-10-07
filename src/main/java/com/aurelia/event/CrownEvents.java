@@ -20,7 +20,8 @@ public class CrownEvents {
             return;
         }
         Player player = event.player;
-        boolean wearing = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.CROWN.get());
+        boolean ascendant = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ASCENDANT_CROWN.get());
+        boolean wearing = ascendant || player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.CROWN.get());
         CompoundTag data = player.getPersistentData();
 
         if (wearing) {
@@ -34,6 +35,16 @@ public class CrownEvents {
                 player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 120, 0, true, false, false));
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0, true, false, false));
                 player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, true, false, false));
+                if (ascendant) {
+                    player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 120, 0, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 120, 0, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 120, 0, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 120, 0, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 120, 0, true, false, false));
+                }
+            }
+            if (ascendant && player.getTicksFrozen() > 0) {
+                player.setTicksFrozen(0);
             }
         } else if (data.getBoolean(FLY_TAG)) {
             data.putBoolean(FLY_TAG, false);
@@ -42,6 +53,21 @@ public class CrownEvents {
                 player.getAbilities().flying = false;
                 player.onUpdateAbilities();
             }
+        }
+    }
+
+    /** Reforging the Crown points the player at act two; finishing the Ascendant Crown closes the story. */
+    @SubscribeEvent
+    public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
+        if (event.getEntity().level().isClientSide) {
+            return;
+        }
+        if (event.getCrafting().is(ModItems.CROWN.get())) {
+            com.aurelia.world.Story.narrate(event.getEntity(), "The crown is whole, and warm, and wrong: three of its settings sit empty. "
+                    + "Far away, under the sea, a bell rings once. Look for the Tidewrack Citadel in the ocean.");
+        } else if (event.getCrafting().is(ModItems.ASCENDANT_CROWN.get())) {
+            com.aurelia.world.Story.narrate(event.getEntity(), "Pearl, tear and hourglass settle into place. For a moment you hear all six realms "
+                    + "at once: the garden, the wind, the dark, the sea, the silence and the sand. Then only your own heartbeat. It is finished.");
         }
     }
 

@@ -34,6 +34,7 @@ public final class RealmTravel {
     private static final String RET_Y = "aurelia_ret_y";
     private static final String RET_Z = "aurelia_ret_z";
     private static final String BOOK = "aurelia_book";
+    private static final String BOOK2 = "aurelia_book2";
 
     private RealmTravel() {}
 
@@ -71,6 +72,14 @@ public final class RealmTravel {
                 player.drop(book, false);
             }
             Story.narrate(player, "A worn book was waiting on the pad. You tuck it away.");
+        }
+        if (realm.ordinal() >= Realm.DROWNED.ordinal() && !data.getBoolean(BOOK2)) {
+            data.putBoolean(BOOK2, true);
+            ItemStack book = Story.secondChronicle();
+            if (!player.getInventory().add(book)) {
+                player.drop(book, false);
+            }
+            Story.narrate(player, "A second book lies on the stone, its pages swollen with seawater. Someone left it for you.");
         }
     }
 
@@ -170,6 +179,8 @@ public final class RealmTravel {
         // Altar in the middle, return Waygate near the edge.
         level.setBlock(c, ModBlocks.WARDEN_ALTAR.get().defaultBlockState(), 3);
         level.setBlock(c.offset(0, 0, 9), ModBlocks.WAYGATE.get().defaultBlockState()
+                .setValue(com.aurelia.block.WaygateBlock.REALM, realm)
                 .setValue(com.aurelia.block.WaygateBlock.ACTIVE, true), 3);
+        ArenaBuilder.decorate(level, realm, c);
     }
 }
