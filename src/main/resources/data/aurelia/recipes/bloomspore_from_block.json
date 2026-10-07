@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:bloomspore_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:bloomspore",
+    "count": 9
+  }
+}

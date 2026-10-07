@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:mycelial_outposts",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 9,
+    "separation": 4,
+    "salt": 91000307,
+    "exclusion_zone": {
+      "other_set": "aurelia:mycelial_arches",
+      "chunk_count": 2
+    }
+  }
+}

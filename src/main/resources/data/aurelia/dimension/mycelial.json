@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:mycelial",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:mycelial",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:mycelial"
+    }
+  }
+}

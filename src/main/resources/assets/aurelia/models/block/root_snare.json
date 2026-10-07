@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/root_snare_top",
+    "side": "aurelia:block/root_snare_side"
+  }
+}

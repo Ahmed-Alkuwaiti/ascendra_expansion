@@ -7,10 +7,11 @@ src = {c: open(f'{J}/registry/{c}.java').read() for c in ('ModBlocks', 'ModItems
 mod_blocks = set(re.findall(r'BLOCKS\.register\("([a-z_]+)"', src['ModBlocks'])); mod_items = set(re.findall(r'ITEMS\.register\("([a-z_]+)"', src['ModItems']))
 mod_ents = set(re.findall(r'register\("([a-z_]+)"', src['ModEntities']))
 TF = ['true', 'false']
-CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet'], 'active': TF}, 'spore_planter': {'filled': TF},
+CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'active': TF}, 'spore_planter': {'filled': TF},
           'storm_pylon': {'filled': TF}, 'soul_socket': {'filled': TF}, 'hush_stone': {'filled': TF}, 'sun_lens': {'filled': TF},
           'tide_bell': {'note': ['0', '1', '2', '3', '4'], 'rung': TF}, 'sun_mirror': {'slash': TF},
-          'sunwell': {'facing': ['north', 'south', 'east', 'west']}}
+          'sunwell': {'facing': ['north', 'south', 'east', 'west']}, 'clock_dial': {'hour': [str(i) for i in range(12)], 'filled': TF},
+          'master_clock': {'hour': [str(i) for i in range(12)]}, 'spore_valve': {'open': TF, 'locked': TF}}
 PASS = {'minecraft:seagrass', 'minecraft:kelp_plant', 'minecraft:snow', 'minecraft:white_candle', 'minecraft:light_blue_candle', 'minecraft:red_candle',
         'minecraft:sculk_vein', 'minecraft:dead_bush', 'minecraft:sea_pickle', 'minecraft:tube_coral', 'minecraft:brain_coral', 'minecraft:bubble_coral',
         'minecraft:fire_coral', 'minecraft:horn_coral', 'minecraft:light_blue_carpet', 'aurelia:tide_bell', 'minecraft:campfire', 'minecraft:iron_bars',
@@ -18,7 +19,8 @@ PASS = {'minecraft:seagrass', 'minecraft:kelp_plant', 'minecraft:snow', 'minecra
         'minecraft:soul_lantern', 'minecraft:fern', 'minecraft:grass', 'minecraft:tall_grass', 'minecraft:large_fern', 'minecraft:vine', 'minecraft:azalea', 'minecraft:flowering_azalea',
         'minecraft:lantern', 'minecraft:chain', 'minecraft:hanging_roots', 'minecraft:red_carpet', 'minecraft:lily_pad', 'minecraft:sweet_berry_bush', 'minecraft:end_rod',
         'minecraft:cave_vines', 'minecraft:cave_vines_plant', 'minecraft:skeleton_skull', 'minecraft:ladder', 'minecraft:cornflower', 'minecraft:blue_orchid', 'minecraft:allium',
-        'minecraft:azure_bluet', 'minecraft:oxeye_daisy', 'minecraft:lily_of_the_valley', 'minecraft:poppy', 'minecraft:wither_rose', 'minecraft:soul_fire', 'minecraft:water'}
+        'minecraft:azure_bluet', 'minecraft:oxeye_daisy', 'minecraft:lily_of_the_valley', 'minecraft:poppy', 'minecraft:wither_rose', 'minecraft:soul_fire', 'minecraft:water', 'minecraft:amethyst_cluster', 'minecraft:spore_blossom', 'minecraft:crimson_roots',
+        'minecraft:purple_candle', 'minecraft:magenta_candle', 'minecraft:purple_carpet', 'minecraft:magenta_carpet', 'minecraft:bell', 'minecraft:glow_lichen'}
 loot = {os.path.relpath(f, D + '/loot_tables')[:-5] for f in glob.glob(D + '/loot_tables/**/*.json', recursive=True)}
 problems = []; ents = collections.Counter(); n = 0
 for f in sorted(glob.glob(D + '/structures/*.nbt')):
@@ -41,11 +43,11 @@ for f in sorted(glob.glob(D + '/structures/*.nbt')):
     for e in t['entities']:
         eid = str(e['nbt']['id']).split(':')[1]; ents[eid] += 1; x, y, z = (int(v) for v in e['blockPos'])
         if eid not in mod_ents: problems.append((base, 'unknown entity', eid))
-        if eid not in ('storm_wisp', 'gale_talon'):
+        if eid not in ('storm_wisp', 'gale_talon', 'secondhand', 'spore_drifter'):
             here, below = blocks.get((x, y, z)), blocks.get((x, y - 1, z))
             if here is not None and here not in PASS: problems.append((base, eid, (x, y, z), 'inside', here))
             if below is None or below in PASS: problems.append((base, eid, (x, y, z), 'no ground', below))
-    if base.endswith('_citadel.nbt'):
+    if base.endswith('_citadel.nbt') or base in ('paradox_keep.nbt', 'spore_cathedral.nbt'):
         c = collections.Counter(blocks.values())
         print(' ', base, f'{os.path.getsize(f)//1024} KB palette {len(names)}', {k.split(':')[1]: v for k, v in c.items() if k.startswith('aurelia:') and 'ore' not in k}, 'chests', c['minecraft:chest'])
 print(f'structures: {n} files; problems:', problems if problems else 'none')

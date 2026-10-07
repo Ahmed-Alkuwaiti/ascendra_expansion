@@ -1,5 +1,5 @@
 """Checks that every vanilla constant the Java uses (SoundEvents, ParticleTypes, MobEffects, Blocks, Items, EntityType) and every vanilla id
-in the act two biome files exists in Minecraft 1.20.1."""
+in the act two and act three biome files exists in Minecraft 1.20.1."""
 import glob
 import json
 import re
@@ -38,10 +38,10 @@ for f in sorted(glob.glob(paths.JAVA + '/**/*.java', recursive=True)):
                     continue
                 # vanilla names most sounds TYPE_THING_EVENT for "type.thing.event"; accept any id whose parts rejoin to the name
                 if any(i.replace('.', '_').replace('/', '_').upper().endswith(name) or name.endswith(i.split('.', 1)[-1].replace('.', '_').upper())
-                       for i in reg['sound_event'] if i.split('.')[0] in ('entity', 'block', 'item', 'ambient')):
+                       for i in reg['sound_event'] if i.split('.')[0] in ('entity', 'block', 'item', 'ambient', 'particle')):
                     continue
             bad.append((f.split('/')[-1], cls, name))
-for b in ('drowned', 'pale', 'scarlet'):
+for b in ('drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'):
     j = json.load(open(f'{paths.RES}/data/aurelia/worldgen/biome/{b}.json'))
     for step in j['features']:
         for feat in step:

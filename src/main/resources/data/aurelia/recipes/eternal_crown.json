@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:ascendant_crown"
+    },
+    {
+      "item": "aurelia:hour_core"
+    },
+    {
+      "item": "aurelia:bloom_heart"
+    },
+    {
+      "item": "aurelia:chronite_block"
+    },
+    {
+      "item": "aurelia:bloomspore_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:eternal_crown",
+    "count": 1
+  }
+}

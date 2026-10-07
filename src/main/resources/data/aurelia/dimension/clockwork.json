@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:clockwork",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:clockwork",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:clockwork"
+    }
+  }
+}

@@ -35,6 +35,18 @@
     },
     "realm=scarlet,active=true": {
       "model": "aurelia:block/waygate_scarlet_on"
+    },
+    "realm=clockwork,active=false": {
+      "model": "aurelia:block/waygate_clockwork_off"
+    },
+    "realm=clockwork,active=true": {
+      "model": "aurelia:block/waygate_clockwork_on"
+    },
+    "realm=mycelial,active=false": {
+      "model": "aurelia:block/waygate_mycelial_off"
+    },
+    "realm=mycelial,active=true": {
+      "model": "aurelia:block/waygate_mycelial_on"
     }
   }
 }

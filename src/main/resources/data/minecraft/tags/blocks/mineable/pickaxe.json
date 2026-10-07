@@ -19,6 +19,8 @@
     "aurelia:sunglass_block",
     "aurelia:brine_grate",
     "aurelia:frost_rune",
-    "aurelia:sunflare_plate"
+    "aurelia:sunflare_plate",
+    "aurelia:chronite_block",
+    "aurelia:time_snare"
   ]
 }

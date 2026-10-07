@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "hour=0,filled=false": {
+      "model": "aurelia:block/clock_dial_0"
+    },
+    "hour=0,filled=true": {
+      "model": "aurelia:block/clock_dial_0_set"
+    },
+    "hour=1,filled=false": {
+      "model": "aurelia:block/clock_dial_1"
+    },
+    "hour=1,filled=true": {
+      "model": "aurelia:block/clock_dial_1_set"
+    },
+    "hour=2,filled=false": {
+      "model": "aurelia:block/clock_dial_2"
+    },
+    "hour=2,filled=true": {
+      "model": "aurelia:block/clock_dial_2_set"
+    },
+    "hour=3,filled=false": {
+      "model": "aurelia:block/clock_dial_3"
+    },
+    "hour=3,filled=true": {
+      "model": "aurelia:block/clock_dial_3_set"
+    },
+    "hour=4,filled=false": {
+      "model": "aurelia:block/clock_dial_4"
+    },
+    "hour=4,filled=true": {
+      "model": "aurelia:block/clock_dial_4_set"
+    },
+    "hour=5,filled=false": {
+      "model": "aurelia:block/clock_dial_5"
+    },
+    "hour=5,filled=true": {
+      "model": "aurelia:block/clock_dial_5_set"
+    },
+    "hour=6,filled=false": {
+      "model": "aurelia:block/clock_dial_6"
+    },
+    "hour=6,filled=true": {
+      "model": "aurelia:block/clock_dial_6_set"
+    },
+    "hour=7,filled=false": {
+      "model": "aurelia:block/clock_dial_7"
+    },
+    "hour=7,filled=true": {
+      "model": "aurelia:block/clock_dial_7_set"
+    },
+    "hour=8,filled=false": {
+      "model": "aurelia:block/clock_dial_8"
+    },
+    "hour=8,filled=true": {
+      "model": "aurelia:block/clock_dial_8_set"
+    },
+    "hour=9,filled=false": {
+      "model": "aurelia:block/clock_dial_9"
+    },
+    "hour=9,filled=true": {
+      "model": "aurelia:block/clock_dial_9_set"
+    },
+    "hour=10,filled=false": {
+      "model": "aurelia:block/clock_dial_10"
+    },
+    "hour=10,filled=true": {
+      "model": "aurelia:block/clock_dial_10_set"
+    },
+    "hour=11,filled=false": {
+      "model": "aurelia:block/clock_dial_11"
+    },
+    "hour=11,filled=true": {
+      "model": "aurelia:block/clock_dial_11_set"
+    }
+  }
+}

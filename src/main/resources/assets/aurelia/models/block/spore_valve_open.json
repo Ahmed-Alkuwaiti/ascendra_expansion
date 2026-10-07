@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/spore_valve_open_top",
+    "side": "aurelia:block/spore_valve_open_side"
+  }
+}

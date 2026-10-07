@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "open=true,locked=true": {
+      "model": "aurelia:block/spore_valve_open"
+    },
+    "open=true,locked=false": {
+      "model": "aurelia:block/spore_valve_open"
+    },
+    "open=false,locked=true": {
+      "model": "aurelia:block/spore_valve_closed"
+    },
+    "open=false,locked=false": {
+      "model": "aurelia:block/spore_valve_closed"
+    }
+  }
+}

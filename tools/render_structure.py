@@ -10,6 +10,23 @@ import nbtlib
 from PIL import Image, ImageDraw, ImageFont
 
 COLORS = {
+    'deepslate': (80, 80, 84), 'tuff': (108, 109, 102), 'cracked_deepslate_bricks': (64, 64, 65), 'chiseled_deepslate': (54, 54, 54),
+    'blackstone': (42, 36, 41), 'polished_blackstone_bricks': (48, 42, 48), 'polished_blackstone': (53, 48, 56), 'crying_obsidian': (60, 10, 120),
+    'obsidian': (20, 18, 30), 'amethyst_block': (133, 97, 191), 'amethyst_cluster': (160, 120, 220), 'purple_stained_glass': (127, 63, 178),
+    'purple_terracotta': (118, 70, 86), 'pearlescent_froglight': (245, 225, 240), 'waxed_cut_copper': (191, 106, 80), 'waxed_copper_block': (192, 107, 79),
+    'purple_carpet': (121, 42, 172), 'bell': (250, 210, 80), 'lightning_rod': (200, 110, 80), 'chain': (60, 64, 76),
+    'mycelium': (111, 99, 105), 'podzol': (91, 63, 24), 'mushroom_stem': (203, 196, 185), 'mangrove_roots': (74, 59, 38),
+    'muddy_mangrove_roots': (70, 59, 45), 'magenta_terracotta': (149, 88, 108), 'magenta_concrete': (169, 48, 159), 'magenta_wool': (189, 68, 179),
+    'magenta_stained_glass': (178, 76, 216), 'pink_stained_glass': (242, 127, 165), 'pink_terracotta': (161, 78, 78), 'white_concrete': (207, 213, 214),
+    'smooth_quartz': (235, 229, 222), 'polished_diorite': (192, 193, 194), 'diorite': (188, 182, 183), 'chiseled_quartz_block': (231, 226, 218),
+    'quartz': (235, 229, 222), 'magenta_glazed_terracotta': (208, 100, 191), 'magenta_carpet': (189, 68, 179), 'spore_blossom': (206, 96, 158),
+    'mossy_cobblestone': (110, 118, 94), 'shroomlight': (240, 146, 70), 'end_rod': (240, 240, 230), 'purple_candle': (120, 50, 170),
+    'magenta_candle': (190, 70, 180), 'crimson_roots': (126, 8, 41), 'red_mushroom_block': (200, 46, 45), 'brown_mushroom_block': (149, 111, 81),
+    'gilded_blackstone': (56, 43, 38), 'cobblestone': (127, 127, 127), 'purpur_block': (169, 125, 169), 'purpur_pillar': (171, 129, 171),
+    'copper_block': (192, 107, 79), 'cut_copper': (191, 106, 80), 'mud_bricks': (137, 103, 79), 'glow_lichen': (112, 131, 119),
+    'warped_wart_block': (22, 119, 121), 'nether_wart_block': (114, 2, 2), 'pink_concrete': (213, 101, 142), 'white_terracotta': (209, 178, 161),
+    'pink_wool': (237, 141, 172), 'verdant_froglight': (229, 244, 228), 'ochre_froglight_': (250, 236, 180), 'black_concrete': (8, 10, 15),
+    'stripped_mangrove_log': (119, 54, 47), 'mangrove_log': (84, 66, 36), 'mud': (60, 57, 60), 'sculk_catalyst': (15, 32, 38),
     'water': (40, 90, 170), 'lava': (255, 120, 20), 'sand': (219, 207, 163), 'red_sand': (190, 102, 33), 'gravel': (130, 124, 122),
     'stone': (125, 125, 125), 'andesite': (136, 136, 136), 'prismarine': (99, 156, 151), 'prismarine_bricks': (99, 171, 158),
     'dark_prismarine': (51, 91, 75), 'sea_lantern': (210, 230, 225), 'grass_block': (95, 159, 53), 'moss_block': (89, 109, 45),
@@ -30,7 +47,9 @@ COLORS = {
 }
 AUR = {'tide_bell': (220, 180, 70), 'coral_seal': (226, 86, 110), 'waygate': (255, 220, 120), 'brine_grate': (40, 110, 110),
        'hush_stone': (200, 230, 255), 'rime_seal': (170, 214, 240), 'frost_rune': (120, 220, 255), 'sunwell': (255, 214, 90),
-       'sun_mirror': (240, 245, 255), 'sun_lens': (220, 60, 60), 'sun_seal': (230, 140, 60), 'sunflare_plate': (255, 240, 200)}
+       'sun_mirror': (240, 245, 255), 'sun_lens': (220, 60, 60), 'sun_seal': (230, 140, 60), 'sunflare_plate': (255, 240, 200),
+       'clock_dial': (250, 215, 110), 'master_clock': (255, 235, 140), 'spore_valve': (120, 200, 120), 'paradox_seal': (150, 70, 220),
+       'root_seal': (110, 70, 40), 'time_snare': (170, 120, 230), 'root_snare': (100, 70, 50), 'chronite_block': (130, 90, 210), 'bloomspore_block': (220, 90, 190)}
 ground_block = 'minecraft:grass_block'
 SKIP = {'minecraft:air', 'minecraft:cave_air', 'minecraft:structure_void'}
 THIN = ('carpet', 'pressure_plate', 'rail', 'snow', 'vein', 'torch', 'candle')

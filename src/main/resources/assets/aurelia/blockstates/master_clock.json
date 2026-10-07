@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "hour=0": {
+      "model": "aurelia:block/master_clock_0"
+    },
+    "hour=1": {
+      "model": "aurelia:block/master_clock_1"
+    },
+    "hour=2": {
+      "model": "aurelia:block/master_clock_2"
+    },
+    "hour=3": {
+      "model": "aurelia:block/master_clock_3"
+    },
+    "hour=4": {
+      "model": "aurelia:block/master_clock_4"
+    },
+    "hour=5": {
+      "model": "aurelia:block/master_clock_5"
+    },
+    "hour=6": {
+      "model": "aurelia:block/master_clock_6"
+    },
+    "hour=7": {
+      "model": "aurelia:block/master_clock_7"
+    },
+    "hour=8": {
+      "model": "aurelia:block/master_clock_8"
+    },
+    "hour=9": {
+      "model": "aurelia:block/master_clock_9"
+    },
+    "hour=10": {
+      "model": "aurelia:block/master_clock_10"
+    },
+    "hour=11": {
+      "model": "aurelia:block/master_clock_11"
+    }
+  }
+}
