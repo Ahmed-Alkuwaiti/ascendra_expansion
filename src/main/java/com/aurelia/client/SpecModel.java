@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 /**
  * A model built from the part list in MobModels. Animation is driven by a tag on each part:
  * head, legA, legB (opposite phase), armA, armB, wingL, wingR (flap), spin (orbits its pivot), sway (gentle drift), jaw (opens and closes),
- * pulse (a heartbeat), undulate (a travelling side-to-side wave down a body), flutter (fins and frills), finL, finR (slow paddling), none.
+ * spinR (reverse), spinS (slow), bloom (petals breathing open and shut), pulse (a heartbeat), undulate (a travelling side-to-side wave down a body), flutter (fins and frills), finL, finR (slow paddling), none.
  * Parts may be nested; a part's name here is its path (parent/child) and children follow their parent.
  */
 public class SpecModel<T extends Entity> extends EntityModel<T> {
@@ -57,6 +57,9 @@ public class SpecModel<T extends Entity> extends EntityModel<T> {
                 case "wingL" -> p.zRot = this.baseZ[i] + Mth.sin(ageInTicks * 0.6F) * 0.55F;
                 case "wingR" -> p.zRot = this.baseZ[i] - Mth.sin(ageInTicks * 0.6F) * 0.55F;
                 case "spin" -> p.yRot = this.baseY[i] + ageInTicks * 0.12F;
+                case "spinR" -> p.yRot = this.baseY[i] - ageInTicks * 0.09F;
+                case "spinS" -> p.yRot = this.baseY[i] + ageInTicks * 0.05F;
+                case "bloom" -> p.xRot = this.baseX[i] + Mth.sin(ageInTicks * 0.05F + i * 0.4F) * 0.12F;
                 case "jaw" -> p.xRot = this.baseX[i] + (Mth.sin(ageInTicks * 0.07F) * 0.5F + 0.5F) * 0.3F;
                 case "pulse" -> {
                     float beat = 1.0F + Math.max(0.0F, Mth.sin(ageInTicks * 0.25F)) * 0.22F;

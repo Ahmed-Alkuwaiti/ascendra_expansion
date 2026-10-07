@@ -447,3 +447,6 @@ if __name__ == '__main__':
 
 import mobs_act2  # noqa: E402  (act two: three Wardens and nine guards)
 mobs_act2.register(MOBS, STYLES, GLOW_STYLES, part)
+
+import mobs_act3  # noqa: E402  (act three: Vexor, the Bloom Mother and six guards)
+mobs_act3.register(MOBS, STYLES, GLOW_STYLES, part)

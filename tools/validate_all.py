@@ -74,9 +74,11 @@ def known(x):
 missing = {(os.path.relpath(f, R), m) for f in glob.glob(R + '/data/**/*.json', recursive=True) for m in re.findall(r'aurelia:([a-z0-9_/]+)', open(f).read()) if not known(m)}
 print(f'JSON: {len(allj)} files, {"all valid" if not badj else badj}; data ids:', 'all resolve' if not missing else sorted(missing))
 mm = open(J + '/client/MobModels.java').read(); pr = []
-for key, nm in re.findall(r'public static final String\[\] (\w+)_NAMES = \{([^}]*)\}', mm):
-    a = nm.count('"') // 2; b = re.search(r'%s_ANIMS = \{([^}]*)\}' % key, mm).group(1).count('"') // 2
-    body = mm[mm.index(f'public static LayerDefinition {key.lower()}()'):]; body = body[:body.index('return LayerDefinition')]
+for key, nm in re.findall(r'private static String\[\] (\w+)Names\(\) \{\s*return new String\[\] \{([^}]*)\}', mm):
+    a = nm.count('"') // 2
+    b = re.search(r'private static String\[\] %sAnims\(\) \{\s*return new String\[\] \{([^}]*)\}' % key, mm).group(1).count('"') // 2
+    body = mm[mm.index(f'public static LayerDefinition {key}()'):]; body = body[:body.index('return LayerDefinition')]
     if not (a == b == body.count('addOrReplaceChild')): pr.append((key, a, b))
-    if not os.path.exists(f'{A}/textures/entity/{key.lower()}_glow.png'): pr.append((key, 'no glow texture'))
+    if not os.path.exists(f'{A}/textures/entity/{key}_glow.png'): pr.append((key, 'no glow texture'))
+print('MobModels checked:', len(re.findall(r'Names\(\) \{', mm)), 'models')
 print('MobModels:', 'consistent, glow textures present' if not pr else pr)
