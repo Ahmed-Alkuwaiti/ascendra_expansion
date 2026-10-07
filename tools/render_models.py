@@ -55,7 +55,7 @@ def faces_of(p):
     ]
 
 
-def render(parts, tex, glow, yaw=-35, pitch=22, size=900, margin=40, bg=None, scale=None, center=None, light=(-0.4, 0.75, 0.55)):
+def render(parts, tex, glow, yaw=-35, pitch=22, size=900, margin=40, bg=None, scale=None, center=None, light=(-0.4, 0.75, 0.55), alpha=False):
     frames = world_frames(parts)
     V = rot(math.radians(pitch), 0, 0) @ rot(0, math.radians(yaw), 0)
     T = np.asarray(tex.convert('RGBA'), dtype=np.float32)
@@ -126,6 +126,8 @@ def render(parts, tex, glow, yaw=-35, pitch=22, size=900, margin=40, bg=None, sc
         region[m] = lit[m]
         sub[m] = z[m]
     out = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), 'RGB')
+    if alpha:
+        out.putalpha(Image.fromarray(((zbuf > -1e9) * 255).astype(np.uint8), 'L'))
     return out, scale
 
 

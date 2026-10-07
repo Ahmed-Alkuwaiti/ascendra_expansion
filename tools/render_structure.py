@@ -10,6 +10,9 @@ import nbtlib
 from PIL import Image, ImageDraw, ImageFont
 
 COLORS = {
+    'basalt': (80, 81, 86), 'polished_basalt': (99, 98, 100), 'soul_soil': (75, 57, 46), 'soul_sand': (81, 62, 50), 'jungle_log': (85, 67, 25),
+    'jungle_leaves': (48, 120, 30), 'cactus': (85, 127, 43), 'quartz_bricks': (234, 229, 221), 'quartz_block': (236, 230, 223), 'purple_wool': (122, 42, 173),
+    'candle': (230, 210, 160), 'mushroom_stem_': (203, 196, 185), 'magma_block': (142, 63, 31), 'crimson_stem': (92, 25, 29), 'netherrack': (97, 38, 38),
     'deepslate': (80, 80, 84), 'tuff': (108, 109, 102), 'cracked_deepslate_bricks': (64, 64, 65), 'chiseled_deepslate': (54, 54, 54),
     'blackstone': (42, 36, 41), 'polished_blackstone_bricks': (48, 42, 48), 'polished_blackstone': (53, 48, 56), 'crying_obsidian': (60, 10, 120),
     'obsidian': (20, 18, 30), 'amethyst_block': (133, 97, 191), 'amethyst_cluster': (160, 120, 220), 'purple_stained_glass': (127, 63, 178),
@@ -70,7 +73,27 @@ def color(name):
     return (60 + h[0] % 160, 60 + h[1] % 160, 60 + h[2] % 160)
 
 
-def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=None, bg=((28, 30, 40), (60, 66, 84)), size=1100, sea=None, ground=None):
+def load(path, rot=0):
+    """A template as ({(x, y, z): name}, [(x, y, z, id)], (W, H, L)), turned rot quarter turns."""
+    t = nbtlib.load(path)
+    W, H, L = [int(v) for v in t['size']]
+    pal = [str(p['Name']) for p in t['palette']]
+    blocks = {}
+    for b in t['blocks']:
+        x, y, z = (int(v) for v in b['pos'])
+        for _ in range(rot % 4):
+            x, z = L - 1 - z, x
+        blocks[(x, y, z)] = pal[int(b['state'])]
+    ents = []
+    for e in t['entities']:
+        x, y, z = (float(v) for v in e['pos'])
+        for _ in range(rot % 4):
+            x, z = L - z, x
+        ents.append((x, y, z, str(e['nbt']['id']).split(':')[1]))
+    return blocks, ents, ((L, H, W) if rot % 2 else (W, H, L))
+
+
+def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=None, bg=((28, 30, 40), (60, 66, 84)), size=1100, sea=None, ground=None, box=None):
     t = nbtlib.load(path)
     W, H, L = [int(v) for v in t['size']]
     pal = [str(p['Name']) for p in t['palette']]
@@ -85,6 +108,8 @@ def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=Non
         if cut is not None and z > cut:
             continue
         if cutx is not None and x > cutx:
+            continue
+        if box is not None and not (box[0] <= x <= box[3] and box[1] <= y <= box[4] and box[2] <= z <= box[5]):
             continue
         blocks[(x, y, z)] = name
     if rot % 2:
@@ -109,7 +134,19 @@ def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=Non
             x, z = L - z, x
         if (cut is not None and z > cut + 1) or (cutx is not None and x > cutx + 1):
             continue
+        if box is not None and not (box[0] <= x <= box[3] + 1 and box[2] <= z <= box[5] + 1 and box[1] <= y <= box[4]):
+            continue
         ents.append((x, y, z, str(e['nbt']['id']).split(':')[1]))
+    return draw(blocks, ents, W, H, L, out, title=title, scale=scale, bg=bg, size=size)
+
+
+def draw(blocks, ents, W, H, L, out, title=None, scale=None, bg=((28, 30, 40), (60, 66, 84)), size=1100, dots=True):
+    """Draws a block dict {(x, y, z): 'ns:name'} isometrically; ents are (x, y, z, id) guard markers."""
+    if blocks:                                      # frame the picture on what is actually drawn
+        x0 = min(k[0] for k in blocks); y0 = min(k[1] for k in blocks); z0 = min(k[2] for k in blocks)
+        W = max(k[0] for k in blocks) - x0 + 1; H = max(k[1] for k in blocks) - y0 + 1; L = max(k[2] for k in blocks) - z0 + 1
+        blocks = {(x - x0, y - y0, z - z0): v for (x, y, z), v in blocks.items()}
+        ents = [(x - x0, y - y0, z - z0, e) for (x, y, z, e) in ents]
     opaque = {k for k, v in blocks.items() if not any(s in v for s in ('glass', 'water', 'leaves', 'bars', 'fence', 'wall', 'lantern', 'ladder')) and not any(s in v for s in THIN)}
     if scale is None:
         scale = size / (W + L) / 1.05
@@ -147,7 +184,7 @@ def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=Non
     ecol = {'coralclad_juggernaut': (255, 255, 255), 'rimeguard': (255, 255, 255), 'sandglass_sentinel': (255, 255, 255),
             'tidecaller': (255, 90, 220), 'hushwraith': (255, 90, 220), 'sunseer': (255, 90, 220),
             'razorclaw': (255, 150, 40), 'rimefang': (255, 150, 40), 'glasswing_scarab': (255, 150, 40)}
-    for (x, y, z, eid) in ents:
+    for (x, y, z, eid) in (ents if dots else ()):
         px, py = proj(x, y + 1, z)
         r = max(4, scale * 0.7)
         d.ellipse([px - r, py - r, px + r, py + r], fill=ecol.get(eid, (90, 230, 255)), outline=(0, 0, 0), width=2)
@@ -157,7 +194,8 @@ def render(path, out, cut=None, cutx=None, rot=0, hide=(), title=None, scale=Non
         except OSError:
             f = ImageFont.load_default()
         d.text((14, 10), title, fill=(255, 220, 160), font=f)
-    img.save(out)
+    if out:
+        img.save(out)
     print('wrote', out, f'{len(blocks)} blocks drawn, scale {scale:.1f}')
     return img
 

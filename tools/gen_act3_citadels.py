@@ -297,7 +297,7 @@ def arch_bridge(g, x0, x1, z0, z1, deck, floor, spans, pier, deck_block, wall_bl
 # ================================================================================================ PARADOX KEEP
 def paradox_keep():
     W = L = 97
-    H = 126
+    H = 132
     C = 48
     G = 9                     # the meadow surface in template space (the template starts nine blocks under it)
     P = G + 7                 # the top of the crag the keep stands on

@@ -1,8 +1,8 @@
 # Aurelia: The Shattered Crown (Forge 1.20.1)
 
-Six realms, six Wardens, one broken crown. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
+Eight realms, eight Wardens, one broken crown. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
 
-**Act one** (the Grove, Skyreach, the Hollow) reforges the Crown of Aurelia. **Act two** (the Drowned Expanse, the Pale Wastes, the Scarlet Sands) fills its three empty settings and ends with the **Ascendant Crown**. Act two is described in its own section below.
+**Act one** (the Grove, Skyreach, the Hollow) reforges the Crown of Aurelia. **Act two** (the Drowned Expanse, the Pale Wastes, the Scarlet Sands) fills its three empty settings and ends with the **Ascendant Crown**. **Act three** (the Clockwork Rift, the Mycelial Deep) ends with the **Eternal Crown**. Acts two and three have their own sections below.
 
 ## The shape of it
 
@@ -247,6 +247,77 @@ Outer ores need a **diamond** pickaxe. Outpost and citadel chests hold 4 to 9 of
 - **The Tidewrack Citadel** is placed at an absolute height (y 40). Over a sea floor deeper than that, its reef floats with a gap underneath; it only generates in the shallower ocean biomes to keep that rare.
 - **Model and hitbox**: Vorath's body is far longer than his 5 x 3.2 hitbox, which sits round his chest and head. Hit him there.
 - **`Level.isDay()`** gates the Sunwell. If the build fails on that name, replace it with `level.getDayTime() % 24000 < 12500`.
+
+# Act three: the rifts beneath
+
+The Ascendant Crown opens the way to two rifts under the six realms. Crafting it points you at the Paradox Keep; a third book, *The Rift Chronicle*, waits on the Clockwork Rift's pad.
+
+| Citadel | Portal to | Where it generates | Opens for | The rite |
+|---|---|---|---|---|
+| **Paradox Keep**: a black gothic keep on a crag above a glowing rift | The Clockwork Rift | plains, sunflower plains, meadow | the **Ascendant Crown** | **Synchronise three Clock Dials with the Master Clock** |
+| **Spore Cathedral**: a bone-white cathedral under mushroom domes, gripped by roots | The Mycelial Deep | dark forest, mushroom fields, old-growth spruce taiga | the **Hour Core** | **Open three Spore Valves within twelve seconds** |
+
+`/locate structure aurelia:paradox_keep` (also `aurelia:spore_cathedral`).
+
+## The rites
+
+- **Clock Dials (Paradox Keep).** Three dials stand on pedestals across the Hall of Hours; the Master Clock over the portal reads VII. Touching a dial winds it and the next one along the row forward an hour (the last drags the first). They start at II, IX, IV; it takes 15 touches. Only states whose dial sum has the same parity as three times the target can be solved, and the generator checks the starting layout with a search every time it runs.
+- **Spore Valves (Spore Cathedral).** Valves in both transepts and the apse feed the spore pool under the dome, where the portal stands on a dais. Each valve shuts itself 12 seconds after it opens; open all three before the first closes and they lock. The shortest route is 37 blocks (about 8.5 seconds at a walk, 6.5 sprinting), checked on the template.
+
+| Citadel | Seal | Floor trap |
+|---|---|---|
+| Paradox Keep | **Paradox Seal** on the clock tower door. 4 Hour Wardens. | **Time Snares**: throw you back, slowness and mining fatigue. |
+| Spore Cathedral | **Root Seal** across the great doors. 4 Husk Guards. | **Root Snares**: slowness, poison, nausea. |
+
+### Citadel architecture
+
+**Paradox Keep** (97 x 132 x 97, placed nine blocks into the ground): a deepslate crag rising out of the meadow, cut across the front by a rift glowing with crying obsidian and amethyst; a three-arched viaduct over it, reached by a wide stair between two 30-block **Hourkeepers**, hooded statues holding hourglasses over their heads; a gatehouse with twin towers under a gold cog; a curtain wall with lancets of purple glass, crenellations and buttress piers; four round towers with ogive roofs, gold finials and copper gears; a courtyard laid out as a clock face; the **Hall of Hours**, a long gothic hall with flying buttresses, a steep roof, a rose window and side chapels; and the **clock tower**, 120 blocks above the meadow, with a great clock face on all four sides, gears in its walls, an open belfry with a bell, and a gold-ringed needle spire tipped with crying obsidian. Five rock fragments drift overhead, trailing chains.
+
+**Spore Cathedral** (97 x 96 x 97): a podium in a mycelium clearing reached by a grand quartz stair between two 28-block hooded saints, overgrown with moss and roots, each cradling a spore light with a mushroom grown through its hood; a cruciform nave and transept of calcite and bone with magenta lancets; twin towers under magenta caps; a rose window over the great doors; a mushroom dome 43 blocks across over the crossing and two lesser domes over the transepts; root buttresses arching from the ground to the walls and roots radiating out over the clearing; giant glowing mushrooms all round.
+
+## The guards
+
+| | Heavy (holds the seal) | Special | Fast |
+|---|---|---|---|
+| **Paradox Keep** | **Hour Warden** (140 HP, armour 12): a clock-headed giant; its flail hurls you back and its bell tolls time to a crawl | **Secondhand** (32 HP): a bladed orb circling overhead, flinging clock hands | **Gearskitter** (38 HP): a clock-faced spider that steals your speed |
+| **Spore Cathedral** | **Husk Guard** (140 HP, armour 10): a fungus skeleton knight; its cap shield turns frontal blows, it bursts into spores when it falls | **Spore Drifter** (30 HP): a jellyfish mushroom raining stinging spores | **Root Grub** (42 HP): a bloated grub with a poisonous split-root mouth |
+
+## The rift Wardens
+
+- **Vexor, the Hour Eater** (6000 HP, 321 parts). A clockwork eye with a slit pupil and a ring of fangs, caged in three golden armillary rings that turn on different axes, six clock-hand blades wheeling round it, and five pendulum clocks swinging on chains. He hovers over a clock-face arena and takes 40% damage.
+  **Twelve Strikes** (the numerals light round the dial and burst), **the Pendulum** (a marked line, then a sweep), **Time Stop** (everyone slowed, three lanced).
+  **Gimmick: the Hour Strikes.** Every 26 seconds (22 in phase 3) he channels for ten, sets the Master Clock at the north rim to a new hour and scrambles the three dials round the face. In the Rift each dial winds alone. Set all three to his hour and his gears **seize**: he crashes onto the face for 7 seconds (full damage, caps 2.5x). Fail and he **eats the hour**: everyone is thrown back to where they stood five seconds earlier, loses 30% of their max health, and he mends 5%. Phase 2 adds Secondhands.
+- **The Bloom Mother** (6500 HP, 289 parts). A rooted fungal flower: ten clawed petals round a maw with two rings of teeth and three tongues, stamens, glowing spore sacs on her stems and a mass of roots. She never moves and takes 30% damage while her petals are closed.
+  **Root Lash** (roots churn under three players, then throw them), **Spore Mortar** (poison clouds where the pods land), **Devour** (anyone close in front when the petals snap shut).
+  **Gimmick: the Inhale.** Every 25 seconds (18 in phase 3) she breathes in for six, dragging everyone toward her maw. Wrench the arena's three valves open while she does: with two or more open at the end she **chokes**, petals blown wide for 7 seconds (full damage, caps 2.5x). Fewer and she **exhales**: poison, nausea and 20% of everyone's health, and she heals. Between inhales her roots seal one valve again. Phase 2: Root Grubs. Phase 3: Spore Drifters.
+
+## Progression, act three
+
+1. Craft the **Ascendant Crown** and bring it to the Paradox Keep's portal after the dials agree.
+2. Vexor drops the **Hour Core**. The Spore Cathedral portal opens for it.
+3. The Bloom Mother drops the **Bloom Heart**. **Eternal Crown** = Ascendant Crown + Hour Core + Bloom Heart + Block of Chronite + Bloomspore Block.
+
+The Eternal Crown (helmet, never breaks) opens every portal and gives everything the Ascendant Crown does, plus Speed, Health Boost and Saturation, and once every five minutes it refuses your death.
+
+## The rift realms
+
+**The Clockwork Rift**: a void under a violet sky (End-style fog, frozen at midnight). Structures: **keep fragments** (torn-off corners of keeps on rock islands, with broken towers, gears and trailing chains), **clock spires** with a face on every side, **broken bridges** hung on chains with gaps to jump, and **Hour Warden watch-posts** (outposts with a chest).
+
+**The Mycelial Deep**: a cavern world roofed with roots, floored with mycelium and magenta and white clay over deepslate, with spore blossoms, glow lichen and amethyst. Structures: **fungal towers** (giant magenta caps on twisting stems with shelf fungi), **root arches**, and **Spore Choir shrines** (outposts with a chest).
+
+Chronite shards come from Clockwork Rift guards and chests; bloomspores from the Mycelial Deep.
+
+## Testing act three
+
+- Skip a rite: `/setblock <x> <y> <z> aurelia:waygate[realm=clockwork,active=true]` (also `mycelial`).
+- Visit: `/execute in aurelia:clockwork run tp @s 0 125 0` (also `aurelia:mycelial` at y 45).
+- Previews of everything (all eight Wardens, arenas, citadels, portal rooms, realms, structures and guards) are generated by `tools/render_gallery.py` and `tools/build_gallery.py`.
+
+## Known risks, act three (untested in game)
+
+- **Vexor flies** with `FlyingMoveControl`; if he drifts off the arena his orbit code pulls him back toward the altar. The dial check runs whenever any dial in 64 blocks is wound.
+- **Big templates**: both citadels are 97 x 97. `beard_box` adapts the terrain; on very rough ground the Paradox Keep's crag can stand proud of hills.
+- **The Mycelial Deep** reuses the Hollow's cavern noise with a new surface rule. If its floor comes out too flat or too broken, tune `gen_act3_data.py`.
 
 ## Building the jar
 
