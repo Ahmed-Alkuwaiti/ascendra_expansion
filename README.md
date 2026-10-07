@@ -198,7 +198,15 @@ Every realm has a full arsenal: a four-piece armor set worn as its own 3D model,
 - Weapons are 64 x 64 and held about 1.5x larger than a sword. The display transforms are computed so the grip stays in the hand (`gen_arsenal.held_big`).
 - Tools, materials and armor icons are 32 x 32. Ores are 16 x 16.
 
-**Worn armor** (`tools/gen_armor.py`) is solid fitted plate with layered pauldrons, a distinctive helm per set and clean bevelled textures:
+**Worn armor** (`tools/gen_armor.py`) is solid fitted plate with layered pauldrons, a distinctive helm per set and clean bevelled textures. Every set is built to look menacing, through features they all share:
+- a dark visor with slanted, burning eyes and a fanged jaw guard;
+- horns sweeping up from the pauldrons;
+- a spined back and a V-ridged chest;
+- clawed gauntlets with forearm fins;
+- spiked knees and tattered cloth;
+- clawed, spurred boots.
+
+On top of that, each set has its own helm:
 - a moss-and-branch helm with glowing eyes;
 - ice-crystal wings and spikes;
 - a gold crown with horns and a T visor;

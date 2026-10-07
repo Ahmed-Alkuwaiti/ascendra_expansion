@@ -549,7 +549,11 @@ def helmet(realm):
         s.ellipse(16, 10, 13, 7, 'myc')
     s.poly([(7, 26), (7, 13), (11, 8), (21, 8), (25, 13), (25, 26), (20, 26), (19, 20), (13, 20), (12, 26)], base)
     s.rect(7, 13, 25, 15.5, trim)
-    s.rect(10, 17.5, 22, 19.5, glow)
+    s.rect(9, 16, 23, 21, 'abyss')                                    # the face recess, two slanted eyes scowling in it
+    s.poly([(10, 17), (15, 18.5), (15, 20), (10, 18.5)], glow)
+    s.poly([(22, 17), (17, 18.5), (17, 20), (22, 18.5)], glow)
+    s.rect(11, 21, 12.2, 24, 'bone')
+    s.rect(19.8, 21, 21, 24, 'bone')
     s.gem(16, 11, 2, glow if fl != 'genesis' else 'gem_r')
     if fl == 'leaves':
         for (x, y) in [(8, 9), (22, 7), (25, 11)]:
@@ -568,10 +572,12 @@ def chestplate(realm):
     base, trim, glow, fl = ICON[realm]
     s = Sprite(32, 52)
     s.poly([(3, 7), (11, 4), (16, 7), (21, 4), (29, 7), (29, 15), (25, 15), (25, 28), (7, 28), (7, 15), (3, 15)], base)
-    for sg in (-1, 1):                                                 # pauldrons
+    for sg in (-1, 1):                                                 # pauldrons, each with a horn sweeping up and out
         x = 16 + sg * 11
         s.poly([(x - 5, 11), (x - 5, 6), (x, 3), (x + 5, 6), (x + 5, 11)], trim)
+        s.poly([(x + sg * 1, 6), (x + sg * 5, -0.5), (x + sg * 7, 0.5), (x + sg * 4.5, 7)], 'black')
     s.rect(9, 21, 23, 23, trim)
+    s.poly([(9, 24), (16, 27), (23, 24), (23, 25.5), (16, 28.5), (9, 25.5)], trim)
     s.gem(16, 14, 3.2, glow)
     if fl == 'genesis':
         for i, gm in enumerate(GEMS):

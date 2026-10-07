@@ -56,20 +56,29 @@ LEGS = (('right_leg', -1), ('left_leg', 1))
 
 
 # ------------------------------------------------------------------------------------------------ the shared plate
+def face(p, m, z=4.7, eye_y=3.8, teeth=True, recess=True):
+    """A menacing face: a dark recess, slanted eyes burning in it, a fanged jaw guard below."""
+    if recess:
+        p.add('faceShadow', (8, 4, 1), (-4, 1.6, z), style='abyss')
+    for sx in (-1, 1):                                               # eyes slant down toward the nose: a scowl
+        p.add('eye' + side(sx), (3, 1, 1), (-1.5, -0.5, -0.5), (sx * 2.1, eye_y, z + 1.0), rot=(0, 0, sx * 0.38), style=m['glow'])
+    if teeth:
+        p.add('jaw', (8, 2, 1), (-4, -0.6, z + 0.2), style='abyss')
+        for k, x in enumerate((-2.6, 1.6)):                          # two canines, overlapping the jaw line
+            p.add(f'fang{k}', (1, 3, 1), (x, -1.6, z + 0.7), style='bone')
+
+
 def helm(p, m, visor='slit'):
     p.add('helm', (10, 10, 10), (-5, -1, -5), style=m['plate'])
-    p.add('brow', (11, 2, 2), (-5.5, 5, 4.4), style=m['trim'])
+    p.add('brow', (11, 2, 2), (-5.5, 5.4, 4.4), rot=(0.12, 0, 0), style=m['trim'])
     p.add('rim', (11, 1, 11), (-5.5, -1.2, -5.5), style=m['trim'])
-    if visor == 'slit':
-        p.add('visor', (7, 1, 1), (-3.5, 3.5, 4.9), style=m['glow'])
-    elif visor == 'eyes':
-        for sx in (-1, 1):
-            p.add('eye' + side(sx), (2, 1, 1), (sx * 2.3 - 1, 3.5, 4.9), style=m['glow'])
-    elif visor == 'tee':
-        p.add('visor', (7, 1, 1), (-3.5, 3.5, 4.9), style=m['glow'])
-        p.add('visorV', (1, 4, 1), (-0.5, 0, 4.9), style=m['glow'])
+    face(p, m, z=4.6)
+    if visor == 'tee':
+        p.add('visorV', (1, 3, 1), (-0.5, 1.2, 5.6), style=m['glow'])
     for sx in (-1, 1):
-        p.add('cheek' + side(sx), (1, 5, 4), (sx * 5.3 - 0.5, -1, 1), style=m['dark'])
+        p.add('cheek' + side(sx), (1, 6, 4), (sx * 5.3 - 0.5, -2, 1), style=m['dark'])
+        p.add('cheekSpike' + side(sx), (1, 3, 1), (-0.5, -3, -0.5), (sx * 5.3, -1.5, 4), rot=(0.4, 0, sx * 0.3), style=m['trim'])
+        p.add('browHorn' + side(sx), (1.2, 4, 1.2), (-0.6, 0, -0.6), (sx * 4.2, 7, 4.5), rot=(0.5, 0, -sx * 0.5), style=m['dark'])
 
 
 def torso(p, m, emblem=True):
@@ -248,9 +257,8 @@ def rimebound(piece, m):
         p.add('hood', (11, 11, 11), (-5.5, -1.5, -5.5), style='frost')
         p.add('hoodPeak', (8, 3, 8), (-4, 9, -5.5), rot=(-0.25, 0, 0), style='frost')
         p.add('hoodTrim', (12, 1, 2), (-6, 8.5, 4.5), style='gold')
-        p.add('face', (8, 7, 1), (-4, 0, 4.7), style='night')
-        for sx in (-1, 1):
-            p.add('eye' + side(sx), (2, 1, 1), (sx * 2 - 1, 3.5, 5.2), style='void_p')
+        p.add('face', (8, 7, 1), (-4, 0, 4.7), style='abyss')
+        face(p, m, z=5.0, eye_y=3.8, recess=False)
         p.add('circlet', (2, 2, 1), (-1, 6.5, 5.6), style='gem_w')
     elif piece == 'chestplate':
         torso(p, m)
@@ -322,9 +330,8 @@ def bloomguard(piece, m):
     p = Piece()
     if piece == 'helmet':
         p.add('hood', (11, 10, 11), (-5.5, -1.5, -5.5), style='stalk')
-        p.add('face', (8, 7, 1), (-4, -0.5, 4.7), style='night')
-        for sx in (-1, 1):
-            p.add('eye' + side(sx), (2, 1, 1), (sx * 2 - 1, 3, 5.2), style='myc_g')
+        p.add('face', (8, 7, 1), (-4, -0.5, 4.7), style='abyss')
+        face(p, m, z=5.0, eye_y=3.4, recess=False)
         p.add('cap', (15, 2, 15), (-7.5, 8, -7.5), style='myc')
         p.add('capTop', (10, 2, 10), (-5, 10, -5), style='myc')
         for k, (x, z) in enumerate([(-5, 3), (4, -4), (5, 4), (-3, -5)]):
@@ -348,7 +355,6 @@ def genesis(piece, m):
     p = Piece()
     if piece == 'helmet':
         helm(p, m, 'slit')
-        p.add('mask', (8, 5, 1), (-4, -0.5, 5), style='genesis')
         p.add('crownBand', (11, 2, 11), (-5.5, 9, -5.5), style='gold')
         for k in range(5):
             a = (k - 2) * 0.5
@@ -390,8 +396,45 @@ BUILD = {'grove': mossbound, 'skyreach': tempest, 'hollow': sovereign, 'drowned'
          'clockwork': paradox, 'mycelial': bloomguard, 'genesis': genesis}
 
 
+def menace(p, m, piece):
+    """What every set shares: horned pauldrons, a spined back, a V-ridged chest, clawed gauntlets, spiked knees, tattered
+    cloth, clawed and spurred boots. Added after each set's own build, so it only ever adds."""
+    names = {q['name'] for q in p.parts}
+    if piece == 'chestplate':
+        for arm, sx in ARMS:
+            L = side(sx)
+            cx = -1 if sx < 0 else 1
+            if 'paul' + L in names:
+                h = p.add('mnHorn' + L, (2.4, 5, 2.4), (-1.2, 0, -1.2), (sx * 3, 3, -1), rot=(-0.25, 0, -sx * 0.6), style=m['dark'], parent='paul' + L)
+                h2 = p.add('mnHorn2' + L, (1.8, 4, 1.8), (-0.9, 0, -0.9), (0, 4.5, 0), rot=(-0.2, 0, sx * 0.45), style=m['dark'], parent=h)
+                p.add('mnHornTip' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 3.5, 0), rot=(-0.2, 0, sx * 0.35), style=m['trim'], parent=h2)
+            for k, z in enumerate((-1.4, 0, 1.4)):
+                p.add(f'mnClaw{L}{k}', (1, 3, 1), (-0.5, -3, -0.5), (cx, -10.2, z + 0.6), rot=(0.35, 0, -sx * 0.15), style=m['trim'], parent=arm)
+            p.add('mnFin' + L, (1, 4, 3), (-0.5, -2, -1.5), (cx + sx * 3.1, -8, 0), rot=(0, 0, -sx * 0.45), style=m['trim'], parent=arm)
+        for k, y in enumerate((-2, -5, -8)):
+            p.add(f'mnSpine{k}', (1.6, 5 - k, 1.6), (-0.8, 0, -0.8), (0, y, -3.6), rot=(-0.9, 0, 0), style=m['dark'], parent='body')
+        for sx in (-1, 1):
+            p.add('mnRidge' + side(sx), (6, 1, 1), (-3, -0.5, -0.5), (sx * 2.2, -9.5, 3.4), rot=(0, 0, sx * 0.55), style=m['trim'], parent='body')
+    elif piece == 'leggings':
+        for leg, sx in LEGS:
+            L = side(sx)
+            p.add('mnKnee' + L, (1.4, 1.4, 4), (-0.7, -0.7, 0), (0, -7.6, 3), rot=(-0.35, 0, 0), style=m['trim'], parent=leg)
+            p.add('mnThighSpike' + L, (1, 3, 1), (-0.5, 0, -0.5), (sx * 2.6, -4, 0), rot=(0, 0, -sx * 0.9), style=m['dark'], parent=leg)
+        if 'tabard' in names:
+            for k, (x, h) in enumerate([(-2, 4), (-0.5, 2), (1, 5), (2, 3)]):
+                p.add(f'mnTatter{k}', (1, h, 1), (x, -21.5 - h, 3.0), style=m['cloth'], parent='body')
+    elif piece == 'boots':
+        for leg, sx in LEGS:
+            L = side(sx)
+            for k, x in enumerate((-1.6, 0, 1.6)):
+                p.add(f'mnToe{L}{k}', (1, 1, 3), (-0.5, -0.5, 0), (x, -11.9, 4), rot=(0.25, 0, 0), style=m['trim'], parent=leg)
+            p.add('mnSpur' + L, (1, 1, 4), (-0.5, -0.5, -4), (0, -10, -2.4), rot=(-0.5, 0, 0), style=m['dark'], parent=leg)
+            p.add('mnShin' + L, (1, 4, 2), (-0.5, 0, 0), (0, -11, 2.4), rot=(0.25, 0, 0), style=m['trim'], parent=leg)
+    return p
+
+
 def piece_parts(realm, piece):
-    return BUILD[realm](piece, STYLE[realm]).parts
+    return menace(BUILD[realm](piece, STYLE[realm]), STYLE[realm], piece).parts
 
 
 # ------------------------------------------------------------------------------------------------ the clean painter
