@@ -34,6 +34,21 @@ STYLE = {   # plate, trim, dark, glow, cloth
 }
 
 
+def _darken(key, k):
+    name = f'{key}_dk'
+    if name not in M:
+        M[name] = Mat(tuple(int(c * k) for c in M[key].tones[2]), glow=False, grain=M[key].grain)
+    return name
+
+
+DARKEN = {'bark': 0.7, 'white': 0.55, 'teal': 0.6, 'ice': 0.6, 'scarlet': 0.7, 'stalk': 0.55, 'genesis': 0.62, 'leaf': 0.6, 'cloth_b': 0.6,
+          'cloth_r': 0.65, 'tidesteel': 0.6, 'frost': 0.55, 'chronite': 0.65, 'myc': 0.6}
+for _s in STYLE.values():                                            # plate and cloth go dark; trim and glow stay bright against them
+    for _k in ('plate', 'cloth'):
+        if _s[_k] in DARKEN:
+            _s[_k] = _darken(_s[_k], DARKEN[_s[_k]])
+
+
 class Piece:
     def __init__(self):
         self.parts = []
@@ -397,29 +412,58 @@ BUILD = {'grove': mossbound, 'skyreach': tempest, 'hollow': sovereign, 'drowned'
 
 
 def menace(p, m, piece):
-    """What every set shares: horned pauldrons, a spined back, a V-ridged chest, clawed gauntlets, spiked knees, tattered
-    cloth, clawed and spurred boots. Added after each set's own build, so it only ever adds."""
+    """What every set shares, built to frighten: great curling horns on the helm, pauldrons bristling with long spikes, a bone
+    ribcage over the breast with glowing cracks through the plate, a spined back and a long tattered cape, clawed gauntlets
+    and forearm blades, chains at the belt, spiked knees, clawed and spurred boots. Added after each set's own build."""
     names = {q['name'] for q in p.parts}
-    if piece == 'chestplate':
+    hornstone = _darken(m['dark'], 0.8) if m['dark'] in M and not M[m['dark']].glow else m['dark']
+    if piece == 'helmet':
+        if not any(n.startswith(('horn', 'antler', 'branch')) for n in names):
+            for sx in (-1, 1):                                       # great horns: out, back, then up and in
+                L = side(sx)
+                h1 = p.add('mnBigHorn' + L, (4, 5, 4), (-2, 0, -2), (sx * 4.4, 6, -1), rot=(-0.25, 0, -sx * 1.3), style=hornstone)
+                h2 = p.add('mnBigHorn2' + L, (3, 5, 3), (-1.5, 0, -1.5), (0, 4.5, 0), rot=(0.05, 0, sx * 0.95), style=hornstone, parent=h1)
+                h3 = p.add('mnBigHorn3' + L, (2, 4, 2), (-1, 0, -1), (0, 4.5, 0), rot=(0.4, 0, sx * 0.45), style=hornstone, parent=h2)
+                p.add('mnBigHornTip' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 3.5, 0), rot=(0.45, 0, 0), style=m['trim'], parent=h3)
+                p.add('mnHornRing' + L, (4.6, 1, 4.6), (-2.3, 3.5, -2.3), style=m['trim'], parent=h1)
+        for k, x in enumerate((-2.5, 0, 2.5)):                       # a ridge of spines over the crown, front to back
+            p.add(f'mnCrest{k}', (1.4, 4 - abs(k - 1), 1.4), (-0.7, 0, -0.7), (0, 9, x), rot=(-0.5, 0, 0), style=hornstone)
+    elif piece == 'chestplate':
         for arm, sx in ARMS:
             L = side(sx)
             cx = -1 if sx < 0 else 1
             if 'paul' + L in names:
-                h = p.add('mnHorn' + L, (2.4, 5, 2.4), (-1.2, 0, -1.2), (sx * 3, 3, -1), rot=(-0.25, 0, -sx * 0.6), style=m['dark'], parent='paul' + L)
-                h2 = p.add('mnHorn2' + L, (1.8, 4, 1.8), (-0.9, 0, -0.9), (0, 4.5, 0), rot=(-0.2, 0, sx * 0.45), style=m['dark'], parent=h)
-                p.add('mnHornTip' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 3.5, 0), rot=(-0.2, 0, sx * 0.35), style=m['trim'], parent=h2)
+                for k in range(3):                                   # long spikes bristling from each shoulder
+                    a = (k - 1) * 0.5
+                    sp = p.add(f'mnPaulSpike{L}{k}', (2, 8 - abs(k - 1) * 2, 2), (-1, 0, -1), (sx * 1.5, 3, math.sin(a) * 2.5 - 0.5),
+                               rot=(math.sin(a) * 0.5, 0, -sx * (0.45 + 0.15 * k)), style=hornstone, parent='paul' + L)
+                    p.add(f'mnPaulSpikeTip{L}{k}', (1, 2, 1), (-0.5, 0, -0.5), (0, 7.5 - abs(k - 1) * 2, 0), style=m['trim'], parent=sp)
             for k, z in enumerate((-1.4, 0, 1.4)):
-                p.add(f'mnClaw{L}{k}', (1, 3, 1), (-0.5, -3, -0.5), (cx, -10.2, z + 0.6), rot=(0.35, 0, -sx * 0.15), style=m['trim'], parent=arm)
-            p.add('mnFin' + L, (1, 4, 3), (-0.5, -2, -1.5), (cx + sx * 3.1, -8, 0), rot=(0, 0, -sx * 0.45), style=m['trim'], parent=arm)
-        for k, y in enumerate((-2, -5, -8)):
-            p.add(f'mnSpine{k}', (1.6, 5 - k, 1.6), (-0.8, 0, -0.8), (0, y, -3.6), rot=(-0.9, 0, 0), style=m['dark'], parent='body')
+                p.add(f'mnClaw{L}{k}', (1, 4, 1), (-0.5, -4, -0.5), (cx, -10.2, z + 0.6), rot=(0.45, 0, -sx * 0.15), style=m['trim'], parent=arm)
+            p.add('mnBlade' + L, (1, 6, 3), (-0.5, -3, -1.5), (cx + sx * 3.1, -7.5, -0.5), rot=(-0.35, 0, -sx * 0.5), style=m['trim'], parent=arm)
+        for k, y in enumerate((-1.5, -4.5, -7.5, -10.5)):
+            p.add(f'mnSpine{k}', (2, 6 - k, 2), (-1, 0, -1), (0, y, -3.6), rot=(-0.95, 0, 0), style=hornstone, parent='body')
         for sx in (-1, 1):
-            p.add('mnRidge' + side(sx), (6, 1, 1), (-3, -0.5, -0.5), (sx * 2.2, -9.5, 3.4), rot=(0, 0, sx * 0.55), style=m['trim'], parent='body')
+            L = side(sx)
+            for k, y in enumerate((-3.5, -6, -8.5)):                 # a ribcage of bone over the breast
+                p.add(f'mnRib{L}{k}', (3, 1, 1), (-1.5, -0.5, -0.5), (sx * 3.2, y, 3.7), rot=(0, 0, sx * (0.3 + 0.1 * k)), style='bone', parent='body')
+            p.add('mnRidge' + L, (6, 1, 1), (-3, -0.5, -0.5), (sx * 2.2, -11, 3.4), rot=(0, 0, sx * 0.55), style=m['trim'], parent='body')
+            p.add('mnCollarSpike' + L, (1.4, 5, 1.4), (-0.7, 0, -0.7), (sx * 3, 0, -2.5), rot=(-0.5, 0, -sx * 0.35), style=hornstone, parent='body')
+        for k, (x, y, h) in enumerate([(-4, -11, 3), (-3.4, -8.5, 2), (4, -10.5, 3), (3.2, -12, 2)]):   # glowing cracks in the plate
+            p.add(f'mnCrack{k}', (1, h, 1), (-0.5, 0, -0.5), (x, y, 2.9), rot=(0, 0, 0.5 if k % 2 else -0.4), style=m['glow'], parent='body')
+        if 'cape' not in names:                                      # a long cape, torn into strips
+            for k, (x, h) in enumerate([(-4.5, 18), (-2.5, 21), (-0.5, 17), (1.5, 22), (3.5, 19)]):
+                p.add(f'mnCape{k}', (2, h, 1), (-1, -h, -0.5), (x, -0.5, -4.4), rot=(0.12, 0, 0), style=m['cloth'], parent='body')
     elif piece == 'leggings':
         for leg, sx in LEGS:
             L = side(sx)
-            p.add('mnKnee' + L, (1.4, 1.4, 4), (-0.7, -0.7, 0), (0, -7.6, 3), rot=(-0.35, 0, 0), style=m['trim'], parent=leg)
-            p.add('mnThighSpike' + L, (1, 3, 1), (-0.5, 0, -0.5), (sx * 2.6, -4, 0), rot=(0, 0, -sx * 0.9), style=m['dark'], parent=leg)
+            p.add('mnKnee' + L, (1.6, 1.6, 4), (-0.8, -0.8, 0), (0, -7.6, 3), rot=(-0.35, 0, 0), style=m['trim'], parent=leg)
+            p.add('mnThighSpike' + L, (1.4, 4, 1.4), (-0.7, 0, -0.7), (sx * 2.6, -4, 0), rot=(0, 0, -sx * 0.9), style=hornstone, parent=leg)
+            p.add('mnThighCrack' + L, (1, 3, 1), (-0.5, 0, -0.5), (sx * 1.2, -6, 2.4), rot=(0, 0, 0.4), style=m['glow'], parent=leg)
+        for sx in (-1, 1):                                           # chains slung from the belt
+            for k in range(4):
+                p.add(f'mnChain{side(sx)}{k}', (1, 1, 1), (-0.5, -0.5, -0.5), (sx * (5.2 - k * 0.4), -13.5 - k * 1.1, 3.1 - k * 0.2),
+                      style='steel', parent='body')
         if 'tabard' in names:
             for k, (x, h) in enumerate([(-2, 4), (-0.5, 2), (1, 5), (2, 3)]):
                 p.add(f'mnTatter{k}', (1, h, 1), (x, -21.5 - h, 3.0), style=m['cloth'], parent='body')
@@ -427,9 +471,10 @@ def menace(p, m, piece):
         for leg, sx in LEGS:
             L = side(sx)
             for k, x in enumerate((-1.6, 0, 1.6)):
-                p.add(f'mnToe{L}{k}', (1, 1, 3), (-0.5, -0.5, 0), (x, -11.9, 4), rot=(0.25, 0, 0), style=m['trim'], parent=leg)
-            p.add('mnSpur' + L, (1, 1, 4), (-0.5, -0.5, -4), (0, -10, -2.4), rot=(-0.5, 0, 0), style=m['dark'], parent=leg)
-            p.add('mnShin' + L, (1, 4, 2), (-0.5, 0, 0), (0, -11, 2.4), rot=(0.25, 0, 0), style=m['trim'], parent=leg)
+                p.add(f'mnToe{L}{k}', (1, 1, 4), (-0.5, -0.5, 0), (x, -11.9, 4), rot=(0.3, 0, 0), style=m['trim'], parent=leg)
+            p.add('mnSpur' + L, (1, 1, 4), (-0.5, -0.5, -4), (0, -10, -2.4), rot=(-0.5, 0, 0), style=hornstone, parent=leg)
+            p.add('mnShin' + L, (1, 5, 2), (-0.5, 0, 0), (0, -11, 2.4), rot=(0.25, 0, 0), style=m['trim'], parent=leg)
+            p.add('mnAnkleSpike' + L, (1, 3, 1), (-0.5, 0, -0.5), (sx * 2.6, -10, 0), rot=(0, 0, -sx * 1.0), style=hornstone, parent=leg)
     return p
 
 
