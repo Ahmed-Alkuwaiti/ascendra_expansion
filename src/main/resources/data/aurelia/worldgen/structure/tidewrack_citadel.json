@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#aurelia:has_structure/tidewrack_citadel",
+  "step": "surface_structures",
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "full",
+      "spawns": [
+        {
+          "type": "aurelia:razorclaw",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    }
+  },
+  "terrain_adaptation": "none",
+  "start_pool": "aurelia:tidewrack_citadel/start",
+  "size": 1,
+  "start_height": {
+    "absolute": 40
+  },
+  "max_distance_from_center": 80,
+  "use_expansion_hack": false
+}

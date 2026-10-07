@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/sunflare_plate_top",
+    "side": "aurelia:block/sunflare_plate_side"
+  }
+}

@@ -10,6 +10,15 @@
     "aurelia:spore_vent",
     "aurelia:gale_plate",
     "aurelia:ember_vent",
-    "aurelia:root_heart"
+    "aurelia:root_heart",
+    "aurelia:tidestone_ore",
+    "aurelia:rime_ore",
+    "aurelia:sunglass_ore",
+    "aurelia:tidestone_block",
+    "aurelia:rime_block",
+    "aurelia:sunglass_block",
+    "aurelia:brine_grate",
+    "aurelia:frost_rune",
+    "aurelia:sunflare_plate"
   ]
 }

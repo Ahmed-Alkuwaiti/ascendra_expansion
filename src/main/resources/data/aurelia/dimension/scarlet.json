@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:scarlet",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:scarlet",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:scarlet"
+    }
+  }
+}

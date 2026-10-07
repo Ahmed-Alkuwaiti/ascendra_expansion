@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:pale_outposts",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 10,
+    "separation": 4,
+    "salt": 91000207,
+    "exclusion_zone": {
+      "other_set": "aurelia:pale_colossi",
+      "chunk_count": 2
+    }
+  }
+}

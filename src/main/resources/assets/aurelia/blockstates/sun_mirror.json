@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "slash=true": {
+      "model": "aurelia:block/sun_mirror"
+    },
+    "slash=false": {
+      "model": "aurelia:block/sun_mirror",
+      "y": 90
+    }
+  }
+}

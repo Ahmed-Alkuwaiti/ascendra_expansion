@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "aurelia:block/hush_stone_off"
+    },
+    "filled=true": {
+      "model": "aurelia:block/hush_stone_on"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "aurelia:block/sunwell_front",
+    "side": "aurelia:block/sunwell_side",
+    "top": "aurelia:block/sunwell_top"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "has_precipitation": false,
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 15900780,
+    "fog_color": 15250570,
+    "water_color": 11553322,
+    "water_fog_color": 4856336,
+    "grass_color": 10510394,
+    "foliage_color": 9067056,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.012
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:husk",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "aurelia:glasswing_scarab",
+        "weight": 40,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_iron_middle",
+      "minecraft:ore_gold",
+      "minecraft:ore_diamond",
+      "aurelia:ore_sunglass"
+    ],
+    [],
+    [
+      "minecraft:spring_lava"
+    ],
+    [
+      "minecraft:patch_dead_bush_badlands",
+      "minecraft:patch_cactus_desert"
+    ],
+    []
+  ]
+}

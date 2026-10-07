@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:pale",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:pale",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:pale"
+    }
+  }
+}

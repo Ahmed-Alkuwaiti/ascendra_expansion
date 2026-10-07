@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "aurelia:block/sun_seal"
+    }
+  }
+}

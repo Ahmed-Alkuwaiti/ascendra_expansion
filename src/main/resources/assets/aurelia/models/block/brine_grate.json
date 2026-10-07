@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/brine_grate_top",
+    "side": "aurelia:block/brine_grate_side"
+  }
+}

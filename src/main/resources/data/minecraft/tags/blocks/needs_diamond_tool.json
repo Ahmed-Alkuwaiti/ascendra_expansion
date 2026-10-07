@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:tidestone_ore",
+    "aurelia:rime_ore",
+    "aurelia:sunglass_ore",
+    "aurelia:tidestone_block",
+    "aurelia:rime_block",
+    "aurelia:sunglass_block"
+  ]
+}

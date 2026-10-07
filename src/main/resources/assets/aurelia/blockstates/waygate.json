@@ -17,6 +17,24 @@
     },
     "realm=hollow,active=true": {
       "model": "aurelia:block/waygate_hollow_on"
+    },
+    "realm=drowned,active=false": {
+      "model": "aurelia:block/waygate_drowned_off"
+    },
+    "realm=drowned,active=true": {
+      "model": "aurelia:block/waygate_drowned_on"
+    },
+    "realm=pale,active=false": {
+      "model": "aurelia:block/waygate_pale_off"
+    },
+    "realm=pale,active=true": {
+      "model": "aurelia:block/waygate_pale_on"
+    },
+    "realm=scarlet,active=false": {
+      "model": "aurelia:block/waygate_scarlet_off"
+    },
+    "realm=scarlet,active=true": {
+      "model": "aurelia:block/waygate_scarlet_on"
     }
   }
 }

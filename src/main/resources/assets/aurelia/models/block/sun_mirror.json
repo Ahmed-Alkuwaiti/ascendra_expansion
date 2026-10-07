@@ -1,0 +1,84 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "aurelia:block/sun_mirror_glass",
+    "glass": "aurelia:block/sun_mirror_glass",
+    "base": "aurelia:block/sun_mirror_base"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        2,
+        15
+      ],
+      "faces": {
+        "down": {
+          "texture": "#base"
+        },
+        "up": {
+          "texture": "#base"
+        },
+        "north": {
+          "texture": "#base"
+        },
+        "south": {
+          "texture": "#base"
+        },
+        "east": {
+          "texture": "#base"
+        },
+        "west": {
+          "texture": "#base"
+        }
+      }
+    },
+    {
+      "from": [
+        -2.5,
+        2,
+        7.5
+      ],
+      "to": [
+        18.5,
+        16,
+        8.5
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      },
+      "faces": {
+        "down": {
+          "texture": "#glass"
+        },
+        "up": {
+          "texture": "#glass"
+        },
+        "north": {
+          "texture": "#glass"
+        },
+        "south": {
+          "texture": "#glass"
+        },
+        "east": {
+          "texture": "#glass"
+        },
+        "west": {
+          "texture": "#glass"
+        }
+      }
+    }
+  ]
+}

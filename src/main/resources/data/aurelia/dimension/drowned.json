@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:drowned",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:drowned",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:drowned"
+    }
+  }
+}

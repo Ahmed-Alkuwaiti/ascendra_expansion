@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "aurelia:block/sun_lens_off"
+    },
+    "filled=true": {
+      "model": "aurelia:block/sun_lens_on"
+    }
+  }
+}

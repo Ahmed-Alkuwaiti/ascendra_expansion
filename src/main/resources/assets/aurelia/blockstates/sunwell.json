@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "aurelia:block/sunwell"
+    },
+    "facing=east": {
+      "model": "aurelia:block/sunwell",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "aurelia:block/sunwell",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "aurelia:block/sunwell",
+      "y": 270
+    }
+  }
+}

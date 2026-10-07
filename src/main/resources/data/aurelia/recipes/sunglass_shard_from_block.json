@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:sunglass_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:sunglass_shard",
+    "count": 9
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:drowned_bones",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 8,
+    "separation": 3,
+    "salt": 91000203,
+    "exclusion_zone": {
+      "other_set": "aurelia:drowned_wrecks",
+      "chunk_count": 1
+    }
+  }
+}

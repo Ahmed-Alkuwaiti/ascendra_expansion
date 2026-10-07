@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:sunscar_citadel",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 11,
+    "salt": 71920506,
+    "exclusion_zone": {
+      "other_set": "aurelia:ashen_citadel",
+      "chunk_count": 5
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:scarlet_outposts",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 10,
+    "separation": 4,
+    "salt": 91000210,
+    "exclusion_zone": {
+      "other_set": "aurelia:scarlet_bones",
+      "chunk_count": 2
+    }
+  }
+}

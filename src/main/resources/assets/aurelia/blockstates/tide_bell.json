@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "rung=false": {
+      "model": "aurelia:block/tide_bell"
+    },
+    "rung=true": {
+      "model": "aurelia:block/tide_bell_rung"
+    }
+  }
+}

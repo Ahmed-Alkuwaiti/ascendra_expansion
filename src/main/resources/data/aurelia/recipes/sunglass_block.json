@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aurelia:sunglass_shard"
+    }
+  },
+  "result": {
+    "item": "aurelia:sunglass_block",
+    "count": 1
+  }
+}

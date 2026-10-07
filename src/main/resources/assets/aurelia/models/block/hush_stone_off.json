@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/hush_stone_off_top",
+    "side": "aurelia:block/hush_stone_off_side"
+  }
+}

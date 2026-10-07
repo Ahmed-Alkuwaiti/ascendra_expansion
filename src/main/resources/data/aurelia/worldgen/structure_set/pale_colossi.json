@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:pale_colossi",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 9,
+    "separation": 4,
+    "salt": 91000205
+  }
+}

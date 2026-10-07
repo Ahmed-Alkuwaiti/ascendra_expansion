@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#aurelia:has_structure/drowned_decor",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "start_pool": "aurelia:drowned_spires/start",
+  "size": 1,
+  "start_height": {
+    "absolute": -2
+  },
+  "max_distance_from_center": 80,
+  "use_expansion_hack": false,
+  "project_start_to_heightmap": "OCEAN_FLOOR_WG"
+}

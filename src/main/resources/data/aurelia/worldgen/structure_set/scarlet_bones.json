@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:scarlet_bones",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 9,
+    "separation": 4,
+    "salt": 91000209,
+    "exclusion_zone": {
+      "other_set": "aurelia:scarlet_monoliths",
+      "chunk_count": 1
+    }
+  }
+}

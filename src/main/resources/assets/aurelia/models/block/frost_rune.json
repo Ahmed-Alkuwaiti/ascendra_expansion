@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/frost_rune_top",
+    "side": "aurelia:block/frost_rune_side"
+  }
+}

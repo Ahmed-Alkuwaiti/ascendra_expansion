@@ -1,0 +1,38 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "aurelia:scarlet_monolith_0",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "aurelia:scarlet_monolith_1",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "aurelia:scarlet_monolith_2",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid"
+      }
+    }
+  ]
+}

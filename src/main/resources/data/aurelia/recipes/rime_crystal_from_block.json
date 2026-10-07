@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:rime_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:rime_crystal",
+    "count": 9
+  }
+}

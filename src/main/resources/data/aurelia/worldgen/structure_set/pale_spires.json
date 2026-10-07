@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:pale_spires",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 6,
+    "separation": 2,
+    "salt": 91000206,
+    "exclusion_zone": {
+      "other_set": "aurelia:pale_colossi",
+      "chunk_count": 1
+    }
+  }
+}
