@@ -5,11 +5,13 @@ python3 build_gallery.py OUT_DIR
 import html
 import sys
 
+import finale_page
 import mobspecs
 
 ACTS = {1: ('Act I', 'The Shattered Crown', 'Three realms, three shards, the Crown of Aurelia.'),
         2: ('Act II', 'The Outer Realms', 'Three empty settings in the Crown, the Ascendant Crown.'),
-        3: ('Act III', 'The Rifts Beneath', 'The hours and the roots under everything, the Eternal Crown.')}
+        3: ('Act III', 'The Rifts Beneath', 'The hours and the roots under everything, the Eternal Crown.'),
+        4: ('Finale', 'The Eightfold Seal', 'Eight relics, one gate, the Last Realm and the Unmaker. The Hand of Genesis.')}
 
 R = [
     dict(id='grove', act=1, name='The Gaudy Grove', tag='Everything here grew too big, too bright, too loud.', accent='#8fd16a',
@@ -174,6 +176,9 @@ figcaption { font: 13px/1.45 var(--mono); color: var(--muted); margin-top: 8px; 
 .two { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 22px; align-items: start; }
 .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.guard .from { display: block; font: 600 11px/1.6 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--c); }
+code { font: 13px var(--mono); background: var(--panel); padding: 1px 5px; border-radius: 3px; }
 .grid6 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .text h4 { font: 700 20px/1.2 var(--display); margin: 0 0 6px; color: var(--text); letter-spacing: .02em; }
 .text p { margin: 0 0 12px; }
@@ -193,7 +198,7 @@ dialog img { max-width: 96vw; max-height: 90vh; display: block; }
 dialog p { color: var(--text); font: 13px var(--mono); margin: 8px 0 0; }
 @media (max-width: 860px) {
   .two, .pair { grid-template-columns: minmax(0, 1fr); }
-  .three, .grid6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .three, .grid6, .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rhead { grid-template-columns: minmax(0, 1fr); }
   .stats { text-align: left; }
 }
@@ -251,6 +256,7 @@ def realm_section(r):
 
 def page():
     chips = {a: ''.join(f'<a class="chip" style="--c:{r["accent"]}" href="#{r["id"]}">{e(r["name"])}</a>' for r in R if r['act'] == a) for a in ACTS}
+    chips[4] = '<a class="chip" style="--c:#c9a6ff" href="#finale">The Eightfold Seal</a>'
     acts = ''.join(f'<div class="act"><span class="eyebrow">{e(t[0])}</span><h3>{e(t[1])}</h3><p>{e(t[2])}</p><div class="realms">{chips[a]}</div></div>'
                    for a, t in ACTS.items())
     chain = ' &rarr; '.join(f'<b>{e(r["boss_name"].split(",")[0])}</b>' for r in R)
@@ -263,13 +269,14 @@ def page():
 <span class="eyebrow">Forge 1.20.1 &middot; for the Ascendra modpack</span>
 <h1>Aurelia: The Shattered Crown</h1>
 <p class="lede">Every Warden, arena, citadel, portal, realm, structure and guard in the mod, rendered from the mod's own model specs and structure templates.
-Eight realms in three acts. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, wake the Warden.</p>
+Eight realms in three acts, then the finale. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, wake the Warden.</p>
 <div class="acts">{acts}</div>
-<div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b></div>
+<div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>
 <nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a></div></nav>
 <main>
 {''.join(realm_section(r) for r in R)}
+{finale_page.section()}
 <section class="realm" id="waygates" style="--c:var(--gold)"><div class="wrap">
 <h3 class="sub" style="margin-top:0">The eight Waygates</h3>
 <div class="strip"><img src="portals/waygates.png" alt="Waygate block faces for all eight realms, dormant and awake"><div class="wg">{names}</div></div>

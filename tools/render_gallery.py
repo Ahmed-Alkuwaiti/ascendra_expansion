@@ -478,14 +478,6 @@ def arenas(out):
         save(card.convert('RGB'), f'{out}/arenas/{realm}_arena.webp')
 
 
-if __name__ == '__main__':
-    out = sys.argv[1]
-    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas']
-    for s in secs:
-        print(s)
-        globals()[s](out)
-
-
 # ------------------------------------------------------------------------------------------------ the finale
 LAST_REALMS = ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial']
 
@@ -512,3 +504,59 @@ def last_realm_scene(with_pad=True):
         sc.set(C, F, C, 'aurelia:warden_altar')
         sc.set(C, F, C + 9, 'aurelia:waygate')
     return sc
+
+
+rs.AUR.update({'relic_pedestal': (44, 38, 52), 'realm_node': (200, 150, 255), 'unmaking_anchor': (30, 20, 40)})
+LAST_BG = ((6, 4, 14), (44, 24, 76))
+
+
+def finale(out):
+    import relics
+    for key, name, boss, realm, fn in relics.RELICS:
+        im = relics.render_relic(fn(), size=460, bg=BG[realm], on_pedestal=realm, yaw=-28, pitch=14)
+        save(im, f'{out}/finale/relic_{key}.webp')
+    im = relics.render_relic(relics.hand_of_genesis(), size=560, bg=LAST_BG, yaw=-24, pitch=10)
+    save(im, f'{out}/finale/hand_of_genesis.webp')
+    # the Unmaker, front and back
+    parts, tex, glow = rm.build('unmaker')
+    sc = None
+    row = []
+    for yaw, pitch in [(-25, 8), (155, 12)]:
+        im, s = rm.render(parts, tex, glow, yaw, pitch, size=700, bg=LAST_BG, scale=sc)
+        sc = s if sc is None else sc
+        row.append(im)
+    img = Image.new('RGB', (1400, 700))
+    img.paste(row[0], (0, 0))
+    img.paste(row[1], (700, 0))
+    save(img, f'{out}/finale/unmaker.webp')
+    # the Last Realm, whole, and the Unmaker over its arena
+    scn = last_realm_scene()
+    hub = rs.draw(scn.b, [], 0, 0, 0, None, size=1500, bg=LAST_BG, dots=False)
+    save(hub, f'{out}/finale/last_realm.webp')
+    boss, _ = rm.render(parts, tex, glow, -40, 6, size=900, alpha=True)
+    boss = boss.crop(boss.getbbox())
+    boss.thumbnail((470, 470))
+    card = hub.convert('RGBA')
+    card.alpha_composite(boss, ((card.width - boss.width) // 2, max(0, int(card.height * 0.53) - boss.height)))
+    save(card.convert('RGB'), f'{out}/finale/unmaker_over_the_last_realm.webp')
+    # the arena close up: core and pad only, the eight nodes on the rim
+    core = Scene()
+    for k, v in scn.b.items():
+        if (k[0] - 56) ** 2 + (k[2] - 56) ** 2 <= 34 ** 2:
+            core.b[k] = v
+    save(rs.draw(core.b, [], 0, 0, 0, None, size=1100, bg=LAST_BG, dots=False), f'{out}/finale/last_arena.webp')
+    # the Convergence Gate
+    gate = S + 'convergence_gate.nbt'
+    save(rs.render(gate, None, size=1100, bg=LAST_BG), f'{out}/finale/gate_ext.webp')
+    save(rs.render(gate, None, size=1100, bg=LAST_BG, rot=1), f'{out}/finale/gate_side.webp')
+    save(rs.render(gate, None, size=900, bg=LAST_BG, box=(20, 14, 18, 60, 34, 44)), f'{out}/finale/gate_rite.webp')
+    for realm in LAST_REALMS:
+        save(rs.render(S + f'last_island_{realm}.nbt', None, size=520, bg=LAST_BG), f'{out}/finale/island_{realm}.webp')
+
+
+if __name__ == '__main__':
+    out = sys.argv[1]
+    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas', 'finale']
+    for s in secs:
+        print(s)
+        globals()[s](out)

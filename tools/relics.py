@@ -259,11 +259,11 @@ REALM_COLOR = {'grove': (110, 230, 90), 'skyreach': (110, 215, 255), 'hollow': (
 def pedestal_elements(realm):
     """The Relic Pedestal: a stepped plinth of polished blackstone with gold trim and a realm-coloured rune on every side."""
     m = Model('pedestal')
-    m.box((0, 0, 0), (16, 3, 16), 'plate_dk')
-    m.box((1, 3, 1), (15, 4, 15), 'gold_d')
-    m.box((3, 4, 3), (13, 10, 13), 'plate_dk')
-    m.box((2, 10, 2), (14, 12, 14), 'plate_dk')
-    m.box((2.5, 12, 2.5), (13.5, 12.5, 13.5), 'gold_d')
+    m.box((0, 0, 0), (16, 3, 16), 'iron_dk')
+    m.box((1, 3, 1), (15, 4, 15), 'gold')
+    m.box((3, 4, 3), (13, 10, 13), 'iron_dk')
+    m.box((2, 10, 2), (14, 12, 14), 'iron_dk')
+    m.box((2.5, 12, 2.5), (13.5, 12.5, 13.5), 'gold')
     for (frm, to) in [((6, 5, 12.8), (10, 9, 13.3)), ((6, 5, 2.7), (10, 9, 3.2)), ((12.8, 5, 6), (13.3, 9, 10)), ((2.7, 5, 6), (3.2, 9, 10))]:
         m.box(frm, to, 'rune_' + realm)
     return m

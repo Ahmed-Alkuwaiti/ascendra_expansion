@@ -1,8 +1,8 @@
 # Aurelia: The Shattered Crown (Forge 1.20.1)
 
-Eight realms, eight Wardens, one broken crown. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
+Eight realms, eight Wardens, one broken crown, and the thing that broke it. Built for Ascendra (Forge 1.20.1); depends on nothing except Forge.
 
-**Act one** (the Grove, Skyreach, the Hollow) reforges the Crown of Aurelia. **Act two** (the Drowned Expanse, the Pale Wastes, the Scarlet Sands) fills its three empty settings and ends with the **Ascendant Crown**. **Act three** (the Clockwork Rift, the Mycelial Deep) ends with the **Eternal Crown**. Acts two and three have their own sections below.
+**Act one** (the Grove, Skyreach, the Hollow) reforges the Crown of Aurelia. **Act two** (the Drowned Expanse, the Pale Wastes, the Scarlet Sands) fills its three empty settings and ends with the **Ascendant Crown**. **Act three** (the Clockwork Rift, the Mycelial Deep) ends with the **Eternal Crown**. **The finale** gathers a relic from every Warden, opens the Convergence Gate, and pits you against the **Unmaker** in the Last Realm. Each act has its own section below.
 
 ## The shape of it
 
@@ -318,6 +318,69 @@ Chronite shards come from Clockwork Rift guards and chests; bloomspores from the
 - **Vexor flies** with `FlyingMoveControl`; if he drifts off the arena his orbit code pulls him back toward the altar. The dial check runs whenever any dial in 64 blocks is wound.
 - **Big templates**: both citadels are 97 x 97. `beard_box` adapts the terrain; on very rough ground the Paradox Keep's crag can stand proud of hills.
 - **The Mycelial Deep** reuses the Hollow's cavern noise with a new surface rule. If its floor comes out too flat or too broken, tune `gen_act3_data.py`.
+
+# The finale: the Eightfold Seal
+
+Every Warden now drops a **relic** as well as its shard, every time it dies. Relics are 3D item models built from cuboids (`tools/relics.py`).
+
+| Relic | Warden |
+|---|---|
+| Rootbound Heart | Mossback |
+| Storm Talon | Tempest Roc |
+| Sovereign Hand | Hollow King |
+| Abyssal Fang | Vorath |
+| Frozen Voice | White Silence |
+| Glass Stinger | Kharzul |
+| Chronal Eye | Vexor |
+| Living Spore | Bloom Mother |
+
+**The Convergence Gate** (81 x 74 x 81) generates in plains, sunflower plains, meadow, savanna, forest, birch forest, taiga, snowy plains and desert; `/locate structure aurelia:convergence_gate`.
+- An octagonal gate of black and white stone with a starfield behind it, on a stepped terrace.
+- Eight **Relic Pedestals** stand before it, each with a crystal lamp and a glass conduit to the gate.
+- Eight echo guards stand watch, one heavy guard from each realm.
+- Lay each relic on its own pedestal. When all eight are filled, the Waygate in the gate's foot wakes. Relics on pedestals are kept.
+
+**The Last Realm** is a void under a black sky. The first arrival builds it from templates round the landing pad (`ArenaBuilder.last`):
+- a ring arena 57 blocks across with eight **Realm Nodes** on its rim;
+- eight bridges out to eight floating islands, one per realm, each with a landmark, a shrine and a chest of its realm's material.
+
+The arena is rebuilt every time the Unmaker wakes and when it dies.
+
+**The Unmaker** (12000 HP, 404 parts) is a broken colossus round a black hole: a bursting shell, an accretion ring, a cracked mask, a halo of eight stolen shards and two vast hands. It takes 25% damage (60% in phase three) and full damage while staggered.
+- **I. Borrowed Gods** (all phases). Every 30 seconds it borrows one Warden's power.
+  - That realm's node lights, the realm's weather fills the arena, and a 10-second channel starts.
+  - Touch the lit node to stagger it for 8 seconds (full damage, caps 2.5x).
+  - Fail and everyone takes 35% of max health plus the realm's curse (the Clockwork curse rewinds you 5 seconds), and it heals 3%.
+- **II. World Breaker** (66%).
+  - Island rock falls on marked spots and stays as cover.
+  - Echo heavy guards return.
+  - **Unmaking Anchors** heal it while they stand; break them.
+- **III. The Last Heart** (33%).
+  - It pulls everyone in and begins **the Unmaking**.
+  - Deal 4% of its health within 6 seconds to stagger it. Fail and a wedge of the arena falls away; the pad and node plinths always hold. Everyone also takes 25% of max health.
+- **Attacks:** the Grasp (marked hand slams), the Void Lance and the Collapse.
+
+It drops the **Hand of Genesis**. Use it to cast the selected power (2.5-second cooldown); sneak and use it to switch powers. Its powers:
+- Verdant Bloom
+- Tempest Leap
+- Sovereign's Wrath
+- Undertow
+- Silence
+- Last Grain
+- Haste of Hours
+- Spore Bloom
+
+## Testing the finale
+
+- Skip the gate: `/setblock <x> <y> <z> aurelia:waygate[realm=last,active=true]`.
+- Visit: `/execute in aurelia:last run tp @s 0 105 0`. Entering through a Waygate builds the hub.
+- Relics, the Hand and an Unmaker spawn egg are in the creative tab.
+
+## Known risks, the finale (untested in game)
+
+- **Relic item models** use element rotations of 0, 22.5 and 45 degrees only, which vanilla requires. If a relic looks scrambled, check the rotation sign convention in `relics.py` (`seg_chain`).
+- **Hub building** places the core and island templates round the pad the first time anyone arrives. This loads chunks out to about 85 blocks, so expect a one-off pause.
+- **The Unmaker's texture** is 1024 x 1024. This is the first model past 512.
 
 ## Building the jar
 
