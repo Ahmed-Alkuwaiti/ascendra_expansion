@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "realm=grove,active=false": {
+      "model": "aurelia:block/waygate_grove_off"
+    },
+    "realm=grove,active=true": {
+      "model": "aurelia:block/waygate_grove_on"
+    },
+    "realm=skyreach,active=false": {
+      "model": "aurelia:block/waygate_skyreach_off"
+    },
+    "realm=skyreach,active=true": {
+      "model": "aurelia:block/waygate_skyreach_on"
+    },
+    "realm=hollow,active=false": {
+      "model": "aurelia:block/waygate_hollow_off"
+    },
+    "realm=hollow,active=true": {
+      "model": "aurelia:block/waygate_hollow_on"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.85,
+  "downfall": 0.9,
+  "effects": {
+    "sky_color": 8378111,
+    "fog_color": 14022592,
+    "water_color": 4180200,
+    "water_fog_color": 1740704,
+    "grass_color": 9427804,
+    "foliage_color": 3719276,
+    "particle": {
+      "options": {
+        "type": "minecraft:spore_blossom_air"
+      },
+      "probability": 0.012
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "aurelia:grove_ant",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_diamond"
+    ],
+    [],
+    [
+      "aurelia:grove_springs"
+    ],
+    [
+      "minecraft:trees_jungle",
+      "minecraft:mushroom_island_vegetation",
+      "minecraft:patch_large_fern",
+      "minecraft:flower_flower_forest",
+      "minecraft:forest_flowers",
+      "minecraft:patch_grass_jungle",
+      "minecraft:jungle_bush",
+      "minecraft:patch_tall_grass",
+      "aurelia:grove_vines",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal"
+    ],
+    []
+  ]
+}

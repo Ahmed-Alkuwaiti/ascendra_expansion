@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:skyreach",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:skyreach",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:skyreach"
+    }
+  }
+}

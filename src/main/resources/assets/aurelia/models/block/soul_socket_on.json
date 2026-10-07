@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/soul_socket_on_top",
+    "side": "aurelia:block/soul_socket_on_side"
+  }
+}

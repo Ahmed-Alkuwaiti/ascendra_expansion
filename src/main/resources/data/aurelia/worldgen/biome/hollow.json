@@ -1,0 +1,85 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 657938,
+    "fog_color": 2757136,
+    "water_color": 2761784,
+    "water_fog_color": 986134,
+    "grass_color": 4867664,
+    "foliage_color": 3814720,
+    "ambient_sound": "minecraft:ambient.basalt_deltas.loop",
+    "mood_sound": {
+      "sound": "minecraft:ambient.basalt_deltas.mood",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "additions_sound": {
+      "sound": "minecraft:ambient.basalt_deltas.additions",
+      "tick_chance": 0.0111
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.06
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "aurelia:hollow_shade",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:enderman",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:nether_cave"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:basalt_blobs",
+      "minecraft:blackstone_blobs",
+      "minecraft:basalt_pillar",
+      "minecraft:glowstone_extra",
+      "minecraft:glowstone",
+      "minecraft:patch_soul_fire"
+    ],
+    [
+      "aurelia:hollow_lava_falls"
+    ],
+    [
+      "aurelia:giant_red_fungus_patch",
+      "minecraft:brown_mushroom_nether",
+      "minecraft:red_mushroom_nether"
+    ],
+    []
+  ]
+}

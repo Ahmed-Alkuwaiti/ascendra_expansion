@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:hollow",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:hollow",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:hollow"
+    }
+  }
+}

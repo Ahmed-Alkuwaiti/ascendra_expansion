@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/warden_altar_top",
+    "side": "aurelia:block/warden_altar_side"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/spore_planter_on_top",
+    "side": "aurelia:block/spore_planter_on_side"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "aurelia:grove",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "aurelia:grove",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "aurelia:grove"
+    }
+  }
+}

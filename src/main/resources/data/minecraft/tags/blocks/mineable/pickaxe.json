@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:verdant_ore",
+    "aurelia:stormglass_ore",
+    "aurelia:emberheart_ore",
+    "aurelia:verdant_block",
+    "aurelia:stormglass_block",
+    "aurelia:emberheart_block",
+    "aurelia:spore_vent",
+    "aurelia:gale_plate",
+    "aurelia:ember_vent",
+    "aurelia:root_heart"
+  ]
+}

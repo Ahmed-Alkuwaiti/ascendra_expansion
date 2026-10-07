@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:emberheart_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:emberheart",
+    "count": 9
+  }
+}

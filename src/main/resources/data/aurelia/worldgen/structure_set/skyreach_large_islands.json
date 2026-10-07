@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:skyreach_large_islands",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 9,
+    "separation": 4,
+    "salt": 91000102,
+    "exclusion_zone": {
+      "other_set": "aurelia:skyreach_castle_islands",
+      "chunk_count": 3
+    }
+  }
+}

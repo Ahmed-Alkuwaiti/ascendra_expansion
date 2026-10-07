@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "aurelia:block/storm_pylon_off"
+    },
+    "filled=true": {
+      "model": "aurelia:block/storm_pylon_on"
+    }
+  }
+}

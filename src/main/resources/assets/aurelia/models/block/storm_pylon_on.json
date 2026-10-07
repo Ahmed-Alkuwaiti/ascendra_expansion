@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/storm_pylon_on_top",
+    "side": "aurelia:block/storm_pylon_on_side"
+  }
+}

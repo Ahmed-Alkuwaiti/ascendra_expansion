@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "aurelia:block/waygate_hollow_on_top",
+    "side": "aurelia:block/waygate_hollow_on_side"
+  }
+}

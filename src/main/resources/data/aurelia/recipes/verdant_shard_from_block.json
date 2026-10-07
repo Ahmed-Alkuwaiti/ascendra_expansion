@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:verdant_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:verdant_shard",
+    "count": 9
+  }
+}

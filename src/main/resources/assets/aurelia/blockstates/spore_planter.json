@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "aurelia:block/spore_planter_off"
+    },
+    "filled=true": {
+      "model": "aurelia:block/spore_planter_on"
+    }
+  }
+}

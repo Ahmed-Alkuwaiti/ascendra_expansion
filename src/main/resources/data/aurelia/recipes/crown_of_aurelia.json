@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:grove_shard"
+    },
+    {
+      "item": "aurelia:storm_shard"
+    },
+    {
+      "item": "aurelia:void_shard"
+    },
+    {
+      "item": "aurelia:verdant_block"
+    },
+    {
+      "item": "aurelia:stormglass_block"
+    },
+    {
+      "item": "aurelia:emberheart_block"
+    }
+  ],
+  "result": {
+    "item": "aurelia:crown_of_aurelia",
+    "count": 1
+  }
+}

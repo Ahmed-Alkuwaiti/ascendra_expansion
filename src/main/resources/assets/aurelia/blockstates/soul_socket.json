@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "aurelia:block/soul_socket_off"
+    },
+    "filled=true": {
+      "model": "aurelia:block/soul_socket_on"
+    }
+  }
+}

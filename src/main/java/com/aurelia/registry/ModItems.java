@@ -1,0 +1,114 @@
+package com.aurelia.registry;
+
+import com.aurelia.AureliaMod;
+import com.aurelia.item.AurelianCrownItem;
+import com.aurelia.item.LoreItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+public class ModItems {
+    public static final DeferredRegister<Item> ITEMS =
+            DeferredRegister.create(ForgeRegistries.ITEMS, AureliaMod.MODID);
+
+    // ---- Blocks ----
+    public static final RegistryObject<Item> WAYGATE = ITEMS.register("waygate",
+            () -> new BlockItem(ModBlocks.WAYGATE.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> WARDEN_ALTAR = ITEMS.register("warden_altar",
+            () -> new BlockItem(ModBlocks.WARDEN_ALTAR.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> SPORE_PLANTER = ITEMS.register("spore_planter",
+            () -> new BlockItem(ModBlocks.SPORE_PLANTER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STORM_PYLON = ITEMS.register("storm_pylon",
+            () -> new BlockItem(ModBlocks.STORM_PYLON.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_SOCKET = ITEMS.register("soul_socket",
+            () -> new BlockItem(ModBlocks.SOUL_SOCKET.get(), new Item.Properties()));
+
+    // ---- Puzzle items (dropped by citadel guards, also found in chests) ----
+    public static final RegistryObject<Item> SPORE_HEART = ITEMS.register("spore_heart",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.spore_heart.lore"));
+    public static final RegistryObject<Item> SOUL_SIGIL = ITEMS.register("soul_sigil",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "item.aurelia.soul_sigil.lore"));
+
+
+    // ---- Citadel gimmicks, ores, and realm materials ----
+    public static final RegistryObject<Item> BRAMBLE_SEAL = ITEMS.register("bramble_seal",
+            () -> new BlockItem(ModBlocks.BRAMBLE_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STORM_SEAL = ITEMS.register("storm_seal",
+            () -> new BlockItem(ModBlocks.STORM_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ASH_SEAL = ITEMS.register("ash_seal",
+            () -> new BlockItem(ModBlocks.ASH_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> SPORE_VENT = ITEMS.register("spore_vent",
+            () -> new BlockItem(ModBlocks.SPORE_VENT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GALE_PLATE = ITEMS.register("gale_plate",
+            () -> new BlockItem(ModBlocks.GALE_PLATE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> EMBER_VENT = ITEMS.register("ember_vent",
+            () -> new BlockItem(ModBlocks.EMBER_VENT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ROOT_HEART = ITEMS.register("root_heart",
+            () -> new BlockItem(ModBlocks.ROOT_HEART.get(), new Item.Properties()));
+    public static final RegistryObject<Item> VERDANT_ORE = ITEMS.register("verdant_ore",
+            () -> new BlockItem(ModBlocks.VERDANT_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STORMGLASS_ORE = ITEMS.register("stormglass_ore",
+            () -> new BlockItem(ModBlocks.STORMGLASS_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> EMBERHEART_ORE = ITEMS.register("emberheart_ore",
+            () -> new BlockItem(ModBlocks.EMBERHEART_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> VERDANT_BLOCK = ITEMS.register("verdant_block",
+            () -> new BlockItem(ModBlocks.VERDANT_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> STORMGLASS_BLOCK = ITEMS.register("stormglass_block",
+            () -> new BlockItem(ModBlocks.STORMGLASS_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> EMBERHEART_BLOCK = ITEMS.register("emberheart_block",
+            () -> new BlockItem(ModBlocks.EMBERHEART_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> VERDANT_SHARD = ITEMS.register("verdant_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.verdant_shard.lore"));
+    public static final RegistryObject<Item> STORMGLASS_SHARD = ITEMS.register("stormglass_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.stormglass_shard.lore"));
+    public static final RegistryObject<Item> EMBERHEART = ITEMS.register("emberheart",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.emberheart.lore"));
+
+    // ---- Crown shards (Warden drops) ----
+    public static final RegistryObject<Item> GROVE_SHARD = ITEMS.register("grove_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.grove_shard.lore"));
+    public static final RegistryObject<Item> STORM_SHARD = ITEMS.register("storm_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.storm_shard.lore"));
+    public static final RegistryObject<Item> VOID_SHARD = ITEMS.register("void_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.void_shard.lore"));
+
+    // ---- The reward ----
+    public static final RegistryObject<Item> CROWN = ITEMS.register("crown_of_aurelia",
+            () -> new AurelianCrownItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
+    // ---- Spawn eggs (handy for testing) ----
+    public static final RegistryObject<Item> TITAN_EGG = ITEMS.register("mossback_titan_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.MOSSBACK_TITAN, 0x3A7D2C, 0xB6F26B, new Item.Properties()));
+    public static final RegistryObject<Item> ROC_EGG = ITEMS.register("tempest_roc_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.TEMPEST_ROC, 0x4A6FA5, 0xE8F4FF, new Item.Properties()));
+    public static final RegistryObject<Item> KING_EGG = ITEMS.register("hollow_king_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HOLLOW_KING, 0x15101C, 0xB04CFF, new Item.Properties()));
+    public static final RegistryObject<Item> ANT_EGG = ITEMS.register("grove_ant_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.GROVE_ANT, 0x8B2E1A, 0xF2C14E, new Item.Properties()));
+    public static final RegistryObject<Item> SENTINEL_EGG = ITEMS.register("sky_sentinel_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SKY_SENTINEL, 0xC9D3E0, 0x6FD2FF, new Item.Properties()));
+    public static final RegistryObject<Item> SHADE_EGG = ITEMS.register("hollow_shade_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HOLLOW_SHADE, 0x0A0A12, 0x7A5CFF, new Item.Properties()));
+    public static final RegistryObject<Item> BRAMBLE_SENTINEL_EGG = ITEMS.register("bramble_sentinel_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.BRAMBLE_SENTINEL, 0x3F6B2B, 0x9BE564, new Item.Properties()));
+    public static final RegistryObject<Item> SPORECAP_EGG = ITEMS.register("sporecap_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SPORECAP, 0xC8302E, 0xEEE4CF, new Item.Properties()));
+    public static final RegistryObject<Item> ROOTSTALKER_EGG = ITEMS.register("rootstalker_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ROOTSTALKER, 0x4E5A38, 0x96FF5A, new Item.Properties()));
+    public static final RegistryObject<Item> CALCITE_SENTINEL_EGG = ITEMS.register("calcite_sentinel_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CALCITE_SENTINEL, 0xE2E4E8, 0x5AC8EB, new Item.Properties()));
+    public static final RegistryObject<Item> STORM_WISP_EGG = ITEMS.register("storm_wisp_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.STORM_WISP, 0x5AE1FF, 0xE1FFFF, new Item.Properties()));
+    public static final RegistryObject<Item> GALE_TALON_EGG = ITEMS.register("gale_talon_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.GALE_TALON, 0x1C2856, 0xF0F4FA, new Item.Properties()));
+    public static final RegistryObject<Item> ASHBOUND_KNIGHT_EGG = ITEMS.register("ashbound_knight_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ASHBOUND_KNIGHT, 0x2A262C, 0xFF7A1E, new Item.Properties()));
+    public static final RegistryObject<Item> SOUL_JAILER_EGG = ITEMS.register("soul_jailer_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SOUL_JAILER, 0x14181F, 0x5AE6FF, new Item.Properties()));
+    public static final RegistryObject<Item> CINDER_HOUND_EGG = ITEMS.register("cinder_hound_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CINDER_HOUND, 0x30292E, 0xFF6E1C, new Item.Properties()));
+}

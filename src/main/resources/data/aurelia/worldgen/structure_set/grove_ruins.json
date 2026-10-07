@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:grove_ruins",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 5,
+    "separation": 2,
+    "salt": 91000106,
+    "exclusion_zone": {
+      "other_set": "aurelia:grove_pillars",
+      "chunk_count": 1
+    }
+  }
+}

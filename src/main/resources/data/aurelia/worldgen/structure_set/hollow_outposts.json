@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:hollow_outposts",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 8,
+    "separation": 3,
+    "salt": 91000112,
+    "exclusion_zone": {
+      "other_set": "aurelia:hollow_ziggurats",
+      "chunk_count": 2
+    }
+  }
+}
