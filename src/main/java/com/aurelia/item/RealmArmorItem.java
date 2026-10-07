@@ -75,16 +75,16 @@ public class RealmArmorItem extends ArmorItem {
     private static final UUID[] VIGOR = {UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e01"), UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e02"),
             UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e03"), UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e04")};
 
-    /** Each piece of the Unmaker's regalia also adds 5 max health. */
+    /** Each piece of Genesis armor also adds 5 max health. */
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> base = super.getAttributeModifiers(slot, stack);
-        if (this.realm != RealmArmorMaterial.UNMADE || slot != this.getEquipmentSlot()) {
+        if (this.realm != RealmArmorMaterial.GENESIS || slot != this.getEquipmentSlot()) {
             return base;
         }
         ImmutableMultimap.Builder<Attribute, AttributeModifier> out = ImmutableMultimap.builder();
         out.putAll(base);
-        out.put(Attributes.MAX_HEALTH, new AttributeModifier(VIGOR[slot.getIndex()], "Unmade vigor", 5.0, AttributeModifier.Operation.ADDITION));
+        out.put(Attributes.MAX_HEALTH, new AttributeModifier(VIGOR[slot.getIndex()], "Genesis vigor", 5.0, AttributeModifier.Operation.ADDITION));
         return out.build();
     }
 
@@ -96,9 +96,9 @@ public class RealmArmorItem extends ArmorItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.aurelia.armor_bonus." + this.realm.id()).withStyle(ChatFormatting.GOLD));
-        if (this.realm == RealmArmorMaterial.UNMADE) {
+        if (this.realm == RealmArmorMaterial.GENESIS) {
             for (int i = 0; i < 5; i++) {
-                tooltip.add(Component.literal(" ").append(Component.translatable("item.aurelia.armor_bonus.unmade." + i))
+                tooltip.add(Component.literal(" ").append(Component.translatable("item.aurelia.armor_bonus.genesis." + i))
                         .withStyle(i == 3 ? ChatFormatting.LIGHT_PURPLE : ChatFormatting.GRAY));
             }
         }
@@ -106,6 +106,6 @@ public class RealmArmorItem extends ArmorItem {
 
     @Override
     public boolean isFoil(ItemStack stack) {
-        return this.realm == RealmArmorMaterial.UNMADE || super.isFoil(stack);
+        return this.realm == RealmArmorMaterial.GENESIS || super.isFoil(stack);
     }
 }

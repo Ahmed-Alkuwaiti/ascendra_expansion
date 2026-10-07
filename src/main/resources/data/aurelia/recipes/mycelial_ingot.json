@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:bloomspore"
+    },
+    {
+      "item": "aurelia:bloomspore"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "item": "aurelia:mycelial_ingot"
+  }
+}

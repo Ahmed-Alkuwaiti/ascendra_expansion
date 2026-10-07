@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "aurelia:item/stormpiercer"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        55
+      ],
+      "translation": [
+        -0.0,
+        8.23,
+        -0.25
+      ],
+      "scale": [
+        1.317,
+        1.317,
+        1.317
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -55
+      ],
+      "translation": [
+        -0.0,
+        8.23,
+        -0.25
+      ],
+      "scale": [
+        1.317,
+        1.317,
+        1.317
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        25
+      ],
+      "translation": [
+        1.13,
+        4.96,
+        1.77
+      ],
+      "scale": [
+        0.884,
+        0.884,
+        0.884
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -25
+      ],
+      "translation": [
+        1.13,
+        4.96,
+        1.77
+      ],
+      "scale": [
+        0.884,
+        0.884,
+        0.884
+      ]
+    }
+  }
+}

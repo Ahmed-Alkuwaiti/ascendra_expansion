@@ -1,38 +1,48 @@
-"""The eight realm armor sets as 3D worn models: oversized plate with horns, antlers, wings, crowns, fins, gears and caps.
+"""The nine armor sets of the Arsenals of the Tenfold Seal, as worn 3D models: solid fitted plate, heavy pauldrons, a helm with
+a silhouette you can tell from across a field, each painted with clean bevelled pixel shading (light top-left, shade
+bottom-right, an inset panel line on every plate big enough to hold one).
 
 Authored in the box-model space used everywhere else (units of 1/16 block, y up, front +z), relative to the player's own parts:
 head and body pivot at the neck, arms at (+-5, -2, 0), legs at (+-1.9, -12, 0). Each piece is its own model, so a helmet only
-ever carries the helmet's decorations. Writes ArmorModels.java (layer definitions), one texture per piece, and preview parts.
+ever carries the helmet's decorations. Writes ArmorModels.java (layer definitions) and one texture per piece. Inventory icons
+are drawn separately (arsenal_art.ICONS).
 """
 import math
 
+import numpy as np
+from PIL import Image
+
 import mobspecs
+import paths
 from kit_data import KIT, PIECES, REALMS
+from pixelart import M, Mat, GEMS
 
 ROOTS = {'head': (0, 0, 0), 'hat': (0, 0, 0), 'body': (0, 0, 0), 'right_arm': (-5, -2, 0), 'left_arm': (5, -2, 0),
          'right_leg': (-1.9, -12, 0), 'left_leg': (1.9, -12, 0)}
-STYLE = {   # base plate, trim, dark, glow, and the realm's special material
-    'grove': ('bark', 'moss', 'bark_d', 'glowg', 'moss_l'),
-    'skyreach': ('quartz', 'gold', 'storm_l', 'rune_cyan', 'feather_w'),
-    'hollow': ('king_armor', 'steel', 'ash_armor', 'rune_orange', 'horn'),
-    'drowned': ('plate_g', 'pearl', 'navy_d', 'water_glow', 'coral'),
-    'pale': ('ice_armor', 'ice', 'ice_d', 'frost_glow', 'fur_w'),
-    'scarlet': ('sandstone_r', 'gold', 'robe_red', 'sun_glow', 'glass_red'),
-    'clockwork': ('iron_dk', 'brass', 'brass_d', 'rift_glow', 'clockface'),
-    'mycelial': ('petal_c', 'cap_m', 'flesh_p', 'bloom_glow', 'root_c'),
-    'unmade': ('regalia_w', 'gold', 'regalia_b', 'accretion2', 'abyss'),
+SETS = REALMS + ['genesis']
+ARMOR_ID = dict({r: KIT[r]['armor'] for r in REALMS}, genesis='genesis')
+STYLE = {   # plate, trim, dark, glow, cloth
+    'grove': dict(plate='bark', trim='moss', dark='wood_d', glow='verdant', cloth='leaf'),
+    'skyreach': dict(plate='white', trim='sky_m', dark='steel', glow='sky', cloth='cloth_b'),
+    'hollow': dict(plate='black', trim='gold', dark='soulsteel', glow='ember', cloth='cloth_r'),
+    'drowned': dict(plate='teal', trim='pearl', dark='tidesteel', glow='teal_g', cloth='tidesteel'),
+    'pale': dict(plate='ice', trim='gold', dark='night', glow='void_p', cloth='frost'),
+    'scarlet': dict(plate='scarlet', trim='gold', dark='black', glow='amber', cloth='black'),
+    'clockwork': dict(plate='black', trim='brass', dark='chronite', glow='chrono_g', cloth='chronite'),
+    'mycelial': dict(plate='stalk', trim='myc', dark='night', glow='myc_g', cloth='myc'),
+    'genesis': dict(plate='genesis', trim='gold', dark='black', glow='star', cloth='black'),
 }
-SHARDS = ['shard_g', 'shard_c', 'shard_v', 'shard_t', 'shard_i', 'shard_r', 'shard_y', 'shard_m']   # one stone per realm, in realm order
-SETS = REALMS + ['unmade']                                           # the eight realm sets, then the Unmaker's
-ARMOR_ID = dict({r: KIT[r]['armor'] for r in REALMS}, unmade='unmade')
 
 
 class Piece:
     def __init__(self):
         self.parts = []
 
-    def add(self, name, size, origin, pivot=(0, 0, 0), rot=(0, 0, 0), style='bark', parent='head'):
-        self.parts.append(dict(name=name, size=tuple(max(1, int(round(s))) for s in size), origin=tuple(origin), pivot=tuple(pivot),
+    def add(self, name, size, origin, pivot=(0, 0, 0), rot=(0, 0, 0), style='white', parent='head'):
+        assert name not in {p['name'] for p in self.parts}, name
+        isize = tuple(max(1, int(round(v))) for v in size)
+        origin = tuple(o + (v - iv) / 2 for o, v, iv in zip(origin, size, isize))     # rounding keeps the box centred
+        self.parts.append(dict(name=name, size=isize, origin=origin, pivot=tuple(pivot),
                                rot=tuple(rot), style=style, anim='none', eyes=None, parent=parent))
         return name
 
@@ -41,442 +51,391 @@ def side(sx):
     return 'R' if sx < 0 else 'L'
 
 
-# ------------------------------------------------------------------------------------------------ shared plate
-def helm_base(p, st):
-    base, trim, dark, glow, special = st
-    p.add('helm', (10, 10, 10), (-5, -1, -5), style=base)
-    p.add('helmBrow', (11, 2, 2), (-5.5, 5, 4.5), style=trim)
-    p.add('helmVisor', (6, 1, 1), (-3, 3.5, 5.2), style=glow)
-    p.add('helmCrest', (2, 3, 10), (-1, 9, -5), style=trim)
+ARMS = (('right_arm', -1), ('left_arm', 1))
+LEGS = (('right_leg', -1), ('left_leg', 1))
 
 
-def chest_base(p, st):
-    base, trim, dark, glow, special = st
-    p.add('plate', (10, 14, 6), (-5, -13, -3), style=base, parent='body')
-    p.add('plateBand', (11, 2, 7), (-5.5, -9, -3.5), style=trim, parent='body')
-    p.add('plateCore', (3, 3, 1), (-1.5, -6, 3.1), style=glow, parent='body')
-    p.add('armR', (6, 14, 6), (-4, -11, -3), style=base, parent='right_arm')
-    p.add('armL', (6, 14, 6), (-2, -11, -3), style=base, parent='left_arm')
+# ------------------------------------------------------------------------------------------------ the shared plate
+def helm(p, m, visor='slit'):
+    p.add('helm', (10, 10, 10), (-5, -1, -5), style=m['plate'])
+    p.add('brow', (11, 2, 2), (-5.5, 5, 4.4), style=m['trim'])
+    p.add('rim', (11, 1, 11), (-5.5, -1.2, -5.5), style=m['trim'])
+    if visor == 'slit':
+        p.add('visor', (7, 1, 1), (-3.5, 3.5, 4.9), style=m['glow'])
+    elif visor == 'eyes':
+        for sx in (-1, 1):
+            p.add('eye' + side(sx), (2, 1, 1), (sx * 2.3 - 1, 3.5, 4.9), style=m['glow'])
+    elif visor == 'tee':
+        p.add('visor', (7, 1, 1), (-3.5, 3.5, 4.9), style=m['glow'])
+        p.add('visorV', (1, 4, 1), (-0.5, 0, 4.9), style=m['glow'])
+    for sx in (-1, 1):
+        p.add('cheek' + side(sx), (1, 5, 4), (sx * 5.3 - 0.5, -1, 1), style=m['dark'])
 
 
-def legs_base(p, st):
-    base, trim, dark, glow, special = st
-    p.add('belt', (10, 4, 6), (-5, -13, -3), style=trim, parent='body')
-    p.add('buckle', (2, 2, 1), (-1, -12, 3.1), style=glow, parent='body')
-    for leg, x0 in (('right_leg', -2.5), ('left_leg', -2.5)):
-        p.add('thigh' + leg[0].upper(), (5, 8, 5), (x0, -8, -2.5), style=base, parent=leg)
-        p.add('knee' + leg[0].upper(), (5, 2, 2), (x0, -9, 2), style=trim, parent=leg)
-
-
-def boots_base(p, st):
-    base, trim, dark, glow, special = st
-    for leg in ('right_leg', 'left_leg'):
-        L = leg[0].upper()
-        p.add('boot' + L, (6, 6, 6), (-3, -13, -3), style=dark, parent=leg)
-        p.add('toe' + L, (6, 2, 3), (-3, -13, 2.5), style=base, parent=leg)
-        p.add('cuff' + L, (7, 2, 7), (-3.5, -8, -3.5), style=trim, parent=leg)
-
-
-def pauldrons(p, st, w=9, h=5, d=9, spikes=0, spike_style=None, extra=None):
-    base, trim, dark, glow, special = st
-    for arm, sx in (('right_arm', -1), ('left_arm', 1)):
+def torso(p, m, emblem=True):
+    p.add('plate', (10, 13, 6), (-5, -12.6, -3), style=m['plate'], parent='body')
+    p.add('chest', (8, 5, 1), (-4, -6.5, 3), style=m['plate'], parent='body')
+    p.add('collar', (11, 1, 7), (-5.5, -1.2, -3.5), style=m['trim'], parent='body')
+    p.add('back', (8, 9, 1), (-4, -11, -3.8), style=m['dark'], parent='body')
+    if emblem:
+        p.add('emblem', (3, 3, 1), (-1.5, -5.5, 3.6), style=m['glow'], parent='body')
+        p.add('emblemRim', (5, 5, 1), (-2.5, -6.5, 3.3), style=m['trim'], parent='body')
+    for arm, sx in ARMS:
         L = side(sx)
-        cx = -1 if sx < 0 else 1
-        p.add('paul' + L, (w, h, d), (-w / 2 + cx, 0, -d / 2), (0, 0, 0), rot=(0, 0, -sx * 0.18), style=base, parent=arm)
-        p.add('paulRim' + L, (w + 1, 2, d + 1), (-(w + 1) / 2 + cx, -1, -(d + 1) / 2), rot=(0, 0, -sx * 0.18), style=trim, parent=arm)
-        for k in range(spikes):
-            z = -d / 2 + 1.5 + k * (d - 3) / max(1, spikes - 1)
-            p.add(f'paulSpike{L}{k}', (2, 7 - abs(k - (spikes - 1) / 2) * 1.5, 2), (-1, 0, -1), (cx + sx * 1.5, h - 0.5, z),
-                  rot=(0, 0, -sx * 0.45), style=spike_style or trim, parent=arm)
-        if extra:
-            extra(p, arm, sx, L)
+        x0 = -3.2 if sx < 0 else -1.8
+        p.add('arm' + L, (5, 6, 5), (x0, -5.5, -2.5), style=m['plate'], parent=arm)
+        p.add('vamb' + L, (6, 4, 6), (x0 - 0.5, -10.2, -3), style=m['dark'], parent=arm)
+        p.add('vambBand' + L, (7, 1, 7), (x0 - 1, -7, -3.5), style=m['trim'], parent=arm)
 
 
-# ------------------------------------------------------------------------------------------------ the eight sets
-def verdant(piece, st):
+def pauldron(p, m, arm, sx, w=8, h=4, d=7, tiers=2, style=None):
+    """A layered shoulder: a broad plate, a trimmed rim, a smaller plate over it."""
+    L = side(sx)
+    cx = -1 if sx < 0 else 1
+    st = style or m['plate']
+    p.add('paul' + L, (w, h, d), (-w / 2, -1, -d / 2), (cx, 1.5, 0), rot=(0, 0, -sx * 0.22), style=st, parent=arm)
+    p.add('paulRim' + L, (w + 1, 1, d + 1), (-(w + 1) / 2, -1.6, -(d + 1) / 2), (cx, 1.5, 0), rot=(0, 0, -sx * 0.22), style=m['trim'], parent=arm)
+    if tiers > 1:
+        p.add('paulTop' + L, (w - 2, 2, d - 2), (-(w - 2) / 2, h - 1, -(d - 2) / 2), (cx, 1.5, 0), rot=(0, 0, -sx * 0.22), style=st, parent=arm)
+    return 'paul' + L
+
+
+def legs(p, m, tabard=True):
+    p.add('belt', (11, 3, 7), (-5.5, -13.5, -3.5), style=m['trim'], parent='body')
+    p.add('buckle', (3, 2, 1), (-1.5, -12.8, 3.1), style=m['glow'], parent='body')
+    if tabard:
+        p.add('tabard', (5, 9, 1), (-2.5, -21.5, 3.0), style=m['cloth'], parent='body')
+        p.add('tabardBack', (6, 8, 1), (-3, -20.5, -3.6), style=m['cloth'], parent='body')
+    for leg, sx in LEGS:
+        L = side(sx)
+        p.add('thigh' + L, (5, 6, 5), (-2.5, -6.5, -2.5), style=m['plate'], parent=leg)
+        p.add('knee' + L, (4, 3, 1.5), (-2, -9, 2.4), style=m['trim'], parent=leg)
+        p.add('greave' + L, (5, 2, 5), (-2.5, -9, -2.5), style=m['dark'], parent=leg)
+        p.add('hip' + L, (1, 5, 4), (sx * 2.6 - 0.5, -5, -2), style=m['trim'], parent=leg)
+
+
+def boots(p, m):
+    for leg, sx in LEGS:
+        L = side(sx)
+        p.add('boot' + L, (5, 5, 5), (-2.5, -12.4, -2.5), style=m['plate'], parent=leg)
+        p.add('toe' + L, (4, 2, 2), (-2, -12.4, 2.4), style=m['dark'], parent=leg)
+        p.add('cuff' + L, (6, 1, 6), (-3, -8, -3), style=m['trim'], parent=leg)
+        p.add('ankleGem' + L, (1, 1, 1), (sx * 2.6 - 0.5, -10.5, 0), style=m['glow'], parent=leg)
+
+
+def spikes(p, base, n, length, style, parent, spread=0.5, w=1.6):
+    """A fan of n spikes rising from a part."""
+    for k in range(n):
+        a = (k - (n - 1) / 2) * spread
+        p.add(f'{base}{k}', (w, length - abs(k - (n - 1) / 2) * 1.2, w), (-w / 2, 0, -w / 2), (math.sin(a) * 2.5, 2.5, 0),
+              rot=(0, 0, -a), style=style, parent=parent)
+
+
+# ------------------------------------------------------------------------------------------------ the nine sets
+def mossbound(piece, m):
     p = Piece()
-    base, trim, dark, glow, special = st
     if piece == 'helmet':
-        helm_base(p, st)
-        p.add('mossCrown', (11, 2, 11), (-5.5, 9, -5.5), style='moss')
-        for sx in (-1, 1):                                           # a great antler rack, three tines on each beam
-            L = side(sx)
-            b1 = p.add('antler' + L, (2, 9, 2), (-1, 0, -1), (sx * 4, 8, -1), rot=(-0.15, 0, -sx * 0.55), style='bark')
-            b2 = p.add('antler2' + L, (2, 8, 2), (-1, 0, -1), (0, 9, 0), rot=(-0.25, 0, sx * 0.35), parent=b1, style='bark')
-            p.add('antler3' + L, (1.5, 6, 1.5), (-0.75, 0, -0.75), (0, 8, 0), rot=(-0.3, 0, -sx * 0.4), parent=b2, style='bark_d')
-            for k, (y, a) in enumerate([(3, 0.9), (6, 0.7)]):
-                p.add(f'tine{L}{k}', (1.5, 6, 1.5), (-0.75, 0, -0.75), (0, y, 0), rot=(0.5, 0, -sx * a), parent=b2, style='bark_d')
-            p.add('tine0' + L, (1.5, 5, 1.5), (-0.75, 0, -0.75), (0, 6, 0), rot=(0.6, 0, -sx * 0.9), parent=b1, style='bark_d')
-            p.add('leaf' + L, (4, 1, 3), (-2, 0, -1.5), (sx * 5, 9, 2), rot=(0.3, 0, sx * 0.4), style='moss_l')
-        p.add('shroomStem', (1, 2, 1), (2.5, 11, -1), style='root_c')
-        p.add('shroomCap', (4, 1, 4), (1, 13, -2.5), style='cap')
-        p.add('eyeGlow', (7, 1, 1), (-3.5, 3.5, 5.3), style=glow)
-    elif piece == 'chestplate':
-        chest_base(p, st)
-        def shrooms(p, arm, sx, L):
-            p.add('pShroomS' + L, (1, 3, 1), (-0.5, 0, -0.5), (sx * 1, 5, 1), parent=arm, style='root_c')
-            p.add('pShroomC' + L, (4, 1, 4), (-2, 3, -2), (sx * 1, 5, 1), parent=arm, style='cap')
-            p.add('pMoss' + L, (6, 2, 6), (-3, 4, -3), (sx * 1, 0, -1), parent=arm, style='moss')
-        pauldrons(p, st, 10, 5, 9, spikes=3, spike_style='thorn', extra=shrooms)
-        for k in range(5):                                           # a ridge of thorned roots up the back
-            p.add(f'backRoot{k}', (2, 8 - k, 2), (-1, 0, -1), (-3 + k * 1.5, -11 + k * 2.2, -3), rot=(-0.6, 0, 0.3 - k * 0.15), parent='body', style='bark')
-        p.add('vineFront', (8, 1, 1), (-4, -4, 3.1), rot=(0, 0, 0.25), parent='body', style='moss_l')
-        p.add('vineFront2', (8, 1, 1), (-4, -10, 3.1), rot=(0, 0, -0.25), parent='body', style='moss_l')
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('tasset' + side(sx), (5, 6, 1), (-2.5, -6, 2.6), parent=leg, style='bark_d')
-            p.add('leafTasset' + side(sx), (4, 4, 1), (-2, -9, 3), rot=(0.2, 0, 0), parent=leg, style='moss_l')
-    else:
-        boots_base(p, st)
-        for leg in ('right_leg', 'left_leg'):
-            L = leg[0].upper()
-            for k, x in enumerate((-2, 0, 2)):
-                p.add(f'rootClaw{L}{k}', (1, 1, 4), (-0.5, 0, 0), (x, -13, 4.5), rot=(0.4, 0, 0), parent=leg, style='bark_d')
-    return p
-
-
-def stormglass(piece, st):
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        helm_base(p, st)
-        for sx in (-1, 1):                                           # tall swept wings either side of the helm
-            L = side(sx)
-            w = p.add('hwing' + L, (1, 12, 5), (-0.5, 0, -2.5), (sx * 5.2, 3, -1), rot=(-0.35, 0, -sx * 0.35), style='feather_w')
-            p.add('hwing2' + L, (1, 9, 4), (-0.5, 0, -2), (0, 11, -1), rot=(-0.4, 0, -sx * 0.2), parent=w, style='feather_w')
-            p.add('hwingRib' + L, (1.5, 12, 1), (-0.75, 0, 2), (0, 0, 0), parent=w, style=trim)
-        p.add('crestBlade', (1, 8, 12), (-0.5, 10, -7), style=glow)
-        p.add('halo', (12, 1, 12), (-6, 13, -6), rot=(0.2, 0, 0), style=trim)
-    elif piece == 'chestplate':
-        chest_base(p, st)
-        pauldrons(p, st, 9, 4, 9, spikes=2, spike_style='ice')
-        for sx in (-1, 1):                                           # great angel wings from the shoulder blades
-            L = side(sx)
-            r = p.add('wingRoot' + L, (2, 2, 2), (-1, -1, -1), (sx * 3, -3, -3), rot=(0.3, sx * 0.5, -sx * 0.3), parent='body', style=trim)
-            prev = r
-            for k, (ln, h) in enumerate([(10, 14), (10, 12), (9, 9)]):
-                prev = p.add(f'wing{L}{k}', (ln, h, 1), (-ln / 2 + sx * ln / 2, -h + 4, -0.5), (sx * (0 if k == 0 else ln - 1), 2 if k else 0, 0),
-                             rot=(0, 0, -sx * 0.25), parent=prev, style='feather_w' if k % 2 == 0 else 'ray_top')
-            p.add('wingGlow' + L, (14, 1, 1), (-7 + sx * 7, 3, 0.6), parent=r, style=glow)
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('feathTasset' + side(sx), (1, 7, 4), (-0.5, -7, -2), (sx * 2.8, 0, 0), rot=(0, 0, sx * 0.2), parent=leg, style='feather_w')
-    else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('ankleWing' + side(sx), (1, 6, 4), (-0.5, 0, -2), (sx * 3.2, -10, -1), rot=(-0.6, 0, -sx * 0.5), parent=leg, style='feather_w')
-    return p
-
-
-def emberheart(piece, st):
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        helm_base(p, st)
-        for sx in (-1, 1):                                           # great down-curving demon horns
-            L = side(sx)
-            h1 = p.add('horn' + L, (3, 3, 7), (-1.5, -1.5, -7), (sx * 4.5, 6, -1), rot=(0.3, sx * 1.1, 0), style='horn')
-            h2 = p.add('horn2' + L, (2.5, 2.5, 6), (-1.25, -1.25, -6), (0, 0, -7), rot=(-0.7, 0, 0), parent=h1, style='horn')
-            p.add('horn3' + L, (1.5, 1.5, 5), (-0.75, -0.75, -5), (0, 0, -6), rot=(-0.8, 0, 0), parent=h2, style='bone')
-        for k in range(5):                                           # a crown of burning spikes
-            a = math.pi * (0.15 + 0.7 * k / 4)
-            p.add(f'flame{k}', (1.5, 5 + (k % 2) * 3, 1.5), (-0.75, 0, -0.75), (4.5 * math.cos(a), 9, -4.5 * math.sin(a) + 1),
-                  rot=(-0.2, 0, (math.cos(a)) * -0.4), style='flame')
-        p.add('maw', (6, 2, 1), (-3, 1, 5.1), style=glow)
-    elif piece == 'chestplate':
-        chest_base(p, st)
-        pauldrons(p, st, 10, 6, 10, spikes=4, spike_style='horn')
-        for k in range(3):                                           # chimney vents on the back, glowing
-            p.add(f'vent{k}', (2.5, 7, 2.5), (-1.25, 0, -1.25), (-3 + k * 3, -6, -3.5), rot=(-0.4, 0, (k - 1) * 0.25), parent='body', style=dark)
-            p.add(f'ventGlow{k}', (2, 1, 2), (-1, 7, -1), (-3 + k * 3, -6, -3.5), rot=(-0.4, 0, (k - 1) * 0.25), parent='body', style='flame')
-        for (x0, y0, x1, y1) in [(-4, -12, -3, -4), (-3, -8, 2, -7), (2, -6, 3, 0), (-1, -3, 0, 0)]:
-            p.add(f'crack{x0}{y0}', (x1 - x0, y1 - y0, 1), (x0, y0, 3.05), parent='body', style=glow)
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('kneeSpike' + side(sx), (1.5, 1.5, 4), (-0.75, -0.75, 0), (0, -8, 2.5), rot=(0.3, 0, 0), parent=leg, style='horn')
-            p.add('lavaSeam' + side(sx), (1, 7, 1), (-0.5, -7, 2.55), parent=leg, style=glow)
-    else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('heelSpike' + side(sx), (1.5, 1.5, 5), (-0.75, -0.75, -5), (0, -11, -3), rot=(-0.5, 0, 0), parent=leg, style='horn')
-            p.add('emberToe' + side(sx), (5, 1, 1), (-2.5, -12, 5.6), parent=leg, style='flame')
-    return p
-
-
-def tidestone(piece, st):
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        helm_base(p, st)
-        p.add('dorsalFin', (1, 9, 12), (-0.5, 9, -7), rot=(-0.2, 0, 0), style='fin')
-        p.add('finGlow', (1.2, 1, 11), (-0.6, 9.2, -6.5), rot=(-0.2, 0, 0), style=glow)
+        helm(p, m, 'eyes')
+        p.add('mossCap', (11, 2, 11), (-5.5, 8.6, -5.5), style='moss')
+        p.add('mossDrape', (11, 4, 1), (-5.5, 5.5, -6), style='moss')
+        for k, (x, z, st) in enumerate([(-3, 2, 'gem_m'), (2.5, -2, 'gem_y'), (3.5, 3, 'gem_m')]):
+            p.add(f'flower{k}', (1, 1, 1), (x, 10.6, z), style=st)
         for sx in (-1, 1):
             L = side(sx)
-            p.add('gillFin' + L, (1, 6, 5), (-0.5, 0, -2.5), (sx * 5.3, 2, -1), rot=(0, 0, -sx * 0.6), style='fin')
-            c1 = p.add('coral' + L, (2, 6, 2), (-1, 0, -1), (sx * 3.5, 9, 2), rot=(0, 0, -sx * 0.4), style='coral')
-            p.add('coral2' + L, (1.5, 4, 1.5), (-0.75, 0, -0.75), (0, 5, 0), rot=(0.4, 0, sx * 0.6), parent=c1, style='coral_b')
-        p.add('lure', (1, 6, 1), (-0.5, 0, -0.5), (0, 9, 4.5), rot=(0.9, 0, 0), style=trim)
-        p.add('lureBulb', (2, 2, 2), (-1, 6, -1), (0, 9, 4.5), rot=(0.9, 0, 0), style=glow)
+            b = p.add('branch' + L, (1.6, 6, 1.6), (-0.8, 0, -0.8), (sx * 4, 9, -1), rot=(-0.2, 0, -sx * 0.6), style='bark')
+            p.add('twig' + L, (1.2, 4, 1.2), (-0.6, 0, -0.6), (0, 5, 0), rot=(0, 0, sx * 0.7), parent=b, style='bark')
+            p.add('leafA' + L, (3, 1, 2), (-1.5, 0, -1), (0, 4.5, 0), parent=b, style='leaf')
     elif piece == 'chestplate':
-        chest_base(p, st)
-        def shell(p, arm, sx, L):
+        torso(p, m)
+        p.add('vineX', (1, 11, 1), (-0.5, -12, 3.2), rot=(0, 0, 0.5), style='vine', parent='body')
+        for arm, sx in ARMS:
+            pa = pauldron(p, m, arm, sx, 8, 4, 7)
+            L = side(sx)
+            p.add('paulMoss' + L, (7, 2, 6), (-3.5, 4.5, -3), (sx, 1.5, 0), style='moss', parent=arm)
+            p.add('shroomS' + L, (1, 2, 1), (-0.5, 6, -0.5), (sx * 2, 1.5, 1), style='stalk', parent=arm)
+            p.add('shroomC' + L, (3, 1, 3), (-1.5, 8, -1.5), (sx * 2, 1.5, 1), style='scarlet', parent=arm)
+            p.add('bloom' + L, (1, 1, 1), (-0.5, 6.5, -0.5), (-sx * 1.5, 1.5, -2), style='gem_y', parent=arm)
+    elif piece == 'leggings':
+        legs(p, m)
+        for leg, sx in LEGS:
+            p.add('legVine' + side(sx), (1, 6, 1), (sx * 2.6 - 0.5, -8, 2.2), style='vine', parent=leg)
+    else:
+        boots(p, m)
+        for leg, sx in LEGS:
+            p.add('rootToe' + side(sx), (1, 1, 3), (-0.5, -12.4, 4), rot=(0.3, 0, 0), style='bark', parent=leg)
+    return p
+
+
+def tempest(piece, m):
+    p = Piece()
+    if piece == 'helmet':
+        helm(p, m, 'slit')
+        p.add('crest', (2, 4, 9), (-1, 9, -4.5), style=m['trim'])
+        for sx in (-1, 1):
+            L = side(sx)
             for k in range(3):
-                p.add(f'barn{L}{k}', (2, 2, 2), (-1, 0, -1), (sx * (k - 1) * 2, 5, (k - 1) * 2.5), parent=arm, style='barnacle')
-        pauldrons(p, st, 10, 5, 10, spikes=0, extra=shell)
-        p.add('backFin', (1, 10, 9), (-0.5, -6, -9), (0, 0, -2.5), rot=(0.3, 0, 0), parent='body', style='fin')
+                p.add(f'wing{L}{k}', (1, 7 - k * 1.5, 2), (-0.5, 0, -1), (sx * 5, 5 - k, -1 - k * 1.5), rot=(-0.3 - k * 0.2, 0, -sx * (0.5 + k * 0.15)),
+                      style='sky' if k == 0 else 'white')
+    elif piece == 'chestplate':
+        torso(p, m)
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 8, 4, 7)
+            spikes(p, 'iceSpike' + side(sx), 3, 7, 'sky', 'paul' + side(sx), 0.45)
+    elif piece == 'leggings':
+        legs(p, m)
+    else:
+        boots(p, m)
+        for leg, sx in LEGS:
+            p.add('heelFin' + side(sx), (1, 4, 2), (-0.5, 0, -1), (sx * 2.6, -11, -1.5), rot=(-0.6, 0, -sx * 0.4), style='sky', parent=leg)
+    return p
+
+
+def sovereign(piece, m):
+    p = Piece()
+    if piece == 'helmet':
+        helm(p, m, 'tee')
+        p.add('crownBand', (11, 2, 11), (-5.5, 9, -5.5), style='gold')
+        for k in range(5):
+            a = (k - 2) * 0.55
+            p.add(f'crownSpike{k}', (1.6, 4 - abs(k - 2) * 0.6, 1.6), (-0.8, 0, -0.8), (math.sin(a) * 5, 10.5, math.cos(a) * 5 - 0.5),
+                  rot=(0.2 * math.cos(a), 0, -0.2 * math.sin(a)), style='gold')
+        p.add('crownGem', (2, 2, 1), (-1, 9, 5.2), style='gem_o')
         for sx in (-1, 1):
-            p.add('sideFin' + side(sx), (1, 7, 6), (-0.5, -4, -6), (sx * 4, -6, -2.5), rot=(0.2, -sx * 0.6, 0), parent='body', style='fin')
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('scaleT' + side(sx), (5, 6, 1), (-2.5, -6, 2.6), parent=leg, style='fin')
-    else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('flipper' + side(sx), (1, 4, 6), (-0.5, 0, -1), (sx * 3.2, -12, 0), rot=(0, 0, -sx * 0.7), parent=leg, style='fin')
-    return p
-
-
-def rime(piece, st):
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        helm_base(p, st)
-        for k in range(9):                                           # a crown of long icicles fanned like a halo
-            a = math.pi * (0.05 + 0.9 * k / 8)
-            ln = 7 + 6 * math.sin(a)
-            p.add(f'icicle{k}', (1.5, ln, 1.5), (-0.75, 0, -0.75), (5 * math.cos(a), 8, -3.5), rot=(-0.25, 0, -math.cos(a) * 0.8), style='ice')
-        p.add('mask', (8, 6, 1), (-4, 1, 5.1), style='mask')
-        p.add('maskCrack', (1, 5, 1), (-0.5, 1.5, 5.3), style=glow)
-        p.add('furCollar', (12, 2, 12), (-6, -1.5, -6), style='fur_w')
+            L = side(sx)
+            h = p.add('horn' + L, (2.4, 6, 2.4), (-1.2, 0, -1.2), (sx * 5, 6, 0), rot=(-0.1, 0, -sx * 1.1), style='black')
+            p.add('hornTip' + L, (1.6, 4, 1.6), (-0.8, 0, -0.8), (0, 5.5, 0), rot=(0, 0, sx * 0.8), parent=h, style='gold')
     elif piece == 'chestplate':
-        chest_base(p, st)
-        pauldrons(p, st, 10, 5, 10, spikes=4, spike_style='ice')
-        for k in range(7):                                           # a cape of hanging icicles
-            x = -4 + k * 1.35
-            p.add(f'capeIce{k}', (1.4, 10 + (k % 3) * 3, 1), (-0.7, -(10 + (k % 3) * 3), -0.5), (x, -1, -3.6), rot=(0.1, 0, 0), parent='body', style='ice')
-        p.add('furMantle', (12, 3, 8), (-6, -2, -4), parent='body', style='fur_w')
-        p.add('heartIce', (3, 3, 1), (-1.5, -7, 3.1), parent='body', style=glow)
+        torso(p, m)
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 9, 4, 8)
+            spikes(p, 'goldSpike' + side(sx), 3, 6, 'gold', 'paul' + side(sx), 0.5)
     elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('kneeIce' + side(sx), (1.5, 4, 1.5), (-0.75, 0, -0.75), (0, -9, 2.5), rot=(0.6, 0, 0), parent=leg, style='ice')
+        legs(p, m)
     else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            for k in range(3):
-                p.add(f'bootIce{side(sx)}{k}', (1.2, 4, 1.2), (-0.6, 0, -0.6), (sx * 3, -10 + k * 1.5, -2 + k * 2), rot=(0, 0, -sx * 0.8), parent=leg, style='ice')
-            p.add('fur' + side(sx), (7, 2, 7), (-3.5, -8, -3.5), parent=leg, style='fur_w')
+        boots(p, m)
     return p
 
 
-def sunglass(piece, st):
+def abyssal(piece, m):
     p = Piece()
-    base, trim, dark, glow, special = st
     if piece == 'helmet':
-        helm_base(p, st)
-        p.add('sunDisc', (14, 14, 1), (-7, 2, -0.5), (0, 3, -6), style='gold')
-        p.add('sunInner', (10, 10, 1), (-5, 4, -0.2), (0, 3, -6), style='sun_glow')
-        for k in range(12):                                          # rays of red glass round the disc
-            a = k * math.pi / 6
-            p.add(f'ray{k}', (1.5, 6, 1), (-0.75, 0, -0.5), (6.5 * math.cos(a), 9 + 6.5 * math.sin(a), -6.2), rot=(0, 0, a - math.pi / 2), style='glass_red')
+        helm(p, m, 'slit')
+        p.add('finCrest', (1, 5, 9), (-0.5, 9, -5), style='pearl')
+        for sx in (-1, 1):                                           # antlers of bone and coral
+            L = side(sx)
+            b = p.add('antler' + L, (1.6, 7, 1.6), (-0.8, 0, -0.8), (sx * 4, 8, -1), rot=(-0.15, 0, -sx * 0.55), style='bone')
+            b2 = p.add('antler2' + L, (1.4, 6, 1.4), (-0.7, 0, -0.7), (0, 6.5, 0), rot=(-0.2, 0, sx * 0.4), parent=b, style='bone')
+            p.add('tine' + L, (1.2, 4, 1.2), (-0.6, 0, -0.6), (0, 3, 0), rot=(0.5, 0, -sx * 0.8), parent=b, style='coral')
+            p.add('tine2' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 4, 0), rot=(0.4, 0, -sx * 0.9), parent=b2, style='coral')
+    elif piece == 'chestplate':
+        torso(p, m)
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 8, 4, 7, style='pearl')
+            spikes(p, 'boneSpike' + side(sx), 3, 5, 'bone', 'paul' + side(sx), 0.6, w=1.2)
+            p.add('coral' + side(sx), (1, 4, 1), (-0.5, 0, -0.5), (sx * 2, 3, 3), rot=(0.4, 0, -sx * 0.3), style='coral', parent=arm)
+    elif piece == 'leggings':
+        legs(p, m)
+    else:
+        boots(p, m)
+        for leg, sx in LEGS:
+            p.add('ankleFin' + side(sx), (1, 3, 3), (-0.5, 0, -1.5), (sx * 2.7, -10, 0), rot=(0, 0, -sx * 0.5), style='pearl', parent=leg)
+    return p
+
+
+def rimebound(piece, m):
+    p = Piece()
+    if piece == 'helmet':
+        p.add('hood', (11, 11, 11), (-5.5, -1.5, -5.5), style='frost')
+        p.add('hoodPeak', (8, 3, 8), (-4, 9, -5.5), rot=(-0.25, 0, 0), style='frost')
+        p.add('hoodTrim', (12, 1, 2), (-6, 8.5, 4.5), style='gold')
+        p.add('face', (8, 7, 1), (-4, 0, 4.7), style='night')
         for sx in (-1, 1):
-            p.add('ear' + side(sx), (2, 7, 2), (-1, 0, -1), (sx * 3.5, 8, 1), rot=(0, 0, -sx * 0.25), style=base)
+            p.add('eye' + side(sx), (2, 1, 1), (sx * 2 - 1, 3.5, 5.2), style='void_p')
+        p.add('circlet', (2, 2, 1), (-1, 6.5, 5.6), style='gem_w')
     elif piece == 'chestplate':
-        chest_base(p, st)
-        def blades(p, arm, sx, L):
-            for k in range(3):
-                p.add(f'glassBlade{L}{k}', (1, 9 - k * 2, 3), (-0.5, 0, -1.5), (sx * 2, 4, -3 + k * 3), rot=(0, 0, -sx * (0.5 + k * 0.15)), parent=arm, style='glass_red')
-        pauldrons(p, st, 10, 5, 9, extra=blades)
-        p.add('hourglassTop', (5, 2, 2), (-2.5, -4, -4), parent='body', style='gold')
-        p.add('hourglass', (3, 6, 2), (-1.5, -10, -4.2), parent='body', style='glass_glow')
-        p.add('hourglassBot', (5, 2, 2), (-2.5, -12, -4), parent='body', style='gold')
-        p.add('sash', (11, 3, 7), (-5.5, -13, -3.5), rot=(0, 0, 0.15), parent='body', style='robe_red')
+        torso(p, m)
+        p.add('cape', (10, 14, 1), (-5, -14, -4.2), rot=(0.12, 0, 0), style='frost', parent='body')
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 9, 4, 8, style='frost')
+            p.add('fur' + side(sx), (8, 2, 7), (-4, 4.5, -3.5), (sx, 1.5, 0), style='white', parent=arm)
     elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('kilt' + side(sx), (5.5, 8, 1), (-2.75, -8, 2.6), parent=leg, style='robe_red')
+        legs(p, m)
+        for k, x in enumerate((-4, 4)):
+            p.add(f'bellStr{k}', (1, 2, 1), (x - 0.5, -15, 3), style='gold', parent='body')
+            p.add(f'bell{k}', (2, 2, 2), (x - 1, -17, 2.5), style='gold', parent='body')
     else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('glassSpur' + side(sx), (1, 1, 5), (-0.5, -0.5, -5), (sx * 2, -11, -3), rot=(-0.3, sx * 0.3, 0), parent=leg, style='glass_red')
+        boots(p, m)
     return p
 
 
-def chronite(piece, st):
+def glasscarapace(piece, m):
     p = Piece()
-    base, trim, dark, glow, special = st
     if piece == 'helmet':
-        helm_base(p, st)
-        p.add('clockCrest', (10, 10, 1), (-5, 0, -0.5), (0, 9, -2), style='clockface')
-        p.add('clockRim', (12, 12, 1), (-6, -1, -0.8), (0, 9, -2), style='brass')
-        p.add('hourHand', (1, 4, 1), (-0.5, 4, 0.2), (0, 9, -2), rot=(0, 0, 0.9), style='void')
-        p.add('minHand', (1, 5, 1), (-0.5, 4, 0.3), (0, 9, -2), style='void')
-        for sx in (-1, 1):                                           # cog-wheel horns
-            L = side(sx)
-            g = p.add('cogHorn' + L, (6, 6, 1.5), (-3, -3, -0.75), (sx * 6, 7, 0), rot=(0, sx * 1.57, 0.4), style='brass_d')
-            p.add('cogHorn2' + L, (6, 6, 1.5), (-3, -3, -0.75), (0, 0, 0), rot=(0, 0, 0.78), parent=g, style='brass_d')
-            p.add('cogHub' + L, (2, 2, 2), (-1, -1, -1), (0, 0, 0), parent=g, style=glow)
-        p.add('eyeSlit', (6, 1, 1), (-3, 3.5, 5.3), style=glow)
-    elif piece == 'chestplate':
-        chest_base(p, st)
-        def cogs(p, arm, sx, L):
-            g = p.add('shoulderCog' + L, (8, 8, 1.5), (-4, -4, -0.75), (sx * 2.5, 5, 0), rot=(0, 1.57, 0), parent=arm, style='brass_d')
-            p.add('shoulderCog2' + L, (8, 8, 1.5), (-4, -4, -0.75), (0, 0, 0), rot=(0, 0, 0.78), parent=g, style='brass_d')
-        pauldrons(p, st, 9, 4, 9, extra=cogs)
-        p.add('backClock', (10, 10, 1), (-5, -5, -0.5), (0, -6, -3.8), parent='body', style='clockface')
-        p.add('backClockRim', (12, 12, 1), (-6, -6, -0.8), (0, -6, -4.0), parent='body', style='brass')
-        p.add('pendulumRod', (1, 9, 1), (-0.5, -9, -0.5), (0, -11, -4), parent='body', style='brass')
-        p.add('pendulumBob', (4, 4, 1), (-2, -13, -0.5), (0, -11, -4), parent='body', style=glow)
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('kneeCog' + side(sx), (4, 4, 1), (-2, -2, -0.5), (0, -8, 3), rot=(0, 0, 0.78), parent=leg, style='brass_d')
-    else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('spur' + side(sx), (4, 4, 1), (-2, -2, -0.5), (0, -11, -3.5), rot=(0, 1.57, 0.78), parent=leg, style='brass_d')
-    return p
-
-
-def bloomspore(piece, st):
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        helm_base(p, st)
-        p.add('capBrim', (20, 2, 20), (-10, 9, -10), style='cap_m')
-        p.add('capMid', (15, 3, 15), (-7.5, 11, -7.5), style='cap_m')
-        p.add('capTop', (9, 3, 9), (-4.5, 14, -4.5), style='cap_m')
-        p.add('gills', (18, 1, 18), (-9, 8.5, -9), style='bloom_glow')
-        for k, (x, z) in enumerate([(-6, 4), (5, -5), (7, 3)]):
-            p.add(f'miniStem{k}', (1, 2, 1), (-0.5, 0, -0.5), (x, 13, z), style='root_c')
-            p.add(f'miniCap{k}', (3, 1, 3), (-1.5, 2, -1.5), (x, 13, z), style='puff')
-        for k in range(6):
-            a = k * math.pi / 3
-            p.add(f'droop{k}', (1, 4, 1), (-0.5, -4, -0.5), (8 * math.cos(a), 9, 8 * math.sin(a)), style='root_c')
-        p.add('faceGlow', (6, 1, 1), (-3, 3.5, 5.3), style=glow)
-    elif piece == 'chestplate':
-        chest_base(p, st)
-        def caps(p, arm, sx, L):
-            p.add('paulCap' + L, (10, 2, 10), (-5, 6, -5), (sx * 1, 0, 0), parent=arm, style='cap_m')
-            p.add('paulCapTop' + L, (6, 2, 6), (-3, 8, -3), (sx * 1, 0, 0), parent=arm, style='cap_m')
-        pauldrons(p, st, 8, 5, 8, extra=caps)
-        for k, (x, y) in enumerate([(-3, -4), (2, -7), (-1, -11), (3, -2)]):
-            p.add(f'sporeSac{k}', (3, 3, 3), (-1.5, -1.5, -1.5), (x, y, -3.8), parent='body', style='bloom_glow')
-        for k in range(4):
-            p.add(f'rootRib{k}', (10, 1, 1), (-5, 0, -0.5), (0, -2 - k * 3, 3.2), rot=(0, 0, 0.15 * (k % 2 * 2 - 1)), parent='body', style='root_c')
-    elif piece == 'leggings':
-        legs_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            p.add('gillSkirt' + side(sx), (5.5, 5, 1), (-2.75, -5, 2.6), parent=leg, style='bloom_glow')
-    else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            for k, x in enumerate((-2, 0, 2)):
-                p.add(f'rootToe{side(sx)}{k}', (1, 1, 4), (-0.5, 0, 0), (x, -13, 4.5), rot=(0.5, 0, 0), parent=leg, style='root_c')
-            p.add('bootCap' + side(sx), (7, 1, 7), (-3.5, -7, -3.5), parent=leg, style='cap_m')
-    return p
-
-
-def unmade(piece, st):
-    """The Regalia of the Unmade, cut from the Unmaker's shell: bone-white plate over black, a black hole for a heart, a halo of the
-    eight realm stones behind the crown, eight realm blades fanned from the back like broken wings, horns that curl back past the
-    shoulders. Every piece carries the eight stones somewhere."""
-    p = Piece()
-    base, trim, dark, glow, special = st
-    if piece == 'helmet':
-        p.add('helm', (10, 10, 10), (-5, -1, -5), style=dark)
-        p.add('mask', (9, 10, 1), (-4.5, -1.5, 5), style=base)
-        p.add('maskSlit', (1, 8, 1), (-0.5, -0.5, 5.6), style=glow)
+        helm(p, m, 'eyes')
+        h = p.add('scarabHorn', (2, 7, 2), (-1, 0, -1), (0, 8, 3), rot=(0.6, 0, 0), style='scarlet')
+        p.add('scarabHorn2', (1.5, 4, 1.5), (-0.75, 0, -0.75), (0, 6.5, 0), rot=(-0.9, 0, 0), parent=h, style='gold')
         for sx in (-1, 1):
-            p.add('eye' + side(sx), (2, 1, 1), (sx * 2.5 - 1, 4.5, 5.6), style='accretion')
-        p.add('brow', (11, 2, 2), (-5.5, 7.5, 4.5), style=trim)
-        p.add('browGem', (3, 3, 1), (-1.5, 7, 6.3), style=special)
-        p.add('browGemLight', (1, 1, 1), (-0.5, 8, 6.9), style=glow)
-        p.add('crownBand', (11, 2, 11), (-5.5, 9, -5.5), style=trim)
-        for k in range(7):                                           # a crown of bone spikes, tallest at the brow
-            a = math.pi * (k - 3) / 7
-            h = 5 + (3 - abs(k - 3)) * 2.2
-            sp = p.add(f'spike{k}', (2, h, 2), (-1, 0, -1), (4.6 * math.sin(a), 10.5, 4.6 * math.cos(a) - 0.5),
-                       rot=(0.28 * math.cos(a), 0, -0.28 * math.sin(a)), style=base)
-            p.add(f'spikeTip{k}', (1, 2, 1), (-0.5, 0, -0.5), (0, h, 0), parent=sp, style=trim)
-        for sx in (-1, 1):                                           # great black horns, sweeping out and curling up past the crown
             L = side(sx)
-            h1 = p.add('horn' + L, (4, 8, 4), (-2, 0, -2), (sx * 4.5, 5, -1), rot=(-0.2, 0, -sx * 1.15), style=dark)
-            h2 = p.add('horn2' + L, (3, 8, 3), (-1.5, 0, -1.5), (0, 7.5, 0), rot=(-0.1, 0, sx * 0.75), parent=h1, style=dark)
-            h3 = p.add('horn3' + L, (2, 7, 2), (-1, 0, -1), (0, 7.5, 0), rot=(0.15, 0, sx * 0.55), parent=h2, style=base)
-            p.add('hornTip' + L, (1, 4, 1), (-0.5, 0, -0.5), (0, 6.5, 0), rot=(0.25, 0, sx * 0.3), parent=h3, style=trim)
-            p.add('hornBand' + L, (4.5, 1, 4.5), (-2.25, 5, -2.25), parent=h1, style=trim)
-            p.add('hornBand2' + L, (3.5, 1, 3.5), (-1.75, 5, -1.75), parent=h2, style=trim)
-        halo = p.add('halo', (2, 2, 1), (-1, -1, -0.5), (0, 9, -7.5), style=special)   # the halo of the eight realms
-        for k in range(20):
-            p.add(f'haloRing{k}', (4, 1, 1), (-2, 11.5, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 10), parent=halo, style=trim)
-        for k, sh in enumerate(SHARDS):
-            a = k * math.pi / 4 + math.pi / 8
-            p.add(f'haloStone{k}', (2, 6, 2), (-1, 12.5, -1), (0, 0, 0), rot=(0, 0, a), parent=halo, style=sh)
+            hs = p.add('sideHorn' + L, (1.6, 5, 1.6), (-0.8, 0, -0.8), (sx * 4.5, 7, 0), rot=(0, 0, -sx * 0.8), style='black')
+            p.add('sideHornTip' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 4.5, 0), rot=(0, 0, sx * 0.6), parent=hs, style='gold')
     elif piece == 'chestplate':
-        chest_base(p, st)
-        p.add('heart', (6, 6, 2), (-3, -9, 3), style=special, parent='body')            # a black hole where the heart should be
-        p.add('heartLight', (2, 2, 1), (-1, -7, 4.6), style=glow, parent='body')
-        disc = p.add('disc', (1, 1, 1), (-0.5, -0.5, -0.5), (0, -6, 4.4), parent='body', style=special)
-        for k in range(12):
-            p.add(f'discSeg{k}', (2.4, 1, 1), (-1.2, 3.6, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 6), parent=disc,
-                  style='accretion' if k % 2 else 'accretion3')
-        for sx in (-1, 1):
-            for k, y in enumerate((-2.5, -5, -7.5, -10)):
-                p.add(f'rib{side(sx)}{k}', (3, 1, 1), (-1.5, -0.5, -0.5), (sx * 4, y, 3.4), rot=(0, 0, sx * 0.3), parent='body', style=dark)
-
-        def shell(p, arm, sx, L):                                   # Unmaker shell plates stacked on each shoulder
-            cx = -1 if sx < 0 else 1
-            p.add('shell' + L, (10, 3, 8), (-5, 6, -4), (cx, 0, 0), rot=(0, 0, -sx * 0.35), parent=arm, style='unmade_w2')
-            p.add('shell2' + L, (8, 3, 6), (-4, 8.5, -3), (cx, 0, 0), rot=(0, 0, -sx * 0.55), parent=arm, style=base)
-            p.add('shellGlow' + L, (1, 1, 8.5), (-0.5, 7.5, -4.25), (cx + sx * 3, 0, 0), parent=arm, style='accretion')
-        pauldrons(p, st, 11, 6, 10, spikes=3, spike_style=dark, extra=shell)
-        wings = p.add('wingRoot', (5, 5, 2), (-2.5, -2.5, -1), (0, -4, -3.5), parent='body', style=special)
-        ring_ = p.add('backRing', (1, 1, 1), (-0.5, -0.5, -0.5), (0, 0, -1.2), parent=wings, style=special)
-        for k in range(16):
-            p.add(f'backRingSeg{k}', (3, 1, 1), (-1.5, 5.5, -0.5), (0, 0, 0), rot=(0, 0, k * math.pi / 8), parent=ring_,
-                  style='accretion' if k % 2 else 'accretion3')
-        for k, sh in enumerate(SHARDS):                              # eight realm blades spread like broken wings, four a side
-            sx, i = (-1, k) if k < 4 else (1, k - 4)
-            a = -sx * (0.75 + i * 0.36)
-            b = p.add(f'wing{k}', (3, 5, 2), (-1.5, 1, -1), (0, 0, -1), rot=(-0.3, 0, a), parent=wings, style=base)
-            p.add(f'wingBlade{k}', (2, 15 - i * 2, 1), (-1, 5.5, -0.5), (0, 0, 0), parent=b, style=sh)
+        torso(p, m)
+        for sx in (-1, 1):                                          # glass elytra-wings on the back
+            L = side(sx)
+            w = p.add('wing' + L, (1, 14, 6), (-0.5, -12, -3), (sx * 2.5, 0, -3.6), rot=(0.25, sx * 0.5, sx * 0.25), style='glass_r', parent='body')
+            p.add('wingVein' + L, (1, 12, 1), (-0.4, -11, -0.5), (0, 0, 0), parent=w, style='gold')
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 8, 4, 7)
+            spikes(p, 'redSpike' + side(sx), 2, 5, 'black', 'paul' + side(sx), 0.6)
     elif piece == 'leggings':
-        legs_base(p, st)
-        p.add('tabard', (6, 7, 1), (-3, -20, 3.2), parent='body', style=dark)
-        p.add('tabardGlow', (1, 6, 1), (-0.5, -19.5, 3.6), parent='body', style=glow)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            L = side(sx)
-            p.add('tasset' + L, (5, 6, 1), (-2.5, -7, 2.6), parent=leg, style=dark)
-            p.add('kneeCap' + L, (5, 3, 3), (-2.5, -10, 1.5), parent=leg, style=trim)
-            p.add('kneeSpike' + L, (1, 1, 4), (-0.5, -9, 4), parent=leg, style=dark)
-            p.add('thighGlow' + L, (1, 6, 1), (sx * 2.5 - 0.5, -7, -0.5), parent=leg, style='accretion')
-            p.add('hipFin' + L, (1, 5, 3), (-0.5, 0, -1.5), (sx * 2.8, -2, 0), rot=(0, 0, -sx * 0.45), parent=leg, style=base)
+        legs(p, m)
     else:
-        boots_base(p, st)
-        for sx, leg in ((-1, 'right_leg'), (1, 'left_leg')):
-            L = side(sx)
-            for k, x in enumerate((-2, 0, 2)):
-                p.add(f'claw{L}{k}', (1, 1, 4), (-0.5, 0, 0), (x, -13, 4.5), rot=(0.45, 0, 0), parent=leg, style=base)
-            p.add('heel' + L, (1, 1, 4), (-0.5, -0.5, -4), (0, -12, -3), rot=(-0.35, 0, 0), parent=leg, style=dark)
-            for k in range(4):                                       # four realm stones on each cuff: eight across the pair
-                a = k * math.pi / 2 + math.pi / 4
-                sh = SHARDS[k + (0 if sx < 0 else 4)]
-                p.add(f'cuffStone{L}{k}', (1, 2, 1), (-0.5, 0, -0.5), (3.8 * math.cos(a), -7, 3.8 * math.sin(a)), parent=leg, style=sh)
-            p.add('ankleFin' + L, (1, 4, 4), (-0.5, 0, -2), (sx * 3.2, -11, 0), rot=(0, 0, -sx * 0.5), parent=leg, style='accretion')
+        boots(p, m)
     return p
 
 
-BUILD = {'grove': verdant, 'skyreach': stormglass, 'hollow': emberheart, 'drowned': tidestone, 'pale': rime, 'scarlet': sunglass,
-         'clockwork': chronite, 'mycelial': bloomspore, 'unmade': unmade}
+def paradox(piece, m):
+    p = Piece()
+    if piece == 'helmet':
+        helm(p, m, 'slit')
+        p.add('gearCrest', (7, 7, 1), (-3.5, -3.5, -0.5), (0, 11, -1), style='brass')
+        p.add('gearCrest2', (7, 7, 1), (-3.5, -3.5, -0.5), (0, 11, -1), rot=(0, 0, 0.785), style='brass')
+        p.add('gearHub', (3, 3, 1.4), (-1.5, -1.5, -0.7), (0, 11, -1), style='chrono_g')
+        for sx in (-1, 1):
+            p.add('earGear' + side(sx), (1.4, 4, 4), (-0.7, -2, -2), (sx * 5.4, 4, 0), rot=(0.785, 0, 0), style='brass')
+    elif piece == 'chestplate':
+        torso(p, m, emblem=False)
+        p.add('clock', (6, 6, 1), (-3, -8.5, 3.3), style='clock', parent='body')
+        p.add('clockRim', (7, 7, 1), (-3.5, -3.5, -0.5), (0, -5.5, 3.6), rot=(0, 0, 0.785), style='brass', parent='body')
+        p.add('clockCore', (2, 2, 1), (-1, -6.5, 4.1), style='chrono_g', parent='body')
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 8, 4, 7)
+            p.add('cog' + side(sx), (1.4, 5, 5), (-0.7, -2.5, -2.5), (sx * 4.2, 4.5, 0), rot=(0.785, 0, 0), style='brass', parent=arm)
+    elif piece == 'leggings':
+        legs(p, m)
+    else:
+        boots(p, m)
+    return p
+
+
+def bloomguard(piece, m):
+    p = Piece()
+    if piece == 'helmet':
+        p.add('hood', (11, 10, 11), (-5.5, -1.5, -5.5), style='stalk')
+        p.add('face', (8, 7, 1), (-4, -0.5, 4.7), style='night')
+        for sx in (-1, 1):
+            p.add('eye' + side(sx), (2, 1, 1), (sx * 2 - 1, 3, 5.2), style='myc_g')
+        p.add('cap', (15, 2, 15), (-7.5, 8, -7.5), style='myc')
+        p.add('capTop', (10, 2, 10), (-5, 10, -5), style='myc')
+        for k, (x, z) in enumerate([(-5, 3), (4, -4), (5, 4), (-3, -5)]):
+            p.add(f'spot{k}', (2, 1, 2), (x - 1, 10, z - 1), style='myc_g')
+    elif piece == 'chestplate':
+        torso(p, m)
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 8, 3, 7, style='myc')
+            p.add('orb' + side(sx), (3, 3, 3), (-1.5, 4.5, -1.5), (sx, 1.5, 0), style='myc_g', parent=arm)
+        p.add('robeBack', (9, 6, 1), (-4.5, -12, -4), style='myc', parent='body')
+    elif piece == 'leggings':
+        legs(p, m)
+    else:
+        boots(p, m)
+    return p
+
+
+def genesis(piece, m):
+    """The Unmaker's regalia: bone-white and gold plate over black, the eight realm stones round a star on the breast,
+    a horned crown with a red stone, layered gold-edged pauldrons, shards of the unmade worlds hanging at the back."""
+    p = Piece()
+    if piece == 'helmet':
+        helm(p, m, 'slit')
+        p.add('mask', (8, 5, 1), (-4, -0.5, 5), style='genesis')
+        p.add('crownBand', (11, 2, 11), (-5.5, 9, -5.5), style='gold')
+        for k in range(5):
+            a = (k - 2) * 0.5
+            p.add(f'spike{k}', (1.6, 5 - abs(k - 2) * 0.9, 1.6), (-0.8, 0, -0.8), (math.sin(a) * 5, 10.5, math.cos(a) * 5 - 0.6),
+                  rot=(0.2 * math.cos(a), 0, -0.2 * math.sin(a)), style='gold' if k % 2 == 0 else 'genesis')
+        p.add('crownGem', (2, 2, 1), (-1, 9, 5.3), style='gem_r')
+        for sx in (-1, 1):
+            L = side(sx)
+            h = p.add('horn' + L, (2.4, 6, 2.4), (-1.2, 0, -1.2), (sx * 5, 6.5, -1), rot=(-0.3, 0, -sx * 1.0), style='black')
+            h2 = p.add('horn2' + L, (2, 5, 2), (-1, 0, -1), (0, 5.5, 0), rot=(-0.2, 0, sx * 0.7), parent=h, style='genesis')
+            p.add('hornTip' + L, (1.2, 3, 1.2), (-0.6, 0, -0.6), (0, 4.5, 0), rot=(0, 0, sx * 0.4), parent=h2, style='gold')
+    elif piece == 'chestplate':
+        torso(p, m, emblem=False)
+        p.add('heartRim', (9, 9, 1), (-4.5, -10, 3.2), style='gold', parent='body')
+        p.add('heart', (7, 7, 1), (-3.5, -9, 3.5), style='black', parent='body')
+        p.add('star', (2, 2, 1), (-1, -6.5, 4.0), style='star', parent='body')
+        for k, gm in enumerate(GEMS):
+            a = k * math.pi / 4
+            p.add(f'stone{k}', (2, 2, 1), (-1, -1, -0.5), (math.cos(a) * 2.6, -5.5 + math.sin(a) * 2.6, 4.3), style=gm, parent='body')
+        p.add('band', (11, 1, 7), (-5.5, -10.5, -3.5), style='gold', parent='body')
+        for arm, sx in ARMS:
+            pauldron(p, m, arm, sx, 9, 4, 8, tiers=2)
+            L = side(sx)
+            p.add('paulGold' + L, (8, 1, 7), (-4, 5, -3.5), (sx, 1.5, 0), rot=(0, 0, -sx * 0.22), style='gold', parent=arm)
+            spikes(p, 'spike' + L, 3, 6, 'genesis', 'paul' + L, 0.5)
+        for k, (x, y, st) in enumerate([(-6, -2, 'genesis'), (6, -3, 'black'), (-4, 3, 'black'), (5, 2, 'genesis'), (0, 5, 'star')]):
+            p.add(f'shard{k}', (2, 3, 1), (-1, -1.5, -0.5), (x, y, -6), rot=(0, 0, 0.785), style=st, parent='body')
+    elif piece == 'leggings':
+        legs(p, m)
+        p.add('tabardGold', (1, 8, 1), (-0.5, -21, 3.6), style='gold', parent='body')
+    else:
+        boots(p, m)
+        for leg, sx in LEGS:
+            p.add('goldToe' + side(sx), (6, 1, 2), (-3, -10.6, 2.2), style='gold', parent=leg)
+    return p
+
+
+BUILD = {'grove': mossbound, 'skyreach': tempest, 'hollow': sovereign, 'drowned': abyssal, 'pale': rimebound, 'scarlet': glasscarapace,
+         'clockwork': paradox, 'mycelial': bloomguard, 'genesis': genesis}
 
 
 def piece_parts(realm, piece):
     return BUILD[realm](piece, STYLE[realm]).parts
+
+
+# ------------------------------------------------------------------------------------------------ the clean painter
+def _mat(style):
+    if style in M:
+        return M[style]
+    st = mobspecs.STYLES.get(style, {'base': (90, 90, 100)})
+    return Mat(st['base'])
+
+
+def paint(parts):
+    """Each face: a solid base tone, light catching its top rows, a dark rim round its sides and bottom, a dither into shadow
+    near the bottom of tall faces. Tops are a step lighter, undersides a step darker. Glowing materials burn white at the core
+    and go to the glow layer too."""
+    sheet, pos = mobspecs.pack(parts)
+    img = np.zeros((sheet, sheet, 4), np.uint8)
+    glow = np.zeros((sheet, sheet, 4), np.uint8)
+    for i, p in enumerate(parts):
+        u, v = pos[i]
+        p['uv'] = (u, v)
+        w, h, d = p['size']
+        mat = _mat(p['style'])
+        t = mat.tones
+        faces = [((d, 0, w, d), 1), ((d + w, 0, w, d), -1), ((0, d, d, h), 0), ((d, d, w, h), 0), ((d + w, d, d, h), 0), ((2 * d + w, d, w, h), 0)]
+        for (fx, fy, fw, fh), lift in faces:
+            for ex in range(fw):
+                for ey in range(fh):
+                    k = 2 + (1 if lift > 0 else 0) - (1 if lift < 0 else 0)
+                    if mat.glow:
+                        k = 4 if (0 < ex < fw - 1 and 0 < ey < fh - 1) else 2
+                    elif fw > 2 and fh > 2:
+                        if ex in (0, fw - 1) or ey == fh - 1:
+                            k = 1                                       # a dark rim marks the plate's edge
+                        elif ey == 0 or (ey == 1 and fh > 5):
+                            k = 3                                       # light catching the top
+                        elif fh > 6 and ey >= fh - 3 and (ex + ey) % 2 == 0:
+                            k = 1 if ey == fh - 2 else 2                # a soft dither into shadow at the bottom
+                    c = t[max(0, min(4, k))]
+                    img[v + fy + ey, u + fx + ex] = (*c, 255)
+                    if mat.glow:
+                        glow[v + fy + ey, u + fx + ex] = (*c, 255)
+    out = Image.fromarray(img, 'RGBA')
+    out.info['glow'] = Image.fromarray(glow, 'RGBA')
+    return out, sheet
 
 
 # ------------------------------------------------------------------------------------------------ outputs
@@ -486,10 +445,10 @@ def f(v):
 
 def build_all():
     out = {}
-    for i, realm in enumerate(SETS):
-        for j, piece in enumerate(PIECES):
+    for realm in SETS:
+        for piece in PIECES:
             parts = piece_parts(realm, piece)
-            img, sheet = mobspecs.paint(parts, 400 + i * 10 + j)
+            img, sheet = paint(parts)
             img.info.pop('glow', None)
             name = f'{ARMOR_ID[realm]}_{piece}'
             img.save(f'{mobspecs.ASSETS}/textures/models/armor/{name}.png')
@@ -508,7 +467,7 @@ def write_java(built):
          'import net.minecraft.client.model.geom.builders.PartDefinition;',
          'import net.minecraft.resources.ResourceLocation;',
          'import net.minecraftforge.client.event.EntityRenderersEvent;', '',
-         '/** GENERATED by gen_armor.py. The realm armor sets as worn 3D models, one per piece. Do not edit by hand. */',
+         '/** GENERATED by gen_armor.py. The nine armor sets as worn 3D models, one per piece. Do not edit by hand. */',
          'public final class ArmorModels {',
          '    private ArmorModels() {}', '',
          '    public static ModelLayerLocation layer(String piece) {',
@@ -541,7 +500,7 @@ def write_java(built):
     L += regs
     L.append('    }')
     L.append('}')
-    open(__import__('paths').JAVA + '/client/ArmorModels.java', 'w').write('\n'.join(L) + '\n')
+    open(paths.JAVA + '/client/ArmorModels.java', 'w').write('\n'.join(L) + '\n')
 
 
 def preview_parts(realm, pieces=PIECES, mannequin=True):
@@ -553,10 +512,10 @@ def preview_parts(realm, pieces=PIECES, mannequin=True):
             q['name'] = piece + '_' + p['name']
             q['parent'] = (piece + '_' + p['parent']) if p['parent'] not in ROOTS else 'root_' + p['parent']
             out.append(q)
-    roots = [dict(name='root_' + r, size=(1, 1, 1), origin=(0, 0, 0), pivot=(px, py + 24, pz), rot=(0, 0, 0), style='void', anim='none',
+    roots = [dict(name='root_' + r, size=(1, 1, 1), origin=(0, 0, 0), pivot=(px, py + 24, pz), rot=(0, 0, 0), style='black', anim='none',
                   eyes=None, parent=None, hidden=True) for r, (px, py, pz) in ROOTS.items()]
     body = []
-    if mannequin:                                                    # a dark stand inside, so the silhouette reads
+    if mannequin:                                                    # the wearer underneath, so gaps read as body, not holes
         body = [dict(name='m_' + n, size=s, origin=o, pivot=(0, 0, 0), rot=(0, 0, 0), style='steel', anim='none', eyes=None, parent='root_' + r)
                 for n, r, s, o in [('head', 'head', (8, 8, 8), (-4, 0, -4)), ('body', 'body', (8, 12, 4), (-4, -12, -2)),
                                    ('ra', 'right_arm', (4, 12, 4), (-3, -10, -2)), ('la', 'left_arm', (4, 12, 4), (-1, -10, -2)),
@@ -564,46 +523,19 @@ def preview_parts(realm, pieces=PIECES, mannequin=True):
     return roots + body + out
 
 
-def icons():
-    """32 x 32 inventory icons, rendered from each piece's own 3D model."""
+def render_preview(realm, size=620, bg=((24, 20, 34), (8, 6, 12)), views=((-28, 8), (150, 10))):
     import render_models as rm
-    from PIL import Image
-    views = {'helmet': (-28, 12), 'chestplate': (-20, 8), 'leggings': (-20, 8), 'boots': (-28, 18)}
-    for realm in SETS:
-        for piece in PIECES:
-            parts = preview_parts(realm, [piece], mannequin=False)
-            tex, _ = mobspecs.paint(parts, 7)
-            glow = tex.info.pop('glow')
-            im, _ = rm.render(parts, tex, glow, *views[piece], size=256, alpha=True)
-            im = im.crop(im.getbbox())
-            side = max(im.width, im.height)
-            sq = Image.new('RGBA', (side, side), (0, 0, 0, 0))
-            sq.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
-            ic = sq.resize((30, 30), Image.LANCZOS)
-            out = Image.new('RGBA', (32, 32), (0, 0, 0, 0))
-            out.paste(ic, (1, 1))
-            px = out.load()
-            for x in range(32):
-                for y in range(32):
-                    r, g, b, a = px[x, y]
-                    px[x, y] = (r, g, b, 255 if a > 110 else 0)
-            res = out.copy()
-            rp = res.load()
-            for x in range(32):
-                for y in range(32):
-                    if px[x, y][3]:
-                        continue
-                    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                        nx, ny = x + dx, y + dy
-                        if 0 <= nx < 32 and 0 <= ny < 32 and px[nx, ny][3]:
-                            c = px[nx, ny]
-                            rp[x, y] = (c[0] // 3, c[1] // 3, c[2] // 3, 255)
-                            break
-            res.save(f'{mobspecs.ASSETS}/textures/item/{ARMOR_ID[realm]}_{piece}.png')
+    parts = preview_parts(realm)
+    tex, _ = paint(parts)
+    glow = tex.info.pop('glow')
+    ims, sc = [], None
+    for yaw, pitch in views:
+        im, sc = rm.render(parts, tex, glow, yaw, pitch, size=size, bg=bg, scale=sc)
+        ims.append(im)
+    return ims
 
 
 if __name__ == '__main__':
     b = build_all()
     write_java(b)
-    icons()
     print('armor models:', len(b), 'pieces,', sum(len(v[0]) for v in b.values()), 'parts')

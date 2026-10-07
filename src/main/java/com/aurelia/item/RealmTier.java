@@ -6,17 +6,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 
-/** The metal of each realm's signature weapon. */
+/** The metal of each realm's signature weapon and tools, and of the Unmaker's. */
 public enum RealmTier implements Tier {
-    VERDANT(1800, 4.0f, () -> ModItems.VERDANT_SHARD.get()),
-    STORMGLASS(1800, 4.0f, () -> ModItems.STORMGLASS_SHARD.get()),
-    EMBERHEART(1900, 4.0f, () -> ModItems.EMBERHEART.get()),
-    TIDESTONE(2100, 4.5f, () -> ModItems.TIDESTONE_SHARD.get()),
+    VERDANT(1800, 4.0f, () -> ModItems.VERDANTITE_INGOT.get()),
+    STORMGLASS(1800, 4.0f, () -> ModItems.AETHERIUM_INGOT.get()),
+    EMBERHEART(1900, 4.0f, () -> ModItems.SOULSTEEL_INGOT.get()),
+    TIDESTONE(2100, 4.5f, () -> ModItems.TIDESTEEL_INGOT.get()),
     RIME(2100, 4.5f, () -> ModItems.RIME_CRYSTAL.get()),
     SUNGLASS(2200, 5.0f, () -> ModItems.SUNGLASS_SHARD.get()),
-    CHRONITE(2500, 5.0f, () -> ModItems.CHRONITE_SHARD.get()),
-    BLOOMSPORE(2500, 5.5f, () -> ModItems.BLOOMSPORE.get()),
-    UNMADE(4000, 8.0f, () -> ModItems.UNMADE_HEART.get());          // the Worldbreaker only
+    CHRONITE(2500, 5.0f, () -> ModItems.CHRONITE_INGOT.get()),
+    BLOOMSPORE(2500, 5.5f, () -> ModItems.MYCELIAL_INGOT.get()),
+    GENESIS(4000, 8.0f, () -> ModItems.GENESIS_INGOT.get());
 
     private final int uses;
     private final float damage;
@@ -35,7 +35,7 @@ public enum RealmTier implements Tier {
 
     @Override
     public float getSpeed() {
-        return 9.0f;
+        return this == GENESIS ? 12.0f : 9.0f;
     }
 
     @Override

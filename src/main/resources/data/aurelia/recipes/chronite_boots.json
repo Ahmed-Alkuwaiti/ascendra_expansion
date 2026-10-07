@@ -7,10 +7,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:chronite_shard"
+      "item": "aurelia:chronite_ingot"
     }
   },
   "result": {
-    "item": "aurelia:chronite_boots"
+    "item": "aurelia:chronite_boots",
+    "count": 1
   }
 }

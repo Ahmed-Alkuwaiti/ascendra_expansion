@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "item": "aurelia:verdant_shard"
+  },
+  "result": "aurelia:verdantite_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

@@ -162,90 +162,93 @@ Each realm combines vanilla terrain generation with structures and features the 
 
 It never touches the mod's own blocks or anything within two blocks of them, and never decorates a guard's cell or anything in or beside water. It never blocks the Sunscar beam, and keeps furniture out of passage bends. The reachability checks still pass for every citadel and the Last Realm.
 
-# Realm kits: armor, weapons, wildlife, ores
+# Arsenals of the Tenfold Seal
 
-Every realm has its own four-piece armor set, signature greatsword, passive creature, food and ore.
+![The Arsenals of the Tenfold Seal](previews/44_arsenals.jpg)
 
-| Armor set | Greatsword | Creature | Food (it breeds on it) | Material (ore) |
-|---|---|---|---|---|
-| Verdant | Thornroot Blade | Mossling | Verdant Fig | verdant shard |
-| Stormglass | Galecutter | Cloud Ray | Sky Jelly | stormglass shard |
-| Emberheart | Soulbrand | Ember Beetle | Charred Morsel | emberheart |
-| Tidestone | Undertow Fang | Lantern Jelly | Glowing Gel | tidestone shard |
-| Rime | Hushblade | Frost Hare | Frost Hare Haunch | rime crystal |
-| Sunglass | Glass Reaper | Sand Skink | Sunbaked Tail | sunglass shard |
-| Chronite | Second Hand | Cogling | Tickberry | chronite shard (chronite ore) |
-| Bloomspore | Spore Lash | Spore Puff | Puffcap | bloomspore (bloomspore ore) |
+Every realm has a full arsenal: a four-piece armor set worn as its own 3D model, a signature weapon, a pickaxe, axe and shovel, an ore and two materials. Every realm also has a passive creature and a food. The Unmaker's Genesis arsenal sits above them all.
 
-**Armor** is worn as its own 3D model, one per piece:
-- Built by `tools/gen_armor.py` into `client/ArmorModels.java`, with one painted texture per piece.
-- Swapped in through `RealmArmorClient`.
-- Decorations: antler racks, storm wings and a halo, demon horns and a burning crown, a dorsal fin and coral, an icicle crown and cape, a sun disc with glass rays, a clock crest with cog horns, a giant mushroom cap.
-- Inventory icons are rendered from the same models.
-- Recipes use the realm's material in the usual armor shapes.
+| Armor | Weapon | Tools | Ore | Materials | Creature / food |
+|---|---|---|---|---|---|
+| Mossbound | Rootbreaker (warhammer) | Verdantite | Verdantite Ore | Verdantite Ingot, Living Root Fiber | Mossling / Verdant Fig |
+| Tempest | Stormpiercer (spear) | Aetherium | Fulgurite Ore | Aetherium Ingot, Sky Crystal Shard | Cloud Ray / Sky Jelly |
+| Sovereign | Soulcleaver (cleaver) | Soulsteel | Soulsteel Ore | Soulsteel Ingot, Caged Soul Ember | Ember Beetle / Charred Morsel |
+| Abyssal | Tidebinder (trident) | Tidesteel | Abyssal Pearlstone | Tidesteel Ingot, Abyssal Pearl | Lantern Jelly / Glowing Gel |
+| Rimebound | Silent Requiem (scythe) | Rimecrystal | Hushcrystal Ore | Rime Crystal, Frozen Black-Flame Core | Frost Hare / Frost Hare Haunch |
+| Glasscarapace | Venomfangs (twin daggers) | Scarlet Glass | Scarlet Glass Ore | Scarlet Shard, Amber Venom Vial | Sand Skink / Sunbaked Tail |
+| Paradox | Hourshatter (repeating crossbow) | Chronite | Chronite Ore | Chronite Ingot, Temporal Core | Cogling / Tickberry |
+| Bloomguard | Sporethorn (staff) | Mycelial | Mycoryte Ore | Mycelial Ingot, Spore Cluster | Spore Puff / Puffcap |
+| Genesis | Worldsunder (greatsword) | Genesis | Fractured Genesis (Unmaker drop) | Genesis Ingot, Hand of Genesis | |
+
+**Ores and materials.** Each realm's ore keeps its old id, so worldgen and every structure that places it are unchanged.
+- Each ore drops a raw material.
+- Raw Verdantite, Raw Soulsteel and Raw Chronite smelt (or blast) into ingots.
+- Aetherium is two Sky Crystal Shards and a gold ingot. Tidesteel is two Abyssal Pearls and an iron ingot. Mycelial Ingots are two Spore Clusters and an iron ingot.
+- The Pale Wastes and the Scarlet Sands work their crystals as they are (Rime Crystal, Scarlet Shard).
+- Living Root Fiber is two vines and a Raw Verdantite.
+- The cores are four of the realm's metal round a catalyst: Caged Soul Ember (a soul lantern), Frozen Black-Flame Core (a soul campfire), Amber Venom Vial (a honey bottle), Temporal Core (a clock).
+
+**Crafting.**
+- Armor and tools use the realm's metal in the usual shapes.
+- A weapon is three metal, the realm's second material and a stick.
+- Three Fractured Genesis fall with every Unmaker kill. One Fractured Genesis with an ingot of each realm's metal round it makes four Genesis Ingots, which make the Genesis armor and tools.
+- Worldsunder is a Fractured Genesis with all eight realm weapons round it.
+
+**Art.** Every sprite is drawn by `tools/arsenal_art.py` on `tools/pixelart.py`, a small pixel-art engine. It draws shapes with no antialiasing, shades each one (light top-left, shade bottom-right, cast shadows) with hue-shifted ramps, and adds a dark outline and soft glow halos.
+- Weapons are 64 x 64 and held about 1.5x larger than a sword. The display transforms are computed so the grip stays in the hand (`gen_arsenal.held_big`).
+- Tools, materials and armor icons are 32 x 32. Ores are 16 x 16.
+
+**Worn armor** (`tools/gen_armor.py`) is solid fitted plate with layered pauldrons, a distinctive helm per set and clean bevelled textures:
+- a moss-and-branch helm with glowing eyes;
+- ice-crystal wings and spikes;
+- a gold crown with horns and a T visor;
+- bone-and-coral antlers;
+- a frost hood with gold bells;
+- a scarab horn with glass wings;
+- a gear crest with a clock breastplate;
+- a mushroom-cap hood;
+- Genesis's horned crown, the eight realm stones round a star, and gold-edged pauldrons.
 
 Full-set powers, each with a particle aura:
 
-- **Verdant:** Regeneration II; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.
-- **Stormglass:** Jump Boost III, Speed I, no fall damage; a third of those who strike you are struck by lightning. Sparks crackle round you.
-- **Emberheart:** Fire Resistance and Strength I; anyone who strikes you burns for 6 seconds. Embers rise off you.
-- **Tidestone:** Water Breathing; Dolphin's Grace, Conduit Power and Regeneration in water or rain. Bubbles stream off you.
-- **Rime:** Immune to freezing, walk on powder snow, Resistance I; water freezes under your feet; anyone who strikes you is frozen. Snow falls round you.
-- **Sunglass:** By day Haste II and Strength II, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.
-- **Chronite:** Speed II and Haste II. Borrowed Time: a killing blow throws you back to where you stood five seconds ago at half health instead (once every 90 s).
-- **Bloomspore:** Night Vision; poison and wither cannot touch you; it feeds you when hungry; allies near you regenerate; anyone who strikes you is poisoned.
+- **Mossbound:** Regeneration II; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.
+- **Tempest:** Jump Boost III, Speed I, no fall damage; a third of those who strike you are struck by lightning. Sparks crackle round you.
+- **Sovereign:** Fire Resistance and Strength I; anyone who strikes you burns for 6 seconds. Embers rise off you.
+- **Abyssal:** Water Breathing; Dolphin's Grace, Conduit Power and Regeneration in water or rain. Bubbles stream off you.
+- **Rimebound:** Immune to freezing, walk on powder snow, Resistance I; water freezes under your feet; anyone who strikes you is frozen. Snow falls round you.
+- **Glasscarapace:** By day Haste II and Strength II, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.
+- **Paradox:** Speed II and Haste II. Borrowed Time: a killing blow throws you back to where you stood five seconds ago at half health instead (once every 90 s).
+- **Bloomguard:** Night Vision; poison and wither cannot touch you; it feeds you when hungry; allies near you regenerate; anyone who strikes you is poisoned.
 
-**Greatswords** are 3D item models up to three blocks long (`tools/weapons.py`), about two and a half blocks in the hand. Recipe: material over its storage block over a stick.
+Weapons, each with an on-hit power and a right-click special on a cooldown:
 
-Each has an on-hit power and a right-click special on a cooldown:
+- **Rootbreaker** (warhammer): on hit, roots the target (Slowness III), poisons it, and heals you a heart. Use: Bramble Eruption: thorns tear up through the ground in a line ahead (10 damage, rooted). 8 s.
+- **Stormpiercer** (spear): on hit, throws the target into the air with a crack of thunder. Use: Tempest Dash: you are flung eight blocks forward and lightning strikes everything you pass (12 damage). 6 s.
+- **Soulcleaver** (cleaver): on hit, sets the target on fire and withers it. Use: Soul Inferno: a ring of soul fire bursts out round you (14 damage, burning, thrown back). 10 s.
+- **Tidebinder** (trident): on hit, drags the target toward you; half again as hard in water. Use: Maelstrom: every enemy within 12 blocks is dragged to you and half-drowned (8 damage, slowed). 10 s.
+- **Silent Requiem** (scythe): on hit, freezes the target; strikes twice as hard from a crouch. Use: Whiteout Step: you vanish and reappear behind whatever you are looking at, striking it (18 damage, frozen). 6 s.
+- **Venomfangs** (twin daggers): on hit, very fast. Poisons the target, and half the blow cuts everything else within reach. Use: Fang Flurry: you whirl through everything within 6 blocks (16 damage, Poison II). 8 s.
+- **Hourshatter** (repeating crossbow): on hit, its bladed limbs slow and weaken whatever they cut. Use: Hour Volley: fires five chronite bolts in a fan; whatever they hit is frozen in time for 4 seconds. 3 s.
+- **Sporethorn** (staff): on hit, poisons and sickens the target and everything near it. Use: Bloom Burst: a cloud of spores bursts out (Poison III, nausea) and you heal for every enemy it catches. 10 s.
 
-- **Thornroot Blade:** on hit, roots the target (Slowness III), poisons it, and heals you a heart. Use: Bramble Eruption: thorns tear up through the ground in a line ahead (10 damage, rooted). 8 s.
-- **Galecutter:** on hit, throws the target into the air with a crack of thunder. Use: Tempest Dash: you are flung eight blocks forward and lightning strikes everything you pass (12 damage). 6 s.
-- **Soulbrand:** on hit, sets the target on fire and withers it. Use: Soul Inferno: a ring of soul fire bursts out round you (14 damage, burning, thrown back). 10 s.
-- **Undertow Fang:** on hit, drags the target toward you; half again as hard in water. Use: Maelstrom: every enemy within 12 blocks is dragged to you and half-drowned (8 damage, slowed). 10 s.
-- **Hushblade:** on hit, freezes the target; strikes twice as hard from a crouch. Use: Whiteout Step: you vanish and reappear behind whatever you are looking at, striking it (18 damage, frozen). 6 s.
-- **Glass Reaper:** on hit, sweeps: half the blow cuts everything else within reach. Use: Reaping Arc: one full turn of the scythe (16 damage to everything within 6 blocks). 8 s.
-- **Second Hand:** on hit, very fast. Slows and weakens the target. Use: Stop the Clock: every enemy within 12 blocks is frozen in time for 4 seconds. 15 s.
-- **Spore Lash:** on hit, poisons and sickens the target and everything near it. Use: Bloom Burst: a cloud of spores bursts out (Poison III, nausea) and you heal for every enemy it catches. 10 s.
+**Genesis** is tuned above everything else in the mod, and above the usual endgame of a pack like Ascendra. I could not open Ascendra's mod list from here, so the comparison is with netherite (8 damage; 20 armor, 12 toughness) and the top weapons of the usual endgame boss mods (roughly 12 to 16 damage).
+- **Genesis armor:** 30 armor and 20 toughness for the set (both the game's caps), full knockback immunity, +5 max health per piece, 66x durability.
+- **Genesis full-set powers:**
+  - Strength II, Resistance I, Fire Resistance, Night Vision, Water Breathing; poison, wither, freezing and falling cannot touch you.
+  - Event Horizon: no single blow can take more than 30% of your health, and half of all arrows and projectiles are swallowed.
+  - Eightfold Retaliation: whatever strikes you takes 6 damage and one realm's curse: rooted, struck, burned, dragged, frozen, cut, slowed or poisoned.
+  - The Last Heart: a killing blow leaves you at half health instead, with Absorption IV and a shockwave that throws back and hurts everything near you (once every 2 minutes).
+  - Crouch in mid-air to drift down slowly.
+- **Worldsunder:** 24 attack damage, 1.0 speed, 1.5 blocks of extra reach.
+  - Unmaking: every hit also deals 3% of the target's max health (up to 15 more), and carries the next of the eight realm powers in turn: root, storm, fire, tide, frost, sweep, time, spores.
+  - Singularity: a black hole opens six blocks ahead, drags in everything within twelve blocks, then collapses (30 damage, Wither II, slowed). 20 s.
+- **Genesis tools:** mine 33% faster than the realm tools.
 
-**Creatures** spawn in their realm. They wander, follow anyone holding their food and breed on it, and drop it. The Cloud Ray and Spore Puff fly; the Lantern Jelly swims.
+**Creatures** spawn in their realm. They wander, follow anyone holding their food, breed on it and drop it. The Cloud Ray and Spore Puff fly; the Lantern Jelly swims.
 
-**Ores:**
-- Chronite Ore is set into the Clockwork Rift's floating rock.
-- Bloomspore Ore generates in the Mycelial Deep's stone.
-- Every Last Realm island holds its realm's ore.
+**Regenerating:** run `gen_realm_kit.py` (foods, creatures, ore blocks), then `gen_arsenal.py` (all arsenal art, models, names, recipes), then `gen_armor.py` (worn armor). `arsenal_sheet.py out.jpg` draws the sheet above.
 
-Known risk: the greatswords' hand poses are set by display transforms I could not see in game. If one is held at an odd angle, adjust `DISPLAY` in `tools/weapons.py` (or the model in Blockbench).
-
-## The Unmaker's gear: the Regalia of the Unmade and the Worldbreaker
-
-![The Unmaker's gear](previews/43_unmaker_gear.jpg)
-
-The Unmaker drops two **Hearts of the Unmade** every time it dies, beside the Hand of Genesis, and its altar can be woken again. Five Hearts (three kills) make the full kit.
-
-| Item | Recipe (3 x 3) |
-|---|---|
-| Crown, Heartplate, Greaves, Treads of the Unmade | a Heart in the centre, one storage block of each of the eight realm materials round it |
-| Worldbreaker | a Heart in the centre, all eight realm greatswords round it |
-
-**How it is tuned.** I could not open Ascendra's mod list from here, so I tuned against vanilla netherite (8 damage; 20 armor, 12 toughness) and the top weapons of the usual endgame boss mods (roughly 12 to 16 damage). The Worldbreaker sits well above both. Its percentage bite keeps it useful against bosses with thousands of health.
-
-- **Regalia of the Unmade:** 30 armor and 20 toughness for the set (both are the game's caps), full knockback immunity, and +5 max health per piece (+10 hearts in all). Durability is 66x, against netherite's 37x.
-- **Full-set powers:**
-  - Strength II, Resistance I, Fire Resistance, Night Vision and Water Breathing. Poison, wither, freezing and fall damage cannot touch you.
-  - *Event Horizon:* no single blow takes more than 30% of your health (`/kill` and the void still work), and half of all projectiles are swallowed.
-  - *Eightfold Retaliation:* whatever strikes you takes 6 damage plus one realm's curse at random.
-  - *The Last Heart:* a killing blow leaves you at half health instead, with Absorption IV, Resistance V for 3 seconds, and a shockwave that hurts and throws back everything within 8 blocks. Once every 2 minutes.
-  - Crouch in mid-air to drift down.
-- **Worldbreaker:** 24 attack damage, 1.0 speed, +1.5 blocks of reach, 4000 durability.
-  - *Unmaking:* every hit also deals 3% of the target's max health (up to 15 more). It also cycles through the eight realm on-hit powers in turn (root, storm, fire, tide, frost, sweep, time, spores); the tooltip shows the next one.
-  - *Singularity* (right-click, 20 s): a black hole opens six blocks ahead, drags in every enemy within twelve blocks, and collapses for 30 damage with Wither II.
-
-Models:
-- The armor is built by `gen_armor.unmade`: a bone mask, a crown of spikes, black horns, a halo of the eight realm stones, a black-hole heart with its accretion disc, and eight realm blades spread from the back like wings.
-- The sword is `weapons.worldbreaker`.
-- The Heart is `tools/gen_unmade.py`.
-- Every number lives in `kit_data.UNMADE` (text) and in `RealmArmorMaterial.UNMADE`, `RealmTier.UNMADE` and `WorldbreakerItem` (stats).
+Known risk: the weapon hand poses are computed from vanilla's handheld transforms but have not been seen in game. If a weapon sits oddly, adjust `held_big` in `tools/gen_arsenal.py`.
 
 # Act two: the outer realms
 

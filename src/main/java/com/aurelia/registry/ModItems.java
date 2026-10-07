@@ -10,11 +10,14 @@ import com.aurelia.item.RealmArmorItem;
 import com.aurelia.item.RealmArmorMaterial;
 import com.aurelia.item.RealmTier;
 import com.aurelia.item.RealmWeaponItem;
-import com.aurelia.item.WorldbreakerItem;
+import com.aurelia.item.WorldsunderItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.ShovelItem;
 import com.aurelia.entity.AureliaBoss;
 import com.aurelia.world.Realm;
 import javax.annotation.Nullable;
@@ -286,19 +289,27 @@ public class ModItems {
     public static final RegistryObject<Item> UNMAKER_EGG = ITEMS.register("unmaker_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.UNMAKER, 0xE2DAC8, 0x1C1A22, new Item.Properties()));
 
-    // ---- the Unmaker's own gear: its Heart, the Regalia of the Unmade and the Worldbreaker
-    public static final RegistryObject<Item> UNMADE_HEART = ITEMS.register("unmade_heart",
-            () -> new LoreItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.unmade_heart.lore"));
-    public static final RegistryObject<Item> UNMADE_HELMET = ITEMS.register("unmade_helmet",
-            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> UNMADE_CHESTPLATE = ITEMS.register("unmade_chestplate",
-            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> UNMADE_LEGGINGS = ITEMS.register("unmade_leggings",
-            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> UNMADE_BOOTS = ITEMS.register("unmade_boots",
-            () -> new RealmArmorItem(RealmArmorMaterial.UNMADE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> WORLDBREAKER = ITEMS.register("worldbreaker",
-            () -> new WorldbreakerItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    // ---- the Unmaker's arsenal: Fractured Genesis (its drop), Genesis Ingots, Genesis armor, Worldsunder and the Genesis tools
+    public static final RegistryObject<Item> FRACTURED_GENESIS = ITEMS.register("fractured_genesis",
+            () -> new LoreItem(new Item.Properties().stacksTo(16).rarity(Rarity.EPIC).fireResistant(), "item.aurelia.fractured_genesis.lore"));
+    public static final RegistryObject<Item> GENESIS_INGOT = ITEMS.register("genesis_ingot",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.genesis_ingot.lore"));
+    public static final RegistryObject<Item> GENESIS_HELMET = ITEMS.register("genesis_helmet",
+            () -> new RealmArmorItem(RealmArmorMaterial.GENESIS, ArmorItem.Type.HELMET, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_CHESTPLATE = ITEMS.register("genesis_chestplate",
+            () -> new RealmArmorItem(RealmArmorMaterial.GENESIS, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_LEGGINGS = ITEMS.register("genesis_leggings",
+            () -> new RealmArmorItem(RealmArmorMaterial.GENESIS, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_BOOTS = ITEMS.register("genesis_boots",
+            () -> new RealmArmorItem(RealmArmorMaterial.GENESIS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> WORLDSUNDER = ITEMS.register("worldsunder",
+            () -> new WorldsunderItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_PICKAXE = ITEMS.register("genesis_pickaxe",
+            () -> new PickaxeItem(RealmTier.GENESIS, 1, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_AXE = ITEMS.register("genesis_axe",
+            () -> new AxeItem(RealmTier.GENESIS, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> GENESIS_SHOVEL = ITEMS.register("genesis_shovel",
+            () -> new ShovelItem(RealmTier.GENESIS, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
     /** The relic each realm's Warden leaves behind, in realm order. */
     @Nullable
@@ -355,8 +366,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> VERDANT_BOOTS = ITEMS.register("verdant_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> THORNROOT_BLADE = ITEMS.register("thornroot_blade",
-            () -> new RealmWeaponItem(RealmTier.VERDANT, 5, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> ROOTBREAKER = ITEMS.register("rootbreaker",
+            () -> new RealmWeaponItem(RealmTier.VERDANT, 7, -3.1f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> VERDANT_FIG = ITEMS.register("verdant_fig",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> MOSSLING_EGG = ITEMS.register("mossling_spawn_egg",
@@ -369,8 +380,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> STORMGLASS_BOOTS = ITEMS.register("stormglass_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> GALECUTTER = ITEMS.register("galecutter",
-            () -> new RealmWeaponItem(RealmTier.STORMGLASS, 4, -2.4f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> STORMPIERCER = ITEMS.register("stormpiercer",
+            () -> new RealmWeaponItem(RealmTier.STORMGLASS, 5, -2.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SKY_JELLY = ITEMS.register("sky_jelly",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.SLOW_FALLING, 300, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> CLOUD_RAY_EGG = ITEMS.register("cloud_ray_spawn_egg",
@@ -383,7 +394,7 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> EMBERHEART_BOOTS = ITEMS.register("emberheart_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.EMBERHEART, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> SOULBRAND = ITEMS.register("soulbrand",
+    public static final RegistryObject<Item> SOULCLEAVER = ITEMS.register("soulcleaver",
             () -> new RealmWeaponItem(RealmTier.EMBERHEART, 7, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> CHARRED_MORSEL = ITEMS.register("charred_morsel",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.7f).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 600, 0), 1.0f).alwaysEat().build())));
@@ -397,8 +408,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> TIDESTONE_BOOTS = ITEMS.register("tidestone_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> UNDERTOW_FANG = ITEMS.register("undertow_fang",
-            () -> new RealmWeaponItem(RealmTier.TIDESTONE, 5, -2.7f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> TIDEBINDER = ITEMS.register("tidebinder",
+            () -> new RealmWeaponItem(RealmTier.TIDESTONE, 6, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> GLOWING_GEL = ITEMS.register("glowing_gel",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> LANTERN_JELLY_EGG = ITEMS.register("lantern_jelly_spawn_egg",
@@ -411,8 +422,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> RIME_BOOTS = ITEMS.register("rime_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> HUSHBLADE = ITEMS.register("hushblade",
-            () -> new RealmWeaponItem(RealmTier.RIME, 4, -2.2f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SILENT_REQUIEM = ITEMS.register("silent_requiem",
+            () -> new RealmWeaponItem(RealmTier.RIME, 7, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> FROST_HARE_HAUNCH = ITEMS.register("frost_hare_haunch",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.9f).build())));
     public static final RegistryObject<Item> FROST_HARE_EGG = ITEMS.register("frost_hare_spawn_egg",
@@ -425,8 +436,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SUNGLASS_BOOTS = ITEMS.register("sunglass_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> GLASS_REAPER = ITEMS.register("glass_reaper",
-            () -> new RealmWeaponItem(RealmTier.SUNGLASS, 6, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VENOMFANGS = ITEMS.register("venomfangs",
+            () -> new RealmWeaponItem(RealmTier.SUNGLASS, 3, -1.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SUNBAKED_TAIL = ITEMS.register("sunbaked_tail",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> SAND_SKINK_EGG = ITEMS.register("sand_skink_spawn_egg",
@@ -439,8 +450,8 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> CHRONITE_BOOTS = ITEMS.register("chronite_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.CHRONITE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> SECOND_HAND = ITEMS.register("second_hand",
-            () -> new RealmWeaponItem(RealmTier.CHRONITE, 2, -1.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> HOURSHATTER = ITEMS.register("hourshatter",
+            () -> new RealmWeaponItem(RealmTier.CHRONITE, 4, -2.4f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> TICKBERRY = ITEMS.register("tickberry",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.4f).effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> COGLING_EGG = ITEMS.register("cogling_spawn_egg",
@@ -453,12 +464,84 @@ public class ModItems {
             () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> BLOOMSPORE_BOOTS = ITEMS.register("bloomspore_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
-    public static final RegistryObject<Item> SPORE_LASH = ITEMS.register("spore_lash",
-            () -> new RealmWeaponItem(RealmTier.BLOOMSPORE, 7, -3.1f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> SPORETHORN = ITEMS.register("sporethorn",
+            () -> new RealmWeaponItem(RealmTier.BLOOMSPORE, 5, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> PUFFCAP = ITEMS.register("puffcap",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8f).effect(() -> new MobEffectInstance(MobEffects.SATURATION, 1, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> SPORE_PUFF_EGG = ITEMS.register("spore_puff_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.SPORE_PUFF, 0xC846BE, 0xFFDCFA, new Item.Properties()));
+    // ==================================================================== the arsenals: each realm's tools and materials
+    public static final RegistryObject<Item> VERDANTITE_INGOT = ITEMS.register("verdantite_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> LIVING_ROOT_FIBER = ITEMS.register("living_root_fiber",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.RARE), "item.aurelia.living_root_fiber.lore"));
+    public static final RegistryObject<Item> VERDANTITE_PICKAXE = ITEMS.register("verdantite_pickaxe",
+            () -> new PickaxeItem(RealmTier.VERDANT, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> VERDANTITE_AXE = ITEMS.register("verdantite_axe",
+            () -> new AxeItem(RealmTier.VERDANT, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> VERDANTITE_SHOVEL = ITEMS.register("verdantite_shovel",
+            () -> new ShovelItem(RealmTier.VERDANT, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> AETHERIUM_INGOT = ITEMS.register("aetherium_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> AETHERIUM_PICKAXE = ITEMS.register("aetherium_pickaxe",
+            () -> new PickaxeItem(RealmTier.STORMGLASS, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> AETHERIUM_AXE = ITEMS.register("aetherium_axe",
+            () -> new AxeItem(RealmTier.STORMGLASS, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> AETHERIUM_SHOVEL = ITEMS.register("aetherium_shovel",
+            () -> new ShovelItem(RealmTier.STORMGLASS, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> SOULSTEEL_INGOT = ITEMS.register("soulsteel_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> CAGED_SOUL_EMBER = ITEMS.register("caged_soul_ember",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.RARE), "item.aurelia.caged_soul_ember.lore"));
+    public static final RegistryObject<Item> SOULSTEEL_PICKAXE = ITEMS.register("soulsteel_pickaxe",
+            () -> new PickaxeItem(RealmTier.EMBERHEART, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> SOULSTEEL_AXE = ITEMS.register("soulsteel_axe",
+            () -> new AxeItem(RealmTier.EMBERHEART, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> SOULSTEEL_SHOVEL = ITEMS.register("soulsteel_shovel",
+            () -> new ShovelItem(RealmTier.EMBERHEART, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> TIDESTEEL_INGOT = ITEMS.register("tidesteel_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> TIDESTEEL_PICKAXE = ITEMS.register("tidesteel_pickaxe",
+            () -> new PickaxeItem(RealmTier.TIDESTONE, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> TIDESTEEL_AXE = ITEMS.register("tidesteel_axe",
+            () -> new AxeItem(RealmTier.TIDESTONE, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> TIDESTEEL_SHOVEL = ITEMS.register("tidesteel_shovel",
+            () -> new ShovelItem(RealmTier.TIDESTONE, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> FROZEN_BLACK_FLAME_CORE = ITEMS.register("frozen_black_flame_core",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.RARE), "item.aurelia.frozen_black_flame_core.lore"));
+    public static final RegistryObject<Item> RIMECRYSTAL_PICKAXE = ITEMS.register("rimecrystal_pickaxe",
+            () -> new PickaxeItem(RealmTier.RIME, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> RIMECRYSTAL_AXE = ITEMS.register("rimecrystal_axe",
+            () -> new AxeItem(RealmTier.RIME, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> RIMECRYSTAL_SHOVEL = ITEMS.register("rimecrystal_shovel",
+            () -> new ShovelItem(RealmTier.RIME, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> AMBER_VENOM_VIAL = ITEMS.register("amber_venom_vial",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.RARE), "item.aurelia.amber_venom_vial.lore"));
+    public static final RegistryObject<Item> SCARLET_PICKAXE = ITEMS.register("scarlet_pickaxe",
+            () -> new PickaxeItem(RealmTier.SUNGLASS, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> SCARLET_AXE = ITEMS.register("scarlet_axe",
+            () -> new AxeItem(RealmTier.SUNGLASS, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> SCARLET_SHOVEL = ITEMS.register("scarlet_shovel",
+            () -> new ShovelItem(RealmTier.SUNGLASS, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_INGOT = ITEMS.register("chronite_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> TEMPORAL_CORE = ITEMS.register("temporal_core",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.RARE), "item.aurelia.temporal_core.lore"));
+    public static final RegistryObject<Item> CHRONITE_PICKAXE = ITEMS.register("chronite_pickaxe",
+            () -> new PickaxeItem(RealmTier.CHRONITE, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_AXE = ITEMS.register("chronite_axe",
+            () -> new AxeItem(RealmTier.CHRONITE, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> CHRONITE_SHOVEL = ITEMS.register("chronite_shovel",
+            () -> new ShovelItem(RealmTier.CHRONITE, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> MYCELIAL_INGOT = ITEMS.register("mycelial_ingot",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MYCELIAL_PICKAXE = ITEMS.register("mycelial_pickaxe",
+            () -> new PickaxeItem(RealmTier.BLOOMSPORE, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> MYCELIAL_AXE = ITEMS.register("mycelial_axe",
+            () -> new AxeItem(RealmTier.BLOOMSPORE, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> MYCELIAL_SHOVEL = ITEMS.register("mycelial_shovel",
+            () -> new ShovelItem(RealmTier.BLOOMSPORE, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+
     public static final RegistryObject<Item> CHRONITE_ORE = ITEMS.register("chronite_ore",
             () -> new BlockItem(ModBlocks.CHRONITE_ORE.get(), new Item.Properties()));
     public static final RegistryObject<Item> BLOOMSPORE_ORE = ITEMS.register("bloomspore_ore",

@@ -1,13 +1,13 @@
 {
- "replace": false,
- "values": [
-  "aurelia:rime_helmet",
-  "aurelia:rime_chestplate",
-  "aurelia:rime_leggings",
-  "aurelia:rime_boots",
-  "aurelia:unmade_helmet",
-  "aurelia:unmade_chestplate",
-  "aurelia:unmade_leggings",
-  "aurelia:unmade_boots"
- ]
+  "replace": false,
+  "values": [
+    "aurelia:rime_helmet",
+    "aurelia:rime_chestplate",
+    "aurelia:rime_leggings",
+    "aurelia:rime_boots",
+    "aurelia:genesis_helmet",
+    "aurelia:genesis_chestplate",
+    "aurelia:genesis_leggings",
+    "aurelia:genesis_boots"
+  ]
 }

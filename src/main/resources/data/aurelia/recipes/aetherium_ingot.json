@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:stormglass_shard"
+    },
+    {
+      "item": "aurelia:stormglass_shard"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "item": "aurelia:aetherium_ingot"
+  }
+}

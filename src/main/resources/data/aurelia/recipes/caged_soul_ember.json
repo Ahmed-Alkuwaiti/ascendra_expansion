@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MXM",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:soulsteel_ingot"
+    },
+    "X": {
+      "item": "minecraft:soul_lantern"
+    }
+  },
+  "result": {
+    "item": "aurelia:caged_soul_ember",
+    "count": 1
+  }
+}

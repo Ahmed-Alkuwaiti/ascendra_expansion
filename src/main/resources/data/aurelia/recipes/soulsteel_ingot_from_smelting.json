@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "aurelia:emberheart"
+  },
+  "result": "aurelia:soulsteel_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

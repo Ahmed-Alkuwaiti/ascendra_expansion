@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " MM",
+    " XM",
+    "S  "
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:sunglass_shard"
+    },
+    "X": {
+      "item": "aurelia:amber_venom_vial"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "aurelia:venomfangs",
+    "count": 1
+  }
+}

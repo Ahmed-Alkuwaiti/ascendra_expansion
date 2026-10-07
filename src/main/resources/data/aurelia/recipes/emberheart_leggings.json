@@ -8,10 +8,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:emberheart"
+      "item": "aurelia:soulsteel_ingot"
     }
   },
   "result": {
-    "item": "aurelia:emberheart_leggings"
+    "item": "aurelia:emberheart_leggings",
+    "count": 1
   }
 }

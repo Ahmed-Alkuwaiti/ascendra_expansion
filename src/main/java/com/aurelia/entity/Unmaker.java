@@ -704,13 +704,13 @@ public class Unmaker extends AureliaBoss {
         }
     }
 
-    /** Two Hearts of the Unmade fall with it every time, beside the Hand of Genesis: the stuff its regalia and blade are forged from. */
+    /** Three Fractured Genesis fall with it every time, beside the Hand of Genesis: the stuff Genesis Ingots are forged from. */
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
         super.dropCustomDeathLoot(source, looting, recentlyHit);
         Vec3 at = lootPosition();
         net.minecraft.world.entity.item.ItemEntity hearts = new net.minecraft.world.entity.item.ItemEntity(this.level(), at.x + 1.0, at.y + 0.5, at.z,
-                new net.minecraft.world.item.ItemStack(ModItems.UNMADE_HEART.get(), 2));
+                new net.minecraft.world.item.ItemStack(ModItems.FRACTURED_GENESIS.get(), 3));
         hearts.setDefaultPickUpDelay();
         hearts.setGlowingTag(true);
         this.level().addFreshEntity(hearts);

@@ -251,24 +251,22 @@ def realm_section(r):
     for key, name, note in r['guards']:
         out.append(f'<figure class="guard"><img src="guards/{key}.webp" alt="{e(name)}" loading="lazy"><figcaption><b>{e(name)}</b>{e(note)}</figcaption></figure>')
     out.append('</div>')
-    # gear and wildlife
-    from kit_data import KIT
-    k = KIT[r['id']]
-    out.append('<h3 class="sub">Armor, weapon and wildlife</h3>')
-    out.append(fig(f'gear/{r["id"]}_armor.webp', f'The {e(k["armor_name"])} set, worn: every piece is its own 3D model.'))
-    out.append(f'<div class="two" style="margin-top:22px">' + fig(f'gear/{r["id"]}_items.webp', 'Inventory icons: the four pieces, the food, the material'
-               + (' and the ore' if k['ore'] else '') + '.') + f'<div class="text"><h4>{e(k["armor_name"])} armor</h4><span class="k">Full set</span>'
-               f'<p>{e(k["bonus"])}</p><p style="color:var(--muted)">Crafted from {e(k["material"].replace("_", " "))} in the usual armor shapes.</p></div></div>')
+    # the realm's arsenal and wildlife
+    from kit_data import ARSENAL, KIT
+    k, a = KIT[r['id']], ARSENAL[r['id']]
+    out.append('<h3 class="sub">Arsenal and wildlife</h3>')
+    out.append(fig(f'gear/{r["id"]}_armor.webp', f'{e(k["armor_name"])} armor, worn: every piece is its own 3D model.'))
+    out.append(f'<div class="two" style="margin-top:22px">' + fig(f'gear/{r["id"]}_items.webp', 'The four armor pieces, three tools, the ore, '
+               'the materials and the food.') + f'<div class="text"><h4>{e(k["armor_name"])} armor</h4><span class="k">Full set</span>'
+               f'<p>{e(k["bonus"])}</p><span class="k">Tools</span><p>{e(a["tool_name"])} pickaxe, axe and shovel.</p>'
+               f'<span class="k">Ore and materials</span><p>{e(a["ore_name"])} drops {e(a["raw_name"])}; '
+               f'armor and tools are made from {e(a["metal_name"])}, the weapon also takes {e(a["special_name"])}.</p></div></div>')
     out.append(f'<div class="two" style="margin-top:22px;grid-template-columns:minmax(0,1fr) minmax(0,2fr)">' + fig(f'gear/{r["id"]}_weapon.webp',
-               f'The {e(k["weapon_name"])}, about two and a half blocks long in the hand.') + f'<div class="text"><h4>{e(k["weapon_name"])}</h4>'
-               f'<span class="k">On hit</span><p>{e(k["weapon_power"])}</p><span class="k">Use</span><p>{e(k["weapon_ability"])}</p>'
-               f'<p style="color:var(--muted)">Crafted from {e(k["material"].replace("_", " "))} over its storage block over a stick.</p></div></div>')
+               f'{e(k["weapon_name"])}, a {e(a["weapon_kind"])}.') + f'<div class="text"><h4>{e(k["weapon_name"])}</h4>'
+               f'<span class="k">On hit</span><p>{e(k["weapon_power"])}</p><span class="k">Use</span><p>{e(k["weapon_ability"])}</p></div></div>')
     out.append(f'<div class="two" style="margin-top:22px">' + fig(f'gear/{r["id"]}_critter.webp', f'The {e(k["critter_name"])}.')
                + f'<div class="text"><h4>{e(k["critter_name"])}</h4><p>{e(k["critter_desc"])} Passive; it follows anyone holding '
-               f'{e(k["food_name"])} and breeds on it, and drops it.</p><span class="k">{e(k["food_name"])}</span><p>{e(k["food_power"])}</p>'
-               + (f'<span class="k">Ore</span><p>{e(k["ore"].replace("_", " ").title())}: '
-                  + ('found in the floating rock of the Rift and its Last Realm island.' if r['id'] == 'clockwork' else 'veins through the cavern stone.') + '</p>'
-                  if k['ore'] else '') + '</div></div>')
+               f'{e(k["food_name"])} and breeds on it, and drops it.</p><span class="k">{e(k["food_name"])}</span><p>{e(k["food_power"])}</p></div></div>')
     out.append('</div></section>')
     return '\n'.join(out)
 
@@ -288,7 +286,7 @@ def page():
 <span class="eyebrow">Forge 1.20.1 &middot; for the Ascendra modpack</span>
 <h1>Aurelia: The Shattered Crown</h1>
 <p class="lede">Every Warden, arena, citadel, portal, realm, structure and guard in the mod, rendered from the mod's own model specs and structure templates.
-Eight realms in three acts, then the finale. Every realm has its own 3D armor set, greatsword, creature, food and ore. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, wake the Warden.</p>
+Eight realms in three acts, then the finale. Every realm has its own arsenal (a 3D armor set, a weapon, three tools, an ore and two materials) and its own creature and food. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, wake the Warden.</p>
 <div class="acts">{acts}</div>
 <div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>

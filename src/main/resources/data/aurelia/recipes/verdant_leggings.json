@@ -8,10 +8,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:verdant_shard"
+      "item": "aurelia:verdantite_ingot"
     }
   },
   "result": {
-    "item": "aurelia:verdant_leggings"
+    "item": "aurelia:verdant_leggings",
+    "count": 1
   }
 }

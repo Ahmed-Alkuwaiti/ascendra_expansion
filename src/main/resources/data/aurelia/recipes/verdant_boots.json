@@ -7,10 +7,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:verdant_shard"
+      "item": "aurelia:verdantite_ingot"
     }
   },
   "result": {
-    "item": "aurelia:verdant_boots"
+    "item": "aurelia:verdant_boots",
+    "count": 1
   }
 }

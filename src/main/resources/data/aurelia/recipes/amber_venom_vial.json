@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MXM",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:sunglass_shard"
+    },
+    "X": {
+      "item": "minecraft:honey_bottle"
+    }
+  },
+  "result": {
+    "item": "aurelia:amber_venom_vial",
+    "count": 1
+  }
+}

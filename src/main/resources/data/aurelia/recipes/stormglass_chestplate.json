@@ -8,10 +8,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:stormglass_shard"
+      "item": "aurelia:aetherium_ingot"
     }
   },
   "result": {
-    "item": "aurelia:stormglass_chestplate"
+    "item": "aurelia:stormglass_chestplate",
+    "count": 1
   }
 }

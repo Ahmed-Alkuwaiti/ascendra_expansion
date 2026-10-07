@@ -4,7 +4,7 @@ import com.aurelia.item.RealmArmorItem;
 import com.aurelia.item.RealmArmorMaterial;
 import com.aurelia.item.RealmTier;
 import com.aurelia.item.RealmWeaponItem;
-import com.aurelia.item.WorldbreakerItem;
+import com.aurelia.item.WorldsunderItem;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +56,7 @@ public class KitEvents {
             case RIME -> ParticleTypes.SNOWFLAKE;
             case SUNGLASS -> ParticleTypes.WAX_OFF;
             case CHRONITE -> ParticleTypes.REVERSE_PORTAL;
-            case UNMADE -> ParticleTypes.END_ROD;
+            case GENESIS -> ParticleTypes.END_ROD;
             default -> ParticleTypes.CRIMSON_SPORE;
         };
     }
@@ -135,7 +135,7 @@ public class KitEvents {
                     ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 0, true, true));
                 }
             }
-            case UNMADE -> {                                               // the Regalia of the Unmade
+            case GENESIS -> {                                               // Genesis armor
                 keep(p, MobEffects.DAMAGE_BOOST, 1);
                 keep(p, MobEffects.DAMAGE_RESISTANCE, 0);
                 keep(p, MobEffects.FIRE_RESISTANCE, 0);
@@ -152,12 +152,12 @@ public class KitEvents {
         }
     }
 
-    /** The Unmade glide: crouching in mid-air while falling lets the wearer drift down. Checked every tick so it answers at once. */
+    /** The Genesis glide: crouching in mid-air while falling lets the wearer drift down. Checked every tick so it answers at once. */
     @SubscribeEvent
     public void onGlide(TickEvent.PlayerTickEvent event) {
         Player p = event.player;
         if (event.phase == TickEvent.Phase.END && !p.level().isClientSide && !p.onGround() && p.isCrouching()
-                && p.getDeltaMovement().y < -0.1 && RealmArmorItem.fullSet(p) == RealmArmorMaterial.UNMADE) {
+                && p.getDeltaMovement().y < -0.1 && RealmArmorItem.fullSet(p) == RealmArmorMaterial.GENESIS) {
             p.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 10, 0, true, false, true));
         }
     }
@@ -172,7 +172,7 @@ public class KitEvents {
         if (set == RealmArmorMaterial.SUNGLASS && p.getRandom().nextInt(3) == 0) {
             event.setCanceled(true);
             p.level().playSound(null, p.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0f, 1.5f);
-        } else if (set == RealmArmorMaterial.UNMADE && p.getRandom().nextBoolean()) {     // Event Horizon swallows half of them
+        } else if (set == RealmArmorMaterial.GENESIS && p.getRandom().nextBoolean()) {     // Event Horizon swallows half of them
             event.setCanceled(true);
             event.getSource().getDirectEntity().discard();
             if (p.level() instanceof ServerLevel level) {
@@ -182,16 +182,16 @@ public class KitEvents {
         }
     }
 
-    /** Event Horizon: while the regalia is worn, no single blow takes more than 30% of the wearer's health. */
+    /** Event Horizon: while Genesis armor is worn, no single blow takes more than 30% of the wearer's health. */
     @SubscribeEvent
     public void onDamage(LivingDamageEvent event) {
         if (event.getEntity() instanceof Player p && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)
-                && RealmArmorItem.fullSet(p) == RealmArmorMaterial.UNMADE) {
+                && RealmArmorItem.fullSet(p) == RealmArmorMaterial.GENESIS) {
             event.setAmount(Math.min(event.getAmount(), p.getMaxHealth() * 0.3f));
         }
     }
 
-    /** Eightfold Retaliation: one realm's curse, chosen at random, on whatever strikes the Unmade. */
+    /** Eightfold Retaliation: one realm's curse, chosen at random, on whatever strikes the Genesis wearer. */
     private static void retaliate(Player p, LivingEntity attacker) {
         attacker.hurt(p.damageSources().thorns(p), 6.0f);
         switch (p.getRandom().nextInt(8)) {
@@ -248,14 +248,14 @@ public class KitEvents {
                         attacker.setTicksFrozen(attacker.getTicksRequiredToFreeze() + 100);
                     }
                     case BLOOMSPORE -> attacker.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 1));
-                    case UNMADE -> retaliate(p, attacker);
+                    case GENESIS -> retaliate(p, attacker);
                     default -> { }
                 }
             }
         }
         if (event.getSource().getDirectEntity() instanceof LivingEntity attacker && attacker != victim
-                && attacker.getMainHandItem().getItem() instanceof WorldbreakerItem) {               // Unmaking
-            event.setAmount(event.getAmount() + WorldbreakerItem.unmaking(victim));
+                && attacker.getMainHandItem().getItem() instanceof WorldsunderItem) {               // Unmaking
+            event.setAmount(event.getAmount() + WorldsunderItem.unmaking(victim));
         }
         if (event.getSource().getDirectEntity() instanceof LivingEntity attacker
                 && attacker.getMainHandItem().getItem() instanceof RealmWeaponItem weapon) {
@@ -274,7 +274,7 @@ public class KitEvents {
             return;
         }
         RealmArmorMaterial set = RealmArmorItem.fullSet(p);
-        if (set == RealmArmorMaterial.UNMADE) {
+        if (set == RealmArmorMaterial.GENESIS) {
             lastHeart(event, p);
             return;
         }
@@ -304,7 +304,7 @@ public class KitEvents {
                 .withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE), true);
     }
 
-    /** The Last Heart: the Unmade refuse a killing blow once every two minutes, and the refusal throws back everything near. */
+    /** The Last Heart: Genesis refuses a killing blow once every two minutes, and the refusal throws back everything near. */
     private static void lastHeart(LivingDeathEvent event, Player p) {
         CompoundTag data = p.getPersistentData();
         long now = p.level().getGameTime();
@@ -337,7 +337,7 @@ public class KitEvents {
     @SubscribeEvent
     public void onFall(LivingFallEvent event) {
         RealmArmorMaterial set = event.getEntity() instanceof Player p ? RealmArmorItem.fullSet(p) : null;
-        if (set == RealmArmorMaterial.STORMGLASS || set == RealmArmorMaterial.UNMADE) {
+        if (set == RealmArmorMaterial.STORMGLASS || set == RealmArmorMaterial.GENESIS) {
             event.setDistance(0.0f);
             event.setDamageMultiplier(0.0f);
         }

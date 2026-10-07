@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:genesis_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:genesis_helmet",
+    "count": 1
+  }
+}

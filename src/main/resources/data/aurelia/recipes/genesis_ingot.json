@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ABC",
+    "HUD",
+    "GFE"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:verdantite_ingot"
+    },
+    "B": {
+      "item": "aurelia:aetherium_ingot"
+    },
+    "C": {
+      "item": "aurelia:soulsteel_ingot"
+    },
+    "D": {
+      "item": "aurelia:tidesteel_ingot"
+    },
+    "E": {
+      "item": "aurelia:rime_crystal"
+    },
+    "F": {
+      "item": "aurelia:sunglass_shard"
+    },
+    "G": {
+      "item": "aurelia:chronite_ingot"
+    },
+    "H": {
+      "item": "aurelia:mycelial_ingot"
+    },
+    "U": {
+      "item": "aurelia:fractured_genesis"
+    }
+  },
+  "result": {
+    "item": "aurelia:genesis_ingot",
+    "count": 4
+  }
+}

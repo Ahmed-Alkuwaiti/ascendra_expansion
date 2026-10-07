@@ -71,7 +71,7 @@ def render(parts, tex, glow, yaw=-35, pitch=22, size=900, margin=40, bg=None, sc
             n = np.cross(pts[1] - pts[0], pts[2] - pts[0])
             if np.linalg.norm(n) == 0:
                 continue
-            n = n / np.linalg.norm(n)
+            n = -n / np.linalg.norm(n)    # faces_of winds each face inward; flip to the outward normal
             if n[2] < -1e-6:              # facing away from the viewer (+z toward viewer after the view rotation)
                 continue
             wn = V.T @ n

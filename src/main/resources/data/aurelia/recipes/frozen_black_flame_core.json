@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MXM",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:rime_crystal"
+    },
+    "X": {
+      "item": "minecraft:soul_campfire"
+    }
+  },
+  "result": {
+    "item": "aurelia:frozen_black_flame_core",
+    "count": 1
+  }
+}

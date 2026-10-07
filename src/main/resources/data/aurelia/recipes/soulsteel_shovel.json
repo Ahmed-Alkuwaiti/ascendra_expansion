@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "M",
+    "S",
+    "S"
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:soulsteel_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "aurelia:soulsteel_shovel",
+    "count": 1
+  }
+}

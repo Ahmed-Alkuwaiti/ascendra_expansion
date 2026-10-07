@@ -36,7 +36,7 @@ public final class Story {
     public static final String KING_DEATH =
             "The Hollow King kneels, and his helm rolls away. Underneath is the Sovereign's own face. "
                     + "\"I took the dark into myself so it could not reach the others,\" she says. \"Finish what I started.\" "
-                    + "A Void Shard cools in the ash. Three shards, and a block of each realm's heart-stone: verdant, stormglass, emberheart. Reforge the crown.";
+                    + "A Void Shard cools in the ash. Three shards, and a block of each realm's heart-stone: raw verdantite, sky crystal, raw soulsteel. Reforge the crown.";
 
     // ---- Act two: the outer realms ----
     public static final String VORATH_PHASE = "Vorath rolls over in the deep, and the whole sea tilts with him.";

@@ -26,8 +26,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Each realm's signature weapon: a sword with the realm's power on every hit. Damage bonuses that depend on the situation
- * (the Undertow Fang in water, the Hushblade from a crouch) are applied in KitEvents. Use: the weapon's special, on a cooldown.
+ * Each realm's signature weapon (a warhammer, spear, cleaver, trident, scythe, twin daggers, a bladed repeating crossbow and a
+ * staff), with the realm's power on every hit. Damage bonuses that depend on the situation (the Tidebinder in water, the
+ * Silent Requiem from a crouch) are applied in KitEvents. Use: the weapon's special, on a cooldown.
  */
 public class RealmWeaponItem extends SwordItem {
     private final RealmTier realm;
@@ -75,6 +76,7 @@ public class RealmWeaponItem extends SwordItem {
                 target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));
             }
             case SUNGLASS -> {
+                target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 1));
                 for (LivingEntity other : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(2.5),
                         e -> e != target && e != attacker && e.isAlive() && !(e instanceof Player))) {
                     other.hurt(attacker.damageSources().mobAttack(attacker), this.getDamage() * 0.5f);
@@ -98,7 +100,7 @@ public class RealmWeaponItem extends SwordItem {
 
     // ---- the right-click special
 
-    private static final int[] COOLDOWN = {160, 120, 200, 200, 120, 160, 300, 200};
+    private static final int[] COOLDOWN = {160, 120, 200, 200, 120, 160, 60, 200};
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -196,25 +198,30 @@ public class RealmWeaponItem extends SwordItem {
                     level.playSound(null, player.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 2.0f, 1.4f);
                 }
             }
-            case SUNGLASS -> {                                             // Reaping Arc
+            case SUNGLASS -> {                                             // Fang Flurry
                 for (int k = 0; k < 36; k++) {
                     double a = k * Math.PI / 18;
                     level.sendParticles(ParticleTypes.SWEEP_ATTACK, here.x + Math.cos(a) * 3.5, here.y + 1, here.z + Math.sin(a) * 3.5, 1, 0, 0, 0, 0);
                 }
                 for (LivingEntity e : foes(level, player, here, 6.0)) {
                     e.hurt(player.damageSources().playerAttack(player), 16.0f);
+                    e.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
                 }
                 level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 2.0f, 0.5f);
             }
-            case CHRONITE -> {                                             // Stop the Clock
-                for (LivingEntity e : foes(level, player, here, 12.0)) {
-                    e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 9));
-                    e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 4));
-                    e.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 80, 4));
-                    e.setDeltaMovement(Vec3.ZERO);
-                    level.sendParticles(ParticleTypes.REVERSE_PORTAL, e.getX(), e.getY() + 1, e.getZ(), 30, 0.3, 0.6, 0.3, 0.02);
+            case CHRONITE -> {                                             // Hour Volley: five bolts in a fan
+                for (int k = -2; k <= 2; k++) {
+                    net.minecraft.world.entity.projectile.Arrow bolt = new net.minecraft.world.entity.projectile.Arrow(level, player);
+                    bolt.shootFromRotation(player, player.getXRot(), player.getYRot() + k * 6.0f, 0.0f, 3.2f, 0.5f);
+                    bolt.setBaseDamage(6.0);
+                    bolt.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 9));
+                    bolt.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 4));
+                    bolt.pickup = net.minecraft.world.entity.projectile.AbstractArrow.Pickup.DISALLOWED;
+                    level.addFreshEntity(bolt);
                 }
-                level.playSound(null, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 3.0f, 0.5f);
+                level.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getEyeY(), player.getZ(), 30, 0.3, 0.3, 0.3, 0.1);
+                level.playSound(null, player.blockPosition(), SoundEvents.CROSSBOW_SHOOT, SoundSource.PLAYERS, 1.5f, 0.7f);
+                level.playSound(null, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 0.8f, 1.6f);
             }
             default -> {                                                   // Bloom Burst
                 int caught = 0;

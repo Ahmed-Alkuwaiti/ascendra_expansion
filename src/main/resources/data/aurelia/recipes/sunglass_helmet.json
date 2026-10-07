@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "aurelia:sunglass_helmet"
+    "item": "aurelia:sunglass_helmet",
+    "count": 1
   }
 }

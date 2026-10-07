@@ -10,18 +10,18 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 
-/** One armor set per realm, made from that realm's material. Texture: textures/models/armor/<name>_layer_1.png and _2. */
+/** One armor set per realm, made from that realm's metal, and the Unmaker's Genesis set. Texture: textures/models/armor/<name>_layer_1.png and _2. */
 public enum RealmArmorMaterial implements ArmorMaterial {
-    VERDANT("verdant", 34, new int[] {3, 8, 6, 3}, 15, 2.0f, 0.0f, () -> ModItems.VERDANT_SHARD.get()),
-    STORMGLASS("stormglass", 34, new int[] {3, 8, 6, 3}, 15, 2.0f, 0.0f, () -> ModItems.STORMGLASS_SHARD.get()),
-    EMBERHEART("emberheart", 36, new int[] {3, 8, 6, 3}, 15, 2.5f, 0.05f, () -> ModItems.EMBERHEART.get()),
-    TIDESTONE("tidestone", 37, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.05f, () -> ModItems.TIDESTONE_SHARD.get()),
+    VERDANT("verdant", 34, new int[] {3, 8, 6, 3}, 15, 2.0f, 0.0f, () -> ModItems.VERDANTITE_INGOT.get()),
+    STORMGLASS("stormglass", 34, new int[] {3, 8, 6, 3}, 15, 2.0f, 0.0f, () -> ModItems.AETHERIUM_INGOT.get()),
+    EMBERHEART("emberheart", 36, new int[] {3, 8, 6, 3}, 15, 2.5f, 0.05f, () -> ModItems.SOULSTEEL_INGOT.get()),
+    TIDESTONE("tidestone", 37, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.05f, () -> ModItems.TIDESTEEL_INGOT.get()),
     RIME("rime", 37, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.05f, () -> ModItems.RIME_CRYSTAL.get()),
     SUNGLASS("sunglass", 38, new int[] {3, 8, 6, 3}, 16, 3.0f, 0.1f, () -> ModItems.SUNGLASS_SHARD.get()),
-    CHRONITE("chronite", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.CHRONITE_SHARD.get()),
-    BLOOMSPORE("bloomspore", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.BLOOMSPORE.get()),
-    // The Unmaker's regalia: 30 armor and 20 toughness in all (both the game's caps), full knockback immunity. Netherite: 20 / 12 / 0.4.
-    UNMADE("unmade", 66, new int[] {5, 11, 9, 5}, 25, 5.0f, 0.25f, () -> ModItems.UNMADE_HEART.get());
+    CHRONITE("chronite", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.CHRONITE_INGOT.get()),
+    BLOOMSPORE("bloomspore", 40, new int[] {4, 9, 7, 4}, 18, 3.5f, 0.1f, () -> ModItems.MYCELIAL_INGOT.get()),
+    // Genesis, the Unmaker's: 30 armor and 20 toughness in all (both the game's caps), full knockback immunity. Netherite: 20 / 12 / 0.4.
+    GENESIS("genesis", 66, new int[] {5, 11, 9, 5}, 25, 5.0f, 0.25f, () -> ModItems.GENESIS_INGOT.get());
 
     private static final int[] BASE_DURABILITY = {11, 16, 15, 13};   // helmet, chestplate, leggings, boots
     private final String name;

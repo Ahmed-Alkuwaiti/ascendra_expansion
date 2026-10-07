@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ABC",
+    "HUD",
+    "GFE"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:rootbreaker"
+    },
+    "B": {
+      "item": "aurelia:stormpiercer"
+    },
+    "C": {
+      "item": "aurelia:soulcleaver"
+    },
+    "D": {
+      "item": "aurelia:tidebinder"
+    },
+    "E": {
+      "item": "aurelia:silent_requiem"
+    },
+    "F": {
+      "item": "aurelia:venomfangs"
+    },
+    "G": {
+      "item": "aurelia:hourshatter"
+    },
+    "H": {
+      "item": "aurelia:sporethorn"
+    },
+    "U": {
+      "item": "aurelia:fractured_genesis"
+    }
+  },
+  "result": {
+    "item": "aurelia:worldsunder",
+    "count": 1
+  }
+}

@@ -7,10 +7,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:tidestone_shard"
+      "item": "aurelia:tidesteel_ingot"
     }
   },
   "result": {
-    "item": "aurelia:tidestone_boots"
+    "item": "aurelia:tidestone_boots",
+    "count": 1
   }
 }

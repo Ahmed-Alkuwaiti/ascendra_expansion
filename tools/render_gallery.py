@@ -555,37 +555,38 @@ def finale(out):
 
 
 def gear(out):
+    """Each realm's arsenal: the armor worn (front and back), the weapon sprite, the creature, and an icon strip of the four armor
+    pieces, three tools, ore, two materials and food. Also the whole Tenfold Seal sheet for the finale chapter."""
+    import arsenal_art as art
+    import arsenal_sheet
     import gen_armor as ga
-    import mobspecs
-    import relics
-    import weapons
-    from kit_data import KIT, PIECES
+    from kit_data import ARSENAL, KIT, PIECES
+    from pixelart import upscale
     I = '../src/main/resources/assets/aurelia/textures/'
-    W = dict(weapons.WEAPONS)
     for realm in REALMS:
-        k = KIT[realm]
-        parts = ga.preview_parts(realm)
-        tex, _ = mobspecs.paint(parts, 5)
-        glow = tex.info.pop('glow')
-        a, sc = rm.render(parts, tex, glow, -28, 8, size=620, bg=BG[realm])
-        b, _ = rm.render(parts, tex, glow, 150, 10, size=620, bg=BG[realm], scale=sc)
+        k, a = KIT[realm], ARSENAL[realm]
+        f, b = ga.render_preview(realm, size=620, bg=BG[realm])
         img = Image.new('RGB', (1240, 620))
-        img.paste(a, (0, 0))
+        img.paste(f, (0, 0))
         img.paste(b, (620, 0))
         save(img, f'{out}/gear/{realm}_armor.webp')
-        w = relics.render_relic(W[k['weapon']](), size=900, bg=BG[realm], yaw=-25, pitch=8, k=6)
-        save(w.crop((200, 0, 700, 900)), f'{out}/gear/{realm}_weapon.webp')
+        w = Image.new('RGBA', (512, 512), BG[realm][0] + (255,))
+        w.alpha_composite(upscale(art.WEAPONS[realm][1]().render(), 8))
+        save(w.convert('RGB'), f'{out}/gear/{realm}_weapon.webp')
         p, t, g = rm.build(k['critter'])
         im, _ = rm.render(p, t, g, -35, 16, size=520, bg=BG[realm])
         save(im, f'{out}/gear/{realm}_critter.webp')
-        names = [(f'item/{k["armor"]}_{x}.png', 32) for x in PIECES] + [(f'item/{k["food"]}.png', 16), (f'item/{k["material"]}.png', 16)]
-        if k['ore']:
-            names.append((f'block/{k["ore"]}.png', 16))
-        strip = Image.new('RGBA', (len(names) * 132 + 12, 144), BG[realm][0] + (255,))
-        for i, (n, s) in enumerate(names):
-            ic = Image.open(I + n).convert('RGBA').resize((120, 120), Image.NEAREST)
-            strip.alpha_composite(ic, (12 + i * 132, 12))
+        icons = [art.ICONS[x](realm).render() for x in PIECES] + [fn(realm).render() for fn in (art.pickaxe, art.axe, art.shovel)]
+        icons += [arsenal_sheet.iso_block(art.ore(a['ore']).render(outline=False, halo=False), 16)]
+        icons += [art.MATERIALS[m]().render() for m in dict.fromkeys([a['metal'], a['special']])]
+        icons += [Image.open(I + f'item/{k["food"]}.png').convert('RGBA').resize((32, 32), Image.NEAREST)]
+        strip = Image.new('RGBA', (len(icons) * 108 + 12, 120), BG[realm][0] + (255,))
+        for n, ic in enumerate(icons):
+            strip.alpha_composite(upscale(ic, 3), (12 + n * 108, 12))
         save(strip.convert('RGB'), f'{out}/gear/{realm}_items.webp')
+    arsenal_sheet.main(f'{out}/finale/arsenals.jpg')
+    Image.open(f'{out}/finale/arsenals.jpg').save(f'{out}/finale/arsenals.webp', quality=90)
+    os.remove(f'{out}/finale/arsenals.jpg')
 
 
 if __name__ == '__main__':

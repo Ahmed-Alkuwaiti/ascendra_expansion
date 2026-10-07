@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "aurelia:tidestone_shard"
+    },
+    {
+      "item": "aurelia:tidestone_shard"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "item": "aurelia:tidesteel_ingot"
+  }
+}

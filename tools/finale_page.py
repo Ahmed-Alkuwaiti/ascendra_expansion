@@ -103,8 +103,8 @@ def section():
     for name, realm, desc in POWERS:
         o.append(f'<dt>{e(realm)}</dt><dd><b>{e(name)}</b>: {e(desc)}</dd>')
     o.append('</dl></div></div>')
-    o.append('<h3 class="sub">The Unmaker\'s gear: the Regalia of the Unmade and the Worldbreaker</h3>')
-    o.append(fig('finale/unmaker_gear.webp', 'Two Hearts of the Unmade fall with every kill. Each piece takes a Heart and a block of all eight realms; '
-                 'the Worldbreaker takes a Heart and all eight realm greatswords.'))
+    o.append('<h3 class="sub">The Arsenals of the Tenfold Seal</h3>')
+    o.append(fig('finale/arsenals.webp', 'Every realm\'s arsenal, and the Unmaker\'s. Three Fractured Genesis fall with every Unmaker kill; '
+                 'one, with an ingot of each realm\'s metal, makes four Genesis Ingots. Worldsunder takes a Fractured Genesis and all eight realm weapons.'))
     o.append('</div></section>')
     return '\n'.join(o)

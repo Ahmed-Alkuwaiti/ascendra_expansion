@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MXM",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "aurelia:chronite_ingot"
+    },
+    "X": {
+      "item": "minecraft:clock"
+    }
+  },
+  "result": {
+    "item": "aurelia:temporal_core",
+    "count": 1
+  }
+}

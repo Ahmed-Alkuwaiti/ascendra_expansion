@@ -5,3 +5,4 @@ out/
 *.class
 __pycache__/
 tools/_cache/
+javac.*.args

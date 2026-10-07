@@ -8,10 +8,11 @@
   ],
   "key": {
     "M": {
-      "item": "aurelia:bloomspore"
+      "item": "aurelia:mycelial_ingot"
     }
   },
   "result": {
-    "item": "aurelia:bloomspore_chestplate"
+    "item": "aurelia:bloomspore_chestplate",
+    "count": 1
   }
 }
