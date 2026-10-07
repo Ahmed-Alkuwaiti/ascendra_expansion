@@ -25,7 +25,8 @@ COLORS = {
     'cut_red_sandstone': (189, 101, 31), 'chiseled_red_sandstone': (183, 96, 27), 'smooth_red_sandstone': (181, 98, 31),
     'terracotta': (152, 94, 67), 'orange_terracotta': (161, 83, 37), 'red_terracotta': (143, 61, 46), 'yellow_terracotta': (186, 133, 35),
     'gold_block': (246, 208, 61), 'red_stained_glass': (153, 51, 51), 'orange_stained_glass': (216, 127, 51),
-    'spruce_leaves': (56, 86, 58), 'oak_leaves': (60, 120, 40), 'ochre_froglight': (250, 236, 180), 'shroomlight': (240, 146, 70), 'glowstone': (250, 210, 130),
+    'bone_block': (229, 225, 207), 'red_wool': (160, 39, 34), 'orange_wool': (240, 118, 19), 'yellow_wool': (248, 197, 39),
+    'light_gray_wool': (142, 142, 134), 'bricks': (150, 97, 83), 'conduit': (160, 140, 110), 'spruce_leaves': (56, 86, 58), 'oak_leaves': (60, 120, 40), 'ochre_froglight': (250, 236, 180), 'shroomlight': (240, 146, 70), 'glowstone': (250, 210, 130),
 }
 AUR = {'tide_bell': (220, 180, 70), 'coral_seal': (226, 86, 110), 'waygate': (255, 220, 120), 'brine_grate': (40, 110, 110),
        'hush_stone': (200, 230, 255), 'rime_seal': (170, 214, 240), 'frost_rune': (120, 220, 255), 'sunwell': (255, 214, 90),
