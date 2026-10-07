@@ -58,6 +58,20 @@ public final class Story {
                     + "\"She asked me for more time,\" he says. \"I took it from everyone else.\" "
                     + "The Reaper's Hourglass cools in your hand. Set it in the Crown beside the pearl and the tear.";
 
+    // ---- Act three: the rifts ----
+    public static final String VEXOR_PHASE = "Vexor's rings spin faster. Somewhere, a whole afternoon goes missing.";
+    public static final String VEXOR_FINAL = "The eye stops blinking. It has decided it has all the time it needs.";
+    public static final String VEXOR_DEATH =
+            "The rings grind to a halt, and every clock in the Rift strikes at once. The eye closes. "
+                    + "\"I only kept what they wasted,\" it says, in the voice of every clock you ever ignored. "
+                    + "The Hour Core is still ticking. Carry it down into the Mycelial Deep; the Spore Cathedral will open for it.";
+    public static final String BLOOM_PHASE = "The Bloom Mother's roots tear up through the floor. The whole cavern is her body now.";
+    public static final String BLOOM_FINAL = "Her petals open as wide as they will go. She is not hungry. She is lonely.";
+    public static final String BLOOM_DEATH =
+            "The petals fold, one by one, over a heart that has stopped. In the silence, you hear what she was singing: "
+                    + "the Sovereign's lullaby, slowed down until it sounded like growing. "
+                    + "The Bloom Heart is warm. Set it in the Ascendant Crown beside the Hour Core, and the crown will be eternal.";
+
     public static void title(ServerPlayer player, String title, String subtitle, ChatFormatting color) {
         player.connection.send(new ClientboundSetTitlesAnimationPacket(15, 90, 30));
         player.connection.send(new ClientboundSetSubtitleTextPacket(
@@ -87,6 +101,27 @@ public final class Story {
         ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
         var tag = book.getOrCreateTag();
         tag.putString("title", "The Outer Chronicle");
+        tag.putString("author", "The Last Archivist");
+        ListTag list = new ListTag();
+        for (String page : pages) {
+            list.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(page))));
+        }
+        tag.put("pages", list);
+        return book;
+    }
+
+    /** The third book, found the first time a player reaches one of the rifts. */
+    public static ItemStack riftChronicle() {
+        String[] pages = {
+                "THE RIFT CHRONICLE\n\nWhen the crown broke, it did not only break the six realms. It cracked what lay under them.",
+                "Under time there is a machine. Vexor ate every hour the realms let slip, and grew so large it forgot what it was keeping them for.",
+                "Under the ground there is a mother. The Bloom Mother grew round the Sovereign's last lullaby and would not let it end.",
+                "Their citadels stand in your world now: the Paradox Keep on the open plains, and the Spore Cathedral in the dark forests.",
+                "Wind the clocks. Open the valves. Bring back the core and the heart, and the crown will never break again.\n\n- The Last Archivist"
+        };
+        ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+        var tag = book.getOrCreateTag();
+        tag.putString("title", "The Rift Chronicle");
         tag.putString("author", "The Last Archivist");
         ListTag list = new ListTag();
         for (String page : pages) {

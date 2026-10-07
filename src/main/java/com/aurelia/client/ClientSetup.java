@@ -87,6 +87,22 @@ public class ClientSetup {
                 MobModels.SUNSEER_SHADOW, "sunseer", false);
         spec(event, ModEntities.GLASSWING_SCARAB.get(), MobModels.GLASSWING_SCARAB, MobModels.GLASSWING_SCARAB_NAMES, MobModels.GLASSWING_SCARAB_ANIMS,
                 MobModels.GLASSWING_SCARAB_SHADOW, "glasswing_scarab", false);
+        spec(event, ModEntities.VEXOR.get(), MobModels.VEXOR, MobModels.VEXOR_NAMES, MobModels.VEXOR_ANIMS,
+                MobModels.VEXOR_SHADOW, "vexor", false);
+        spec(event, ModEntities.BLOOM_MOTHER.get(), MobModels.BLOOM_MOTHER, MobModels.BLOOM_MOTHER_NAMES, MobModels.BLOOM_MOTHER_ANIMS,
+                MobModels.BLOOM_MOTHER_SHADOW, "bloom_mother", false);
+        spec(event, ModEntities.GEARSKITTER.get(), MobModels.GEARSKITTER, MobModels.GEARSKITTER_NAMES, MobModels.GEARSKITTER_ANIMS,
+                MobModels.GEARSKITTER_SHADOW, "gearskitter", false);
+        spec(event, ModEntities.SECONDHAND.get(), MobModels.SECONDHAND, MobModels.SECONDHAND_NAMES, MobModels.SECONDHAND_ANIMS,
+                MobModels.SECONDHAND_SHADOW, "secondhand", false);
+        spec(event, ModEntities.HOUR_WARDEN.get(), MobModels.HOUR_WARDEN, MobModels.HOUR_WARDEN_NAMES, MobModels.HOUR_WARDEN_ANIMS,
+                MobModels.HOUR_WARDEN_SHADOW, "hour_warden", false);
+        spec(event, ModEntities.ROOT_GRUB.get(), MobModels.ROOT_GRUB, MobModels.ROOT_GRUB_NAMES, MobModels.ROOT_GRUB_ANIMS,
+                MobModels.ROOT_GRUB_SHADOW, "root_grub", false);
+        spec(event, ModEntities.SPORE_DRIFTER.get(), MobModels.SPORE_DRIFTER, MobModels.SPORE_DRIFTER_NAMES, MobModels.SPORE_DRIFTER_ANIMS,
+                MobModels.SPORE_DRIFTER_SHADOW, "spore_drifter", false);
+        spec(event, ModEntities.HUSK_GUARD.get(), MobModels.HUSK_GUARD, MobModels.HUSK_GUARD_NAMES, MobModels.HUSK_GUARD_ANIMS,
+                MobModels.HUSK_GUARD_SHADOW, "husk_guard", false);
         // the White Silence's reflections wear her model and her texture
         spec(event, ModEntities.PALE_MIRAGE.get(), MobModels.WHITE_SILENCE, MobModels.WHITE_SILENCE_NAMES, MobModels.WHITE_SILENCE_ANIMS,
                 MobModels.WHITE_SILENCE_SHADOW, "white_silence", false);

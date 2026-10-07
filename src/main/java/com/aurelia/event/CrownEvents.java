@@ -20,7 +20,8 @@ public class CrownEvents {
             return;
         }
         Player player = event.player;
-        boolean ascendant = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ASCENDANT_CROWN.get());
+        boolean eternal = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ETERNAL_CROWN.get());
+        boolean ascendant = eternal || player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ASCENDANT_CROWN.get());
         boolean wearing = ascendant || player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.CROWN.get());
         CompoundTag data = player.getPersistentData();
 
@@ -41,6 +42,11 @@ public class CrownEvents {
                     player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 120, 0, true, false, false));
                     player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 120, 0, true, false, false));
                     player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 120, 0, true, false, false));
+                }
+                if (eternal) {
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 120, 1, true, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 1, 0, true, false, false));
                 }
             }
             if (ascendant && player.getTicksFrozen() > 0) {
@@ -65,10 +71,38 @@ public class CrownEvents {
         if (event.getCrafting().is(ModItems.CROWN.get())) {
             com.aurelia.world.Story.narrate(event.getEntity(), "The crown is whole, and warm, and wrong: three of its settings sit empty. "
                     + "Far away, under the sea, a bell rings once. Look for the Tidewrack Citadel in the ocean.");
+        } else if (event.getCrafting().is(ModItems.ETERNAL_CROWN.get())) {
+            com.aurelia.world.Story.narrate(event.getEntity(), "The core stops ticking. The heart stops growing. The crown is eternal, and so, nearly, are you.");
         } else if (event.getCrafting().is(ModItems.ASCENDANT_CROWN.get())) {
             com.aurelia.world.Story.narrate(event.getEntity(), "Pearl, tear and hourglass settle into place. For a moment you hear all six realms "
-                    + "at once: the garden, the wind, the dark, the sea, the silence and the sand. Then only your own heartbeat. It is finished.");
+                    + "at once: the garden, the wind, the dark, the sea, the silence and the sand. Then, under them, something ticking, "
+                    + "and something growing. Look for the Paradox Keep on the open plains.");
         }
+    }
+
+    /** The Eternal Crown: once every five minutes, a killing blow stops time instead of killing you. */
+    @SubscribeEvent
+    public void onDeath(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof Player player) || player.level().isClientSide
+                || !player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ETERNAL_CROWN.get())) {
+            return;
+        }
+        CompoundTag data = player.getPersistentData();
+        long now = player.level().getGameTime();
+        if (now - data.getLong("aurelia_eternal_last") < 6000) {
+            return;
+        }
+        data.putLong("aurelia_eternal_last", now);
+        event.setCanceled(true);
+        player.setHealth(player.getMaxHealth() * 0.5f);
+        player.removeAllEffects();
+        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 2));
+        player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 3));
+        for (net.minecraft.world.entity.LivingEntity near : player.level().getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
+                player.getBoundingBox().inflate(12.0), e -> e != player)) {
+            near.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 4));
+        }
+        com.aurelia.world.Story.narrate(player, "The Hour Core in your crown stops time a heartbeat before the end. You get the heartbeat back.");
     }
 
     /** Keep story progress (book given, return point) across death. */

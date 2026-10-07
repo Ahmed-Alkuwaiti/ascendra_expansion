@@ -35,6 +35,7 @@ public final class RealmTravel {
     private static final String RET_Z = "aurelia_ret_z";
     private static final String BOOK = "aurelia_book";
     private static final String BOOK2 = "aurelia_book2";
+    private static final String BOOK3 = "aurelia_book3";
 
     private RealmTravel() {}
 
@@ -73,13 +74,21 @@ public final class RealmTravel {
             }
             Story.narrate(player, "A worn book was waiting on the pad. You tuck it away.");
         }
-        if (realm.ordinal() >= Realm.DROWNED.ordinal() && !data.getBoolean(BOOK2)) {
+        if (realm.ordinal() >= Realm.DROWNED.ordinal() && realm.ordinal() < Realm.CLOCKWORK.ordinal() && !data.getBoolean(BOOK2)) {
             data.putBoolean(BOOK2, true);
             ItemStack book = Story.secondChronicle();
             if (!player.getInventory().add(book)) {
                 player.drop(book, false);
             }
             Story.narrate(player, "A second book lies on the stone, its pages swollen with seawater. Someone left it for you.");
+        }
+        if (realm.ordinal() >= Realm.CLOCKWORK.ordinal() && !data.getBoolean(BOOK3)) {
+            data.putBoolean(BOOK3, true);
+            ItemStack book = Story.riftChronicle();
+            if (!player.getInventory().add(book)) {
+                player.drop(book, false);
+            }
+            Story.narrate(player, "A third book waits for you, its pages ticking faintly.");
         }
     }
 

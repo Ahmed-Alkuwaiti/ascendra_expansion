@@ -3,6 +3,7 @@ package com.aurelia.registry;
 import com.aurelia.AureliaMod;
 import com.aurelia.item.AscendantCrownItem;
 import com.aurelia.item.AurelianCrownItem;
+import com.aurelia.item.EternalCrownItem;
 import com.aurelia.item.LoreItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -196,4 +197,50 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.SUNSEER, 0x7A1A1E, 0xFFD65A, new Item.Properties()));
     public static final RegistryObject<Item> GLASSWING_SCARAB_EGG = ITEMS.register("glasswing_scarab_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.GLASSWING_SCARAB, 0x341E1E, 0xFF4A3C, new Item.Properties()));
+
+    // ==================================================================== act three
+    public static final RegistryObject<Item> CLOCK_DIAL = ITEMS.register("clock_dial",
+            () -> new BlockItem(ModBlocks.CLOCK_DIAL.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MASTER_CLOCK = ITEMS.register("master_clock",
+            () -> new BlockItem(ModBlocks.MASTER_CLOCK.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> SPORE_VALVE = ITEMS.register("spore_valve",
+            () -> new BlockItem(ModBlocks.SPORE_VALVE.get(), new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> PARADOX_SEAL = ITEMS.register("paradox_seal",
+            () -> new BlockItem(ModBlocks.PARADOX_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ROOT_SEAL = ITEMS.register("root_seal",
+            () -> new BlockItem(ModBlocks.ROOT_SEAL.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TIME_SNARE = ITEMS.register("time_snare",
+            () -> new BlockItem(ModBlocks.TIME_SNARE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ROOT_SNARE = ITEMS.register("root_snare",
+            () -> new BlockItem(ModBlocks.ROOT_SNARE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHRONITE_BLOCK = ITEMS.register("chronite_block",
+            () -> new BlockItem(ModBlocks.CHRONITE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BLOOMSPORE_BLOCK = ITEMS.register("bloomspore_block",
+            () -> new BlockItem(ModBlocks.BLOOMSPORE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHRONITE_SHARD = ITEMS.register("chronite_shard",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.chronite_shard.lore"));
+    public static final RegistryObject<Item> BLOOMSPORE = ITEMS.register("bloomspore",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.bloomspore.lore"));
+    public static final RegistryObject<Item> HOUR_CORE = ITEMS.register("hour_core",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.hour_core.lore"));
+    public static final RegistryObject<Item> BLOOM_HEART = ITEMS.register("bloom_heart",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), "item.aurelia.bloom_heart.lore"));
+    public static final RegistryObject<Item> ETERNAL_CROWN = ITEMS.register("eternal_crown",
+            () -> new EternalCrownItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> VEXOR_EGG = ITEMS.register("vexor_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.VEXOR, 0x221F28, 0xA846FF, new Item.Properties()));
+    public static final RegistryObject<Item> BLOOM_MOTHER_EGG = ITEMS.register("bloom_mother_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.BLOOM_MOTHER, 0xDED2BA, 0xFF46DC, new Item.Properties()));
+    public static final RegistryObject<Item> GEARSKITTER_EGG = ITEMS.register("gearskitter_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.GEARSKITTER, 0xB28436, 0x221F28, new Item.Properties()));
+    public static final RegistryObject<Item> SECONDHAND_EGG = ITEMS.register("secondhand_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SECONDHAND, 0xA846FF, 0xFFCE5A, new Item.Properties()));
+    public static final RegistryObject<Item> HOUR_WARDEN_EGG = ITEMS.register("hour_warden_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HOUR_WARDEN, 0x221F28, 0xB28436, new Item.Properties()));
+    public static final RegistryObject<Item> ROOT_GRUB_EGG = ITEMS.register("root_grub_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ROOT_GRUB, 0xDED2BA, 0x96289F, new Item.Properties()));
+    public static final RegistryObject<Item> SPORE_DRIFTER_EGG = ITEMS.register("spore_drifter_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SPORE_DRIFTER, 0x96289F, 0xFF46DC, new Item.Properties()));
+    public static final RegistryObject<Item> HUSK_GUARD_EGG = ITEMS.register("husk_guard_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HUSK_GUARD, 0xE0D8C6, 0x6E2A78, new Item.Properties()));
 }

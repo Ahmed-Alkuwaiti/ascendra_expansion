@@ -19,12 +19,83 @@ public final class ArenaBuilder {
             case DROWNED -> drowned(level, c);
             case PALE -> pale(level, c);
             case SCARLET -> raiseScarletPillars(level, c);
+            case CLOCKWORK -> clockwork(level, c);
+            case MYCELIAL -> mycelial(level, c);
             default -> { }
         }
     }
 
     /** Positions of the three Tide Bells, relative to the altar. */
     public static final int[][] BELLS = {{11, 0}, {-11, 0}, {0, -11}};
+
+    /** The Clockwork Rift: the three arena dials, and the Master Clock on a column at the north rim (x, y, z from the altar). */
+    public static final int[][] DIALS = {{9, 3}, {-9, 3}, {0, -9}};
+    public static final int[] MASTER = {0, 4, -12};
+    /** The Mycelial Deep: the three spore valves. */
+    public static final int[][] VALVES = {{10, 2}, {-10, 2}, {0, -11}};
+
+    /** A clock face: gold numerals and hands set into the pad, a rim of iron, three dials and the Master Clock. */
+    private static void clockwork(ServerLevel level, BlockPos c) {
+        BlockState gold = Blocks.GOLD_BLOCK.defaultBlockState();
+        BlockState rim = Blocks.POLISHED_BLACKSTONE_BRICKS.defaultBlockState();
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (int dx = -14; dx <= 14; dx++) {
+            for (int dz = -14; dz <= 14; dz++) {
+                double d = Math.sqrt(dx * dx + dz * dz);
+                if (d > 12.0 && d <= 14.0) {
+                    for (int dy = -6; dy <= -1; dy++) {
+                        level.setBlock(p.set(c.getX() + dx, c.getY() + dy, c.getZ() + dz), rim, 2);
+                    }
+                } else if (d > 10.5 && d <= 11.5) {
+                    level.setBlock(p.set(c.getX() + dx, c.getY() - 1, c.getZ() + dz), Blocks.POLISHED_BLACKSTONE.defaultBlockState(), 2);
+                }
+            }
+        }
+        for (int k = 0; k < 12; k++) {
+            double a = k * Math.PI / 6.0;
+            level.setBlock(c.offset((int) Math.round(Math.cos(a) * 11), -1, (int) Math.round(Math.sin(a) * 11)), gold, 2);
+            level.setBlock(c.offset((int) Math.round(Math.cos(a) * 13), 0, (int) Math.round(Math.sin(a) * 13)),
+                    Blocks.CANDLE.defaultBlockState().setValue(net.minecraft.world.level.block.CandleBlock.LIT, true), 2);
+        }
+        for (int r = 2; r <= 9; r++) {
+            level.setBlock(c.offset(r, -1, 0), gold, 2);
+        }
+        for (int r = 2; r <= 6; r++) {
+            level.setBlock(c.offset(0, -1, -r), gold, 2);
+        }
+        for (int[] d : DIALS) {
+            level.setBlock(c.offset(d[0], -1, d[1]), Blocks.CHISELED_POLISHED_BLACKSTONE.defaultBlockState(), 2);
+            level.setBlock(c.offset(d[0], 0, d[1]), ModBlocks.CLOCK_DIAL.get().defaultBlockState(), 3);
+        }
+        for (int dy = 0; dy < MASTER[1]; dy++) {
+            level.setBlock(c.offset(MASTER[0], dy, MASTER[2]), dy == MASTER[1] - 1 ? Blocks.GOLD_BLOCK.defaultBlockState() : rim, 2);
+        }
+        level.setBlock(c.offset(MASTER[0], MASTER[1], MASTER[2]), ModBlocks.MASTER_CLOCK.get().defaultBlockState(), 3);
+    }
+
+    /** The Mycelial Deep: veins of light in the floor, three spore valves, and fungus round the rim. */
+    private static void mycelial(ServerLevel level, BlockPos c) {
+        for (int k = 0; k < 10; k++) {
+            double a = k * Math.PI / 5.0;
+            for (int r = 3; r <= 11; r++) {
+                if (r % 2 == 1) {
+                    level.setBlock(c.offset((int) Math.round(Math.cos(a) * r), -1, (int) Math.round(Math.sin(a) * r)),
+                            Blocks.PEARLESCENT_FROGLIGHT.defaultBlockState(), 2);
+                }
+            }
+        }
+        for (int[] v : VALVES) {
+            level.setBlock(c.offset(v[0], -1, v[1]), Blocks.BONE_BLOCK.defaultBlockState(), 2);
+            level.setBlock(c.offset(v[0], 0, v[1]), ModBlocks.SPORE_VALVE.get().defaultBlockState(), 3);
+        }
+        for (int k = 0; k < 8; k++) {
+            double a = k * Math.PI / 4.0 + 0.4;
+            BlockPos base = c.offset((int) Math.round(Math.cos(a) * 12), 0, (int) Math.round(Math.sin(a) * 12));
+            level.setBlock(base, Blocks.MUSHROOM_STEM.defaultBlockState(), 2);
+            level.setBlock(base.above(), Blocks.MUSHROOM_STEM.defaultBlockState(), 2);
+            level.setBlock(base.above(2), Blocks.PURPLE_WOOL.defaultBlockState(), 2);
+        }
+    }
 
     /** Opens a ring of deep water around the pad (whatever the terrain was) so Vorath can circle, and hangs the bells. */
     private static void drowned(ServerLevel level, BlockPos c) {

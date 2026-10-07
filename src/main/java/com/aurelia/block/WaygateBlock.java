@@ -61,7 +61,8 @@ public class WaygateBlock extends Block {
         Item required = target.requiredItem();
         if (required != null && !carries(player, required)
                 // the crowns hold the shards that went into them, so they open every door those shards opened
-                && !carries(player, com.aurelia.registry.ModItems.ASCENDANT_CROWN.get())
+                && !(target.ordinal() < Realm.CLOCKWORK.ordinal() && carries(player, com.aurelia.registry.ModItems.ASCENDANT_CROWN.get()))
+                && !carries(player, com.aurelia.registry.ModItems.ETERNAL_CROWN.get())
                 && !(target.ordinal() < Realm.DROWNED.ordinal() && carries(player, com.aurelia.registry.ModItems.CROWN.get()))) {
             player.displayClientMessage(Component.literal("The portal hums, but it will only open for someone holding a "
                     + required.getDescription().getString() + "."), true);

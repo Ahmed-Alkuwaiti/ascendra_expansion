@@ -77,7 +77,28 @@ public enum Realm implements StringRepresentable {
                     "Crouch and touch the altar to wake Kharzul, the Glass Reaper.",
                     "When the last grain falls, his light burns everything it can see. Keep stone between you and him."
             },
-            () -> ModItems.FROZEN_TEAR.get(), () -> ModEntities.KHARZUL.get());
+            () -> ModItems.FROZEN_TEAR.get(), () -> ModEntities.KHARZUL.get()),
+
+    // ---- Act three: the rifts beneath the six realms. Their portals open for the Ascendant Crown, then for the Hour Core.
+    CLOCKWORK("clockwork", 120,
+            Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_TILES, Blocks.PEARLESCENT_FROGLIGHT,
+            "The Clockwork Rift", "Every second that was ever stolen ended up here.", ChatFormatting.GOLD,
+            new String[] {
+                    "Shattered keeps hang in a violet void, chained to nothing, ticking. Lightning that never lands.",
+                    "You stand on the face of a clock. Crouch and touch the altar at its centre to wake Vexor, the Hour Eater.",
+                    "When THE HOUR STRIKES, wind the three dials round the face to the hour on the Master Clock. Quickly."
+            },
+            () -> ModItems.ASCENDANT_CROWN.get(), () -> ModEntities.VEXOR.get()),
+
+    MYCELIAL("mycelial", 40,
+            Blocks.MUSHROOM_STEM, Blocks.BONE_BLOCK, Blocks.PEARLESCENT_FROGLIGHT,
+            "The Mycelial Deep", "Under everything, something has been growing for a very long time.", ChatFormatting.LIGHT_PURPLE,
+            new String[] {
+                    "A cavern the size of a sky, roofed with roots. Mushrooms as tall as towers. Spores fall like warm snow.",
+                    "Crouch and touch the altar to wake the Bloom Mother. She does not move. She does not need to.",
+                    "Three spore valves stand round the floor. When she inhales, wrench them open and let her choke."
+            },
+            () -> ModItems.HOUR_CORE.get(), () -> ModEntities.BLOOM_MOTHER.get());
 
     public final String id;
     public final ResourceKey<Level> dimension;

@@ -11,7 +11,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 public enum AurelianArmorMaterial implements ArmorMaterial {
     // Texture: assets/aurelia/textures/models/armor/<name>_layer_1.png
     AURELIAN("aurelian", 3000, 6, 4.0f, 0.1f),
-    ASCENDANT("ascendant", 6000, 8, 6.0f, 0.25f);
+    ASCENDANT("ascendant", 6000, 8, 6.0f, 0.25f),
+    ETERNAL("eternal", 9000, 10, 8.0f, 0.4f);
 
     private final String name;
     private final int durability;

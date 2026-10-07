@@ -96,6 +96,28 @@ public class ModTabs {
                         out.accept(ModItems.SANDGLASS_SENTINEL_EGG.get());
                         out.accept(ModItems.SUNSEER_EGG.get());
                         out.accept(ModItems.GLASSWING_SCARAB_EGG.get());
+                        out.accept(ModItems.CLOCK_DIAL.get());
+                        out.accept(ModItems.MASTER_CLOCK.get());
+                        out.accept(ModItems.SPORE_VALVE.get());
+                        out.accept(ModItems.PARADOX_SEAL.get());
+                        out.accept(ModItems.ROOT_SEAL.get());
+                        out.accept(ModItems.TIME_SNARE.get());
+                        out.accept(ModItems.ROOT_SNARE.get());
+                        out.accept(ModItems.CHRONITE_BLOCK.get());
+                        out.accept(ModItems.BLOOMSPORE_BLOCK.get());
+                        out.accept(ModItems.CHRONITE_SHARD.get());
+                        out.accept(ModItems.BLOOMSPORE.get());
+                        out.accept(ModItems.HOUR_CORE.get());
+                        out.accept(ModItems.BLOOM_HEART.get());
+                        out.accept(ModItems.ETERNAL_CROWN.get());
+                        out.accept(ModItems.VEXOR_EGG.get());
+                        out.accept(ModItems.BLOOM_MOTHER_EGG.get());
+                        out.accept(ModItems.GEARSKITTER_EGG.get());
+                        out.accept(ModItems.SECONDHAND_EGG.get());
+                        out.accept(ModItems.HOUR_WARDEN_EGG.get());
+                        out.accept(ModItems.ROOT_GRUB_EGG.get());
+                        out.accept(ModItems.SPORE_DRIFTER_EGG.get());
+                        out.accept(ModItems.HUSK_GUARD_EGG.get());
                     })
                     .build());
 }

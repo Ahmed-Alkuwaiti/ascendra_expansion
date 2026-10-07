@@ -21,9 +21,11 @@ import net.minecraft.world.level.block.state.BlockState;
  *  BRINE (Tidewrack): an undertow grate. Drags at your legs and squeezes the air from your lungs.
  *  FROST (Rimefast): a frost rune. Freezes you where you stand.
  *  SUNFLARE (Sunscar): a mirrored plate. Blinding light and a burn.
+ *  TIME (Paradox Keep): a time snare. It takes back your last second: you are thrown back the way you came, slowed.
+ *  ROOT (Spore Cathedral): a root snare. Roots grab your ankles; spores make your head swim.
  */
 public class TrapBlock extends Block {
-    public enum Kind { SPORE, GALE, EMBER, BRINE, FROST, SUNFLARE }
+    public enum Kind { SPORE, GALE, EMBER, BRINE, FROST, SUNFLARE, TIME, ROOT }
 
     private final Kind kind;
 
@@ -80,6 +82,30 @@ public class TrapBlock extends Block {
                     serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, x, y, z, 24, 0.4, 0.5, 0.4, 0.03);
                     if (player.tickCount % 20 == 0) {
                         serverLevel.playSound(null, pos, SoundEvents.POWDER_SNOW_STEP, SoundSource.BLOCKS, 1.0f, 0.6f);
+                    }
+                }
+                case TIME -> {
+                    net.minecraft.world.phys.Vec3 back = player.getDeltaMovement().multiply(-1.0, 0.0, -1.0);
+                    if (back.lengthSqr() < 1.0e-4) {
+                        back = player.getLookAngle().multiply(-1.0, 0.0, -1.0);
+                    }
+                    back = back.normalize().scale(1.2);
+                    player.setDeltaMovement(back.x, 0.35, back.z);
+                    player.hurtMarked = true;
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 3));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 80, 1));
+                    serverLevel.sendParticles(ParticleTypes.REVERSE_PORTAL, x, y, z, 30, 0.4, 0.6, 0.4, 0.1);
+                    if (player.tickCount % 10 == 0) {
+                        serverLevel.playSound(null, pos, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0f, 0.5f);
+                    }
+                }
+                case ROOT -> {
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 50, 4));
+                    player.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 1));
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+                    serverLevel.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, x, y, z, 30, 0.6, 0.6, 0.6, 0.02);
+                    if (player.tickCount % 20 == 0) {
+                        serverLevel.playSound(null, pos, SoundEvents.ROOTS_BREAK, SoundSource.BLOCKS, 1.0f, 0.6f);
                     }
                 }
                 case SUNFLARE -> {

@@ -14,6 +14,14 @@ import com.aurelia.entity.Sunseer;
 import com.aurelia.entity.Tidecaller;
 import com.aurelia.entity.Vorath;
 import com.aurelia.entity.WhiteSilence;
+import com.aurelia.entity.Vexor;
+import com.aurelia.entity.BloomMother;
+import com.aurelia.entity.Gearskitter;
+import com.aurelia.entity.Secondhand;
+import com.aurelia.entity.HourWarden;
+import com.aurelia.entity.RootGrub;
+import com.aurelia.entity.SporeDrifter;
+import com.aurelia.entity.HuskGuard;
 import com.aurelia.entity.AshboundKnight;
 import com.aurelia.entity.BrambleSentinel;
 import com.aurelia.entity.CalciteSentinel;
@@ -163,6 +171,24 @@ public class ModEntities {
             () -> EntityType.Builder.of(GlasswingScarab::new, MobCategory.MONSTER)
                     .sized(1.1f, 0.9f).clientTrackingRange(8).fireImmune().build(id("glasswing_scarab")));
 
+    // ==================================================================== act three
+    public static final RegistryObject<EntityType<Vexor>> VEXOR = ENTITIES.register("vexor",
+            () -> EntityType.Builder.of(Vexor::new, MobCategory.MONSTER).sized(5.0f, 5.0f).clientTrackingRange(12).fireImmune().build(id("vexor")));
+    public static final RegistryObject<EntityType<BloomMother>> BLOOM_MOTHER = ENTITIES.register("bloom_mother",
+            () -> EntityType.Builder.of(BloomMother::new, MobCategory.MONSTER).sized(4.5f, 7.0f).clientTrackingRange(12).build(id("bloom_mother")));
+    public static final RegistryObject<EntityType<Gearskitter>> GEARSKITTER = ENTITIES.register("gearskitter",
+            () -> EntityType.Builder.of(Gearskitter::new, MobCategory.MONSTER).sized(1.3f, 1.1f).clientTrackingRange(8).build(id("gearskitter")));
+    public static final RegistryObject<EntityType<Secondhand>> SECONDHAND = ENTITIES.register("secondhand",
+            () -> EntityType.Builder.of(Secondhand::new, MobCategory.MONSTER).sized(1.0f, 1.0f).clientTrackingRange(8).build(id("secondhand")));
+    public static final RegistryObject<EntityType<HourWarden>> HOUR_WARDEN = ENTITIES.register("hour_warden",
+            () -> EntityType.Builder.of(HourWarden::new, MobCategory.MONSTER).sized(1.2f, 2.9f).clientTrackingRange(8).fireImmune().build(id("hour_warden")));
+    public static final RegistryObject<EntityType<RootGrub>> ROOT_GRUB = ENTITIES.register("root_grub",
+            () -> EntityType.Builder.of(RootGrub::new, MobCategory.MONSTER).sized(1.0f, 0.9f).clientTrackingRange(8).build(id("root_grub")));
+    public static final RegistryObject<EntityType<SporeDrifter>> SPORE_DRIFTER = ENTITIES.register("spore_drifter",
+            () -> EntityType.Builder.of(SporeDrifter::new, MobCategory.MONSTER).sized(1.0f, 1.6f).clientTrackingRange(8).build(id("spore_drifter")));
+    public static final RegistryObject<EntityType<HuskGuard>> HUSK_GUARD = ENTITIES.register("husk_guard",
+            () -> EntityType.Builder.of(HuskGuard::new, MobCategory.MONSTER).sized(0.9f, 2.6f).clientTrackingRange(8).build(id("husk_guard")));
+
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(MOSSBACK_TITAN.get(), MossbackTitan.createAttributes().build());
         event.put(TEMPEST_ROC.get(), TempestRoc.createAttributes().build());
@@ -192,6 +218,14 @@ public class ModEntities {
         event.put(SANDGLASS_SENTINEL.get(), SandglassSentinel.createAttributes().build());
         event.put(SUNSEER.get(), Sunseer.createAttributes().build());
         event.put(GLASSWING_SCARAB.get(), GlasswingScarab.createAttributes().build());
+        event.put(VEXOR.get(), Vexor.createAttributes().build());
+        event.put(BLOOM_MOTHER.get(), BloomMother.createAttributes().build());
+        event.put(GEARSKITTER.get(), Gearskitter.createAttributes().build());
+        event.put(SECONDHAND.get(), Secondhand.createAttributes().build());
+        event.put(HOUR_WARDEN.get(), HourWarden.createAttributes().build());
+        event.put(ROOT_GRUB.get(), RootGrub.createAttributes().build());
+        event.put(SPORE_DRIFTER.get(), SporeDrifter.createAttributes().build());
+        event.put(HUSK_GUARD.get(), HuskGuard.createAttributes().build());
     }
 
     public static void registerSpawns(SpawnPlacementRegisterEvent event) {
@@ -209,6 +243,12 @@ public class ModEntities {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.OR);
         event.register(RIMEFANG.get(), SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(ROOT_GRUB.get(), SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(GEARSKITTER.get(), SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.OR);
         event.register(GLASSWING_SCARAB.get(), SpawnPlacements.Type.ON_GROUND,

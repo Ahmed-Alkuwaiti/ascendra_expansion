@@ -2,6 +2,9 @@ package com.aurelia.registry;
 
 import com.aurelia.AureliaMod;
 import com.aurelia.block.AltarBlock;
+import com.aurelia.block.ClockDialBlock;
+import com.aurelia.block.MasterClockBlock;
+import com.aurelia.block.SporeValveBlock;
 import com.aurelia.block.PuzzleNodeBlock;
 import com.aurelia.block.SealBlock;
 import com.aurelia.block.SunMirrorBlock;
@@ -166,4 +169,33 @@ public class ModBlocks {
     public static final RegistryObject<Block> SUNGLASS_BLOCK = BLOCKS.register("sunglass_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0f, 6.0f)
                     .requiresCorrectToolForDrops().lightLevel(state -> 12).sound(SoundType.AMETHYST)));
+
+    // ==================================================================== act three
+    public static final RegistryObject<Block> CLOCK_DIAL = BLOCKS.register("clock_dial",
+            () -> new ClockDialBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> state.getValue(ClockDialBlock.FILLED) ? 15 : 6).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> MASTER_CLOCK = BLOCKS.register("master_clock",
+            () -> new MasterClockBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> 12).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> SPORE_VALVE = BLOCKS.register("spore_valve",
+            () -> new SporeValveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(-1.0f, 3600000.0f)
+                    .lightLevel(state -> state.getValue(SporeValveBlock.OPEN) ? 14 : 4).sound(SoundType.BONE_BLOCK)));
+    public static final RegistryObject<Block> PARADOX_SEAL = BLOCKS.register("paradox_seal",
+            () -> new SealBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0f, 3600000.0f).noLootTable()
+                    .lightLevel(state -> 8).sound(SoundType.METAL), () -> ModEntities.HOUR_WARDEN.get(), "Hour Warden"));
+    public static final RegistryObject<Block> ROOT_SEAL = BLOCKS.register("root_seal",
+            () -> new SealBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(-1.0f, 3600000.0f).noLootTable()
+                    .lightLevel(state -> 5).sound(SoundType.ROOTS), () -> ModEntities.HUSK_GUARD.get(), "Husk Guard"));
+    public static final RegistryObject<Block> TIME_SNARE = BLOCKS.register("time_snare",
+            () -> new TrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(3.0f).lightLevel(state -> 7)
+                    .sound(SoundType.METAL), TrapBlock.Kind.TIME));
+    public static final RegistryObject<Block> ROOT_SNARE = BLOCKS.register("root_snare",
+            () -> new TrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(3.0f).lightLevel(state -> 5)
+                    .sound(SoundType.ROOTS), TrapBlock.Kind.ROOT));
+    public static final RegistryObject<Block> CHRONITE_BLOCK = BLOCKS.register("chronite_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(5.0f, 6.0f)
+                    .requiresCorrectToolForDrops().lightLevel(state -> 12).sound(SoundType.AMETHYST)));
+    public static final RegistryObject<Block> BLOOMSPORE_BLOCK = BLOCKS.register("bloomspore_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).strength(2.0f, 3.0f)
+                    .lightLevel(state -> 12).sound(SoundType.SHROOMLIGHT)));
 }
