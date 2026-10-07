@@ -1,7 +1,7 @@
 """Route and flooding checks for the three act two citadels (seals treated as open, as they are once their guards fall)."""
 import check_struct as cs
 
-STRUCT = '../src/main/resources/data/aurelia/structures/'
+STRUCT = __import__('paths').RES + '/data/aurelia/structures/'
 CASES = [('tidewrack_citadel', 'coral_seal', (32, 24, 58), 22), ('rimefast_citadel', 'rime_seal', (32, 13, 59), None),
          ('sunscar_citadel', 'sun_seal', (32, 9, 62), None)]
 ok = True
