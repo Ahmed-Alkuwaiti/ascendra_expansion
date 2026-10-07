@@ -1,13 +1,20 @@
 import nbtlib, glob, json, urllib.request, os, re, collections
 R = __import__('paths').RES; A = R + '/assets/aurelia'; D = R + '/data/aurelia'; J = __import__('paths').JAVA
-reg = set(json.load(urllib.request.urlopen('https://raw.githubusercontent.com/misode/mcmeta/1.20.1-registries/block/data.json')))
-props = json.load(urllib.request.urlopen('https://raw.githubusercontent.com/misode/mcmeta/1.20.1-summary/blocks/data.json'))
+V = __import__('paths').VANILLA
+reg = set(json.load(open(V + '/reg_block.json')))
+props = json.load(open(V + '/blocks_summary.json'))
 src = {c: open(f'{J}/registry/{c}.java').read() for c in ('ModBlocks', 'ModItems', 'ModEntities')}
 mod_blocks = set(re.findall(r'BLOCKS\.register\("([a-z_]+)"', src['ModBlocks'])); mod_items = set(re.findall(r'ITEMS\.register\("([a-z_]+)"', src['ModItems']))
 mod_ents = set(re.findall(r'register\("([a-z_]+)"', src['ModEntities']))
-CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow'], 'active': ['true', 'false']}, 'spore_planter': {'filled': ['true', 'false']},
-          'storm_pylon': {'filled': ['true', 'false']}, 'soul_socket': {'filled': ['true', 'false']}}
-PASS = {'minecraft:air', 'minecraft:cobweb', 'minecraft:moss_carpet', 'minecraft:red_mushroom', 'minecraft:brown_mushroom', 'minecraft:soul_campfire', 'minecraft:lightning_rod',
+TF = ['true', 'false']
+CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet'], 'active': TF}, 'spore_planter': {'filled': TF},
+          'storm_pylon': {'filled': TF}, 'soul_socket': {'filled': TF}, 'hush_stone': {'filled': TF}, 'sun_lens': {'filled': TF},
+          'tide_bell': {'note': ['0', '1', '2', '3', '4'], 'rung': TF}, 'sun_mirror': {'slash': TF},
+          'sunwell': {'facing': ['north', 'south', 'east', 'west']}}
+PASS = {'minecraft:seagrass', 'minecraft:kelp_plant', 'minecraft:snow', 'minecraft:white_candle', 'minecraft:light_blue_candle', 'minecraft:red_candle',
+        'minecraft:sculk_vein', 'minecraft:dead_bush', 'minecraft:sea_pickle', 'minecraft:tube_coral', 'minecraft:brain_coral', 'minecraft:bubble_coral',
+        'minecraft:fire_coral', 'minecraft:horn_coral', 'minecraft:light_blue_carpet', 'aurelia:tide_bell', 'minecraft:campfire', 'minecraft:iron_bars',
+        'minecraft:air', 'minecraft:cobweb', 'minecraft:moss_carpet', 'minecraft:red_mushroom', 'minecraft:brown_mushroom', 'minecraft:soul_campfire', 'minecraft:lightning_rod',
         'minecraft:soul_lantern', 'minecraft:fern', 'minecraft:grass', 'minecraft:tall_grass', 'minecraft:large_fern', 'minecraft:vine', 'minecraft:azalea', 'minecraft:flowering_azalea',
         'minecraft:lantern', 'minecraft:chain', 'minecraft:hanging_roots', 'minecraft:red_carpet', 'minecraft:lily_pad', 'minecraft:sweet_berry_bush', 'minecraft:end_rod',
         'minecraft:cave_vines', 'minecraft:cave_vines_plant', 'minecraft:skeleton_skull', 'minecraft:ladder', 'minecraft:cornflower', 'minecraft:blue_orchid', 'minecraft:allium',

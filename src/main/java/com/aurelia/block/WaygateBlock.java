@@ -21,7 +21,8 @@ import net.minecraft.world.phys.BlockHitResult;
 
 /**
  * A citadel's portal. Dormant until its puzzle is solved (ACTIVE), then right-click to travel to its REALM.
- * Later realms also ask you to hold the previous Warden's relic (the Drowned Expanse wants the Crown, held or worn).
+ * Later realms ask you to carry (hold or wear) the previous Warden's relic; the Drowned Expanse wants the Crown itself.
+ * A crown counts as every shard that went into it, so finished realms can always be revisited.
  * Inside a realm, any Waygate returns you home.
  */
 public class WaygateBlock extends Block {
@@ -58,14 +59,20 @@ public class WaygateBlock extends Block {
         }
         Realm target = state.getValue(REALM);
         Item required = target.requiredItem();
-        ItemStack held = player.getItemInHand(hand);
-        boolean worn = required != null && player.getItemBySlot(EquipmentSlot.HEAD).is(required);
-        if (required != null && !held.is(required) && !worn) {
+        if (required != null && !carries(player, required)
+                // the crowns hold the shards that went into them, so they open every door those shards opened
+                && !carries(player, com.aurelia.registry.ModItems.ASCENDANT_CROWN.get())
+                && !(target.ordinal() < Realm.DROWNED.ordinal() && carries(player, com.aurelia.registry.ModItems.CROWN.get()))) {
             player.displayClientMessage(Component.literal("The portal hums, but it will only open for someone holding a "
                     + required.getDescription().getString() + "."), true);
             return InteractionResult.CONSUME;
         }
         RealmTravel.enter(serverPlayer, target);
         return InteractionResult.CONSUME;
+    }
+
+    /** Held in either hand, or worn. */
+    private static boolean carries(Player player, Item item) {
+        return player.getMainHandItem().is(item) || player.getOffhandItem().is(item) || player.getItemBySlot(EquipmentSlot.HEAD).is(item);
     }
 }

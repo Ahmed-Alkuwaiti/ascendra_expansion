@@ -146,7 +146,7 @@ MOOD = {'mood_sound': {'sound': 'minecraft:ambient.cave', 'tick_delay': 6000, 'b
 ORES = ['minecraft:ore_coal_upper', 'minecraft:ore_iron_upper', 'minecraft:ore_iron_middle', 'minecraft:ore_gold', 'minecraft:ore_diamond']
 drowned_fx = dict(MOOD)
 drowned_fx.update(particle('minecraft:underwater', 0.01))
-drowned_fx['ambient_sound'] = 'minecraft:ambient.underwater.loop'
+drowned_fx['additions_sound'] = {'sound': 'minecraft:ambient.underwater.loop.additions.rare', 'tick_chance': 0.004}
 biome('drowned', True, 0.6, 0.9,
       {'sky_color': '#1C3D47', 'fog_color': '#1A4249', 'water_color': '#1E6F7A', 'water_fog_color': '#06232A',
        'grass_color': '#4F7A5A', 'foliage_color': '#3E6B4C'}, drowned_fx,

@@ -82,13 +82,19 @@ public final class ArenaBuilder {
     /** Kharzul's cover: four 3x3 pillars of red sandstone, rebuilt every time he wakes. */
     public static void raiseScarletPillars(ServerLevel level, BlockPos c) {
         int[][] pillars = {{7, 0}, {-7, 0}, {0, -8}, {4, 6}};
+        java.util.List<net.minecraft.world.entity.player.Player> near = level.getEntitiesOfClass(
+                net.minecraft.world.entity.player.Player.class, new net.minecraft.world.phys.AABB(c).inflate(16.0));
         for (int[] pl : pillars) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     for (int dy = 0; dy < 6; dy++) {
                         BlockState s = (dy == 5) ? Blocks.CHISELED_RED_SANDSTONE.defaultBlockState()
                                 : (dx == 0 && dz == 0 ? Blocks.RED_SANDSTONE.defaultBlockState() : Blocks.CUT_RED_SANDSTONE.defaultBlockState());
-                        level.setBlock(c.offset(pl[0] + dx, dy, pl[1] + dz), s, 2);
+                        BlockPos at = c.offset(pl[0] + dx, dy, pl[1] + dz);
+                        // never rebuild stone inside somebody standing there
+                        if (near.stream().noneMatch(pp -> pp.getBoundingBox().intersects(new net.minecraft.world.phys.AABB(at)))) {
+                            level.setBlock(at, s, 2);
+                        }
                     }
                 }
             }
