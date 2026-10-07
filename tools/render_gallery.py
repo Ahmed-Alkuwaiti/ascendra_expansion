@@ -554,9 +554,43 @@ def finale(out):
         save(rs.render(S + f'last_island_{realm}.nbt', None, size=520, bg=LAST_BG), f'{out}/finale/island_{realm}.webp')
 
 
+def gear(out):
+    import gen_armor as ga
+    import mobspecs
+    import relics
+    import weapons
+    from kit_data import KIT, PIECES
+    I = '../src/main/resources/assets/aurelia/textures/'
+    W = dict(weapons.WEAPONS)
+    for realm in REALMS:
+        k = KIT[realm]
+        parts = ga.preview_parts(realm)
+        tex, _ = mobspecs.paint(parts, 5)
+        glow = tex.info.pop('glow')
+        a, sc = rm.render(parts, tex, glow, -28, 8, size=620, bg=BG[realm])
+        b, _ = rm.render(parts, tex, glow, 150, 10, size=620, bg=BG[realm], scale=sc)
+        img = Image.new('RGB', (1240, 620))
+        img.paste(a, (0, 0))
+        img.paste(b, (620, 0))
+        save(img, f'{out}/gear/{realm}_armor.webp')
+        w = relics.render_relic(W[k['weapon']](), size=900, bg=BG[realm], yaw=-25, pitch=8, k=6)
+        save(w.crop((200, 0, 700, 900)), f'{out}/gear/{realm}_weapon.webp')
+        p, t, g = rm.build(k['critter'])
+        im, _ = rm.render(p, t, g, -35, 16, size=520, bg=BG[realm])
+        save(im, f'{out}/gear/{realm}_critter.webp')
+        names = [(f'item/{k["armor"]}_{x}.png', 32) for x in PIECES] + [(f'item/{k["food"]}.png', 16), (f'item/{k["material"]}.png', 16)]
+        if k['ore']:
+            names.append((f'block/{k["ore"]}.png', 16))
+        strip = Image.new('RGBA', (len(names) * 132 + 12, 144), BG[realm][0] + (255,))
+        for i, (n, s) in enumerate(names):
+            ic = Image.open(I + n).convert('RGBA').resize((120, 120), Image.NEAREST)
+            strip.alpha_composite(ic, (12 + i * 132, 12))
+        save(strip.convert('RGB'), f'{out}/gear/{realm}_items.webp')
+
+
 if __name__ == '__main__':
     out = sys.argv[1]
-    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas', 'finale']
+    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas', 'finale', 'gear']
     for s in secs:
         print(s)
         globals()[s](out)

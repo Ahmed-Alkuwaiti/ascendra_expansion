@@ -162,6 +162,61 @@ Each realm combines vanilla terrain generation with structures and features the 
 
 It never touches the mod's own blocks or anything within two blocks of them, and never decorates a guard's cell or anything in or beside water. It never blocks the Sunscar beam, and keeps furniture out of passage bends. The reachability checks still pass for every citadel and the Last Realm.
 
+# Realm kits: armor, weapons, wildlife, ores
+
+Every realm has its own four-piece armor set, signature greatsword, passive creature, food and ore.
+
+| Armor set | Greatsword | Creature | Food (it breeds on it) | Material (ore) |
+|---|---|---|---|---|
+| Verdant | Thornroot Blade | Mossling | Verdant Fig | verdant shard |
+| Stormglass | Galecutter | Cloud Ray | Sky Jelly | stormglass shard |
+| Emberheart | Soulbrand | Ember Beetle | Charred Morsel | emberheart |
+| Tidestone | Undertow Fang | Lantern Jelly | Glowing Gel | tidestone shard |
+| Rime | Hushblade | Frost Hare | Frost Hare Haunch | rime crystal |
+| Sunglass | Glass Reaper | Sand Skink | Sunbaked Tail | sunglass shard |
+| Chronite | Second Hand | Cogling | Tickberry | chronite shard (chronite ore) |
+| Bloomspore | Spore Lash | Spore Puff | Puffcap | bloomspore (bloomspore ore) |
+
+**Armor** is worn as its own 3D model, one per piece:
+- Built by `tools/gen_armor.py` into `client/ArmorModels.java`, with one painted texture per piece.
+- Swapped in through `RealmArmorClient`.
+- Decorations: antler racks, storm wings and a halo, demon horns and a burning crown, a dorsal fin and coral, an icicle crown and cape, a sun disc with glass rays, a clock crest with cog horns, a giant mushroom cap.
+- Inventory icons are rendered from the same models.
+- Recipes use the realm's material in the usual armor shapes.
+
+Full-set powers, each with a particle aura:
+
+- **Verdant:** Regeneration II; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.
+- **Stormglass:** Jump Boost III, Speed I, no fall damage; a third of those who strike you are struck by lightning. Sparks crackle round you.
+- **Emberheart:** Fire Resistance and Strength I; anyone who strikes you burns for 6 seconds. Embers rise off you.
+- **Tidestone:** Water Breathing; Dolphin's Grace, Conduit Power and Regeneration in water or rain. Bubbles stream off you.
+- **Rime:** Immune to freezing, walk on powder snow, Resistance I; water freezes under your feet; anyone who strikes you is frozen. Snow falls round you.
+- **Sunglass:** By day Haste II and Strength II, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.
+- **Chronite:** Speed II and Haste II. Borrowed Time: a killing blow throws you back to where you stood five seconds ago at half health instead (once every 90 s).
+- **Bloomspore:** Night Vision; poison and wither cannot touch you; it feeds you when hungry; allies near you regenerate; anyone who strikes you is poisoned.
+
+**Greatswords** are 3D item models up to three blocks long (`tools/weapons.py`), about two and a half blocks in the hand. Recipe: material over its storage block over a stick.
+
+Each has an on-hit power and a right-click special on a cooldown:
+
+- **Thornroot Blade:** on hit, roots the target (Slowness III), poisons it, and heals you a heart. Use: Bramble Eruption: thorns tear up through the ground in a line ahead (10 damage, rooted). 8 s.
+- **Galecutter:** on hit, throws the target into the air with a crack of thunder. Use: Tempest Dash: you are flung eight blocks forward and lightning strikes everything you pass (12 damage). 6 s.
+- **Soulbrand:** on hit, sets the target on fire and withers it. Use: Soul Inferno: a ring of soul fire bursts out round you (14 damage, burning, thrown back). 10 s.
+- **Undertow Fang:** on hit, drags the target toward you; half again as hard in water. Use: Maelstrom: every enemy within 12 blocks is dragged to you and half-drowned (8 damage, slowed). 10 s.
+- **Hushblade:** on hit, freezes the target; strikes twice as hard from a crouch. Use: Whiteout Step: you vanish and reappear behind whatever you are looking at, striking it (18 damage, frozen). 6 s.
+- **Glass Reaper:** on hit, sweeps: half the blow cuts everything else within reach. Use: Reaping Arc: one full turn of the scythe (16 damage to everything within 6 blocks). 8 s.
+- **Second Hand:** on hit, very fast. Slows and weakens the target. Use: Stop the Clock: every enemy within 12 blocks is frozen in time for 4 seconds. 15 s.
+- **Spore Lash:** on hit, poisons and sickens the target and everything near it. Use: Bloom Burst: a cloud of spores bursts out (Poison III, nausea) and you heal for every enemy it catches. 10 s.
+
+**Creatures** spawn in their realm. They wander, follow anyone holding their food and breed on it, and drop it. The Cloud Ray and Spore Puff fly; the Lantern Jelly swims.
+
+**Ores:**
+- Chronite Ore is set into the Clockwork Rift's floating rock.
+- Bloomspore Ore generates in the Mycelial Deep's stone.
+- Every Last Realm island holds its realm's ore.
+
+Known risk: the greatswords' hand poses are set by display transforms I could not see in game. If one is held at an odd angle, adjust `DISPLAY` in `tools/weapons.py` (or the model in Blockbench).
+
 # Act two: the outer realms
 
 The Crown of Aurelia comes back with three empty settings. Crafting it points you at the sea; a second book, *The Outer Chronicle*, waits on the first outer realm you reach.
