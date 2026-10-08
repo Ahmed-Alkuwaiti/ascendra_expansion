@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:soulcleaver"
+    },
+    "title": {
+      "text": "Soulcleaver"
+    },
+    "description": {
+      "text": "Forge the weapon of The Hollow."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:soulcleaver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_hollow"
+}

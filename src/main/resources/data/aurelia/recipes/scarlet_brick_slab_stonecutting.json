@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:scarlet_bricks"
+  },
+  "result": "aurelia:scarlet_brick_slab",
+  "count": 2
+}

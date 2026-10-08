@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:pale_bricks"
+  },
+  "result": "aurelia:pale_sigil_stone",
+  "count": 1
+}

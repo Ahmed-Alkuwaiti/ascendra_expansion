@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:aurelian_bestiary"
+    },
+    "title": {
+      "text": "Know Thine Enemy"
+    },
+    "description": {
+      "text": "Make the Aurelian Bestiary."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:aurelian_bestiary"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:root"
+}

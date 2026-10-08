@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:drowned_bricks"
+  },
+  "result": "aurelia:drowned_brick_slab",
+  "count": 2
+}

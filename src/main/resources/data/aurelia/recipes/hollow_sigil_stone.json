@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "item": "aurelia:hollow_brick_slab"
+    }
+  },
+  "result": {
+    "item": "aurelia:hollow_sigil_stone"
+  }
+}

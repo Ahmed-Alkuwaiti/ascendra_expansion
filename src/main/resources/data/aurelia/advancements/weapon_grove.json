@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:rootbreaker"
+    },
+    "title": {
+      "text": "Rootbreaker"
+    },
+    "description": {
+      "text": "Forge the weapon of The Gaudy Grove."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:rootbreaker"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_grove"
+}

@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:stormglass_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Skyreach"
+    },
+    "description": {
+      "text": "Hold every piece of the Skyreach armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:stormglass_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:stormglass_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:stormglass_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:stormglass_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_skyreach"
+}

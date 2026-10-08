@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:mycelial_bricks"
+  },
+  "result": "aurelia:mycelial_brick_stairs",
+  "count": 1
+}

@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Clockwork"
+    },
+    "description": {
+      "text": "Slay The Pendulum Butcher, The Gearwyrm and The Hourless Oracle."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pendulum_butcher": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:pendulum_butcher"
+            }
+          }
+        ]
+      }
+    },
+    "gearwyrm": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:gearwyrm"
+            }
+          }
+        ]
+      }
+    },
+    "hourless_oracle": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:hourless_oracle"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_clockwork",
+  "rewards": {
+    "experience": 100
+  }
+}

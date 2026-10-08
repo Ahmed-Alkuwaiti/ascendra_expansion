@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:rime_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Pale"
+    },
+    "description": {
+      "text": "Hold every piece of the Pale armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:rime_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:rime_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:rime_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:rime_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_pale"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:clockwork_bricks"
+  },
+  "result": "aurelia:clockwork_sigil_stone",
+  "count": 1
+}

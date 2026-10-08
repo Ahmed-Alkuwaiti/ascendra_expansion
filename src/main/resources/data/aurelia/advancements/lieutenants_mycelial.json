@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Mycelial"
+    },
+    "description": {
+      "text": "Slay The Rot Behemoth, The Pale Gardener and The Lumen Horror."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "rot_behemoth": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:rot_behemoth"
+            }
+          }
+        ]
+      }
+    },
+    "pale_gardener": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:pale_gardener"
+            }
+          }
+        ]
+      }
+    },
+    "lumen_horror": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:lumen_horror"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_mycelial",
+  "rewards": {
+    "experience": 100
+  }
+}

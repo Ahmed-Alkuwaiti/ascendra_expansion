@@ -1,0 +1,119 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:grove_sigil_lamp"
+    },
+    "title": {
+      "text": "Mason of the Realms"
+    },
+    "description": {
+      "text": "Hold a sigil lamp from every realm."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "grove": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:grove_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "skyreach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:skyreach_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "hollow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hollow_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "drowned": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:drowned_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "pale": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:pale_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:scarlet_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "clockwork": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:clockwork_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    },
+    "mycelial": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:mycelial_sigil_lamp"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_grove",
+  "rewards": {
+    "experience": 200
+  }
+}

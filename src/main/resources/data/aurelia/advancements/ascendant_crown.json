@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:ascendant_crown"
+    },
+    "title": {
+      "text": "Ascendant"
+    },
+    "description": {
+      "text": "Set three more shards in the Ascendant Crown."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:ascendant_crown"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:warden_scarlet",
+  "rewards": {
+    "experience": 500
+  }
+}

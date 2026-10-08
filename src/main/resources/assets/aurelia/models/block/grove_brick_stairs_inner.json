@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "aurelia:block/grove_bricks",
+    "top": "aurelia:block/grove_bricks",
+    "side": "aurelia:block/grove_bricks"
+  }
+}

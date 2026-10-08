@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "aurelia:block/scarlet_brick_slab"
+    },
+    "type=top": {
+      "model": "aurelia:block/scarlet_brick_slab_top"
+    },
+    "type=double": {
+      "model": "aurelia:block/scarlet_bricks"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:clockwork_brick_slab",
+    "aurelia:drowned_brick_slab",
+    "aurelia:grove_brick_slab",
+    "aurelia:hollow_brick_slab",
+    "aurelia:mycelial_brick_slab",
+    "aurelia:pale_brick_slab",
+    "aurelia:scarlet_brick_slab",
+    "aurelia:skyreach_brick_slab"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:emberheart_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Hollow"
+    },
+    "description": {
+      "text": "Hold every piece of the Hollow armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:emberheart_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:emberheart_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:emberheart_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:emberheart_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_hollow"
+}

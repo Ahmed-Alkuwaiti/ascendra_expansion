@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "aurelia:block/scarlet_bricks",
+    "top": "aurelia:block/scarlet_bricks",
+    "side": "aurelia:block/scarlet_bricks"
+  }
+}

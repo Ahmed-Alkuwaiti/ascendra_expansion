@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:genesis_chestplate"
+    },
+    "title": {
+      "text": "Genesis"
+    },
+    "description": {
+      "text": "Hold every piece of the Genesis armour."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:genesis_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:genesis_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:genesis_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:genesis_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:hand_of_genesis",
+  "rewards": {
+    "experience": 500
+  }
+}

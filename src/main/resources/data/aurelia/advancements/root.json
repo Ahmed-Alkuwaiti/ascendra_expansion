@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:crown_of_aurelia"
+    },
+    "title": {
+      "text": "Aurelia: The Shattered Crown"
+    },
+    "description": {
+      "text": "Find a citadel. Wake its Waygate. Take back the crown."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/polished_blackstone_bricks.png"
+  },
+  "criteria": {
+    "start": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

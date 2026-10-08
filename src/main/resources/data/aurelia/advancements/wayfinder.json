@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:wayfinders_lodestar"
+    },
+    "title": {
+      "text": "Which Way Is Doom?"
+    },
+    "description": {
+      "text": "Make a Wayfinder's Lodestar."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:wayfinders_lodestar"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:root"
+}

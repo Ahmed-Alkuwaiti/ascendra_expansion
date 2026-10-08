@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "aurelia:mycelial_bricks"
+    }
+  },
+  "result": {
+    "item": "aurelia:mycelial_brick_slab",
+    "count": 6
+  }
+}

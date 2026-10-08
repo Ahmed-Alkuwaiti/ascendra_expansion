@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:hand_of_genesis"
+    },
+    "title": {
+      "text": "The Worlds Are Yours"
+    },
+    "description": {
+      "text": "Take up the Hand of Genesis."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hand_of_genesis"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:unmaker",
+  "rewards": {
+    "experience": 1000
+  }
+}

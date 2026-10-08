@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "SMS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "M": {
+      "item": "aurelia:sunglass_shard"
+    }
+  },
+  "result": {
+    "item": "aurelia:scarlet_bricks",
+    "count": 8
+  }
+}

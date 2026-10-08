@@ -489,6 +489,16 @@ It drops the **Hand of Genesis**. Use it to cast the selected power (2.5-second 
 - Haste of Hours
 - Spore Bloom
 
+## Extras
+
+Supplementary content round the quest, all from `tools/gen_extras.py` (it writes `registry/ExtraContent.java`, `world/BestiaryPages.java` and every asset and data file below):
+
+- **Twelve paintings**: the eight Wardens, the Unmaker, the Last Realm, the Shattered Crown and the Convergence Gate, painted from the mod's own models and structures. They join the vanilla pool (`#minecraft:placeable`), so they turn up when you hang a painting.
+- **Realm masonry**: for each of the eight realms, Bricks, Brick Stairs, a Brick Slab, a carved Sigil Stone and a glowing Sigil Lamp (light 15). Eight stone bricks round one of the realm's metal make eight bricks; stairs, slabs and sigil stone come from the crafting grid or the stonecutter; a sigil stone ringed with glowstone dust makes a lamp.
+- **The Wayfinder's Lodestar** (compass, three amethyst shards, an eye of ender). Use it in the overworld and it points to the nearest citadel; inside a realm, to the nearest lair whose lieutenant still stands, and to the altar once they are all dead. It names the direction and distance and draws a trail of light that way. Three-second cooldown.
+- **The Aurelian Bestiary** (book, ink sac, feather, amethyst shard): every Warden and every lieutenant, with health, damage, what each ability does and how to beat it. It opens at the section for the realm you are standing in, and it stays a bestiary (it never turns into a plain book).
+- **Advancements**: a tree of 56 under its own tab. Entering each realm, each realm's lieutenants, each Warden, the three crowns, the Eightfold Seal (all eight relics), the Last Realm, the Heralds, the Unmaker, the Hand of Genesis, the Genesis armour, each realm's armour set and weapon, and the long hunts: Lieutenant Hunter (all 26), Arsenals of the Tenfold Seal (every weapon), Mason of the Realms (every sigil lamp) and Walker Between Worlds (every realm).
+
 ## The Warden arenas
 
 Every realm's arena is now a structure of its own, `arena_<realm>` (129 x 116 x 129, from `tools/gen_arenas.py`), placed once round the landing pad when the realm is first built, before the realm's gimmick blocks go in (`ArenaBuilder.decorate`). The fight is unchanged: the pad (radius 12, where the bosses fight and every gimmick stands) is never touched, nor the Drowned water ring, and the air over the battleground (radius 33, thirty blocks up) is kept clear for the flyers. Each arena widens the floor to radius 31, rings it with a wall broken by four ways out (toward the lieutenants' lairs), and builds its realm's setting round it:

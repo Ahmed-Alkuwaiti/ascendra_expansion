@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "aurelia:block/mycelial_bricks"
+    }
+  }
+}

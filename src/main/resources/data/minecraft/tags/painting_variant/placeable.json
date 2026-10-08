@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:mossback_titan",
+    "aurelia:tempest_roc",
+    "aurelia:hollow_king",
+    "aurelia:vorath",
+    "aurelia:white_silence",
+    "aurelia:kharzul",
+    "aurelia:vexor",
+    "aurelia:bloom_mother",
+    "aurelia:unmaker",
+    "aurelia:the_last_realm",
+    "aurelia:the_shattered_crown",
+    "aurelia:the_convergence_gate"
+  ]
+}

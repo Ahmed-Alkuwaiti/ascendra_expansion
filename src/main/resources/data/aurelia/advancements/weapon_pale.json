@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:silent_requiem"
+    },
+    "title": {
+      "text": "Silent Requiem"
+    },
+    "description": {
+      "text": "Forge the weapon of The Pale Reach."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:silent_requiem"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_pale"
+}

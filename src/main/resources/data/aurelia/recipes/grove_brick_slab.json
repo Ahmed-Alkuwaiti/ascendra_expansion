@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "aurelia:grove_bricks"
+    }
+  },
+  "result": {
+    "item": "aurelia:grove_brick_slab",
+    "count": 6
+  }
+}

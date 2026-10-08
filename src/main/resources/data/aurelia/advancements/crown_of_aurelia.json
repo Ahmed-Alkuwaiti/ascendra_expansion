@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:crown_of_aurelia"
+    },
+    "title": {
+      "text": "The Crown of Aurelia"
+    },
+    "description": {
+      "text": "Make the Crown from the first three shards."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:crown_of_aurelia"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:warden_hollow",
+  "rewards": {
+    "experience": 500
+  }
+}

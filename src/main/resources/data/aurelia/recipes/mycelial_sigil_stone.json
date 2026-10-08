@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "item": "aurelia:mycelial_brick_slab"
+    }
+  },
+  "result": {
+    "item": "aurelia:mycelial_sigil_stone"
+  }
+}

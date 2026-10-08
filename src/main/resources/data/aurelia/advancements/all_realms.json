@@ -1,0 +1,77 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:waygate"
+    },
+    "title": {
+      "text": "Walker Between Worlds"
+    },
+    "description": {
+      "text": "Set foot in every realm, the Last included."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "grove": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:grove"
+      }
+    },
+    "skyreach": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:skyreach"
+      }
+    },
+    "hollow": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:hollow"
+      }
+    },
+    "drowned": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:drowned"
+      }
+    },
+    "pale": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:pale"
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:scarlet"
+      }
+    },
+    "clockwork": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:clockwork"
+      }
+    },
+    "mycelial": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:mycelial"
+      }
+    },
+    "last": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:last"
+      }
+    }
+  },
+  "parent": "aurelia:enter_mycelial",
+  "rewards": {
+    "experience": 300
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "aurelia:block/clockwork_bricks",
+    "top": "aurelia:block/clockwork_bricks",
+    "side": "aurelia:block/clockwork_bricks"
+  }
+}

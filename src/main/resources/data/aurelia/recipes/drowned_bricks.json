@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "SMS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "M": {
+      "item": "aurelia:tidesteel_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:drowned_bricks",
+    "count": 8
+  }
+}

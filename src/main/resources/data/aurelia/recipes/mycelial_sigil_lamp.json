@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " G ",
+    "GSG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "S": {
+      "item": "aurelia:mycelial_sigil_stone"
+    }
+  },
+  "result": {
+    "item": "aurelia:mycelial_sigil_lamp"
+  }
+}

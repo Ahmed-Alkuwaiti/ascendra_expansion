@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "aurelia:block/scarlet_bricks"
+    }
+  }
+}

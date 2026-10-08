@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:tidebinder"
+    },
+    "title": {
+      "text": "Tidebinder"
+    },
+    "description": {
+      "text": "Forge the weapon of The Drowned Expanse."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:tidebinder"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_drowned"
+}

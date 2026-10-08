@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:hourshatter"
+    },
+    "title": {
+      "text": "Hourshatter"
+    },
+    "description": {
+      "text": "Forge the weapon of The Clockwork Rift."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hourshatter"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_clockwork"
+}

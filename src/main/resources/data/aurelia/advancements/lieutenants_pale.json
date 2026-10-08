@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Pale"
+    },
+    "description": {
+      "text": "Slay Frostmaw, The Knight of Last Winter and The Mourner."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "frostmaw": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:frostmaw"
+            }
+          }
+        ]
+      }
+    },
+    "rime_knight": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:rime_knight"
+            }
+          }
+        ]
+      }
+    },
+    "the_mourner": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:the_mourner"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_pale",
+  "rewards": {
+    "experience": 100
+  }
+}

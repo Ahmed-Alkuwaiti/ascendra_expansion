@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "aurelia:block/hollow_sigil_stone"
+    }
+  }
+}

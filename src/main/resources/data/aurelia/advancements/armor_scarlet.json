@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:sunglass_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Scarlet"
+    },
+    "description": {
+      "text": "Hold every piece of the Scarlet armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:sunglass_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:sunglass_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:sunglass_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:sunglass_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_scarlet"
+}

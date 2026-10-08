@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "item": "aurelia:clockwork_brick_slab"
+    }
+  },
+  "result": {
+    "item": "aurelia:clockwork_sigil_stone"
+  }
+}

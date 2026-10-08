@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "aurelia:block/skyreach_bricks",
+    "top": "aurelia:block/skyreach_bricks",
+    "side": "aurelia:block/skyreach_bricks"
+  }
+}

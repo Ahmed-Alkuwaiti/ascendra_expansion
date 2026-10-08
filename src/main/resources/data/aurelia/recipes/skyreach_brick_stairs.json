@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "aurelia:skyreach_bricks"
+    }
+  },
+  "result": {
+    "item": "aurelia:skyreach_brick_stairs",
+    "count": 4
+  }
+}

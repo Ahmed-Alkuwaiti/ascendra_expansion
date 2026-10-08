@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:rootbound_citadel",
+    "aurelia:stormwatch_citadel",
+    "aurelia:ashen_citadel",
+    "aurelia:tidewrack_citadel",
+    "aurelia:rimefast_citadel",
+    "aurelia:sunscar_citadel",
+    "aurelia:paradox_keep",
+    "aurelia:spore_cathedral",
+    "aurelia:convergence_gate"
+  ]
+}

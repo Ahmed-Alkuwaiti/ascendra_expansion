@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:verdant_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Grove"
+    },
+    "description": {
+      "text": "Hold every piece of the Grove armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:verdant_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:verdant_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:verdant_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:verdant_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_grove"
+}

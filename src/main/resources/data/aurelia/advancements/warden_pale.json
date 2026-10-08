@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:white_silence_spawn_egg"
+    },
+    "title": {
+      "text": "The Pale Reach Falls"
+    },
+    "description": {
+      "text": "Defeat the Warden of The Pale Reach."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:white_silence"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:lieutenants_pale",
+  "rewards": {
+    "experience": 250
+  }
+}

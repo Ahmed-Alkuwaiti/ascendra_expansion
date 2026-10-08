@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:pale_sigil_stone"
+    },
+    "title": {
+      "text": "Through the Waygate: Pale"
+    },
+    "description": {
+      "text": "Step into The Pale Reach."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:pale"
+      }
+    }
+  },
+  "parent": "aurelia:warden_drowned"
+}

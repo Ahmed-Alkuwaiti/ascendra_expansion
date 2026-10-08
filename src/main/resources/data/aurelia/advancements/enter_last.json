@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:realm_node"
+    },
+    "title": {
+      "text": "The End of Every World"
+    },
+    "description": {
+      "text": "Pass the Convergence Gate into the Last Realm."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:last"
+      }
+    }
+  },
+  "parent": "aurelia:eightfold_seal"
+}

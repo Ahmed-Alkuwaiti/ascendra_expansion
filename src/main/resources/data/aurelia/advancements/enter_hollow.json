@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:hollow_sigil_stone"
+    },
+    "title": {
+      "text": "Through the Waygate: Hollow"
+    },
+    "description": {
+      "text": "Step into The Hollow."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:hollow"
+      }
+    }
+  },
+  "parent": "aurelia:warden_skyreach"
+}

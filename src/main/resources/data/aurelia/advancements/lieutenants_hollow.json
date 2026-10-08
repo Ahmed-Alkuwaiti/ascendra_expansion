@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Hollow"
+    },
+    "description": {
+      "text": "Slay Cinderjaw, The Chainwarden and The Ashen Choir."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "cinderjaw": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:cinderjaw"
+            }
+          }
+        ]
+      }
+    },
+    "chainwarden": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:chainwarden"
+            }
+          }
+        ]
+      }
+    },
+    "ashen_choir": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:ashen_choir"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_hollow",
+  "rewards": {
+    "experience": 100
+  }
+}

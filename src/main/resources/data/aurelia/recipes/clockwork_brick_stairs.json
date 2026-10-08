@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "aurelia:clockwork_bricks"
+    }
+  },
+  "result": {
+    "item": "aurelia:clockwork_brick_stairs",
+    "count": 4
+  }
+}

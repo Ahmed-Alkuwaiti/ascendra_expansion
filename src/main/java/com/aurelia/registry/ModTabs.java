@@ -132,6 +132,9 @@ public class ModTabs {
                         out.accept(ModItems.UNMAKING_ANCHOR.get());
                         out.accept(ModItems.UNMAKER_EGG.get());
                         out.accept(ModItems.LAIR_SEAL.get());
+                        for (net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> extra : com.aurelia.registry.ExtraContent.tabItems()) {
+                            out.accept(extra.get());
+                        }
                         for (net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> egg : com.aurelia.registry.LieutenantEntities.EGGS.values()) {
                             out.accept(egg.get());
                         }

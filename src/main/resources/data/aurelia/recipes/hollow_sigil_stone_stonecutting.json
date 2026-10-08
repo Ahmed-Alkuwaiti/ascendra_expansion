@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:hollow_bricks"
+  },
+  "result": "aurelia:hollow_sigil_stone",
+  "count": 1
+}

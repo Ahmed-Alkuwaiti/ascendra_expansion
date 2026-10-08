@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:grove_bricks"
+  },
+  "result": "aurelia:grove_sigil_stone",
+  "count": 1
+}

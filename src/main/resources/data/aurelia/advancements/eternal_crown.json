@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:eternal_crown"
+    },
+    "title": {
+      "text": "Eternal"
+    },
+    "description": {
+      "text": "Finish the Eternal Crown."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:eternal_crown"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:warden_mycelial",
+  "rewards": {
+    "experience": 500
+  }
+}

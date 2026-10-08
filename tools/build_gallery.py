@@ -291,7 +291,7 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <div class="acts">{acts}</div>
 <div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>
-<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a></div></nav>
+<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a><a class="chip" href="#extras">Extras</a></div></nav>
 <main>
 {''.join(realm_section(r) for r in R)}
 {finale_page.section()}
@@ -299,6 +299,12 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <h3 class="sub" style="margin-top:0">The eight Waygates</h3>
 <div class="strip"><img src="portals/waygates.png" alt="Waygate block faces for all eight realms, dormant and awake"><div class="wg">{names}</div></div>
 <p class="lede" style="margin-top:14px">Each realm's portal block, dormant and awake. A Waygate opens only for the relic of the realm before it; the crowns count as every relic that went into them.</p>
+</div></section>
+<section class="realm" id="extras" style="--c:var(--gold)"><div class="wrap">
+<h3 class="sub" style="margin-top:0">Extras</h3>
+<p class="lede" style="margin-bottom:18px">Supplementary content round the quest. <b>Twelve paintings</b> (the eight Wardens, the Unmaker, the Last Realm, the Shattered Crown and the Convergence Gate) that turn up when you hang a painting. <b>Realm masonry</b> for builders: bricks, brick stairs, brick slabs, a carved sigil stone and a glowing sigil lamp for each realm, made from stone bricks and the realm's metal. The <b>Wayfinder's Lodestar</b> (compass, amethyst, an eye of ender): in the overworld it points to the nearest citadel, in a realm to the nearest lair still standing, then to the altar. The <b>Aurelian Bestiary</b> (book, ink, feather, amethyst): every Warden and lieutenant, their health, attacks and how to beat them, opening at the realm you stand in. And an <b>advancement tree</b> of 56: every realm, every realm's lieutenants and Warden, the crowns, the relics, the Heralds, the Unmaker, each realm's armour and weapon, and long hunts like slaying all twenty-six lieutenants.</p>
+{fig('extras/paintings.webp', 'The twelve paintings, as they hang.')}
+<div class="two" style="margin-top:22px;grid-template-columns:minmax(0,1fr) minmax(0,2fr)">{fig('extras/masonry.webp', 'Realm masonry: bricks, sigil stone and sigil lamp for each realm (stairs and slabs use the bricks).')}{fig('extras/items.webp', "The Wayfinder's Lodestar and the Aurelian Bestiary.")}</div>
 </div></section>
 <section class="realm" id="scale" style="--c:var(--gold)"><div class="wrap">
 <h3 class="sub" style="margin-top:0">Everything, twice the size</h3>

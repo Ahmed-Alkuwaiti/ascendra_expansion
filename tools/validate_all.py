@@ -6,6 +6,10 @@ props = json.load(open(V + '/blocks_summary.json'))
 src = {c: open(f'{J}/registry/{c}.java').read() for c in ('ModBlocks', 'ModItems', 'ModEntities')}
 mod_blocks = set(re.findall(r'BLOCKS\.register\("([a-z_]+)"', src['ModBlocks'])); mod_items = set(re.findall(r'ITEMS\.register\("([a-z_]+)"', src['ModItems']))
 mod_ents = set(re.findall(r'register\("([a-z_]+)"', src['ModEntities']))
+_extra = open(f'{J}/registry/ExtraContent.java').read()
+mod_blocks |= set(re.findall(r'BLOCKS\.register\("([a-z_]+)"', _extra)); mod_items |= set(re.findall(r'ITEMS\.register\("([a-z_]+)"', _extra))
+mod_paintings = set(re.findall(r'PAINTINGS\.register\("([a-z_]+)"', _extra))
+mod_ents |= set(re.findall(r'^    [A-Z_]+\("([a-z_]+)"', open(f'{J}/entity/LieutenantKind.java').read(), re.M))   # registered from LieutenantKind
 TF = ['true', 'false']
 CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial', 'last'], 'active': TF}, 'spore_planter': {'filled': TF},
           'storm_pylon': {'filled': TF}, 'soul_socket': {'filled': TF}, 'hush_stone': {'filled': TF}, 'sun_lens': {'filled': TF},
@@ -70,9 +74,9 @@ for f in allj:
     except Exception as e: badj += 1; print('BAD JSON', f, e)
 files = {os.path.relpath(os.path.join(r, f), D) for r, _, fs in os.walk(D) for f in fs}
 def known(x):
-    if x in mod_blocks or x in mod_items or x in mod_ents: return True
+    if x in mod_blocks or x in mod_items or x in mod_ents or x in mod_paintings: return True
     c = [f'{d}/{x}.json' for d in ('dimension', 'dimension_type', 'worldgen/biome', 'worldgen/noise_settings', 'worldgen/structure', 'loot_tables', 'tags/worldgen/biome',
-                                   'worldgen/placed_feature', 'worldgen/configured_feature', 'worldgen/structure_set')] + [f'structures/{x}.nbt']
+                                   'worldgen/placed_feature', 'worldgen/configured_feature', 'worldgen/structure_set', 'advancements')] + [f'structures/{x}.nbt']
     return any(y in files for y in c) or (x.endswith('/start') and f'worldgen/template_pool/{x}.json' in files)
 missing = {(os.path.relpath(f, R), m) for f in glob.glob(R + '/data/**/*.json', recursive=True) for m in re.findall(r'aurelia:([a-z0-9_/]+)', open(f).read()) if not known(m)}
 print(f'JSON: {len(allj)} files, {"all valid" if not badj else badj}; data ids:', 'all resolve' if not missing else sorted(missing))

@@ -22,10 +22,12 @@ public class AureliaMod {
     public AureliaMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         com.aurelia.registry.LieutenantEntities.init();
+        com.aurelia.registry.ExtraContent.init();
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
         ModEntities.ENTITIES.register(bus);
         ModTabs.TABS.register(bus);
+        com.aurelia.registry.ExtraContent.PAINTINGS.register(bus);
         bus.addListener(ModEntities::registerAttributes);
         bus.addListener(com.aurelia.registry.LieutenantEntities::registerAttributes);
         bus.addListener(ModEntities::registerSpawns);

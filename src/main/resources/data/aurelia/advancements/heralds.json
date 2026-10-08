@@ -1,0 +1,51 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:unmaking_anchor"
+    },
+    "title": {
+      "text": "The Heralds Silenced"
+    },
+    "description": {
+      "text": "Slay both Heralds of the Unmade."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "herald_of_ruin": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:herald_of_ruin"
+            }
+          }
+        ]
+      }
+    },
+    "herald_of_silence": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:herald_of_silence"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_last",
+  "rewards": {
+    "experience": 300
+  }
+}

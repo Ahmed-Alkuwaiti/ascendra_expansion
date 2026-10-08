@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aurelia:clockwork_brick_stairs",
+    "aurelia:drowned_brick_stairs",
+    "aurelia:grove_brick_stairs",
+    "aurelia:hollow_brick_stairs",
+    "aurelia:mycelial_brick_stairs",
+    "aurelia:pale_brick_stairs",
+    "aurelia:scarlet_brick_stairs",
+    "aurelia:skyreach_brick_stairs"
+  ]
+}

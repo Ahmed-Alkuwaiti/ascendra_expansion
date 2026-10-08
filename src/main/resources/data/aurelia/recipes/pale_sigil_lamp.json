@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " G ",
+    "GSG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "S": {
+      "item": "aurelia:pale_sigil_stone"
+    }
+  },
+  "result": {
+    "item": "aurelia:pale_sigil_lamp"
+  }
+}

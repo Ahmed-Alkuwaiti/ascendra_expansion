@@ -1,0 +1,119 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:chronal_eye"
+    },
+    "title": {
+      "text": "The Eightfold Seal"
+    },
+    "description": {
+      "text": "Hold all eight relics at once."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "rootbound_heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:rootbound_heart"
+            ]
+          }
+        ]
+      }
+    },
+    "storm_talon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:storm_talon"
+            ]
+          }
+        ]
+      }
+    },
+    "sovereign_hand": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:sovereign_hand"
+            ]
+          }
+        ]
+      }
+    },
+    "abyssal_fang": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:abyssal_fang"
+            ]
+          }
+        ]
+      }
+    },
+    "frozen_voice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:frozen_voice"
+            ]
+          }
+        ]
+      }
+    },
+    "glass_stinger": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:glass_stinger"
+            ]
+          }
+        ]
+      }
+    },
+    "chronal_eye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:chronal_eye"
+            ]
+          }
+        ]
+      }
+    },
+    "living_spore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:living_spore"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:eternal_crown",
+  "rewards": {
+    "experience": 500
+  }
+}

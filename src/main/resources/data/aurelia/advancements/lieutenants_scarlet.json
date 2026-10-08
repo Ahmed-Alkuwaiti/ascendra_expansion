@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Scarlet"
+    },
+    "description": {
+      "text": "Slay The Dune Tyrant, The Sandglass Pharaoh and The Glass Djinn."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dune_tyrant": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:dune_tyrant"
+            }
+          }
+        ]
+      }
+    },
+    "sand_pharaoh": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:sand_pharaoh"
+            }
+          }
+        ]
+      }
+    },
+    "glass_djinn": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:glass_djinn"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_scarlet",
+  "rewards": {
+    "experience": 100
+  }
+}

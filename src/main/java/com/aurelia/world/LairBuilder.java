@@ -164,6 +164,26 @@ public final class LairBuilder {
         }
     }
 
+    /** The seal of the nearest lair whose lieutenant still stands, or null when none is left (or none was built). */
+    @javax.annotation.Nullable
+    public static BlockPos nearestStanding(ServerLevel level, Realm realm, BlockPos from) {
+        RealmData data = RealmData.get(level);
+        BlockPos best = null;
+        double bestD = Double.MAX_VALUE;
+        for (LieutenantKind k : LieutenantKind.of(realm)) {
+            BlockPos seal = data.seal(k.slot);
+            if (data.defeated(k.slot) || seal == null) {
+                continue;
+            }
+            double d = seal.distSqr(from);
+            if (d < bestD) {
+                bestD = d;
+                best = seal;
+            }
+        }
+        return best;
+    }
+
     /** True when every lieutenant of the realm is dead (or the realm has none). */
     public static boolean cleared(ServerLevel level, Realm realm) {
         RealmData data = RealmData.get(level);

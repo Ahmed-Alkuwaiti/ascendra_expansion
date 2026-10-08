@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Grove"
+    },
+    "description": {
+      "text": "Slay Thornmaw, Old Hollowbark and The Rot Matron."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "thornmaw": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:thornmaw"
+            }
+          }
+        ]
+      }
+    },
+    "hollowbark": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:hollowbark"
+            }
+          }
+        ]
+      }
+    },
+    "rot_matron": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:rot_matron"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_grove",
+  "rewards": {
+    "experience": 100
+  }
+}

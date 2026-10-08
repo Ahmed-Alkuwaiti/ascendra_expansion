@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "item": "aurelia:drowned_brick_slab"
+    }
+  },
+  "result": {
+    "item": "aurelia:drowned_sigil_stone"
+  }
+}

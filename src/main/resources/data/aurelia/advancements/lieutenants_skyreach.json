@@ -1,0 +1,65 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:lair_seal"
+    },
+    "title": {
+      "text": "Lieutenants of Skyreach"
+    },
+    "description": {
+      "text": "Slay Galeclaw, The Thunder Colossus and The Squall Seraph."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "galeclaw": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:galeclaw"
+            }
+          }
+        ]
+      }
+    },
+    "thunder_colossus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:thunder_colossus"
+            }
+          }
+        ]
+      }
+    },
+    "squall_seraph": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "aurelia:squall_seraph"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_skyreach",
+  "rewards": {
+    "experience": 100
+  }
+}

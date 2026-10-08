@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:hollow_bricks"
+  },
+  "result": "aurelia:hollow_brick_slab",
+  "count": 2
+}

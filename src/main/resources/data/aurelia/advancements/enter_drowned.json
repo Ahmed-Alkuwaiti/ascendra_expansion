@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:drowned_sigil_stone"
+    },
+    "title": {
+      "text": "Through the Waygate: Drowned"
+    },
+    "description": {
+      "text": "Step into The Drowned Expanse."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "aurelia:drowned"
+      }
+    }
+  },
+  "parent": "aurelia:crown_of_aurelia"
+}

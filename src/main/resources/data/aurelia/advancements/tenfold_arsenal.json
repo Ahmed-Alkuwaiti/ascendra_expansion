@@ -1,0 +1,131 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:worldsunder"
+    },
+    "title": {
+      "text": "Arsenals of the Tenfold Seal"
+    },
+    "description": {
+      "text": "Hold all eight realm weapons and Worldsunder."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "rootbreaker": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:rootbreaker"
+            ]
+          }
+        ]
+      }
+    },
+    "stormpiercer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:stormpiercer"
+            ]
+          }
+        ]
+      }
+    },
+    "soulcleaver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:soulcleaver"
+            ]
+          }
+        ]
+      }
+    },
+    "tidebinder": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:tidebinder"
+            ]
+          }
+        ]
+      }
+    },
+    "silent_requiem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:silent_requiem"
+            ]
+          }
+        ]
+      }
+    },
+    "venomfangs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:venomfangs"
+            ]
+          }
+        ]
+      }
+    },
+    "hourshatter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hourshatter"
+            ]
+          }
+        ]
+      }
+    },
+    "sporethorn": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:sporethorn"
+            ]
+          }
+        ]
+      }
+    },
+    "worldsunder": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:worldsunder"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:weapon_grove",
+  "rewards": {
+    "experience": 750
+  }
+}

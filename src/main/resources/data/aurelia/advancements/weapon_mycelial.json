@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:sporethorn"
+    },
+    "title": {
+      "text": "Sporethorn"
+    },
+    "description": {
+      "text": "Forge the weapon of The Mycelial Deep."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:sporethorn"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_mycelial"
+}

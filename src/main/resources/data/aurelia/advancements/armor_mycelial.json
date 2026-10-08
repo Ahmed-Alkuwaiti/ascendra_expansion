@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:bloomspore_chestplate"
+    },
+    "title": {
+      "text": "Dressed for Mycelial"
+    },
+    "description": {
+      "text": "Hold every piece of the Mycelial armour."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:bloomspore_helmet"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:bloomspore_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:bloomspore_leggings"
+            ]
+          },
+          {
+            "items": [
+              "aurelia:bloomspore_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:enter_mycelial"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "aurelia:skyreach_bricks"
+  },
+  "result": "aurelia:skyreach_sigil_stone",
+  "count": 1
+}
