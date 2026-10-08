@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#aurelia:has_structure/dungeon_thunder_temple",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "start_pool": "aurelia:dungeon_thunder_temple/start",
+  "size": 1,
+  "max_distance_from_center": 80,
+  "use_expansion_hack": false,
+  "spawn_overrides": {},
+  "start_height": {
+    "type": "minecraft:uniform",
+    "min_inclusive": {
+      "absolute": 50
+    },
+    "max_inclusive": {
+      "absolute": 110
+    }
+  }
+}

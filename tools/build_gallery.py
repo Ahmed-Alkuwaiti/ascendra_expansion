@@ -291,7 +291,7 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <div class="acts">{acts}</div>
 <div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>
-<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a><a class="chip" href="#biomes">Biomes</a><a class="chip" href="#extras">Extras</a></div></nav>
+<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a><a class="chip" href="#dungeons">Dungeons</a><a class="chip" href="#biomes">Biomes</a><a class="chip" href="#extras">Extras</a></div></nav>
 <main>
 {''.join(realm_section(r) for r in R)}
 {finale_page.section()}
@@ -299,6 +299,11 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <h3 class="sub" style="margin-top:0">The eight Waygates</h3>
 <div class="strip"><img src="portals/waygates.png" alt="Waygate block faces for all eight realms, dormant and awake"><div class="wg">{names}</div></div>
 <p class="lede" style="margin-top:14px">Each realm's portal block, dormant and awake. A Waygate opens only for the relic of the realm before it; the crowns count as every relic that went into them.</p>
+</div></section>
+<section class="realm" id="dungeons" style="--c:var(--gold)"><div class="wrap">
+<h3 class="sub" style="margin-top:0">Dungeons</h3>
+<p class="lede" style="margin-bottom:18px">Every biome of every realm has a great dungeon of its own, in the spirit of End Cities and Bastions: keeps, towers, ships, temples, prisons, foundries, a coliseum, a clocktower, a fungal hive. Many rooms on many floors, joined by doors, stairs, ladders and bridges, held by the realm's guards and by spawners, with six kinds of chest (supply, armoury, library, alchemy, treasure, and one vault at the heart) whose loot climbs from tier 1 in the Grove to tier 8 in the Mycelial Deep. Every chest in every dungeon is checked to be reachable on foot from its entrance.</p>
+{fig('dungeons/all.webp', 'The twenty-four dungeons, with the biome each is found in.')}
 </div></section>
 <section class="realm" id="biomes" style="--c:var(--gold)"><div class="wrap">
 <h3 class="sub" style="margin-top:0">Biomes and landmarks</h3>

@@ -516,6 +516,25 @@ Every realm was a single biome, and some were bare: Skyreach and the Clockwork R
 
 All 25 biomes list their features in one shared order per generation step, so the game's feature-order check cannot fail, and the realms' structure tags include every new biome, so all realm structures still generate everywhere in their realm. Existing worlds keep their old single biome in chunks already generated; new chunks get the new ones.
 
+## Dungeons
+
+Every biome of every realm has a great dungeon of its own (`tools/gen_dungeons.py`), in the spirit of End Cities, Bastions and When Dungeons Arise: many rooms on many floors joined by doors, stairs, ladders and bridges, held by a garrison of the realm's guards and by spawners of fitting vanilla mobs. They are rare (one per 26 x 26 chunks of their biome, at most) and generate only in their own biome.
+
+| Realm | Base biome | Warm biome | Cold biome |
+|---|---|---|---|
+| Grove | Thornborn Spire (vine-choked tower keep) | Blossom Sanctum (terraced temple) | Rotwood Manor (sprawling rotten manor) |
+| Skyreach | Aviary Citadel (floating tower with a nest crown) | Sky Galleon (an airship) | Thunder Temple (lightning shrine) |
+| Hollow | Ember Bastion (walled black fortress) | Scorched Foundry (forge-works) | Soul Prison (cellblocks round a soul-fire pit) |
+| Drowned | Drowned Keep | Coral Cathedral | Kraken Galleon (a sunken warship in a kraken's grip) |
+| Pale | Frostbound Keep | Hunter's Hall (palisaded longhouse) | Glacier Vault (halls cut into a glacier) |
+| Scarlet | Sunken Pyramid (with a burial vault beneath) | Glassworks (furnace towers) | Ossuary Coliseum |
+| Clockwork | The Great Clocktower | Mechanical Nest (gear-works) | Hourglass Vault |
+| Mycelial | Fungal Hive | Glowcap Village | Rootbound Asylum |
+
+**Loot.** Six kinds of chest, each in a room dressed for it (barrels, anvils and a smithing table, bookshelves and a lectern, a brewing stand and cauldron, gold): **supply** (food including the realm's own, torches, arrows, iron, leather, the odd saddle or name tag), **armory** (enchanted iron gear, diamond from the Drowned on, bows and crossbows, now and then a realm tool or a realm helmet or boots), **library** (enchanted books, sometimes treasure enchantments, bottles of experience, lapis, the Bestiary), **alchemy** (healing and the realm's own potion, strength, golden apples, brewing goods), **treasure** (gold, emeralds, diamonds, the realm's metal and material, netherite scrap from the Pale on), and one **vault** per dungeon at its heart (the realm's metal in quantity, the realm's weapon or chestplate or leggings at a small chance, totems, and from the Pale on enchanted golden apples and netherite scrap; from the Clockwork Rift on, the netherite upgrade template). The tier runs from 1 (Grove) to 8 (Mycelial): enchantment levels, stack sizes and the rare drops climb with it, so a dungeon is worth it for someone at that point in the quest without handing out the next realm's gear.
+
+`tools/check_dungeons.py` walks every dungeon from its entrance to every chest; all 24 pass. Regenerate with `python3 gen_dungeons.py` (it also writes the loot tables, `data/aurelia/loot_tables/chests/dungeon/<realm>_<kind>.json`).
+
 ## Biome landmarks and ambience
 
 Each of the sixteen new biomes has a landmark found only there (`tools/gen_landmarks.py`), each with a chest of its realm's lair loot: the Petal Shrine (Bloomwild), the Sunken Idol (Mossveil Thicket), the Windmill Isle (Cloud Meadows), the Lightning Spire (Stormfront), the Soul Obelisk (Soulfire Wastes), the Hollow Forge (Ember Deeps), the Sunken Lighthouse (Kelp Forest), the Leviathan's Rest (Coral Graveyard), the Frozen Knight (Frozen Spires), the Hunter's Lodge (Whisper Taiga), the Sunglass Spire (Glass Dunes), the Fallen Titan (Bone Flats), the Fallen Gear (Gearfields), the Stopped Clock (the Stopped Hour), the Glowcap Ring (Glowcap Hollows) and the Root Maw (Rootmaw). Surface ones sit on the ground, sea ones on the sea floor, cave ones on the cavern floor, and the sky realms' float on their own rock. Every biome also has its own music, and the Hollow's and a few others their own ambient loops and sounds.

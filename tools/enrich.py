@@ -118,6 +118,8 @@ HORIZ = [((1, 0, 0), 'east', 'west'), ((-1, 0, 0), 'west', 'east'), ((0, 0, 1), 
 def theme_of(name):
     if name.startswith('last_island_'):
         return name[len('last_island_'):]
+    if name.startswith('dungeon:'):                                  # a dungeon takes its realm's dressing
+        return name.split(':')[1]
     if name.startswith('lair_'):                                     # a lieutenant's lair takes its realm's dressing
         from lieutenants import BY_ID
         return BY_ID[name[len('lair_'):]]['realm']
