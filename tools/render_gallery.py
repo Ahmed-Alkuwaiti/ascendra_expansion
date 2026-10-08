@@ -400,7 +400,9 @@ PAD = {'grove': ('mossy_stone_bricks', 'stone_bricks', 'shroomlight'), 'skyreach
 
 def arena(realm):
     sc = Scene()
-    C, Y = 30, 12                      # the standing level; the pad surface is at Y - 1
+    import gen_arenas
+    C, Y = gen_arenas.C, gen_arenas.F  # the standing level; the pad surface is at Y - 1
+    sc.place(f'arena_{realm}', 0, 0, 0, keep_air=False)  # the arena round the pad, placed once when the realm is built
     pad, found, light = PAD[realm]
     R = 12
     surround = {'grove': 'grass_block', 'hollow': 'basalt', 'pale': 'snow_block', 'scarlet': 'red_sand', 'mycelial': 'mycelium'}.get(realm)
@@ -412,8 +414,7 @@ def arena(realm):
                 for dy in range(2, 7):
                     sc.set(C + dx, Y - dy, C + dz, found)
                 sc.set(C + dx, Y - 1, C + dz, pad)
-            elif surround and d2 <= 29 * 29:
-                sc.set(C + dx, Y - 2 + (1 if rnd.random() < 0.2 else 0), C + dz, surround)
+
     for (cx, cz) in [(-8, -8), (8, -8), (-8, 8), (8, 8)]:
         for dy in range(4):
             sc.set(C + cx, Y + dy, C + cz, pad)

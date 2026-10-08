@@ -18,7 +18,15 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class ArenaBuilder {
     private ArenaBuilder() {}
 
+    /** Where the altar stands inside every arena_<realm> template (x and z), and the standing level (y); see tools/gen_arenas.py. */
+    private static final int ARENA_CENTRE = 64;
+    private static final int ARENA_FLOOR = 50;
+
     public static void decorate(ServerLevel level, Realm realm, BlockPos c) {
+        if (realm != Realm.LAST) {
+            // the arena round the pad (its wall, monuments and the space it clears), placed once; it never touches the pad itself
+            place(level, "arena_" + realm.id, c.offset(-ARENA_CENTRE, -ARENA_FLOOR, -ARENA_CENTRE));
+        }
         switch (realm) {
             case DROWNED -> drowned(level, c);
             case PALE -> pale(level, c);

@@ -489,6 +489,23 @@ It drops the **Hand of Genesis**. Use it to cast the selected power (2.5-second 
 - Haste of Hours
 - Spore Bloom
 
+## The Warden arenas
+
+Every realm's arena is now a structure of its own, `arena_<realm>` (129 x 116 x 129, from `tools/gen_arenas.py`), placed once round the landing pad when the realm is first built, before the realm's gimmick blocks go in (`ArenaBuilder.decorate`). The fight is unchanged: the pad (radius 12, where the bosses fight and every gimmick stands) is never touched, nor the Drowned water ring, and the air over the battleground (radius 33, thirty blocks up) is kept clear for the flyers. Each arena widens the floor to radius 31, rings it with a wall broken by four ways out (toward the lieutenants' lairs), and builds its realm's setting round it:
+
+| Realm | Arena |
+|---|---|
+| Grove | A briar wall; eight trophy totems (deer skulls with glowing eyes and antlers on twisted dead trunks, skulls hung on chains); two great roots arching over the clearing, dripping roots. |
+| Skyreach | The Roc's nest: a floating ring of bones and dead wood, broken eggshells, giant feathers driven into it, eight storm-struck pylons with copper bands and lightning rods, drifting rocks on chains. |
+| Hollow | A lava moat round the floor (bridged at the four ways out), a black wall of spikes, eight gibbet towers to the cavern roof hung with cages and skulls, chains and soul lanterns from the roof, and the Hollow King's empty horned throne. |
+| Drowned | The ribcage of a leviathan over the water ring: its spine overhead, ribs curving down round the ring, its skull with sea-lantern eyes and fangs at the east end; drowned columns round the outside. |
+| Pale | A ring of ice spikes leaning outward, eight hooded statues of ice with their hands over their faces and frozen tears, blue-ice cracks across the floor. |
+| Scarlet | A sunken colosseum: tiers of red sandstone climbing to a parapet, eight sun obelisks, spears and skulls driven into the tiers, a giant scythe blade buried in the west side. |
+| Clockwork | A floating clock face: twelve hour pillars with gold tallies, eight standing gears, four pendulum blades on gallows, gears and chains turning under the platform. |
+| Mycelial | A fleshy grotto: ten giant petals leaning inward like a closing flower, veined in light; flesh pillars ribbed with bone; glowing spore pods hung from the roof; bone spikes. |
+
+In the surface realms the arena clears its own ground, so hills round it become a crater wall; in the cave realms it carves a dome. **As with the Last Realm, a realm already visited keeps its old arena** (the pad is built only once): use a new world, or delete that realm's dimension folder, to see the new one. Regenerate with `python3 gen_arenas.py`.
+
 ## The Last Realm, rebuilt
 
 The hub round the Unmaker's arena is now a structure of its own, `last_dread` (209 x 186 x 209, from `tools/gen_last_dread.py`), placed once when the realm is first built, before the arena ring:

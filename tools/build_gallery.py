@@ -222,7 +222,7 @@ def realm_section(r):
     out.append('<h3 class="sub">The Warden</h3>')
     out.append(fig(f'bosses/{r["boss"]}.webp', f'{e(r["boss_name"])}, front and back. Glowing parts render at full brightness in game.'))
     out.append('<div class="two" style="margin-top:22px">')
-    out.append(fig(f'arenas/{r["id"]}_arena.webp', 'The arena the Waygate builds, with its gimmick blocks, and the Warden (not to scale).'))
+    out.append(fig(f'arenas/{r["id"]}_arena.webp', 'The arena the Waygate builds round the pad: its wall, its monuments, the gimmick blocks on the pad, and the Warden (not to scale).'))
     out.append(f'<div class="text"><h4>{e(r["boss_name"])}</h4><p>{e(r["boss_desc"])}</p>'
                f'<span class="k">Gimmick: {e(r["gimmick"])}</span><p>{e(r["gimmick_desc"])}</p>'
                + (f'<span class="k">Attacks</span><p>{e(r["attacks"])}</p>' if r.get('attacks') else '') + '</div></div>')
