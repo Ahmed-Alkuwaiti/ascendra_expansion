@@ -56,7 +56,7 @@ public class WayfinderItem extends Item {
                 what = "the Warden's altar";
             }
         } else if (level.dimension() == Level.OVERWORLD) {
-            target = server.findNearestMapStructure(CITADELS, player.blockPosition(), 50, false);
+            target = server.findNearestMapStructure(CITADELS, player.blockPosition(), 100, false);
             what = "the nearest citadel";
         } else {
             what = "nothing";

@@ -31,3 +31,14 @@ jobs:
           name: aurelia-mod-jar
           path: build/libs/*.jar
           if-no-files-found: error
+      - name: Start a server with the mod, generate every realm and place every structure
+        run: bash ci/smoke.sh
+      - name: Keep the server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-log
+          path: |
+            run/logs/latest.log
+            server_console.log
+          if-no-files-found: ignore

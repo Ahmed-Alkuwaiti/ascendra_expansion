@@ -18,6 +18,7 @@ public final class AureliaConfig {
     public static final ForgeConfigSpec.DoubleValue GUARD_HEALTH;
     public static final ForgeConfigSpec.DoubleValue GUARD_DAMAGE;
     public static final ForgeConfigSpec.DoubleValue PARTICLE_DENSITY;
+    public static final ForgeConfigSpec.BooleanValue STARTER_KIT;
     public static final ForgeConfigSpec.IntValue GUARD_SLEEP_DISTANCE;
     public static final ForgeConfigSpec.IntValue GUARD_SLEEP_INTERVAL;
 
@@ -30,6 +31,10 @@ public final class AureliaConfig {
         LIEUTENANT_DAMAGE = b.comment("The lieutenants and the Heralds: damage").defineInRange("lieutenantDamage", 1.0, 0.1, 20.0);
         GUARD_HEALTH = b.comment("Citadel, dungeon and realm guards: health").defineInRange("guardHealth", 1.0, 0.1, 20.0);
         GUARD_DAMAGE = b.comment("Citadel, dungeon and realm guards: damage").defineInRange("guardDamage", 1.0, 0.1, 20.0);
+        b.pop();
+        b.comment("Getting started.").push("onboarding");
+        STARTER_KIT = b.comment("Give each player, once, a Wayfarer's Guide, the Wayfinder's Lodestar and the Aurelian Bestiary when they first join.")
+                .define("starterKit", true);
         b.pop();
         b.comment("Smoothness. Lower these if fights, citadels or dungeons stutter.").push("performance");
         PARTICLE_DENSITY = b.comment("Share of the mod's ambient and effect particles that are sent (1.0 all, 0.5 half, 0 none).",

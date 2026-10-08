@@ -5,6 +5,10 @@
     "minecraft:desert",
     "#minecraft:is_savanna",
     "#minecraft:is_taiga",
-    "minecraft:swamp"
+    "minecraft:swamp",
+    {
+      "id": "#forge:is_dry/overworld",
+      "required": false
+    }
   ]
 }

@@ -9,6 +9,14 @@
     "minecraft:birch_forest",
     "minecraft:taiga",
     "minecraft:snowy_plains",
-    "minecraft:desert"
+    "minecraft:desert",
+    {
+      "id": "#forge:is_plains",
+      "required": false
+    },
+    {
+      "id": "#minecraft:is_forest",
+      "required": false
+    }
   ]
 }
