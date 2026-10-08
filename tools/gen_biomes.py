@@ -132,6 +132,19 @@ VARIANTS = {
          {'fog_color': 0x2A1A22, 'particle': {'options': {'type': 'minecraft:mycelium'}, 'probability': 0.03}}, {'root_grub': 16}),
     ],
 }
+MUSIC = {'grove': 'music.overworld.jungle', 'bloomwild': 'music.overworld.cherry_grove', 'mossveil_thicket': 'music.overworld.lush_caves',
+         'skyreach': 'music.overworld.meadow', 'cloud_meadows': 'music.overworld.flower_forest', 'stormfront': 'music.overworld.stony_peaks',
+         'hollow': 'music.nether.crimson_forest', 'soulfire_wastes': 'music.nether.soul_sand_valley', 'ember_deeps': 'music.nether.basalt_deltas',
+         'drowned': 'music.under_water', 'kelp_forest': 'music.under_water', 'coral_graveyard': 'music.under_water',
+         'pale': 'music.overworld.snowy_slopes', 'frozen_spires': 'music.overworld.frozen_peaks', 'whisper_taiga': 'music.overworld.grove',
+         'scarlet': 'music.overworld.desert', 'glass_dunes': 'music.overworld.desert', 'bone_flats': 'music.overworld.badlands',
+         'clockwork': 'music.overworld.dripstone_caves', 'gearfields': 'music.overworld.old_growth_taiga', 'stopped_hour': 'music.overworld.deep_dark',
+         'mycelial': 'music.overworld.lush_caves', 'glowcap_hollows': 'music.overworld.lush_caves', 'rootmaw': 'music.overworld.deep_dark'}
+AMBIENT = {'hollow': ('ambient.crimson_forest.loop', 'ambient.crimson_forest.additions'),
+           'soulfire_wastes': ('ambient.soul_sand_valley.loop', 'ambient.soul_sand_valley.additions'),
+           'ember_deeps': ('ambient.basalt_deltas.loop', 'ambient.basalt_deltas.additions'),
+           'rootmaw': (None, 'ambient.warped_forest.additions'), 'kelp_forest': (None, 'ambient.underwater.loop.additions'),
+           'coral_graveyard': (None, 'ambient.underwater.loop.additions')}
 DECOR_TAG = {'grove': ['grove_decor'], 'skyreach': ['skyreach_islands'], 'hollow': ['hollow_decor'], 'drowned': ['drowned_decor'], 'pale': ['pale_decor'],
              'scarlet': ['scarlet_decor'], 'clockwork': ['clockwork_decor'], 'mycelial': ['mycelial_decor']}
 NEW_ORES = {'stormglass': ('aurelia:stormglass_ore', 'stone', 9, 12, 0, 250), 'chronite': ('aurelia:chronite_ore', 'stone', 8, 12, 0, 250),
@@ -182,6 +195,12 @@ def main():
                     if key in spawn:
                         e['weight'] = spawn[key]
             b['_steps'] = features_for(realm, extra)
+            b['effects']['music'] = {'sound': f'minecraft:{MUSIC[vid]}', 'min_delay': 6000, 'max_delay': 18000, 'replace_current_music': False}
+            if vid in AMBIENT:                                            # each biome sounds like itself
+                loop, add = AMBIENT[vid]
+                if loop:
+                    b['effects']['ambient_sound'] = f'minecraft:{loop}'
+                b['effects']['additions_sound'] = {'sound': f'minecraft:{add}', 'tick_chance': 0.0111}
             biomes[vid] = (realm, name, band, b)
     # one shared order per step across every biome, so no two biomes can disagree about which feature comes first
     order = [[] for _ in range(11)]

@@ -22,8 +22,14 @@
       "probability": 0.01
     },
     "additions_sound": {
-      "sound": "minecraft:ambient.underwater.loop.additions.rare",
-      "tick_chance": 0.004
+      "sound": "minecraft:ambient.underwater.loop.additions",
+      "tick_chance": 0.0111
+    },
+    "music": {
+      "sound": "minecraft:music.under_water",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {

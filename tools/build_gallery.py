@@ -291,7 +291,7 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <div class="acts">{acts}</div>
 <div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>
-<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a><a class="chip" href="#extras">Extras</a></div></nav>
+<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a><a class="chip" href="#biomes">Biomes</a><a class="chip" href="#extras">Extras</a></div></nav>
 <main>
 {''.join(realm_section(r) for r in R)}
 {finale_page.section()}
@@ -299,6 +299,11 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <h3 class="sub" style="margin-top:0">The eight Waygates</h3>
 <div class="strip"><img src="portals/waygates.png" alt="Waygate block faces for all eight realms, dormant and awake"><div class="wg">{names}</div></div>
 <p class="lede" style="margin-top:14px">Each realm's portal block, dormant and awake. A Waygate opens only for the relic of the realm before it; the crowns count as every relic that went into them.</p>
+</div></section>
+<section class="realm" id="biomes" style="--c:var(--gold)"><div class="wrap">
+<h3 class="sub" style="margin-top:0">Biomes and landmarks</h3>
+<p class="lede" style="margin-bottom:18px">Every realm is three biomes, each with its own sky and fog, particles, vegetation, creatures, music and ambience, and every new biome has a landmark found nowhere else, each with a chest of its realm's treasure.</p>
+{fig('biomes/landmarks.webp', 'The sixteen landmarks, one in each new biome.')}
 </div></section>
 <section class="realm" id="extras" style="--c:var(--gold)"><div class="wrap">
 <h3 class="sub" style="margin-top:0">Extras</h3>

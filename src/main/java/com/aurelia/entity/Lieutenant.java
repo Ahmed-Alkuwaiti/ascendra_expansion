@@ -70,6 +70,7 @@ public class Lieutenant extends Monster {
     private int bulwarkTicks = 0;
     private boolean leaping = false;
     private boolean enraged = false;
+    private boolean lastStand = false;
     private double orbit;
     private float windowDamage = 0.0f;
     private int windowTicks = 0;
@@ -156,6 +157,10 @@ public class Lieutenant extends Monster {
             this.say(Component.translatable("entity.aurelia." + kind.id).getString() + " is enraged.");
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(kind.speed * 1.3);
             this.bulwarkTicks = 40;
+        }
+        if (!this.lastStand && this.getHealth() <= this.getMaxHealth() * 0.25f) {
+            this.lastStand = true;
+            this.lastStand(level);
         }
         if (this.bulwarkTicks > 0) {
             this.bulwarkTicks--;
@@ -387,6 +392,82 @@ public class Lieutenant extends Monster {
             level.sendParticles(this.particle(), m.getX(), m.getY() + 1, m.getZ(), 20, 0.4, 0.8, 0.4, 0.05);
         }
         this.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 2.0f, 0.6f);
+    }
+
+    /** Once, at a quarter of its health: its realm's last stand. */
+    private void lastStand(ServerLevel level) {
+        this.playSound(SoundEvents.WITHER_SPAWN, 3.0f, 1.4f);
+        for (int k = 0; k < 90; k++) {
+            double t = k * Math.PI * 2 / 90;
+            level.sendParticles(this.particle(), getX() + Math.cos(t) * 10, getY() + 0.5, getZ() + Math.sin(t) * 10, 3, 0.3, 0.6, 0.3, 0.02);
+        }
+        List<Player> near = this.players(14.0);
+        switch (kind.realm) {
+            case GROVE -> {
+                for (Player p : near) {
+                    p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 3));
+                    p.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 1));
+                }
+                this.heal(this.getMaxHealth() * 0.08f);
+            }
+            case SKYREACH -> {
+                for (Player p : near) {
+                    p.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 50, 2));
+                }
+            }
+            case HOLLOW -> {
+                for (Player p : near) {
+                    p.setSecondsOnFire(8);
+                    p.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 1));
+                }
+            }
+            case DROWNED -> {
+                for (Player p : near) {
+                    Vec3 in = this.position().subtract(p.position()).normalize().scale(1.8);
+                    p.push(in.x, 0.4, in.z);
+                    p.hurtMarked = true;
+                    p.setAirSupply(0);
+                }
+            }
+            case PALE -> {
+                for (Player p : near) {
+                    p.setTicksFrozen(p.getTicksRequiredToFreeze() + 200);
+                    p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 4));
+                }
+            }
+            case SCARLET -> {
+                for (int k = 0; k < 12; k++) {
+                    SmallFireball f = new SmallFireball(level, this, random.nextGaussian(), -0.6, random.nextGaussian());
+                    f.setPos(this.getX(), this.getY() + 6, this.getZ());
+                    level.addFreshEntity(f);
+                }
+            }
+            case CLOCKWORK -> {
+                for (Player p : near) {
+                    p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 3));
+                    p.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 160, 2));
+                }
+                this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 1));
+            }
+            case MYCELIAL -> {
+                for (int k = 0; k < 4; k++) {
+                    AreaEffectCloud cloud = new AreaEffectCloud(level, getX() + random.nextGaussian() * 5, getY(), getZ() + random.nextGaussian() * 5);
+                    cloud.setOwner(this);
+                    cloud.setRadius(3.5f);
+                    cloud.setDuration(160);
+                    cloud.setParticle(ParticleTypes.SPORE_BLOSSOM_AIR);
+                    cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 1));
+                    level.addFreshEntity(cloud);
+                }
+            }
+            default -> {
+                for (Player p : near) {
+                    p.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0));
+                    p.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 2));
+                }
+                this.bulwarkTicks = 60;
+            }
+        }
     }
 
     private List<Player> players(double r) {

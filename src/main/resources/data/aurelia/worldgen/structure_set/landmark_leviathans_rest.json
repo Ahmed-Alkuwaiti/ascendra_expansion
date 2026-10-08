@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:landmark_leviathans_rest",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 14,
+    "separation": 6,
+    "salt": 91100007
+  }
+}

@@ -25,6 +25,12 @@
         "type": "minecraft:ash"
       },
       "probability": 0.05
+    },
+    "music": {
+      "sound": "minecraft:music.nether.basalt_deltas",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {

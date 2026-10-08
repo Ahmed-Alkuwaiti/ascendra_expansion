@@ -47,6 +47,8 @@ public abstract class AureliaBoss extends Monster {
     protected int abilityCooldown = 100;
     @Nullable
     protected BlockPos arena;
+    /** The signature move in flight (see BossSignatures). */
+    public final BossSignatures.State signature = new BossSignatures.State();
 
     // ---- Damage limits (tune these for your strongest weapons) ----
     /** Max fraction of max health a single hit can remove. */
@@ -194,6 +196,7 @@ public abstract class AureliaBoss extends Monster {
             this.castAbility(target);
         }
         this.tickBoss(target);
+        BossSignatures.tick(this, target);
     }
 
     @Override

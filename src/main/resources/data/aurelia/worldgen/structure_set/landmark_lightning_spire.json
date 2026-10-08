@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "aurelia:landmark_lightning_spire",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 14,
+    "separation": 6,
+    "salt": 91100003
+  }
+}

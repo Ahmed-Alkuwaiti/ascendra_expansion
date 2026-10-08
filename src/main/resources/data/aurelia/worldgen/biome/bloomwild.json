@@ -14,6 +14,12 @@
         "type": "minecraft:cherry_leaves"
       },
       "probability": 0.01
+    },
+    "music": {
+      "sound": "minecraft:music.overworld.cherry_grove",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {

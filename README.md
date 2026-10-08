@@ -516,6 +516,14 @@ Every realm was a single biome, and some were bare: Skyreach and the Clockwork R
 
 All 25 biomes list their features in one shared order per generation step, so the game's feature-order check cannot fail, and the realms' structure tags include every new biome, so all realm structures still generate everywhere in their realm. Existing worlds keep their old single biome in chunks already generated; new chunks get the new ones.
 
+## Biome landmarks and ambience
+
+Each of the sixteen new biomes has a landmark found only there (`tools/gen_landmarks.py`), each with a chest of its realm's lair loot: the Petal Shrine (Bloomwild), the Sunken Idol (Mossveil Thicket), the Windmill Isle (Cloud Meadows), the Lightning Spire (Stormfront), the Soul Obelisk (Soulfire Wastes), the Hollow Forge (Ember Deeps), the Sunken Lighthouse (Kelp Forest), the Leviathan's Rest (Coral Graveyard), the Frozen Knight (Frozen Spires), the Hunter's Lodge (Whisper Taiga), the Sunglass Spire (Glass Dunes), the Fallen Titan (Bone Flats), the Fallen Gear (Gearfields), the Stopped Clock (the Stopped Hour), the Glowcap Ring (Glowcap Hollows) and the Root Maw (Rootmaw). Surface ones sit on the ground, sea ones on the sea floor, cave ones on the cavern floor, and the sky realms' float on their own rock. Every biome also has its own music, and the Hollow's and a few others their own ambient loops and sounds.
+
+## Signature moves (spoiler-free)
+
+Every Warden and the Unmaker now has a signature move on top of its gimmick, and every lieutenant has a last stand. They are not described here on purpose. Each one is telegraphed before it lands, so it can always be read and avoided. The code is in `entity/BossSignatures.java` and `Lieutenant.lastStand` if you want to know.
+
 ## Trophies and Realm Charms
 
 Every lieutenant now always drops its **trophy** (a fang, a crown, a mandible, a plume or a scale, by its body). A realm's trophies, its special material and two of its metal make its **Realm Charm**; the two Heralds' trophies with Fractured Genesis and Genesis ingots make the Charm of the Unmade. Carried anywhere in the inventory, a charm renews its boon every two seconds:

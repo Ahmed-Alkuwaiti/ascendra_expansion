@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#aurelia:has_structure/landmark_sunglass_spire",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_pool": "aurelia:landmark_sunglass_spire/start",
+  "size": 1,
+  "max_distance_from_center": 80,
+  "use_expansion_hack": false,
+  "spawn_overrides": {},
+  "start_height": {
+    "absolute": -8
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG"
+}

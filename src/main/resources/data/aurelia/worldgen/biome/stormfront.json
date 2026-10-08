@@ -14,6 +14,12 @@
         "type": "minecraft:electric_spark"
       },
       "probability": 0.006
+    },
+    "music": {
+      "sound": "minecraft:music.overworld.stony_peaks",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {

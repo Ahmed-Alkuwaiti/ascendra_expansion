@@ -9,7 +9,7 @@
     "water_fog_color": 986134,
     "grass_color": 4867664,
     "foliage_color": 3814720,
-    "ambient_sound": "minecraft:ambient.basalt_deltas.loop",
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
     "mood_sound": {
       "sound": "minecraft:ambient.basalt_deltas.mood",
       "tick_delay": 6000,
@@ -17,7 +17,7 @@
       "offset": 2.0
     },
     "additions_sound": {
-      "sound": "minecraft:ambient.basalt_deltas.additions",
+      "sound": "minecraft:ambient.soul_sand_valley.additions",
       "tick_chance": 0.0111
     },
     "particle": {
@@ -25,6 +25,12 @@
         "type": "minecraft:soul_fire_flame"
       },
       "probability": 0.004
+    },
+    "music": {
+      "sound": "minecraft:music.nether.soul_sand_valley",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {

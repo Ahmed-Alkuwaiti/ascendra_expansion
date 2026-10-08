@@ -24,6 +24,12 @@
     "additions_sound": {
       "sound": "minecraft:ambient.underwater.loop.additions.rare",
       "tick_chance": 0.004
+    },
+    "music": {
+      "sound": "minecraft:music.under_water",
+      "min_delay": 6000,
+      "max_delay": 18000,
+      "replace_current_music": false
     }
   },
   "spawners": {
