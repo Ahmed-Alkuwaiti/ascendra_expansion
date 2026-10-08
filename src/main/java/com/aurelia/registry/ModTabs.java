@@ -131,6 +131,10 @@ public class ModTabs {
                         out.accept(ModItems.REALM_NODE.get());
                         out.accept(ModItems.UNMAKING_ANCHOR.get());
                         out.accept(ModItems.UNMAKER_EGG.get());
+                        out.accept(ModItems.LAIR_SEAL.get());
+                        for (net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> egg : com.aurelia.registry.LieutenantEntities.EGGS.values()) {
+                            out.accept(egg.get());
+                        }
                         out.accept(ModItems.FRACTURED_GENESIS.get());
                         out.accept(ModItems.GENESIS_INGOT.get());
                         out.accept(ModItems.GENESIS_HELMET.get());

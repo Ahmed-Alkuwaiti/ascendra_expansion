@@ -45,6 +45,13 @@ public class AltarBlock extends Block {
         }
 
         ServerLevel serverLevel = (ServerLevel) level;
+        if (!com.aurelia.world.LairBuilder.cleared(serverLevel, realm)) {           // the lieutenants first
+            player.displayClientMessage(Component.literal("The Warden will not wake while its lieutenants stand."), true);
+            if (player instanceof ServerPlayer sp) {
+                com.aurelia.world.LairBuilder.tellStatus(sp, serverLevel, realm);
+            }
+            return InteractionResult.CONSUME;
+        }
         AABB zone = new AABB(pos).inflate(80);
         if (!serverLevel.getEntitiesOfClass(AureliaBoss.class, zone).isEmpty()) {
             player.displayClientMessage(Component.literal("The Warden is already awake."), true);

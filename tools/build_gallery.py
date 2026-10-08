@@ -226,9 +226,10 @@ def realm_section(r):
     out.append(f'<div class="text"><h4>{e(r["boss_name"])}</h4><p>{e(r["boss_desc"])}</p>'
                f'<span class="k">Gimmick: {e(r["gimmick"])}</span><p>{e(r["gimmick_desc"])}</p>'
                + (f'<span class="k">Attacks</span><p>{e(r["attacks"])}</p>' if r.get('attacks') else '') + '</div></div>')
+    out.append(finale_page.lieutenants_block(r['id'], r['boss_name'].split(',')[0]))
     # citadel
     out.append('<h3 class="sub">The Citadel</h3>')
-    out.append('<div class="pair">' + fig(f'citadels/{r["citadel"]}_ext.webp', f'{e(r["citadel_name"])}, outside. Dots mark guards.')
+    out.append('<div class="pair">' + fig(f'citadels/{r["citadel"]}_ext.webp', f'{e(r["citadel_name"])} inside its fortress: curtain walls, towers, a gatehouse and a causeway to the keep. Dots mark guards.')
                + fig(f'citadels/{r["citadel"]}_cut.webp', 'Cut away to show the inside.') + '</div>')
     out.append(f'<div class="text" style="margin-top:18px"><p>{e(r["citadel_desc"])}</p><dl class="facts">'
                f'<dt>Generates in</dt><dd>{e(r["where"])}</dd><dt>Size</dt><dd>{e(r["size"])} blocks</dd>'
@@ -286,11 +287,11 @@ def page():
 <span class="eyebrow">Forge 1.20.1 &middot; for the Ascendra modpack</span>
 <h1>Aurelia: The Shattered Crown</h1>
 <p class="lede">Every Warden, arena, citadel, portal, realm, structure and guard in the mod, rendered from the mod's own model specs and structure templates.
-Eight realms in three acts, then the finale. Every realm has its own arsenal (a 3D armor set, a weapon, three tools, an ore and two materials) and its own creature and food. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, wake the Warden.</p>
+Eight realms in three acts, then the finale. Every realm has its own arsenal (a 3D armor set, a weapon, three tools, an ore and two materials) and its own creature and food. Each one is reached through a citadel in the overworld: kill the seal's guardians, finish the rite, step through, break the Warden's two or three lieutenants in their lairs, then wake the Warden.</p>
 <div class="acts">{acts}</div>
 <div class="chain">Warden order: {chain} &rarr; <b>Eternal Crown</b> &rarr; eight relics &rarr; <b>The Unmaker</b></div>
 </div></header>
-<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a></div></nav>
+<nav class="jump" aria-label="Realms"><div class="wrap">{''.join(chips.values())}<a class="chip" href="#waygates">Waygates</a><a class="chip" href="#scale">Twice the size</a></div></nav>
 <main>
 {''.join(realm_section(r) for r in R)}
 {finale_page.section()}
@@ -298,6 +299,11 @@ Eight realms in three acts, then the finale. Every realm has its own arsenal (a 
 <h3 class="sub" style="margin-top:0">The eight Waygates</h3>
 <div class="strip"><img src="portals/waygates.png" alt="Waygate block faces for all eight realms, dormant and awake"><div class="wg">{names}</div></div>
 <p class="lede" style="margin-top:14px">Each realm's portal block, dormant and awake. A Waygate opens only for the relic of the realm before it; the crowns count as every relic that went into them.</p>
+</div></section>
+<section class="realm" id="scale" style="--c:var(--gold)"><div class="wrap">
+<h3 class="sub" style="margin-top:0">Everything, twice the size</h3>
+<p class="lede" style="margin-bottom:18px">Every realm structure up to 52 blocks across has been doubled: each block became a 2&times;2&times;2 block, so outposts, spires, colossi, towers, shrines and wrecks now stand twice as tall and four times as broad, and their guards stand where they stood. Slabs, stairs, doors, fences and plants keep their shapes at the new scale. The pieces that were already vast (the sky castle, the great islands, the grove pillars, the ziggurat, the hollow arches, the rift spires) stay as they were. Before on the left, now on the right, at the same scale:</p>
+{fig('structures/before_after.webp', 'Six realm structures, before and after.')}
 </div></section>
 </main>
 <footer><div class="wrap">Every structure in the mod goes through a detailing pass (tools/enrich.py) when it is generated: weathered and mixed masonry, quoins on corners, lintels and sills round windows, inlaid floor borders, furniture in room corners, and realm dressing (ivy, moss, snow, hanging roots, cobwebs, lanterns on chains, banners, flowers). Glow lichen is left out of these pictures because in game it is a thin film. Renders are flat-shaded previews made outside the game: block colours are approximate, and models show their glow textures at full brightness as they do in game. Click any picture to enlarge it.</div></footer>

@@ -7,7 +7,7 @@
   "start_pool": "aurelia:hollow_stalactites/start",
   "size": 1,
   "start_height": {
-    "absolute": 74
+    "absolute": 26
   },
   "max_distance_from_center": 80,
   "use_expansion_hack": false

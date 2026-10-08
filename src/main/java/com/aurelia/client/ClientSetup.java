@@ -39,6 +39,7 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        LieutenantRenderers.register(event);
         spec(event, ModEntities.MOSSBACK_TITAN.get(), MobModels.MOSSBACK_TITAN, MobModels.MOSSBACK_TITAN_NAMES, MobModels.MOSSBACK_TITAN_ANIMS,
                 MobModels.MOSSBACK_TITAN_SHADOW, "mossback_titan", false);
         spec(event, ModEntities.TEMPEST_ROC.get(), MobModels.TEMPEST_ROC, MobModels.TEMPEST_ROC_NAMES, MobModels.TEMPEST_ROC_ANIMS,

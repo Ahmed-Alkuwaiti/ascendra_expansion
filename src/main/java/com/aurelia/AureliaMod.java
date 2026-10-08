@@ -21,11 +21,13 @@ public class AureliaMod {
 
     public AureliaMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        com.aurelia.registry.LieutenantEntities.init();
         ModBlocks.BLOCKS.register(bus);
         ModItems.ITEMS.register(bus);
         ModEntities.ENTITIES.register(bus);
         ModTabs.TABS.register(bus);
         bus.addListener(ModEntities::registerAttributes);
+        bus.addListener(com.aurelia.registry.LieutenantEntities::registerAttributes);
         bus.addListener(ModEntities::registerSpawns);
         MinecraftForge.EVENT_BUS.register(new CrownEvents());
         MinecraftForge.EVENT_BUS.register(new ActTwoEvents());

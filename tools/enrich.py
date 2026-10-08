@@ -118,6 +118,9 @@ HORIZ = [((1, 0, 0), 'east', 'west'), ((-1, 0, 0), 'west', 'east'), ((0, 0, 1), 
 def theme_of(name):
     if name.startswith('last_island_'):
         return name[len('last_island_'):]
+    if name.startswith('lair_'):                                     # a lieutenant's lair takes its realm's dressing
+        from lieutenants import BY_ID
+        return BY_ID[name[len('lair_'):]]['realm']
     for pre, t in PREFIX:
         if name.startswith(pre):
             return t
@@ -134,9 +137,11 @@ def pick(rnd, options):
     return options[-1][0]
 
 
-def enrich(g, name):
+def enrich(g, name, light=False):
     theme_key = theme_of(name)
     th = THEMES[theme_key]
+    if light or name.startswith('lair_'):                           # vast work (lairs, fortresses): a lighter hand, or the overgrowth buries it
+        th = dict(th, vine=th['vine'] * 0.3, moss=th['moss'] * 0.4, lichen=th['lichen'] * 0.5, flower_rate=0.03)
     rnd = random.Random(sum(ord(c) * (i + 1) for i, c in enumerate(name)))
     b = g.b
     W, H, L = g.W, g.H, g.L
@@ -319,7 +324,7 @@ def enrich(g, name):
             r = rnd.random()
             if th['snow'] and open_sky and r < 0.65:
                 put(above, 'snow', {'layers': '1'})
-            elif s in ('grass_block', 'moss_block', 'podzol', 'mycelium') and th['flowers'] and r < 0.16:
+            elif s in ('grass_block', 'moss_block', 'podzol', 'mycelium') and th['flowers'] and r < th.get('flower_rate', 0.16):
                 put(above, rnd.choice(th['flowers']))
             elif s in ('red_sand', 'sand') and 'dead_bush' in th['flowers'] and r < 0.03:
                 put(above, 'dead_bush')

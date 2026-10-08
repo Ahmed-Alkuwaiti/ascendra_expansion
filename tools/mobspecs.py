@@ -456,3 +456,6 @@ mobs_act4.register(MOBS, STYLES, GLOW_STYLES, part)
 
 import mobs_act5  # noqa: E402  (realm wildlife: one passive creature per realm)
 mobs_act5.register(MOBS, STYLES, GLOW_STYLES, part)
+
+import mobs_lt  # noqa: E402  (the lieutenants: three per realm, two Heralds)
+mobs_lt.register(MOBS, STYLES, GLOW_STYLES, part)

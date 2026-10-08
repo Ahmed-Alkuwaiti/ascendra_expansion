@@ -311,6 +311,24 @@ public class ModItems {
     public static final RegistryObject<Item> GENESIS_SHOVEL = ITEMS.register("genesis_shovel",
             () -> new ShovelItem(RealmTier.GENESIS, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> LAIR_SEAL = ITEMS.register("lair_seal",
+            () -> new BlockItem(ModBlocks.LAIR_SEAL.get(), new Item.Properties().rarity(Rarity.RARE)));
+
+    /** What a realm's lieutenants leave: a pile of the realm's metal, and some of its second material. */
+    public static Item[] lieutenantLoot(Realm realm) {
+        return switch (realm) {
+            case GROVE -> new Item[] {VERDANTITE_INGOT.get(), LIVING_ROOT_FIBER.get()};
+            case SKYREACH -> new Item[] {AETHERIUM_INGOT.get(), STORMGLASS_SHARD.get()};
+            case HOLLOW -> new Item[] {SOULSTEEL_INGOT.get(), CAGED_SOUL_EMBER.get()};
+            case DROWNED -> new Item[] {TIDESTEEL_INGOT.get(), TIDESTONE_SHARD.get()};
+            case PALE -> new Item[] {RIME_CRYSTAL.get(), FROZEN_BLACK_FLAME_CORE.get()};
+            case SCARLET -> new Item[] {SUNGLASS_SHARD.get(), AMBER_VENOM_VIAL.get()};
+            case CLOCKWORK -> new Item[] {CHRONITE_INGOT.get(), TEMPORAL_CORE.get()};
+            case MYCELIAL -> new Item[] {MYCELIAL_INGOT.get(), BLOOMSPORE.get()};
+            default -> new Item[] {GENESIS_INGOT.get(), FRACTURED_GENESIS.get()};
+        };
+    }
+
     /** The relic each realm's Warden leaves behind, in realm order. */
     @Nullable
     public static Item relicFor(Realm realm) {

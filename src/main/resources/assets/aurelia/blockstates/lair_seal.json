@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "slot=0": {
+      "model": "aurelia:block/lair_seal"
+    },
+    "slot=1": {
+      "model": "aurelia:block/lair_seal"
+    },
+    "slot=2": {
+      "model": "aurelia:block/lair_seal"
+    }
+  }
+}

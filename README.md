@@ -501,6 +501,70 @@ It drops the **Hand of Genesis**. Use it to cast the selected power (2.5-second 
 - **Hub building** places the core and island templates round the pad the first time anyone arrives. This loads chunks out to about 85 blocks, so expect a one-off pause.
 - **The Unmaker's texture** is 1024 x 1024. This is the first model past 512.
 
+# The lieutenants and their lairs
+
+Every Warden now has lieutenants: two or three of them in each realm (three in each of the eight, and two Heralds before the Unmaker), 26 in all. The Warden will not wake until all of them are dead.
+
+- **Where they are.** The first time anyone enters a realm, its lairs are built 150 blocks out from the landing pad, evenly spaced round it (each realm's ring is turned a different way). Surface realms set them on the ground, the sky realms (Skyreach, the Clockwork Rift, the Last Realm) float them at the pad's height, and the cave realms (the Hollow, the Mycelial Deep) carve a cavern for each one.
+- **Finding them.** Entering a realm, or touching the altar too early, lists the lairs still standing, with the direction, distance and coordinates of each. Every lair has a beacon over its heart, so you can see it from far off.
+- **Waking one.** Each lair has a **Lair Seal** at its heart. Crouch and use it to wake that lair's lieutenant (it refuses if that lieutenant is already up nearby). Each one has its own boss bar, a title when it wakes and a line when it dies.
+- **When one dies.** Its lair's beacon is put out (the block under it turns to crying obsidian), the death is saved with the realm, and the others are listed again. Each drops 4 to 8 of its realm's metal and 1 or 2 of the realm's special material.
+- **How they fight.** Each one takes at most 6% of its health from one hit and 12% in any one second, so they cannot be one-shot. At half health it enrages: 30% faster, and its abilities come quicker. Flying ones circle you. The abilities are slam, charge, leap, bolt, volley, fireballs, skulls, summon (its realm's guards), pull, nova, blink, zone (a lingering field of its realm's effect), storm, root and bulwark (a short damage shield). Every hit and ability carries its realm's element (poison in the Grove, slowness and lightning in Skyreach, fire in the Hollow, and so on).
+- **The lairs** are 81 x 81 blocks and 80 to 110 tall, in five plans: a walled **arena**, a stepped **temple**, a spiralling **spire**, a sunken **pit** and a skull-mouthed **maw**. Each is built in its realm's own stone, with braziers, spikes, chains, bones and two chests (loot table `aurelia:chests/lair_<realm>`). `tools/check_lairs.py` walks every one from its entrance to its seal.
+
+| Realm | Lieutenant | Health | Hit | Abilities | Lair |
+|---|---|---|---|---|---|
+| Grove | Thornmaw, the Briar Hound | 700 | 14 | charge, leap, root | maw |
+| Grove | Old Hollowbark, the Rotting Ent | 900 | 14 | slam, summon, zone | temple |
+| Grove | The Rot Matron, Mother of the Undergrowth | 700 | 14 | volley, pull, summon | pit |
+| Skyreach | Galeclaw, the Storm Harrier | 750 | 15 | charge, bolt, storm | spire |
+| Skyreach | The Thunder Colossus, Keeper of the Spire | 1,050 | 15 | slam, storm, bulwark | arena |
+| Skyreach | The Squall Seraph, the Wind that Judges | 750 | 15 | blink, volley, pull | temple |
+| Hollow | Cinderjaw, Hound of the Pit | 1,150 | 18 | charge, nova, leap | pit |
+| Hollow | The Chainwarden, Jailer of the Damned | 1,450 | 18 | pull, slam, summon | arena |
+| Hollow | The Ashen Choir, Three Who Sing Ash | 1,050 | 18 | skulls, zone, blink | temple |
+| Drowned | The Reef Crusher, Shell of the Deep | 1,250 | 18 | slam, charge, bulwark | arena |
+| Drowned | The Drowned Admiral, Captain of the Sunken Fleet | 1,550 | 18 | leap, pull, summon | maw |
+| Drowned | The Abyssal Siren, Voice of the Trench | 1,100 | 18 | volley, nova, root | temple |
+| Pale | Frostmaw, the Starving Yeti | 1,650 | 19 | slam, leap, root | pit |
+| Pale | The Knight of Last Winter, Sworn to the Silence | 1,650 | 19 | blink, charge, nova | arena |
+| Pale | The Mourner, She Who Weeps Snow | 1,200 | 19 | volley, nova, pull | temple |
+| Scarlet | The Dune Tyrant, King of Stings | 1,550 | 21 | charge, volley, leap | maw |
+| Scarlet | The Sandglass Pharaoh, Who Was Buried Waiting | 2,000 | 21 | summon, zone, blink | temple |
+| Scarlet | The Glass Djinn, Furnace of the Sands | 1,450 | 21 | fireballs, nova, blink | spire |
+| Clockwork | The Pendulum Butcher, It Keeps Perfect Time | 2,100 | 22 | slam, charge, bulwark | arena |
+| Clockwork | The Gearwyrm, Engine Without End | 1,700 | 22 | charge, bolt, leap | pit |
+| Clockwork | The Hourless Oracle, Who Saw Your Death | 1,500 | 22 | blink, root, volley | spire |
+| Mycelial | The Rot Behemoth, Mountain of Spores | 1,900 | 23 | slam, zone, charge | pit |
+| Mycelial | The Pale Gardener, Who Tends the Dead | 2,300 | 23 | charge, summon, root | temple |
+| Mycelial | The Lumen Horror, Light in the Deep | 1,700 | 23 | zone, volley, pull | spire |
+| Last | The Herald of Ruin, First of the Unmade | 3,950 | 30 | slam, charge, nova, summon | arena |
+| Last | The Herald of Silence, Last of the Unmade | 2,900 | 30 | blink, volley, pull, root | spire |
+
+Code: `entity/Lieutenant.java` (the fighter and its abilities), `entity/LieutenantKind.java` (generated stats), `block/LairSealBlock.java`, `world/LairBuilder.java` (placing the lairs, tracking deaths, the status list) and `world/LairLayout.java` (generated: where the seal and beacon sit in each lair). The altar check is in `block/AltarBlock.java`. Each realm's progress is saved in `RealmData`.
+
+# Fortresses and twice-size structures
+
+- **Every citadel now stands inside a fortress.** `tools/fortify.py` keeps the old citadel whole as the keep and builds round it, 26 to 30 blocks out: a bailey, curtain walls five blocks thick and twenty-six high with a wall walk, merlons, spikes and buttresses, corner and side towers with spired roofs, a gatehouse with a carved face over the gate, a causeway from the gate to the keep's door, braziers, skull posts, spike fields and a statue in each bailey corner. The Ashen Citadel also gets a lava moat, and the Convergence Gate gets a ruined approach of obelisks and a road instead of walls. The citadels are now about 120 to 140 blocks across, so their `max_distance_from_center` is 128. `tools/check_citadels.py` walks from the fortress gate into each keep and on to every rite block.
+- **Realm structures are twice the size.** `tools/massify.py` doubles every realm structure up to 52 blocks across and 70 tall (59 of the 72): each block becomes a 2 x 2 x 2 block, so outposts, spires, colossi, towers, shrines, bones and wrecks are twice as tall and four times as broad. Slabs fill their own half, stairs keep their step, doors stay one door, fences, bars and panes thicken into posts, and anything that must stay single (chests, lanterns, flowers, skulls, the mod's blocks) sits once in its corner. Guards stand where they stood. The pieces that were already vast (the sky castle, the great islands, the grove pillars, the ziggurat, the hollow arches, the rift spires) are unchanged. Each structure's placement was adjusted to match: surface pieces sink twice as deep, the stalactites still hang from the same ceiling, sky pieces stay inside the world, and their structure sets are spaced 40% wider so the realms are not crowded.
+- **Originals are kept.** The pre-fortress citadels are in `tools/_cores/`, the pre-doubling structures in `tools/_cores/realm/` (with the original placement values in `placement.json`). Both scripts always rebuild from these, so running them again does not grow anything twice.
+
+**Regenerating, in order:** `python3 gen_models.py` (models, including the lieutenants), `python3 gen_lieutenants.py`, the citadel generators as before (each citadel is fortified when it is saved), `python3 massify.py`, `python3 gen_lairs.py`, then `python3 validate_all.py`, `check_citadels.py` and `check_lairs.py`.
+
+## Testing the lieutenants
+
+1. Enter any realm: the chat should list its lairs with directions. Fly to one (each has a beacon) and check it was built cleanly into the terrain.
+2. Crouch-use the Lair Seal. Fight the lieutenant; check its boss bar, its abilities and the enrage at half health. Kill it and check the beacon goes out.
+3. Try the altar with lieutenants still standing: it should refuse and list them. Kill the rest, then wake the Warden.
+4. `/place structure aurelia:rootbound_citadel ~ ~ ~` to see a fortress; `/place structure aurelia:grove_outposts ~ ~ ~` (in the Grove) for a doubled structure.
+
+## Known risks, lieutenants and structures (untested in game)
+
+- **Lair building** force-loads the chunks round each lair the first time a realm is entered, so expect a one-off pause of a few seconds per realm. If a lair lands somewhere ugly (half in a cliff, over a ravine), tell me the realm and I can change the ground rules in `LairBuilder`.
+- **Worlds that already beat a Warden** will still need its lieutenants before that Warden can be fought again.
+- **The fortresses and doubled structures are big templates** (the citadels are 1.1 to 1.6 MB each). Structure placement happens during world generation, so a slow first load near one is expected. Structures already generated in an existing world do not change; only newly generated chunks get the new versions.
+- **Doubled guards' footing:** guards were moved down onto solid blocks where doubling left a gap, and `validate_all.py` checks that every guard stands on something, but in-game pathing in the doubled interiors is untested.
+
 ## Building the jar
 
 1. Install **JDK 17**.

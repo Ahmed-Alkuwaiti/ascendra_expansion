@@ -87,10 +87,13 @@ EXT = {'tidewrack_citadel': dict(sea=22), 'rimefast_citadel': dict(rot=2)}
 
 
 def citadels(out):
+    import json
+    off = json.load(open(os.path.join(os.path.dirname(__file__), '_cores', 'offsets.json')))
     for realm, name in CITADEL.items():
         a = rs.render(S + name + '.nbt', None, size=1100, bg=BG[realm], **EXT.get(name, {}))
         save(a, f'{out}/citadels/{name}_ext.webp')
-        b = rs.render(S + name + '.nbt', None, size=1100, bg=BG[realm], **CUTS[name])
+        cut = {k: v + off.get(name, 0) if k in ('cut', 'cutx') else v for k, v in CUTS[name].items()}   # the keep sits inside its fortress
+        b = rs.render(S + name + '.nbt', None, size=1100, bg=BG[realm], **cut)
         save(b, f'{out}/citadels/{name}_cut.webp')
 
 
@@ -129,6 +132,30 @@ def waygates(out):
     os.makedirs(f'{out}/portals', exist_ok=True)
     img.save(f'{out}/portals/waygates.png')
     print('  ', f'{out}/portals/waygates.png')
+
+
+def lieutenants(out):
+    from lieutenants import LIEUTENANTS
+    for lt in LIEUTENANTS:
+        bg = BG.get(lt['realm'], LAST_BG)
+        parts, tex, glow = rm.build(lt['id'])
+        sc = None
+        row = []
+        for yaw, pitch in [(-35, 14), (150, 18)]:
+            im, s = rm.render(parts, tex, glow, yaw, pitch, size=520, bg=bg, scale=sc)
+            sc = s if sc is None else sc
+            row.append(im)
+        img = Image.new('RGB', (1040, 520))
+        img.paste(row[0], (0, 0))
+        img.paste(row[1], (520, 0))
+        save(img, f'{out}/lieutenants/{lt["id"]}.webp')
+
+
+def lairs(out):
+    from lieutenants import LIEUTENANTS
+    for lt in LIEUTENANTS:
+        img = rs.render(S + f'lair_{lt["id"]}.nbt', None, size=760, bg=BG.get(lt['realm'], LAST_BG))
+        save(img, f'{out}/lairs/lair_{lt["id"]}.webp')
 
 
 def structures(out):
@@ -591,7 +618,7 @@ def gear(out):
 
 if __name__ == '__main__':
     out = sys.argv[1]
-    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas', 'finale', 'gear']
+    secs = sys.argv[2:] or ['bosses', 'guards', 'citadels', 'portals', 'waygates', 'structures', 'dioramas', 'arenas', 'finale', 'gear', 'lieutenants', 'lairs']
     for s in secs:
         print(s)
         globals()[s](out)

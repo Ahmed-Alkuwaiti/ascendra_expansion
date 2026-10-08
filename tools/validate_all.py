@@ -12,7 +12,7 @@ CUSTOM = {'waygate': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale'
           'tide_bell': {'note': ['0', '1', '2', '3', '4'], 'rung': TF}, 'sun_mirror': {'slash': TF},
           'sunwell': {'facing': ['north', 'south', 'east', 'west']}, 'clock_dial': {'hour': [str(i) for i in range(12)], 'filled': TF},
           'master_clock': {'hour': [str(i) for i in range(12)]}, 'spore_valve': {'open': TF, 'locked': TF},
-          'relic_pedestal': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'filled': TF}, 'realm_node': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'lit': TF}}
+          'relic_pedestal': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'filled': TF}, 'lair_seal': {'slot': ['0', '1', '2']}, 'realm_node': {'realm': ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial'], 'lit': TF}}
 PASS = {'minecraft:seagrass', 'minecraft:kelp_plant', 'minecraft:snow', 'minecraft:white_candle', 'minecraft:light_blue_candle', 'minecraft:red_candle',
         'minecraft:sculk_vein', 'minecraft:dead_bush', 'minecraft:sea_pickle', 'minecraft:tube_coral', 'minecraft:brain_coral', 'minecraft:bubble_coral',
         'minecraft:fire_coral', 'minecraft:horn_coral', 'minecraft:light_blue_carpet', 'aurelia:tide_bell', 'minecraft:campfire', 'minecraft:iron_bars',

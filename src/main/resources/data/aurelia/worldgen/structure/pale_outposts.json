@@ -7,7 +7,7 @@
   "start_pool": "aurelia:pale_outposts/start",
   "size": 1,
   "start_height": {
-    "absolute": -2
+    "absolute": -4
   },
   "max_distance_from_center": 80,
   "use_expansion_hack": false,

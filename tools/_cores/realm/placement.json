@@ -1,0 +1,254 @@
+{
+ "drowned_bones": {
+  "start_height": {
+   "absolute": -3
+  },
+  "spacing": [
+   8,
+   3
+  ]
+ },
+ "drowned_outposts": {
+  "start_height": {
+   "absolute": 92
+  },
+  "spacing": [
+   10,
+   4
+  ]
+ },
+ "drowned_spires": {
+  "start_height": {
+   "absolute": -2
+  },
+  "spacing": [
+   6,
+   2
+  ]
+ },
+ "drowned_wrecks": {
+  "start_height": {
+   "absolute": 89
+  },
+  "spacing": [
+   9,
+   4
+  ]
+ },
+ "grove_outposts": {
+  "start_height": {
+   "absolute": -3
+  },
+  "spacing": [
+   10,
+   4
+  ]
+ },
+ "grove_ruins": {
+  "start_height": {
+   "absolute": -3
+  },
+  "spacing": [
+   5,
+   2
+  ]
+ },
+ "hollow_outposts": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 32
+   },
+   "max_inclusive": {
+    "absolute": 50
+   }
+  },
+  "spacing": [
+   8,
+   3
+  ]
+ },
+ "hollow_stalactites": {
+  "start_height": {
+   "absolute": 74
+  },
+  "spacing": [
+   3,
+   1
+  ]
+ },
+ "mycelial_arches": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 33
+   },
+   "max_inclusive": {
+    "absolute": 60
+   }
+  },
+  "spacing": [
+   7,
+   3
+  ]
+ },
+ "mycelial_outposts": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 33
+   },
+   "max_inclusive": {
+    "absolute": 55
+   }
+  },
+  "spacing": [
+   9,
+   4
+  ]
+ },
+ "mycelial_towers": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 33
+   },
+   "max_inclusive": {
+    "absolute": 60
+   }
+  },
+  "spacing": [
+   4,
+   1
+  ]
+ },
+ "pale_colossi": {
+  "start_height": {
+   "absolute": -5
+  },
+  "spacing": [
+   9,
+   4
+  ]
+ },
+ "pale_outposts": {
+  "start_height": {
+   "absolute": -2
+  },
+  "spacing": [
+   10,
+   4
+  ]
+ },
+ "pale_spires": {
+  "start_height": {
+   "absolute": -3
+  },
+  "spacing": [
+   6,
+   2
+  ]
+ },
+ "rift_bridges": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 70
+   },
+   "max_inclusive": {
+    "absolute": 150
+   }
+  },
+  "spacing": [
+   6,
+   2
+  ]
+ },
+ "rift_fragments": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 50
+   },
+   "max_inclusive": {
+    "absolute": 170
+   }
+  },
+  "spacing": [
+   4,
+   1
+  ]
+ },
+ "rift_outposts": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 80
+   },
+   "max_inclusive": {
+    "absolute": 140
+   }
+  },
+  "spacing": [
+   9,
+   4
+  ]
+ },
+ "scarlet_bones": {
+  "start_height": {
+   "absolute": -6
+  },
+  "spacing": [
+   9,
+   4
+  ]
+ },
+ "scarlet_monoliths": {
+  "start_height": {
+   "absolute": -3
+  },
+  "spacing": [
+   6,
+   2
+  ]
+ },
+ "scarlet_outposts": {
+  "start_height": {
+   "absolute": -2
+  },
+  "spacing": [
+   10,
+   4
+  ]
+ },
+ "skyreach_medium_islands": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 40
+   },
+   "max_inclusive": {
+    "absolute": 150
+   }
+  },
+  "spacing": [
+   5,
+   2
+  ]
+ },
+ "skyreach_small_islands": {
+  "start_height": {
+   "type": "minecraft:uniform",
+   "min_inclusive": {
+    "absolute": 30
+   },
+   "max_inclusive": {
+    "absolute": 170
+   }
+  },
+  "spacing": [
+   3,
+   1
+  ]
+ }
+}

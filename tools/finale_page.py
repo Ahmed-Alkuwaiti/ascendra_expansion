@@ -66,6 +66,28 @@ def fig(src, cap):
     return f'<figure><img src="{e(src)}" alt="{e(cap)}" loading="lazy"><figcaption>{cap}</figcaption></figure>'
 
 
+LAIR_KIND = {'arena': 'a walled arena', 'temple': 'a stepped temple', 'spire': 'a spiralling spire', 'pit': 'a sunken pit', 'maw': 'a skull-mouthed maw'}
+
+
+def lieutenants_block(realm, warden):
+    """A realm's lieutenants: each one's model, its lair, and what it does. Shared by every realm section and the finale."""
+    from lieutenants import of_realm, stats
+    lts = of_realm(realm)
+    o = [f'<h3 class="sub">The lieutenants</h3><p class="lede" style="margin-bottom:18px">{len(lts)} lairs ring the landing pad, 150 blocks out. '
+         f'Crouch and use each lair\'s seal to wake its lieutenant; when it dies the lair\'s beacon goes dark. {e(warden)} will not wake until every '
+         'lair is dark. Entering the realm lists the lairs still standing, with their direction and distance.</p>']
+    for lt in lts:
+        hp, dmg = stats(lt)
+        ab = ', '.join(a.title() for a in lt['abilities'])
+        o.append('<div class="two" style="margin-top:22px">' + fig(f'lieutenants/{lt["id"]}.webp', f'{e(lt["name"])}, {e(lt["title"])}: front and back.')
+                 + fig(f'lairs/lair_{lt["id"]}.webp', f'Its lair, {LAIR_KIND[lt["lair"]]}, with the seal at its heart.') + '</div>')
+        o.append(f'<div class="text" style="margin-top:12px"><h4>{e(lt["name"])}, {e(lt["title"])}</h4><p>{e(lt["lore"])}</p>'
+                 f'<dl class="facts"><dt>Health</dt><dd>{hp:,}</dd><dt>Hit</dt><dd>{dmg}</dd><dt>Abilities</dt><dd>{e(ab)}</dd>'
+                 + (f'<dt>Calls</dt><dd>{e(lt["minion"].replace("_", " "))}</dd>' if lt['minion'] else '')
+                 + '<dt>Enrages</dt><dd>at half health: faster, and its abilities come quicker</dd></dl></div>')
+    return ''.join(o)
+
+
 def section():
     n = len(mobspecs.MOBS['unmaker']['parts']())
     o = ['<section class="realm" id="finale" style="--c:#c9a6ff"><div class="wrap">',
@@ -92,7 +114,9 @@ def section():
     o.append('<div class="grid4" style="margin-top:18px">')
     for r in ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial']:
         o.append(fig(f'finale/island_{r}.webp', f'{r.title()} island'))
-    o.append('</div><h3 class="sub">The Unmaker</h3>')
+    o.append('</div>')
+    o.append(lieutenants_block('last', 'The Unmaker').replace('The lieutenants', 'The two Heralds'))
+    o.append('<h3 class="sub">The Unmaker</h3>')
     o.append(fig('finale/unmaker.webp', 'The Unmaker, front and back. Glowing parts render at full brightness in game.'))
     o.append('<div class="two" style="margin-top:22px">' + fig('finale/unmaker_over_the_last_realm.webp', 'The Unmaker over the Last Realm (not to scale).')
              + UNMAKER_TEXT + '</div>')

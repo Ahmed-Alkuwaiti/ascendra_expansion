@@ -55,6 +55,7 @@ public final class RealmTravel {
         data.putDouble(RET_Z, player.getZ());
 
         BlockPos c = center(dest, realm);
+        LairBuilder.ensure(dest, realm, c);
         player.fallDistance = 0;
         playDepartureEffects(player);
         player.teleportTo(dest, c.getX() + 0.5, c.getY(), c.getZ() + 6.5, 180.0f, 0.0f);
@@ -66,6 +67,7 @@ public final class RealmTravel {
         for (String line : realm.enterLines) {
             Story.narrate(player, line);
         }
+        LairBuilder.tellStatus(player, dest, realm);
         if (!data.getBoolean(BOOK)) {
             data.putBoolean(BOOK, true);
             ItemStack book = Story.chronicle();

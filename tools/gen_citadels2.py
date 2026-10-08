@@ -108,6 +108,11 @@ class Grid:
         root = Compound({'DataVersion': Int(3465), 'size': List[Int]([Int(self.W), Int(self.H), Int(self.L)]),
                          'palette': List[Compound](palette), 'blocks': List[Compound](blocks),
                          'entities': List[Compound](self.entities)})
+        import fortify
+        if ENRICH and name in fortify.CITADELS:                       # a citadel is the keep of a fortress: keep the core, rebuild the fortress
+            nbtlib.File(root, gzipped=True).save(f'{fortify.CORES}/{name}.nbt')
+            fortify.main([name])
+            return
         os.makedirs(OUT, exist_ok=True)
         nbtlib.File(root, gzipped=True).save(f'{OUT}/{name}.nbt')
         print(f'{name}: {len(blocks)} blocks ({getattr(self, "enriched", 0)} details), {len(self.entities)} guards, size {self.W}x{self.H}x{self.L}')
