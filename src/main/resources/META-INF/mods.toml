@@ -6,10 +6,13 @@ license="MIT"
 modId="aurelia"
 version="1.0.0"
 displayName="Aurelia: The Shattered Crown"
-authors="You"
+authors="Aurelia team"
+logoFile="aurelia_logo.png"
+credits="Built for the Ascendra modpack"
 description='''
-Three realms, three Wardens, one broken crown.
-Forge the realm sigils, wake each Warden at its altar, and reforge the Crown of Aurelia.
+Eight realms, eight Wardens, twenty-six lieutenants and one broken crown, then the Last Realm and the Unmaker.
+Citadels, lairs, dungeons, landmarks, three biomes to a realm, realm arsenals, charms, paintings and a full advancement tree.
+Built for Ascendra (Forge 1.20.1).
 '''
 
 [[dependencies.aurelia]]

@@ -1,8 +1,10 @@
-build/
-.gradle/
-run/
-out/
 *.class
+*.iml
+.gradle/
+.idea/
 __pycache__/
-tools/_cache/
+build/
 javac.*.args
+out/
+run/
+tools/_cache/
