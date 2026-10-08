@@ -489,6 +489,22 @@ It drops the **Hand of Genesis**. Use it to cast the selected power (2.5-second 
 - Haste of Hours
 - Spore Bloom
 
+## The Last Realm, rebuilt
+
+The hub round the Unmaker's arena is now a structure of its own, `last_dread` (209 x 186 x 209, from `tools/gen_last_dread.py`), placed once when the realm is first built, before the arena ring:
+
+- **The Abyssal Root**: a twisting six-ridged black spire hanging 85 blocks under the arena, its ridges weeping crying obsidian, ending in a vast violet **Eye** that looks down into the void. Eight tendrils curl out under the gaps between the bridges, with lesser ones curling back up beneath them.
+- **The Eight Talons**: bone claws plated in black stone on their backs, with crying-obsidian knuckles and bone spurs. They climb out of the tendrils, sweep out past the islands' edge, rise, and hook inward over the crown, so the whole arena sits in a closing hand.
+- **The Shattered Crown**: a ring of gold 64 blocks across, 66 blocks over the arena, banded in violet gems, with sixteen points (gems set in the tall ones). Two sectors are torn out and drift apart, crumbling. Chains with soul lanterns hang from its underside.
+- **The Heart**: a black orb chained to the crown's four points at its centre, its violet eye turned down on the arena.
+- **The Watchers**: eight hooded colossi, 46 blocks tall, on floating rocks 92 blocks out, faceless but for two burning eyes, gold at hem, girdle and mantle, spiked pauldrons, both hands on the pommel of a planted greatsword, facing the altar.
+- **The Vertebrae**: bone rings round every bridge, each with a spur on top and a soul lantern hung over the walkway.
+- **The Wreckage**: 46 broken pieces of checkered floor drifting at every height, some with pillar stumps, hanging lanterns or skulls.
+
+The arena ring (`last_core`) gained a weeping eight-pointed star inlaid round the pad, black cracks running to the rim, a rim of obsidian teeth, and chains with soul lanterns hanging beneath it. The fight still resets only this ring. The eight islands are being eaten: sculk and crying obsidian creep across them, black roots sag from their undersides, and broken pieces hang below.
+
+Regenerate with `python3 gen_act4_structures.py` (which also writes `last_dread`). **A world that has already visited the Last Realm keeps its old hub**, because the hub is built only once: to see the new one, use a new world, or delete `RealmData` for the Last Realm (or the dimension folder `dimensions/aurelia/last`) before going back.
+
 ## Testing the finale
 
 - Skip the gate: `/setblock <x> <y> <z> aurelia:waygate[realm=last,active=true]`.

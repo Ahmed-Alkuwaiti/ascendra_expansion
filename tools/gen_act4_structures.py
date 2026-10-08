@@ -200,6 +200,30 @@ def convergence_gate():
 
 
 # ================================================================================================ THE LAST REALM: the core
+def star(dx, dz):
+    """On the lines of an eight-pointed star {8/3} whose points lie on the node spokes at radius 18."""
+    pts = [(18 * math.cos(math.radians(k * 45)), 18 * math.sin(math.radians(k * 45))) for k in range(8)]
+    for k in range(8):
+        (x0, z0), (x1, z1) = pts[k], pts[(k + 3) % 8]
+        ex, ez = x1 - x0, z1 - z0
+        t = max(0.0, min(1.0, ((dx - x0) * ex + (dz - z0) * ez) / (ex * ex + ez * ez)))
+        if math.hypot(dx - (x0 + t * ex), dz - (z0 + t * ez)) < 0.6:
+            return True
+    return False
+
+
+def crack(dx, dz):
+    """Thin jagged cracks running out from the star toward the rim."""
+    a = math.degrees(math.atan2(dz, dx)) % 360
+    d = math.hypot(dx, dz)
+    for k in range(7):
+        base = 26 + k * 51.4
+        wob = 3.2 * math.sin(d * 0.9 + k) + 1.5 * math.sin(d * 2.3 + 2 * k)
+        if abs(((a - base - wob * 57.3 / max(d, 1) + 180) % 360) - 180) * math.pi / 180 * d < 0.55:
+            return True
+    return False
+
+
 def last_core():
     W = L = 113
     H = 84
@@ -243,14 +267,20 @@ def last_core():
             ang = math.degrees(math.atan2(z - C, x - C)) % 45
             if (ang < 2.5 or ang > 42.5) and 13 < d < 26:
                 b = CSS
+            if 12.8 < d < 18.6 and star(x - C, z - C):
+                b = 'minecraft:crying_obsidian'                           # the eightfold star, weeping, inlaid round the pad
+            elif 12.8 < d < 26.5 and crack(x - C, z - C):
+                b = 'minecraft:black_concrete' if (x + z) % 3 else 'minecraft:crying_obsidian'
             put(x, F - 1, z, b)
             for y in range(F, F + 20):
                 put(x, y, z, AIR)
-            if 27 <= d <= 28.5:                                       # a low rim, broken where the bridges leave
+            if 27 <= d <= 28.5:                                       # a rim of black teeth, broken where the bridges leave
                 a = math.degrees(math.atan2(z - C, x - C)) % 45
                 if 6 < a < 39:
-                    put(x, F, z, 'minecraft:polished_blackstone_brick_wall')
-                    if int(math.degrees(math.atan2(z - C, x - C))) % 15 == 0:
+                    tooth = int(1 + 4 * abs(math.sin(math.radians(math.degrees(math.atan2(z - C, x - C)) * 6))) ** 3)
+                    for y in range(F, F + tooth):
+                        put(x, y, z, 'minecraft:obsidian' if y < F + tooth - 1 else 'minecraft:blackstone')
+                    if tooth == 1 and int(math.degrees(math.atan2(z - C, x - C))) % 15 == 0:
                         lantern(g, x, F + 1, z, soul=True)
     # ---- the Realm Nodes on their plinths
     for k, realm in enumerate(REALMS):
@@ -292,8 +322,15 @@ def last_core():
                 x, z = round(C + t * ca - sgn * 3 * sa), round(C + t * sa + sgn * 3 * ca)
                 put(x, F + 1, z, 'minecraft:polished_blackstone_brick_wall')
                 put(x, F + 2, z, glass(realm))
-    # ---- drifting debris high between the bridges
-    for k in range(8):
+    # ---- chains and weeping stone under the rim (the drifting wreckage lives in last_dread now, which the fight never resets)
+    for k in range(48):
+        a = math.radians(k * 7.5 + 3.75)
+        x, z = round(C + 27.5 * math.cos(a)), round(C + 27.5 * math.sin(a))
+        ln = 3 + (k * 7) % 9
+        for y in range(F - 2 - ln, F - 1):
+            put(x, y, z, 'minecraft:chain', {'axis': 'y', 'waterlogged': 'false'})
+        put(x, F - 3 - ln, z, 'minecraft:soul_lantern', {'hanging': 'true', 'waterlogged': 'false'})
+    for k in range(0):
         a = math.radians(22.5 + k * 45)
         r = rnd.uniform(34, 48)
         fx, fz, fy = C + r * math.cos(a), C + r * math.sin(a), F + rnd.randint(14, 34)
@@ -334,6 +371,50 @@ def pick(*opts):
                 return blk
         return opts[-1][0]
     return f
+
+
+def corrupt(g, C, rnd):
+    """The Unmaker is eating every island: sculk and weeping obsidian creep over the ground, the underside sags into black roots,
+    and pieces have broken away and hang below."""
+    F = FLOOR
+    top = {}
+    low = {}
+    for (x, y, z), v in list(g.b.items()):
+        if v[0] in (AIR,):
+            continue
+        if y == F - 1:
+            top[(x, z)] = True
+        if y < F:
+            low[(x, z)] = min(low.get((x, z), 99), y)
+    for (x, z) in top:
+        n = math.sin(x * 0.55 + 1.3) * math.cos(z * 0.47 - 0.4) + 0.6 * math.sin((x + z) * 0.31)
+        if n > 0.55:
+            g.set(x, F - 1, z, 'minecraft:sculk')
+            if g.get(x, F, z) is None and rnd.random() < 0.08:
+                g.set(x, F, z, 'minecraft:sculk_vein', {'down': 'true', 'up': 'false', 'north': 'false', 'south': 'false', 'east': 'false',
+                                                       'west': 'false', 'waterlogged': 'false'})
+        elif n > 0.4:
+            g.set(x, F - 1, z, 'minecraft:crying_obsidian' if rnd.random() < 0.5 else 'minecraft:blackstone')
+    for (x, z), y0 in low.items():                                       # the underside sags into black roots
+        d = math.hypot(x - C, z - C)
+        extra = int(max(0.0, 11 - d) * 1.0 + rnd.uniform(0, 3))
+        for y in range(max(1, y0 - extra), y0):
+            g.set(x, y, z, 'minecraft:crying_obsidian' if rnd.random() < 0.12 else ('minecraft:blackstone' if rnd.random() < 0.7 else 'minecraft:obsidian'))
+        if extra > 4 and rnd.random() < 0.12:
+            for y in range(max(1, y0 - extra - 5), max(1, y0 - extra)):
+                g.set(x, y, z, 'minecraft:chain', {'axis': 'y', 'waterlogged': 'false'})
+    for k in range(3):                                                   # pieces broken away, hanging below
+        a = rnd.uniform(0, 2 * math.pi)
+        bx, bz, by = C + 11 * math.cos(a), C + 11 * math.sin(a), F - rnd.randint(14, 22)
+        br = rnd.uniform(2.0, 3.2)
+        for x in range(int(bx - br) - 1, int(bx + br) + 2):
+            for z in range(int(bz - br) - 1, int(bz + br) + 2):
+                dd = math.hypot(x - bx, z - bz)
+                if dd > br or not (0 <= x < g.W and 0 <= z < g.L):
+                    continue
+                for y in range(int(by - (br - dd) * 1.8), int(by) + 1):
+                    if g.get(x, y, z) is None:
+                        g.set(x, y, z, 'minecraft:sculk' if y == int(by) else 'minecraft:blackstone')
 
 
 def last_island(realm):
@@ -454,6 +535,7 @@ def last_island(realm):
                     if g.get(x, y, z) is None:
                         g.set(x, y, z, 'minecraft:hanging_roots', {'waterlogged': 'false'})
                         break
+    corrupt(g, C, rnd)
     # every island carries a small shrine with a chest, near the bridge end (toward the core, whichever way it is turned)
     for (x, z) in [(C, C + 11), (C, C - 11), (C + 11, C), (C - 11, C)]:
         g.set(x, F, z, PBB)
@@ -469,3 +551,5 @@ if __name__ == '__main__':
     last_core()
     for r in REALMS:
         last_island(r)
+    import gen_last_dread
+    gen_last_dread.main()

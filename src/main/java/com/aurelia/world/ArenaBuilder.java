@@ -188,8 +188,17 @@ public final class ArenaBuilder {
         return c.offset((int) Math.round(Math.cos(a) * NODE_RADIUS), 1, (int) Math.round(Math.sin(a) * NODE_RADIUS));
     }
 
-    /** The arena ring, its nodes and bridges round the pad, and an island for every realm at the end of each bridge. */
+    /** Where the altar stands inside last_dread (x and z), and the standing level inside it (y); see tools/gen_last_dread.py. */
+    private static final int DREAD_CENTRE = 104;
+    private static final int DREAD_FLOOR = 90;
+
+    /**
+     * The dread first (the Abyssal Root and its Eye below, the Eight Talons, the Shattered Crown and its Heart overhead, the eight
+     * Watchers, the bridges' vertebrae, the drifting wreckage), placed once; then the arena ring, its nodes and bridges round the pad,
+     * and an island for every realm at the end of each bridge. The fight only ever resets the ring.
+     */
     private static void last(ServerLevel level, BlockPos c) {
+        place(level, "last_dread", c.offset(-DREAD_CENTRE, -DREAD_FLOOR, -DREAD_CENTRE));
         restoreLast(level, c);
         for (Realm realm : Realm.values()) {
             if (realm == Realm.LAST) {

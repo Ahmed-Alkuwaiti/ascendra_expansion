@@ -50,12 +50,16 @@ tells you which one it wants. When all eight are home, the Waygate in the gate's
 Juggernaut, Rimeguard, Sandglass Sentinel, Hour Warden, Husk Guard</dd>
 <dt>Opens for</dt><dd>The eight relics, laid on their pedestals</dd></dl></div>"""
 
-REALM_TEXT = """<div class="text"><h4>Every realm becomes part of the fight</h4><p>A void under a black sky. In the middle is a ring of
-checkered stone 57 blocks across, with an inverted cone of black rock hanging under it. Eight bridges run out to eight floating islands,
-one for each realm you walked: a jungle tree, a quartz spire, a ziggurat over lava, a drowned watchtower, a kneeling ice statue, a red
-glass monolith, a clock tower, a giant mushroom. Each has a shrine and a chest of its realm's material.</p><p>The game builds the arena
-and the islands from structure templates the first time you arrive. It rebuilds the arena every time the Unmaker wakes, so the fight
-always starts on whole ground.</p></div>"""
+REALM_TEXT = """<div class="text"><h4>The end of every world</h4><p>A void under a black sky. In the middle is a ring of checkered stone
+57 blocks across, inlaid with a weeping eight-pointed star and split by black cracks, ringed with obsidian teeth. Under it a twisting black
+root hangs 85 blocks into the void and ends in a vast violet <b>Eye</b> looking down. Out of the root climb the <b>Eight Talons</b>: bone
+claws plated in black stone that rise past the rim and hook over the <b>Shattered Crown</b>, a broken ring of gold 64 blocks across hung
+over the arena, two of its sectors torn away and drifting. At its centre, chained to the ring, the <b>Heart</b> watches the arena with its
+own violet eye.</p><p>Eight bone vertebrae ring every bridge. Eight floating islands, one for each realm you walked, are being eaten:
+sculk and weeping obsidian creep over them and black roots sag from their undersides. Round it all stand the eight <b>Watchers</b>,
+hooded colossi 46 blocks tall on floating rocks, leaning on planted greatswords, facing the altar. Wreckage drifts at every
+height.</p><p>The game builds all of it the first time you arrive. It rebuilds the arena ring every time the Unmaker wakes, so the fight
+always starts on whole ground; the rest is never touched.</p></div>"""
 
 
 def e(s):
@@ -109,7 +113,10 @@ def section():
     o.append('<h3 class="sub">The Last Realm</h3>')
     o.append(fig('finale/last_realm.webp', 'The whole hub as the game builds it round the landing pad. Clockwise from the right: Grove, Skyreach, '
                  'Hollow, Drowned, Pale, Scarlet, Clockwork, Mycelial.'))
-    o.append('<div class="two" style="margin-top:22px">' + fig('finale/last_arena.webp', 'The arena: rings of sandstone and black stone round the pad, '
+    o.append('<div class="three" style="margin-top:22px">' + fig('finale/last_crown.webp', 'The Shattered Crown in the grip of the Eight Talons, '
+             'the Heart chained at its centre.') + fig('finale/last_root.webp', 'Seen from underneath: the Abyssal Root, its tendrils, and the '
+             'Eye at its tip.') + fig('finale/last_watcher.webp', 'One of the eight Watchers, 46 blocks tall.') + '</div>')
+    o.append('<div class="two" style="margin-top:22px">' + fig('finale/last_arena.webp', 'The arena: rings of sandstone and black stone round the pad, the weeping star and its cracks, obsidian teeth on the rim, '
              'a gold circle, and the eight Realm Nodes on the rim, one at the foot of each bridge.') + REALM_TEXT + '</div>')
     o.append('<div class="grid4" style="margin-top:18px">')
     for r in ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial']:

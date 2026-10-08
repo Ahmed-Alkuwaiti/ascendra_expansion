@@ -512,11 +512,14 @@ LAST_REALMS = ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clo
 def last_realm_scene(with_pad=True):
     """The Last Realm hub as ArenaBuilder.last() assembles it: the core round the pad, an island at the end of every bridge."""
     sc = Scene()
-    C, F = 56, 40
-    sc.place('last_core', 0, 0, 0, keep_air=False)
+    import gen_last_dread as gd
+    ox, oy = gd.C - 56, gd.F - 40                                    # the core's origin inside the dread's frame
+    C, F = 56 + ox, 40 + oy
+    sc.place('last_dread', 0, 0, 0, keep_air=False)
+    sc.place('last_core', ox, oy, ox, keep_air=False)
     for k, realm in enumerate(LAST_REALMS):
         a = math.radians(k * 45)
-        sc.place(f'last_island_{realm}', C + round(66 * math.cos(a)) - 17, 0, C + round(66 * math.sin(a)) - 17, keep_air=False)
+        sc.place(f'last_island_{realm}', C + round(66 * math.cos(a)) - 17, oy, C + round(66 * math.sin(a)) - 17, keep_air=False)
     if with_pad:
         for dx in range(-12, 13):
             for dz in range(-12, 13):
@@ -568,10 +571,22 @@ def finale(out):
     save(card.convert('RGB'), f'{out}/finale/unmaker_over_the_last_realm.webp')
     # the arena close up: core and pad only, the eight nodes on the rim
     core = Scene()
+    import gen_last_dread as gd
+    gd_c, gd_f = gd.C, gd.F
     for k, v in scn.b.items():
-        if (k[0] - 56) ** 2 + (k[2] - 56) ** 2 <= 34 ** 2:
+        if (k[0] - gd_c) ** 2 + (k[2] - gd_c) ** 2 <= 34 ** 2 and k[1] <= gd_f + 24:
             core.b[k] = v
     save(rs.draw(core.b, [], 0, 0, 0, None, size=1100, bg=LAST_BG, dots=False), f'{out}/finale/last_arena.webp')
+    # the dread, close: the Root and its Eye seen from underneath, the Crown and the Heart from above, one Watcher
+    B = scn.b
+    below = {(x, 300 - y, z): v for (x, y, z), v in B.items() if y < gd_f - 2 and (x - gd_c) ** 2 + (z - gd_c) ** 2 <= 60 ** 2}
+    save(rs.draw(below, [], 0, 0, 0, None, size=900, bg=LAST_BG, dots=False), f'{out}/finale/last_root.webp')
+    top = {k: v for k, v in B.items() if k[1] >= gd_f + 40}
+    save(rs.draw(top, [], 0, 0, 0, None, size=900, bg=LAST_BG, dots=False), f'{out}/finale/last_crown.webp')
+    wa = math.radians(22.5 + 45 * 5)
+    wx, wz = gd_c + 92 * math.cos(wa), gd_c + 92 * math.sin(wa)
+    wat = {k: v for k, v in B.items() if abs(k[0] - wx) <= 13 and abs(k[2] - wz) <= 13}
+    save(rs.draw(wat, [], 0, 0, 0, None, size=700, bg=LAST_BG, dots=False), f'{out}/finale/last_watcher.webp')
     # the Convergence Gate
     gate = S + 'convergence_gate.nbt'
     save(rs.render(gate, None, size=1100, bg=LAST_BG), f'{out}/finale/gate_ext.webp')
