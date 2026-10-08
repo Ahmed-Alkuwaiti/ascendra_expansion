@@ -368,7 +368,7 @@ class Fortress:
         finally:
             gen_citadels2.ENRICH = was
         j = json.load(open(f'{WORLDGEN}/{self.name}.json'))
-        j['max_distance_from_center'] = 128
+        j['max_distance_from_center'] = 116  # +12 terrain adaptation must stay <= 128
         json.dump(j, open(f'{WORLDGEN}/{self.name}.json', 'w'), indent=2)
         return M
 

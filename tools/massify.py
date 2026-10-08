@@ -182,7 +182,7 @@ def placement():
             hi2 = max(lo, min(hi, top))
             j['start_height'] = {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': min(lo, hi2)}, 'max_inclusive': {'absolute': hi2}}
         if Wd > 80:
-            j['max_distance_from_center'] = 128
+            j['max_distance_from_center'] = 116  # +12 terrain adaptation must stay <= 128
         json.dump(j, open(f'{WG}/structure/{f}', 'w'), indent=2)
         sp = f'{WG}/structure_set/{sname}.json'
         if os.path.exists(sp):
