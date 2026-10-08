@@ -46,7 +46,7 @@ public class CoralcladJuggernaut extends AureliaMinion {
             if (this.level() instanceof ServerLevel level) {
                 Vec3 step = target.position().subtract(this.position()).scale(1.0 / 12.0);
                 for (int i = 0; i < 12; i++) {
-                    level.sendParticles(ParticleTypes.CRIT, getX() + step.x * i, getY() + 1.6 + step.y * i, getZ() + step.z * i, 1, 0, 0, 0, 0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX() + step.x * i, getY() + 1.6 + step.y * i, getZ() + step.z * i, 1, 0, 0, 0, 0);
                 }
             }
         } else {

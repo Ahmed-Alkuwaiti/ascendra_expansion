@@ -36,6 +36,8 @@ public class AureliaMod {
         MinecraftForge.EVENT_BUS.register(new com.aurelia.event.KitEvents());
         MinecraftForge.EVENT_BUS.register(new com.aurelia.event.CharmEvents());
         MinecraftForge.EVENT_BUS.register(new com.aurelia.event.BalanceEvents());
+        MinecraftForge.EVENT_BUS.register(new com.aurelia.event.PerformanceEvents());
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, AureliaClientConfig.SPEC);
         net.minecraftforge.fml.ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, AureliaConfig.SPEC);
     }
 }

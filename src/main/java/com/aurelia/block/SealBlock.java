@@ -65,7 +65,7 @@ public class SealBlock extends Block {
         while (!queue.isEmpty() && seen.size() < 600) {
             BlockPos p = queue.poll();
             level.setBlock(p, Blocks.AIR.defaultBlockState(), 3);
-            level.sendParticles(ParticleTypes.POOF, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 4, 0.3, 0.3, 0.3, 0.02);
+            com.aurelia.Perf.particles(level, ParticleTypes.POOF, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 4, 0.3, 0.3, 0.3, 0.02);
             for (Direction dir : Direction.values()) {
                 BlockPos n = p.relative(dir);
                 if (!seen.contains(n) && level.getBlockState(n).is(this)) {

@@ -42,7 +42,7 @@ public class HourWarden extends AureliaMinion {
             }
             this.playSound(SoundEvents.BELL_BLOCK, 2.0f, 0.4f);
             if (this.level() instanceof ServerLevel level) {
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 3.0, getZ(), 50, 3.0, 1.0, 3.0, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, getX(), getY() + 3.0, getZ(), 50, 3.0, 1.0, 3.0, 0.1);
             }
         }
     }

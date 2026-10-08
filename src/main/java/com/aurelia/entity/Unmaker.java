@@ -181,7 +181,7 @@ public class Unmaker extends AureliaBoss {
         if (this.staggerTicks > 0) {
             this.staggerTicks--;
             this.getMoveControl().setWantedPosition(c.x, c.y + 1.5, c.z - 1.5, 1.0);
-            level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 9.0, getZ(), 20, 3.0, 4.0, 3.0, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, getX(), getY() + 9.0, getZ(), 20, 3.0, 4.0, 3.0, 0.1);
             if (this.staggerTicks == 0) {
                 this.playSound(SoundEvents.WITHER_AMBIENT, 4.0f, 0.4f);
             }
@@ -232,7 +232,7 @@ public class Unmaker extends AureliaBoss {
             }
             if (this.arena != null) {
                 BlockPos n = ArenaBuilder.nodePos(this.arena, this.borrowed);
-                level.sendParticles(ParticleTypes.END_ROD, n.getX() + 0.5, n.getY() + 1.5, n.getZ() + 0.5, 3, 0.3, 1.5, 0.3, 0.02);
+                com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, n.getX() + 0.5, n.getY() + 1.5, n.getZ() + 0.5, 3, 0.3, 1.5, 0.3, 0.02);
             }
             if (this.borrowTicks <= 0) {
                 Realm r = this.borrowed;
@@ -279,7 +279,7 @@ public class Unmaker extends AureliaBoss {
         setNode(level, realm, false);
         this.staggerTicks = 160;
         this.playSound(SoundEvents.WITHER_HURT, 4.0f, 0.5f);
-        level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 9.0, getZ(), 1, 0, 0, 0, 0);
+        com.aurelia.Perf.particles(level, ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 9.0, getZ(), 1, 0, 0, 0, 0);
         announce(level, "RETURNED", realm.title + " remembers itself. The Unmaker staggers.");
     }
 
@@ -357,7 +357,7 @@ public class Unmaker extends AureliaBoss {
                     ArrayDeque<Vec3> past = this.history.get(p.getUUID());
                     if (past != null && !past.isEmpty()) {
                         Vec3 then = past.peekFirst();
-                        level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.0, p.getZ(), 50, 0.4, 1.0, 0.4, 0.2);
+                        com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.0, p.getZ(), 50, 0.4, 1.0, 0.4, 0.2);
                         p.teleportTo(then.x, then.y, then.z);
                         p.fallDistance = 0;
                     }
@@ -415,7 +415,7 @@ public class Unmaker extends AureliaBoss {
                     rock.dropItem = false;
                 }
             }
-            level.sendParticles(ParticleTypes.LARGE_SMOKE, ground.getX() + 0.5, ground.getY() + 0.2, ground.getZ() + 0.5, 30, 1.5, 0.1, 1.5, 0.01);
+            com.aurelia.Perf.particles(level, ParticleTypes.LARGE_SMOKE, ground.getX() + 0.5, ground.getY() + 0.2, ground.getZ() + 0.5, 30, 1.5, 0.1, 1.5, 0.01);
         }
         this.playSound(SoundEvents.WITHER_BREAK_BLOCK, 3.0f, 0.5f);
     }
@@ -440,7 +440,7 @@ public class Unmaker extends AureliaBoss {
             echo.moveTo(c.x + Math.cos(a) * 17.0, c.y, c.z + Math.sin(a) * 17.0, 0.0f, 0.0f);
             echo.setTarget(target);
             level.addFreshEntity(echo);
-            level.sendParticles(ParticleTypes.SOUL, echo.getX(), echo.getY() + 1.0, echo.getZ(), 30, 0.4, 1.0, 0.4, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.SOUL, echo.getX(), echo.getY() + 1.0, echo.getZ(), 30, 0.4, 1.0, 0.4, 0.05);
         }
         this.say("Echoes of " + GODS[r].title + " answer the Unmaker.");
     }
@@ -475,7 +475,7 @@ public class Unmaker extends AureliaBoss {
             Vec3 from = Vec3.atCenterOf(p.above());
             for (int k = 1; k < 10; k++) {
                 Vec3 at = from.lerp(heart, k / 10.0);
-                level.sendParticles(ParticleTypes.WITCH, at.x, at.y, at.z, 1, 0, 0, 0, 0);
+                com.aurelia.Perf.particles(level, ParticleTypes.WITCH, at.x, at.y, at.z, 1, 0, 0, 0, 0);
             }
         }
     }
@@ -500,7 +500,7 @@ public class Unmaker extends AureliaBoss {
     private void tickUnmaking(ServerLevel level, Vec3 c) {
         if (this.unmakeTicks > 0) {
             this.unmakeTicks--;
-            level.sendParticles(ParticleTypes.PORTAL, getX(), getY() + 9.0, getZ(), 40, 6.0, 4.0, 6.0, 1.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.PORTAL, getX(), getY() + 9.0, getZ(), 40, 6.0, 4.0, 6.0, 1.0);
             if (this.unmakeDamage >= this.getMaxHealth() * 0.04f) {
                 this.unmakeTicks = 0;
                 this.staggerTicks = 120;
@@ -593,12 +593,12 @@ public class Unmaker extends AureliaBoss {
                 if (t % 3 == 0) {
                     for (int k = 0; k < 16; k++) {
                         double a = k * Math.PI / 8.0;
-                        level.sendParticles(ParticleTypes.DRAGON_BREATH, at.x + Math.cos(a) * 3.5, at.y + 0.1, at.z + Math.sin(a) * 3.5, 1, 0, 0, 0, 0);
+                        com.aurelia.Perf.particles(level, ParticleTypes.DRAGON_BREATH, at.x + Math.cos(a) * 3.5, at.y + 0.1, at.z + Math.sin(a) * 3.5, 1, 0, 0, 0, 0);
                     }
                 }
                 continue;
             }
-            level.sendParticles(ParticleTypes.EXPLOSION, at.x, at.y + 0.5, at.z, 6, 1.5, 0.3, 1.5, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.EXPLOSION, at.x, at.y + 0.5, at.z, 6, 1.5, 0.3, 1.5, 0.0);
             this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.6f);
             for (ServerPlayer p : players(level)) {
                 if (p.position().distanceToSqr(at) < 3.5 * 3.5) {
@@ -617,7 +617,7 @@ public class Unmaker extends AureliaBoss {
         Vec3 to = target.position().add(0, 1.0, 0);
         for (int k = 0; k < 30; k++) {
             Vec3 at = from.lerp(to, k / 30.0);
-            level.sendParticles(ParticleTypes.REVERSE_PORTAL, at.x, at.y, at.z, 2, 0.05, 0.05, 0.05, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, at.x, at.y, at.z, 2, 0.05, 0.05, 0.05, 0.0);
         }
         this.playSound(SoundEvents.BEACON_DEACTIVATE, 3.0f, 0.4f);
         if (this.hasLineOfSight(target)) {

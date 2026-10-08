@@ -75,7 +75,7 @@ public class WayfinderItem extends Item {
         Vec3 way = new Vec3(dx, 0, dz).normalize();
         for (int i = 2; i <= 18; i++) {                                       // a trail of light, seen only by its holder
             Vec3 p = eye.add(way.scale(i * 0.9)).add(0, -0.4 - i * 0.02, 0);
-            server.sendParticles(sp, ParticleTypes.END_ROD, true, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
+            com.aurelia.Perf.particles(server, sp, ParticleTypes.END_ROD, true, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
         }
         server.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0f, 1.2f);
         return InteractionResultHolder.consume(stack);

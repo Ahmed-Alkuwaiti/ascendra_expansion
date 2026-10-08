@@ -53,7 +53,7 @@ public final class PuzzleLogic {
             BlockState s = level.getBlockState(portal);
             level.setBlock(portal, s.setValue(WaygateBlock.ACTIVE, true), 3);
             Realm realm = s.getValue(WaygateBlock.REALM);
-            level.sendParticles(ParticleTypes.REVERSE_PORTAL, portal.getX() + 0.5, portal.getY() + 1.0,
+            com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, portal.getX() + 0.5, portal.getY() + 1.0,
                     portal.getZ() + 0.5, 120, 0.8, 1.2, 0.8, 0.3);
             level.playSound(null, portal, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 2.0f, 1.0f);
             for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class,

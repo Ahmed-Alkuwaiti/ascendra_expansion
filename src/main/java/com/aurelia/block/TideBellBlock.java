@@ -80,7 +80,7 @@ public class TideBellBlock extends Block {
         level.setBlock(pos, state.setValue(RUNG, true), 3);
         level.scheduleTick(pos, this, ARENA_COOLDOWN);
         level.playSound(null, pos, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 3.0f, 0.6f);
-        level.sendParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 40, 1.2, 0.4, 1.2, 0.1);
+        com.aurelia.Perf.particles(level, ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 40, 1.2, 0.4, 1.2, 0.1);
         boolean pulled = false;
         for (Vorath vorath : level.getEntitiesOfClass(Vorath.class, new AABB(pos).inflate(64.0))) {
             pulled |= vorath.onBellRung(pos);
@@ -119,7 +119,7 @@ public class TideBellBlock extends Block {
         if (note == rung) {
             level.setBlock(pos, state.setValue(RUNG, true), 3);
             level.playSound(null, pos, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 2.0f, pitch);
-            level.sendParticles(ParticleTypes.BUBBLE_POP, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 30, 0.4, 0.6, 0.4, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE_POP, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 30, 0.4, 0.6, 0.4, 0.05);
             if (rung + 1 >= group.size()) {
                 PuzzleLogic.check(level, pos, this, RUNG);
             } else {
@@ -140,7 +140,7 @@ public class TideBellBlock extends Block {
             p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2));
             p.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 1));
             p.hurt(p.damageSources().drown(), 4.0f);
-            level.sendParticles(ParticleTypes.SPLASH, p.getX(), p.getY() + 1.0, p.getZ(), 40, 0.6, 0.8, 0.6, 0.2);
+            com.aurelia.Perf.particles(level, ParticleTypes.SPLASH, p.getX(), p.getY() + 1.0, p.getZ(), 40, 0.6, 0.8, 0.6, 0.2);
         }
         player.displayClientMessage(Component.literal("The bells fall out of tune and the sea surges up. Begin again, as the tide rises."), true);
     }

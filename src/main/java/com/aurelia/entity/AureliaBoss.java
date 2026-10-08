@@ -161,7 +161,7 @@ public abstract class AureliaBoss extends Monster {
         if (this.shieldTicks > 0) {
             this.shieldTicks--;
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY() + getBbHeight() / 2.0, getZ(),
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.END_ROD, getX(), getY() + getBbHeight() / 2.0, getZ(),
                         4, getBbWidth() / 2.0, getBbHeight() / 3.0, getBbWidth() / 2.0, 0.02);
             }
         }

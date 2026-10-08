@@ -61,7 +61,7 @@ public class SoulJailer extends AureliaMinion {
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2));
             player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY() + 1.0, player.getZ(),
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.SOUL, player.getX(), player.getY() + 1.0, player.getZ(),
                         24, 0.5, 0.9, 0.5, 0.04);
             }
         }

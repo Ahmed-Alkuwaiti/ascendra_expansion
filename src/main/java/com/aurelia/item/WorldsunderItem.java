@@ -78,7 +78,7 @@ public class WorldsunderItem extends SwordItem {
         }
         int edge = Math.floorMod(stack.getOrCreateTag().getInt(EDGE), 8);
         stack.getOrCreateTag().putInt(EDGE, (edge + 1) % 8);
-        level.sendParticles(new DustParticleOptions(COLORS[edge], 1.6f), target.getX(), target.getY() + target.getBbHeight() * 0.6, target.getZ(),
+        com.aurelia.Perf.particles(level, new DustParticleOptions(COLORS[edge], 1.6f), target.getX(), target.getY() + target.getBbHeight() * 0.6, target.getZ(),
                 24, 0.4, 0.5, 0.4, 0.0);
         switch (edge) {
             case 0 -> {                                                    // Root
@@ -113,7 +113,7 @@ public class WorldsunderItem extends SwordItem {
                         e -> e != target && e != attacker && e.isAlive() && !(e instanceof Player))) {
                     other.hurt(attacker.damageSources().mobAttack(attacker), this.getDamage() * 0.5f);
                 }
-                level.sendParticles(ParticleTypes.SWEEP_ATTACK, target.getX(), target.getY() + 1.0, target.getZ(), 3, 1.0, 0.2, 1.0, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SWEEP_ATTACK, target.getX(), target.getY() + 1.0, target.getZ(), 3, 1.0, 0.2, 1.0, 0.0);
             }
             case 6 -> {                                                    // Time
                 target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 6));
@@ -162,12 +162,12 @@ public class WorldsunderItem extends SwordItem {
         }
         for (int k = 0; k < 40; k++) {                                     // the disc, then the collapse
             double a = k * Math.PI / 20;
-            level.sendParticles(new DustParticleOptions(COLORS[k % 8], 2.0f), at.x + Math.cos(a) * 3.0, at.y, at.z + Math.sin(a) * 3.0,
+            com.aurelia.Perf.particles(level, new DustParticleOptions(COLORS[k % 8], 2.0f), at.x + Math.cos(a) * 3.0, at.y, at.z + Math.sin(a) * 3.0,
                     2, 0.1, 0.1, 0.1, 0.0);
         }
-        level.sendParticles(ParticleTypes.REVERSE_PORTAL, at.x, at.y, at.z, 260, 4.0, 4.0, 4.0, 0.6);
-        level.sendParticles(ParticleTypes.SQUID_INK, at.x, at.y, at.z, 80, 0.6, 0.6, 0.6, 0.05);
-        level.sendParticles(ParticleTypes.SONIC_BOOM, at.x, at.y, at.z, 1, 0.0, 0.0, 0.0, 0.0);
+        com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, at.x, at.y, at.z, 260, 4.0, 4.0, 4.0, 0.6);
+        com.aurelia.Perf.particles(level, ParticleTypes.SQUID_INK, at.x, at.y, at.z, 80, 0.6, 0.6, 0.6, 0.05);
+        com.aurelia.Perf.particles(level, ParticleTypes.SONIC_BOOM, at.x, at.y, at.z, 1, 0.0, 0.0, 0.0, 0.0);
         level.playSound(null, at.x, at.y, at.z, SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 3.0f, 0.5f);
         level.playSound(null, at.x, at.y, at.z, SoundEvents.END_PORTAL_SPAWN, SoundSource.PLAYERS, 1.0f, 1.6f);
     }

@@ -145,8 +145,8 @@ public class BloomMother extends AureliaBoss {
         }
         if (this.openTicks > 0) {
             this.openTicks--;
-            level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, getX(), getY() + 5.0, getZ(), 6, 2.0, 1.0, 2.0, 0.02);
-            level.sendParticles(ParticleTypes.CRIT, getX(), getY() + 5.0, getZ(), 4, 1.5, 1.5, 1.5, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, getX(), getY() + 5.0, getZ(), 6, 2.0, 1.0, 2.0, 0.02);
+            com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX(), getY() + 5.0, getZ(), 4, 1.5, 1.5, 1.5, 0.1);
             return;
         }
         if (this.inhaleTicks > 0) {
@@ -159,7 +159,7 @@ public class BloomMother extends AureliaBoss {
                 BlockState s = level.getBlockState(v);
                 if (s.getValue(SporeValveBlock.OPEN)) {
                     SporeValveBlock.setOpen(level, v, s, false);
-                    level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, v.getX() + 0.5, v.getY() + 1.0, v.getZ() + 0.5, 30, 0.5, 0.5, 0.5, 0.02);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, v.getX() + 0.5, v.getY() + 1.0, v.getZ() + 0.5, 30, 0.5, 0.5, 0.5, 0.02);
                     break;
                 }
             }
@@ -190,7 +190,7 @@ public class BloomMother extends AureliaBoss {
                 player.hurtMarked = true;
             }
             if (this.inhaleTicks % 4 == 0) {
-                level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, player.getX(), player.getY() + 1.0, player.getZ(), 2, 0.3, 0.3, 0.3, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, player.getX(), player.getY() + 1.0, player.getZ(), 2, 0.3, 0.3, 0.3, 0.0);
             }
         }
         if (this.inhaleTicks % 10 == 0) {
@@ -226,7 +226,7 @@ public class BloomMother extends AureliaBoss {
             player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120, 0));
             player.hurt(this.damageSources().magic(), player.getMaxHealth() * 0.2f);
         }
-        level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, getX(), getY() + 3.0, getZ(), 400, 10.0, 3.0, 10.0, 0.1);
+        com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, getX(), getY() + 3.0, getZ(), 400, 10.0, 3.0, 10.0, 0.1);
         this.heal(this.getMaxHealth() * 0.03f);
     }
 
@@ -266,8 +266,8 @@ public class BloomMother extends AureliaBoss {
             Vec3 at = this.lashAt.get(i);
             int t = this.lashTicks.get(i) - 1;
             if (t % 3 == 0) {
-                level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, at.x, at.y + 0.1, at.z, 6, 1.0, 0.0, 1.0, 0.0);
-                level.sendParticles(ParticleTypes.CRIMSON_SPORE, at.x, at.y + 0.2, at.z, 6, 1.0, 0.0, 1.0, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, at.x, at.y + 0.1, at.z, 6, 1.0, 0.0, 1.0, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.CRIMSON_SPORE, at.x, at.y + 0.2, at.z, 6, 1.0, 0.0, 1.0, 0.0);
             }
             if (t <= 0) {
                 for (Player player : level.getEntitiesOfClass(Player.class, new net.minecraft.world.phys.AABB(at, at).inflate(1.8, 2.0, 1.8))) {
@@ -276,7 +276,7 @@ public class BloomMother extends AureliaBoss {
                     player.hurtMarked = true;
                     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
                 }
-                level.sendParticles(ParticleTypes.EXPLOSION, at.x, at.y + 0.5, at.z, 2, 0.5, 0.2, 0.5, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.EXPLOSION, at.x, at.y + 0.5, at.z, 2, 0.5, 0.2, 0.5, 0.0);
                 level.playSound(null, BlockPos.containing(at), SoundEvents.ROOTS_BREAK, SoundSource.HOSTILE, 2.0f, 0.5f);
                 this.lashAt.remove(i);
                 this.lashTicks.remove(i);
@@ -311,7 +311,7 @@ public class BloomMother extends AureliaBoss {
             player.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 1));
         }
         this.playSound(SoundEvents.EVOKER_FANGS_ATTACK, 4.0f, 0.4f);
-        level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, front.x, front.y + 2.0, front.z, 60, 2.0, 1.0, 2.0, 0.05);
+        com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, front.x, front.y + 2.0, front.z, 60, 2.0, 1.0, 2.0, 0.05);
     }
 
     private void summon(LivingEntity target) {

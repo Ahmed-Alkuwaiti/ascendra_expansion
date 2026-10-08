@@ -115,13 +115,13 @@ public class WhiteSilence extends AureliaBoss {
         if (this.staggerTicks > 0) {
             this.staggerTicks--;
             this.getNavigation().stop();
-            level.sendParticles(ParticleTypes.CRIT, getX(), getY() + 4.0, getZ(), 6, 0.8, 1.5, 0.8, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX(), getY() + 4.0, getZ(), 6, 0.8, 1.5, 0.8, 0.1);
             return;
         }
         if (this.tellTicks > 0) {
             this.tellTicks--;
             this.getNavigation().stop();
-            level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY() + 5.0, getZ(), 30, 4.0, 2.0, 4.0, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, getX(), getY() + 5.0, getZ(), 30, 4.0, 2.0, 4.0, 0.05);
             if (this.tellTicks == 0) {
                 beginWhite(level);
             }
@@ -156,7 +156,7 @@ public class WhiteSilence extends AureliaBoss {
             }
             if (player.distanceToSqr(this) < reach * reach && player.canFreeze()) {
                 player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze() + 80, player.getTicksFrozen() + bite));
-                level.sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 4, 0.4, 0.6, 0.4, 0.01);
+                com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 4, 0.4, 0.6, 0.4, 0.01);
             }
             if (player.isFullyFrozen() && this.tickCount % 20 == 0) {
                 player.hurt(this.damageSources().freeze(), phase >= 3 ? 5.0f : 3.0f);
@@ -191,7 +191,7 @@ public class WhiteSilence extends AureliaBoss {
     private void tickWhite(ServerLevel level) {
         this.whiteTicks--;
         this.getNavigation().stop();
-        level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY() + 3.0, getZ(), 2, 0.6, 2.0, 0.6, 0.0);
+        com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, getX(), getY() + 3.0, getZ(), 2, 0.6, 2.0, 0.6, 0.0);
         for (Player player : level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(48.0))) {
             if (player.isCreative() || player.isSpectator()) {
                 continue;
@@ -233,7 +233,7 @@ public class WhiteSilence extends AureliaBoss {
         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
         player.displayClientMessage(Component.literal("It heard you.").withStyle(ChatFormatting.WHITE), true);
         this.playSound(SoundEvents.GLASS_BREAK, 3.0f, 0.5f);
-        level.sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.1);
+        com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.1);
     }
 
     private void endWhite() {
@@ -311,7 +311,7 @@ public class WhiteSilence extends AureliaBoss {
         if (this.lanceTicks % 4 == 0 && this.lanceTicks > 0) {
             for (double t = 1.0; t < length; t += 1.0) {
                 Vec3 p = this.lanceFrom.add(this.lanceDir.scale(t));
-                level.sendParticles(ParticleTypes.SNOWFLAKE, p.x, p.y + 0.2, p.z, 1, 0.1, 0.0, 0.1, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, p.x, p.y + 0.2, p.z, 1, 0.1, 0.0, 0.1, 0.0);
             }
         }
         if (this.lanceTicks == 0) {
@@ -331,7 +331,7 @@ public class WhiteSilence extends AureliaBoss {
             }
             for (double t = 1.0; t < length; t += 0.7) {
                 Vec3 p = this.lanceFrom.add(this.lanceDir.scale(t));
-                level.sendParticles(ParticleTypes.ITEM_SNOWBALL, p.x, p.y + 0.5, p.z, 3, 0.2, 0.6, 0.2, 0.05);
+                com.aurelia.Perf.particles(level, ParticleTypes.ITEM_SNOWBALL, p.x, p.y + 0.5, p.z, 3, 0.2, 0.6, 0.2, 0.05);
             }
             this.playSound(SoundEvents.GLASS_BREAK, 3.0f, 0.7f);
         }

@@ -148,7 +148,7 @@ public class Lieutenant extends Monster {
         }
         ServerLevel level = (ServerLevel) this.level();
         if (this.tickCount % 10 == 0) {                                  // the element hangs about it
-            level.sendParticles(this.particle(), getX(), getY() + getBbHeight() * 0.6, getZ(), enraged ? 6 : 2,
+            com.aurelia.Perf.particles(level, this.particle(), getX(), getY() + getBbHeight() * 0.6, getZ(), enraged ? 6 : 2,
                     getBbWidth() * 0.6, getBbHeight() * 0.4, getBbWidth() * 0.6, 0.01);
         }
         if (!this.enraged && this.getHealth() <= this.getMaxHealth() * 0.5f) {
@@ -164,7 +164,7 @@ public class Lieutenant extends Monster {
         }
         if (this.bulwarkTicks > 0) {
             this.bulwarkTicks--;
-            level.sendParticles(ParticleTypes.ENCHANTED_HIT, getX(), getY() + getBbHeight() / 2, getZ(), 4, getBbWidth() / 2, getBbHeight() / 3, getBbWidth() / 2, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.ENCHANTED_HIT, getX(), getY() + getBbHeight() / 2, getZ(), 4, getBbWidth() / 2, getBbHeight() / 3, getBbWidth() / 2, 0.05);
         }
         LivingEntity target = this.getTarget();
         if (target != null && !target.isAlive()) {
@@ -271,7 +271,7 @@ public class Lieutenant extends Monster {
             case NOVA -> {
                 for (int k = 0; k < 60; k++) {
                     double t = k * Math.PI * 2 / 60;
-                    level.sendParticles(this.particle(), getX() + Math.cos(t) * 6, getY() + 1, getZ() + Math.sin(t) * 6, 2, 0.2, 0.6, 0.2, 0.02);
+                    com.aurelia.Perf.particles(level, this.particle(), getX() + Math.cos(t) * 6, getY() + 1, getZ() + Math.sin(t) * 6, 2, 0.2, 0.6, 0.2, 0.02);
                 }
                 for (Player p : this.players(8.0)) {
                     p.hurt(this.damageSources().mobAttack(this), kind.damage * 0.8f);
@@ -281,7 +281,7 @@ public class Lieutenant extends Monster {
             }
             case BLINK -> {
                 Vec3 behind = target.position().subtract(target.getLookAngle().multiply(1, 0, 1).normalize().scale(2.5));
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 1, getZ(), 40, 0.5, 1.0, 0.5, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, getX(), getY() + 1, getZ(), 40, 0.5, 1.0, 0.5, 0.2);
                 if (level.noCollision(this, this.getBoundingBox().move(behind.subtract(this.position())))) {
                     this.teleportTo(behind.x, behind.y + (kind.flying ? 1.0 : 0.0), behind.z);
                 }
@@ -316,7 +316,7 @@ public class Lieutenant extends Monster {
                 for (Player p : this.players(12.0)) {
                     p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 5));
                     p.addEffect(new MobEffectInstance(MobEffects.JUMP, 60, 128));         // jump boost 129 cancels jumping
-                    level.sendParticles(this.particle(), p.getX(), p.getY() + 0.2, p.getZ(), 30, 0.5, 0.1, 0.5, 0.02);
+                    com.aurelia.Perf.particles(level, this.particle(), p.getX(), p.getY() + 0.2, p.getZ(), 30, 0.5, 0.1, 0.5, 0.02);
                 }
                 this.playSound(this.elementSound(), 2.0f, 0.4f);
             }
@@ -332,8 +332,8 @@ public class Lieutenant extends Monster {
         ServerLevel level = (ServerLevel) this.level();
         for (int k = 0; k < 48; k++) {
             double t = k * Math.PI * 2 / 48;
-            level.sendParticles(ParticleTypes.EXPLOSION, getX() + Math.cos(t) * r * 0.7, getY() + 0.2, getZ() + Math.sin(t) * r * 0.7, 1, 0, 0, 0, 0);
-            level.sendParticles(this.particle(), getX() + Math.cos(t) * r, getY() + 0.3, getZ() + Math.sin(t) * r, 2, 0.1, 0.2, 0.1, 0.02);
+            com.aurelia.Perf.particles(level, ParticleTypes.EXPLOSION, getX() + Math.cos(t) * r * 0.7, getY() + 0.2, getZ() + Math.sin(t) * r * 0.7, 1, 0, 0, 0, 0);
+            com.aurelia.Perf.particles(level, this.particle(), getX() + Math.cos(t) * r, getY() + 0.3, getZ() + Math.sin(t) * r, 2, 0.1, 0.2, 0.1, 0.02);
         }
         for (Player p : this.players(r)) {
             p.hurt(this.damageSources().mobAttack(this), kind.damage * scale);
@@ -364,7 +364,7 @@ public class Lieutenant extends Monster {
         int n = (int) (d.length() * 2);
         for (int i = 0; i <= n; i++) {
             Vec3 p = from.add(d.scale(i / (double) Math.max(1, n)));
-            level.sendParticles(this.particle(), p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
+            com.aurelia.Perf.particles(level, this.particle(), p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
         }
     }
 
@@ -389,7 +389,7 @@ public class Lieutenant extends Monster {
             m.finalizeSpawn(level, level.getCurrentDifficultyAt(m.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
             m.setTarget(target);
             level.addFreshEntity(m);
-            level.sendParticles(this.particle(), m.getX(), m.getY() + 1, m.getZ(), 20, 0.4, 0.8, 0.4, 0.05);
+            com.aurelia.Perf.particles(level, this.particle(), m.getX(), m.getY() + 1, m.getZ(), 20, 0.4, 0.8, 0.4, 0.05);
         }
         this.playSound(SoundEvents.EVOKER_PREPARE_SUMMON, 2.0f, 0.6f);
     }
@@ -399,7 +399,7 @@ public class Lieutenant extends Monster {
         this.playSound(SoundEvents.WITHER_SPAWN, 3.0f, 1.4f);
         for (int k = 0; k < 90; k++) {
             double t = k * Math.PI * 2 / 90;
-            level.sendParticles(this.particle(), getX() + Math.cos(t) * 10, getY() + 0.5, getZ() + Math.sin(t) * 10, 3, 0.3, 0.6, 0.3, 0.02);
+            com.aurelia.Perf.particles(level, this.particle(), getX() + Math.cos(t) * 10, getY() + 0.5, getZ() + Math.sin(t) * 10, 3, 0.3, 0.6, 0.3, 0.02);
         }
         List<Player> near = this.players(14.0);
         switch (kind.realm) {

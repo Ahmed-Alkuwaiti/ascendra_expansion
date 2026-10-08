@@ -82,8 +82,8 @@ public class Hushwraith extends AureliaMinion {
             }
         }
         if (this.level() instanceof ServerLevel level) {
-            level.sendParticles(ParticleTypes.SONIC_BOOM, getX(), getY() + 2.0, getZ(), 1, 0, 0, 0, 0);
-            level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY() + 2.0, getZ(), 40, 3.0, 1.0, 3.0, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.SONIC_BOOM, getX(), getY() + 2.0, getZ(), 1, 0, 0, 0, 0);
+            com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, getX(), getY() + 2.0, getZ(), 40, 3.0, 1.0, 3.0, 0.1);
         }
     }
 

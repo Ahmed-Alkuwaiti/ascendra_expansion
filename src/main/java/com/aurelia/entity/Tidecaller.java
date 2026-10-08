@@ -68,7 +68,7 @@ public class Tidecaller extends AureliaMinion {
                     e -> e != this && e.isAlive() && e.getHealth() < e.getMaxHealth() && !(e instanceof AureliaBoss))) {
                 ally.heal(10.0f);
                 if (this.level() instanceof ServerLevel level) {
-                    level.sendParticles(ParticleTypes.DRIPPING_WATER, ally.getX(), ally.getY() + 2.0, ally.getZ(), 10, 0.4, 0.4, 0.4, 0.0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.DRIPPING_WATER, ally.getX(), ally.getY() + 2.0, ally.getZ(), 10, 0.4, 0.4, 0.4, 0.0);
                 }
             }
         }

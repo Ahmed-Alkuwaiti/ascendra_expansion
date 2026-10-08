@@ -42,10 +42,10 @@ public class GlasswingScarab extends BeastGuard {
         this.burrowCooldown = 140;
         if (this.distanceToSqr(target) > 36.0 && this.onGround() && this.level() instanceof ServerLevel level) {
             BlockParticleOption sand = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.RED_SAND.defaultBlockState());
-            level.sendParticles(sand, getX(), getY() + 0.3, getZ(), 40, 0.6, 0.2, 0.6, 0.1);
+            com.aurelia.Perf.particles(level, sand, getX(), getY() + 0.3, getZ(), 40, 0.6, 0.2, 0.6, 0.1);
             if (this.randomTeleport(target.getX() + (this.random.nextDouble() - 0.5) * 3.0, target.getY(),
                     target.getZ() + (this.random.nextDouble() - 0.5) * 3.0, false)) {
-                level.sendParticles(sand, getX(), getY() + 0.3, getZ(), 40, 0.6, 0.2, 0.6, 0.1);
+                com.aurelia.Perf.particles(level, sand, getX(), getY() + 0.3, getZ(), 40, 0.6, 0.2, 0.6, 0.1);
                 this.playSound(SoundEvents.SAND_BREAK, 1.5f, 0.6f);
             }
         }

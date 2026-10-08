@@ -88,7 +88,7 @@ public class ClockDialBlock extends Block {
         if (all) {
             for (BlockPos d : dials) {
                 serverLevel.setBlock(d, serverLevel.getBlockState(d).setValue(FILLED, true), 3);
-                serverLevel.sendParticles(ParticleTypes.END_ROD, d.getX() + 0.5, d.getY() + 1.2, d.getZ() + 0.5, 20, 0.3, 0.4, 0.3, 0.05);
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.END_ROD, d.getX() + 0.5, d.getY() + 1.2, d.getZ() + 0.5, 20, 0.3, 0.4, 0.3, 0.05);
             }
             serverLevel.playSound(null, pos, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 2.0f, 0.5f);
             PuzzleLogic.check(serverLevel, pos, this, FILLED);
@@ -101,7 +101,7 @@ public class ClockDialBlock extends Block {
         BlockState next = state.setValue(HOUR, (state.getValue(HOUR) + 1) % 12);
         level.setBlock(pos, next, 3);
         level.playSound(null, pos, SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.BLOCKS, 0.8f, 1.6f);
-        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, pos.getX() + 0.5, pos.getY() + 1.1, pos.getZ() + 0.5, 4, 0.2, 0.1, 0.2, 0.02);
+        com.aurelia.Perf.particles(level, ParticleTypes.ELECTRIC_SPARK, pos.getX() + 0.5, pos.getY() + 1.1, pos.getZ() + 0.5, 4, 0.2, 0.1, 0.2, 0.02);
         return next;
     }
 

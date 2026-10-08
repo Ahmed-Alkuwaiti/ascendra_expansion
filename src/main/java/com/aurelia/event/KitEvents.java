@@ -85,7 +85,7 @@ public class KitEvents {
             return;
         }
         if (p.level() instanceof ServerLevel level) {
-            level.sendParticles(aura(set), p.getX(), p.getY() + 1.0, p.getZ(), 6, 0.5, 0.8, 0.5, 0.01);
+            com.aurelia.Perf.particles(level, aura(set), p.getX(), p.getY() + 1.0, p.getZ(), 6, 0.5, 0.8, 0.5, 0.01);
         }
         switch (set) {
             case VERDANT -> {
@@ -145,7 +145,7 @@ public class KitEvents {
                 p.removeEffect(MobEffects.WITHER);
                 p.setTicksFrozen(0);
                 if (p.level() instanceof ServerLevel level) {
-                    level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.0, p.getZ(), 8, 0.4, 0.8, 0.4, 0.05);
+                    com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.0, p.getZ(), 8, 0.4, 0.8, 0.4, 0.05);
                 }
             }
             default -> { }
@@ -176,7 +176,7 @@ public class KitEvents {
             event.setCanceled(true);
             event.getSource().getDirectEntity().discard();
             if (p.level() instanceof ServerLevel level) {
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.3, 0.4, 0.3, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.3, 0.4, 0.3, 0.1);
             }
             p.level().playSound(null, p.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8f, 0.5f);
         }
@@ -297,7 +297,7 @@ public class KitEvents {
         p.fallDistance = 0;
         p.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 4));
         if (p.level() instanceof ServerLevel level) {
-            level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1, p.getZ(), 120, 0.5, 1.0, 0.5, 0.3);
+            com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, p.getX(), p.getY() + 1, p.getZ(), 120, 0.5, 1.0, 0.5, 0.3);
         }
         p.level().playSound(null, p.blockPosition(), SoundEvents.BELL_RESONATE, SoundSource.PLAYERS, 2.0f, 0.6f);
         p.displayClientMessage(net.minecraft.network.chat.Component.literal("Borrowed Time. The clock winds you back.")
@@ -325,8 +325,8 @@ public class KitEvents {
             e.hurtMarked = true;
         }
         if (p.level() instanceof ServerLevel level) {
-            level.sendParticles(ParticleTypes.SONIC_BOOM, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
-            level.sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1, p.getZ(), 150, 0.5, 1.0, 0.5, 0.5);
+            com.aurelia.Perf.particles(level, ParticleTypes.SONIC_BOOM, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
+            com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, p.getX(), p.getY() + 1, p.getZ(), 150, 0.5, 1.0, 0.5, 0.5);
         }
         p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 2.0f, 0.7f);
         p.level().playSound(null, p.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0f, 0.6f);

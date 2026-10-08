@@ -72,14 +72,14 @@ public class HandOfGenesisItem extends Item {
                     ally.heal(6.0f);
                     ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 1));
                 }
-                level.sendParticles(ParticleTypes.HAPPY_VILLAGER, player.getX(), player.getY() + 1.0, player.getZ(), 40, 3.0, 1.0, 3.0, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.HAPPY_VILLAGER, player.getX(), player.getY() + 1.0, player.getZ(), 40, 3.0, 1.0, 3.0, 0.1);
             }
             case 1 -> {                                                  // Skyreach: leap on the wind
                 player.push(look.x * 1.6, 0.9, look.z * 1.6);
                 player.hurtMarked = true;
                 player.fallDistance = 0;
                 player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 0));
-                level.sendParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 30, 0.6, 0.2, 0.6, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 30, 0.6, 0.2, 0.6, 0.1);
             }
             case 2 -> {                                                  // Hollow: a cone of soul fire
                 for (LivingEntity e : foes(level, player, 7.0)) {
@@ -91,7 +91,7 @@ public class HandOfGenesisItem extends Item {
                 }
                 for (int k = 1; k < 7; k++) {
                     Vec3 at = player.getEyePosition().add(look.scale(k));
-                    level.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, at.x, at.y, at.z, 6, 0.3 * k / 3, 0.3 * k / 3, 0.3 * k / 3, 0.01);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SOUL_FIRE_FLAME, at.x, at.y, at.z, 6, 0.3 * k / 3, 0.3 * k / 3, 0.3 * k / 3, 0.01);
                 }
             }
             case 3 -> {                                                  // Drowned: drag every foe to you; breathe water
@@ -103,7 +103,7 @@ public class HandOfGenesisItem extends Item {
                 }
                 player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0));
                 player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 600, 0));
-                level.sendParticles(ParticleTypes.BUBBLE_POP, player.getX(), player.getY() + 1.0, player.getZ(), 60, 4.0, 1.0, 4.0, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE_POP, player.getX(), player.getY() + 1.0, player.getZ(), 60, 4.0, 1.0, 4.0, 0.1);
             }
             case 4 -> {                                                  // Pale: freeze everything near you; vanish
                 for (LivingEntity e : foes(level, player, 10.0)) {
@@ -111,13 +111,13 @@ public class HandOfGenesisItem extends Item {
                     e.setTicksFrozen(e.getTicksRequiredToFreeze() + 100);
                 }
                 player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 100, 0));
-                level.sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 80, 5.0, 1.5, 5.0, 0.02);
+                com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1.0, player.getZ(), 80, 5.0, 1.5, 5.0, 0.02);
             }
             case 5 -> {                                                  // Scarlet: a beam of burning light
                 Vec3 from = player.getEyePosition();
                 for (int k = 1; k <= 24; k++) {
                     Vec3 at = from.add(look.scale(k));
-                    level.sendParticles(ParticleTypes.FLAME, at.x, at.y, at.z, 2, 0.05, 0.05, 0.05, 0.0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.FLAME, at.x, at.y, at.z, 2, 0.05, 0.05, 0.05, 0.0);
                     List<LivingEntity> hit = level.getEntitiesOfClass(LivingEntity.class, new AABB(at, at).inflate(0.8),
                             e -> e != player && e.isAlive());
                     if (!hit.isEmpty()) {
@@ -136,14 +136,14 @@ public class HandOfGenesisItem extends Item {
                 for (LivingEntity e : foes(level, player, 10.0)) {
                     e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2));
                 }
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(), 50, 1.0, 1.0, 1.0, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(), 50, 1.0, 1.0, 1.0, 0.2);
             }
             default -> {                                                 // Mycelial: a bloom of poison spores
                 for (LivingEntity e : foes(level, player, 8.0)) {
                     e.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 1));
                     e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1));
                 }
-                level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, player.getX(), player.getY() + 1.0, player.getZ(), 120, 4.0, 1.5, 4.0, 0.02);
+                com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, player.getX(), player.getY() + 1.0, player.getZ(), 120, 4.0, 1.5, 4.0, 0.02);
             }
         }
         level.playSound(null, player.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 1.0f, 0.7f + p * 0.1f);

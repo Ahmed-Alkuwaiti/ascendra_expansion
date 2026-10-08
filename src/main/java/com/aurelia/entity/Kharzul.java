@@ -112,16 +112,16 @@ public class Kharzul extends AureliaBoss {
         if (this.overheatTicks > 0) {
             this.overheatTicks--;
             this.getNavigation().stop();
-            level.sendParticles(ParticleTypes.LAVA, getX(), getY() + 3.5, getZ(), 2, 0.8, 1.2, 0.8, 0.0);
-            level.sendParticles(ParticleTypes.CRIT, getX(), getY() + 3.5, getZ(), 5, 0.8, 1.5, 0.8, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.LAVA, getX(), getY() + 3.5, getZ(), 2, 0.8, 1.2, 0.8, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX(), getY() + 3.5, getZ(), 5, 0.8, 1.5, 0.8, 0.1);
             return;
         }
         if (this.channelTicks > 0) {
             this.channelTicks--;
             this.getNavigation().stop();
-            level.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.RED_SAND.defaultBlockState()),
+            com.aurelia.Perf.particles(level, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.RED_SAND.defaultBlockState()),
                     getX(), getY() + 6.0, getZ(), 12, 1.0, 0.4, 1.0, 0.0);
-            level.sendParticles(ParticleTypes.END_ROD, getX(), getY() + 4.2, getZ(), 4, 0.3, 0.3, 0.3, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, getX(), getY() + 4.2, getZ(), 4, 0.3, 0.3, 0.3, 0.05);
             if (this.channelTicks % 20 == 0) {
                 this.playSound(SoundEvents.BEACON_AMBIENT, 4.0f, 0.5f + (100 - this.channelTicks) * 0.01f);
             }
@@ -171,9 +171,9 @@ public class Kharzul extends AureliaBoss {
             double mid = (inner + outer) / 2.0;
             for (int i = 0; i < 40; i++) {
                 double a = i * Math.PI / 20.0;
-                level.sendParticles(RED, getX() + Math.cos(a) * mid, getY() + 0.3, getZ() + Math.sin(a) * mid, 1, 0.3, 0.0, 0.3, 0.0);
-                level.sendParticles(RED, getX() + Math.cos(a) * inner, getY() + 0.3, getZ() + Math.sin(a) * inner, 1, 0.0, 0.0, 0.0, 0.0);
-                level.sendParticles(RED, getX() + Math.cos(a) * outer, getY() + 0.3, getZ() + Math.sin(a) * outer, 1, 0.0, 0.0, 0.0, 0.0);
+                com.aurelia.Perf.particles(level, RED, getX() + Math.cos(a) * mid, getY() + 0.3, getZ() + Math.sin(a) * mid, 1, 0.3, 0.0, 0.3, 0.0);
+                com.aurelia.Perf.particles(level, RED, getX() + Math.cos(a) * inner, getY() + 0.3, getZ() + Math.sin(a) * inner, 1, 0.0, 0.0, 0.0, 0.0);
+                com.aurelia.Perf.particles(level, RED, getX() + Math.cos(a) * outer, getY() + 0.3, getZ() + Math.sin(a) * outer, 1, 0.0, 0.0, 0.0, 0.0);
             }
         }
         if (--this.reapTicks > 0) {
@@ -191,7 +191,7 @@ public class Kharzul extends AureliaBoss {
             }
         }
         this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 4.0f, 0.5f);
-        level.sendParticles(ParticleTypes.SWEEP_ATTACK, getX(), getY() + 1.0, getZ(), 12, outer / 2.0, 0.2, outer / 2.0, 0.0);
+        com.aurelia.Perf.particles(level, ParticleTypes.SWEEP_ATTACK, getX(), getY() + 1.0, getZ(), 12, outer / 2.0, 0.2, outer / 2.0, 0.0);
         if (phase >= 3 && this.reapBand == 0) {
             this.reapBand = 1;
             this.reapTicks = 14;
@@ -241,7 +241,7 @@ public class Kharzul extends AureliaBoss {
         double len = d.length();
         for (double t = 0.0; t < len; t += 0.5) {
             Vec3 p = from.add(d.scale(t / len));
-            level.sendParticles(ParticleTypes.END_ROD, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
         }
     }
 
@@ -252,7 +252,7 @@ public class Kharzul extends AureliaBoss {
             return;
         }
         level.destroyBlock(pos, false);
-        level.sendParticles(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 6, 0.3, 0.3, 0.3, 0.0);
+        com.aurelia.Perf.particles(level, ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 6, 0.3, 0.3, 0.3, 0.0);
     }
 
     // ---- phase two and three
@@ -275,7 +275,7 @@ public class Kharzul extends AureliaBoss {
             if (t % 4 == 0) {
                 for (int k = 0; k < 16; k++) {
                     double a = k * Math.PI / 8.0;
-                    level.sendParticles(RED, at.x + Math.cos(a) * 2.5, at.y + 0.2, at.z + Math.sin(a) * 2.5, 1, 0.0, 0.0, 0.0, 0.0);
+                    com.aurelia.Perf.particles(level, RED, at.x + Math.cos(a) * 2.5, at.y + 0.2, at.z + Math.sin(a) * 2.5, 1, 0.0, 0.0, 0.0, 0.0);
                 }
             }
             if (t <= 0) {
@@ -284,7 +284,7 @@ public class Kharzul extends AureliaBoss {
                     victim.hurt(this.damageSources().magic(), phase >= 3 ? 26.0f : 20.0f);
                     victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                 }
-                level.sendParticles(ParticleTypes.CRIT, at.x, at.y + 3.0, at.z, 40, 1.5, 2.0, 1.5, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.CRIT, at.x, at.y + 3.0, at.z, 40, 1.5, 2.0, 1.5, 0.2);
                 level.playSound(null, BlockPos.containing(at), SoundEvents.GLASS_BREAK, net.minecraft.sounds.SoundSource.HOSTILE, 2.0f, 0.8f);
                 this.rainAt.remove(i);
                 this.rainTicks.remove(i);

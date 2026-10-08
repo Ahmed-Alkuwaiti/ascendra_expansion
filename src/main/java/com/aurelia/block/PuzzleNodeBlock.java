@@ -104,7 +104,7 @@ public class PuzzleNodeBlock extends Block {
                     case LENS -> ParticleTypes.END_ROD;
                 };
             }
-            serverLevel.sendParticles(particle, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 20, 0.3, 0.4, 0.3, 0.05);
+            com.aurelia.Perf.particles(serverLevel, particle, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 20, 0.3, 0.4, 0.3, 0.05);
             serverLevel.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.5f, 0.8f);
             PuzzleLogic.check(serverLevel, pos, state.getBlock());
         }

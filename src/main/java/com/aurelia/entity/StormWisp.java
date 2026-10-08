@@ -65,7 +65,7 @@ public class StormWisp extends FlyingGuard {
         if (this.shockTicks > 0) {
             this.shockTicks--;
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, shockPos.getX() + 0.5, shockPos.getY() + 0.3,
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.ELECTRIC_SPARK, shockPos.getX() + 0.5, shockPos.getY() + 0.3,
                         shockPos.getZ() + 0.5, 6, 1.2, 0.1, 1.2, 0.05);
             }
             if (this.shockTicks == 0) {

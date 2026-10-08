@@ -80,7 +80,7 @@ public class Sporecap extends AureliaMinion {
                 e -> e != this && e.isAlive() && e.getHealth() < e.getMaxHealth() && !(e instanceof AureliaBoss))) {
             ally.heal(8.0f);
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, ally.getX(), ally.getY() + 1.0, ally.getZ(),
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.HAPPY_VILLAGER, ally.getX(), ally.getY() + 1.0, ally.getZ(),
                         8, 0.4, 0.6, 0.4, 0.0);
             }
         }

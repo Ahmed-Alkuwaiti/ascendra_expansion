@@ -99,7 +99,7 @@ public class SporeValveBlock extends Block {
     public static void setOpen(ServerLevel level, BlockPos pos, BlockState state, boolean open) {
         level.setBlock(pos, state.setValue(OPEN, open), 3);
         level.playSound(null, pos, open ? SoundEvents.PISTON_EXTEND : SoundEvents.PISTON_CONTRACT, SoundSource.BLOCKS, 1.5f, open ? 0.6f : 0.8f);
-        level.sendParticles(open ? ParticleTypes.SPORE_BLOSSOM_AIR : ParticleTypes.SMOKE, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5,
+        com.aurelia.Perf.particles(level, open ? ParticleTypes.SPORE_BLOSSOM_AIR : ParticleTypes.SMOKE, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5,
                 open ? 60 : 10, 0.3, 1.5, 0.3, 0.05);
     }
 

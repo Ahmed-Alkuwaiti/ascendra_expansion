@@ -83,7 +83,7 @@ public class HollowKing extends AureliaBoss {
             this.staggerTicks--;
             this.getNavigation().stop();
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + 3.0, getZ(), 6, 0.8, 1.5, 0.8, 0.1);
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.CRIT, getX(), getY() + 3.0, getZ(), 6, 0.8, 1.5, 0.8, 0.1);
             }
             return;
         }
@@ -91,7 +91,7 @@ public class HollowKing extends AureliaBoss {
             this.channelTicks--;
             this.getNavigation().stop();
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, getX(), getY() + 3.0, getZ(), 14, 2.5, 2.5, 2.5, 0.02);
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.SOUL_FIRE_FLAME, getX(), getY() + 3.0, getZ(), 14, 2.5, 2.5, 2.5, 0.02);
             }
             if (this.channelDamage >= this.getMaxHealth() * 0.06f) {
                 this.channelTicks = 0;
@@ -125,7 +125,7 @@ public class HollowKing extends AureliaBoss {
         this.say("The dark falls.");
         this.playSound(SoundEvents.GENERIC_EXPLODE, 4.0f, 0.4f);
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 2.0, getZ(), 6, 6.0, 2.0, 6.0, 0.0);
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 2.0, getZ(), 6, 6.0, 2.0, 6.0, 0.0);
         }
     }
 
@@ -188,7 +188,7 @@ public class HollowKing extends AureliaBoss {
         }
         this.playSound(SoundEvents.WARDEN_SONIC_BOOM, 2.0f, 0.5f);
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.SOUL, getX(), getY() + 2.0, getZ(), 80, 5.0, 1.5, 5.0, 0.05);
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.SOUL, getX(), getY() + 2.0, getZ(), 80, 5.0, 1.5, 5.0, 0.05);
         }
     }
 
@@ -231,7 +231,7 @@ public class HollowKing extends AureliaBoss {
             for (int dy = 0; dy <= 5; dy++) {
                 serverLevel.setBlock(top.below(dy), Blocks.AIR.defaultBlockState(), 3);
             }
-            serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, top.getX() + 0.5, top.getY() + 1.0, top.getZ() + 0.5,
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.LARGE_SMOKE, top.getX() + 0.5, top.getY() + 1.0, top.getZ() + 0.5,
                     12, 0.4, 0.2, 0.4, 0.02);
         }
         this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 0.5f);

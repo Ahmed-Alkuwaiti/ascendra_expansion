@@ -125,8 +125,8 @@ public class RealmWeaponItem extends SwordItem {
             case VERDANT -> {                                              // Bramble Eruption
                 for (int k = 1; k <= 8; k++) {
                     Vec3 at = here.add(look.scale(k));
-                    level.sendParticles(net.minecraft.core.particles.ParticleTypes.COMPOSTER, at.x, at.y + 0.3, at.z, 12, 0.4, 0.6, 0.4, 0.05);
-                    level.sendParticles(new net.minecraft.core.particles.BlockParticleOption(ParticleTypes.BLOCK,
+                    com.aurelia.Perf.particles(level, net.minecraft.core.particles.ParticleTypes.COMPOSTER, at.x, at.y + 0.3, at.z, 12, 0.4, 0.6, 0.4, 0.05);
+                    com.aurelia.Perf.particles(level, new net.minecraft.core.particles.BlockParticleOption(ParticleTypes.BLOCK,
                             net.minecraft.world.level.block.Blocks.ROOTED_DIRT.defaultBlockState()), at.x, at.y + 0.2, at.z, 10, 0.3, 0.4, 0.3, 0.1);
                     for (LivingEntity e : foes(level, player, at, 1.6)) {
                         e.hurt(player.damageSources().playerAttack(player), 10.0f);
@@ -140,7 +140,7 @@ public class RealmWeaponItem extends SwordItem {
                 Vec3 to = here.add(look.scale(8));
                 for (int k = 1; k <= 8; k++) {
                     Vec3 at = here.add(look.scale(k));
-                    level.sendParticles(ParticleTypes.CLOUD, at.x, at.y + 1.0, at.z, 6, 0.3, 0.3, 0.3, 0.02);
+                    com.aurelia.Perf.particles(level, ParticleTypes.CLOUD, at.x, at.y + 1.0, at.z, 6, 0.3, 0.3, 0.3, 0.02);
                     for (LivingEntity e : foes(level, player, at, 3.0)) {
                         if (e.hurt(player.damageSources().playerAttack(player), 12.0f)) {
                             LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
@@ -161,7 +161,7 @@ public class RealmWeaponItem extends SwordItem {
             case EMBERHEART -> {                                           // Soul Inferno
                 for (int k = 0; k < 48; k++) {
                     double a = k * Math.PI / 24;
-                    level.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, here.x + Math.cos(a) * 5, here.y + 0.3, here.z + Math.sin(a) * 5, 3, 0.1, 0.4, 0.1, 0.02);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SOUL_FIRE_FLAME, here.x + Math.cos(a) * 5, here.y + 0.3, here.z + Math.sin(a) * 5, 3, 0.1, 0.4, 0.1, 0.02);
                 }
                 for (LivingEntity e : foes(level, player, here, 5.5)) {
                     e.hurt(player.damageSources().playerAttack(player), 14.0f);
@@ -178,7 +178,7 @@ public class RealmWeaponItem extends SwordItem {
                     e.hurt(player.damageSources().drown(), 8.0f);
                     e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2));
                 }
-                level.sendParticles(ParticleTypes.BUBBLE_COLUMN_UP, here.x, here.y + 1, here.z, 200, 6.0, 1.0, 6.0, 0.3);
+                com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE_COLUMN_UP, here.x, here.y + 1, here.z, 200, 6.0, 1.0, 6.0, 0.3);
                 player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 400, 0));
                 level.playSound(null, player.blockPosition(), SoundEvents.CONDUIT_ACTIVATE, SoundSource.PLAYERS, 2.0f, 0.6f);
             }
@@ -189,7 +189,7 @@ public class RealmWeaponItem extends SwordItem {
                         player.getBoundingBox().expandTowards(player.getLookAngle().scale(16)).inflate(1.0), e -> e instanceof LivingEntity && e != player);
                 if (hit != null && hit.getEntity() instanceof LivingEntity e) {
                     Vec3 behind = e.position().subtract(e.getLookAngle().multiply(1, 0, 1).normalize().scale(1.5));
-                    level.sendParticles(ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1, player.getZ(), 60, 0.4, 0.8, 0.4, 0.05);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 1, player.getZ(), 60, 0.4, 0.8, 0.4, 0.05);
                     player.teleportTo(behind.x, e.getY(), behind.z);
                     e.hurt(player.damageSources().playerAttack(player), 18.0f);
                     e.setTicksFrozen(e.getTicksRequiredToFreeze() + 140);
@@ -201,7 +201,7 @@ public class RealmWeaponItem extends SwordItem {
             case SUNGLASS -> {                                             // Fang Flurry
                 for (int k = 0; k < 36; k++) {
                     double a = k * Math.PI / 18;
-                    level.sendParticles(ParticleTypes.SWEEP_ATTACK, here.x + Math.cos(a) * 3.5, here.y + 1, here.z + Math.sin(a) * 3.5, 1, 0, 0, 0, 0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SWEEP_ATTACK, here.x + Math.cos(a) * 3.5, here.y + 1, here.z + Math.sin(a) * 3.5, 1, 0, 0, 0, 0);
                 }
                 for (LivingEntity e : foes(level, player, here, 6.0)) {
                     e.hurt(player.damageSources().playerAttack(player), 16.0f);
@@ -219,7 +219,7 @@ public class RealmWeaponItem extends SwordItem {
                     bolt.pickup = net.minecraft.world.entity.projectile.AbstractArrow.Pickup.DISALLOWED;
                     level.addFreshEntity(bolt);
                 }
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getEyeY(), player.getZ(), 30, 0.3, 0.3, 0.3, 0.1);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, player.getX(), player.getEyeY(), player.getZ(), 30, 0.3, 0.3, 0.3, 0.1);
                 level.playSound(null, player.blockPosition(), SoundEvents.CROSSBOW_SHOOT, SoundSource.PLAYERS, 1.5f, 0.7f);
                 level.playSound(null, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 0.8f, 1.6f);
             }
@@ -231,7 +231,7 @@ public class RealmWeaponItem extends SwordItem {
                     caught++;
                 }
                 player.heal(2.0f * caught);
-                level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, here.x, here.y + 1, here.z, 250, 5.0, 1.5, 5.0, 0.02);
+                com.aurelia.Perf.particles(level, ParticleTypes.SPORE_BLOSSOM_AIR, here.x, here.y + 1, here.z, 250, 5.0, 1.5, 5.0, 0.02);
                 level.playSound(null, player.blockPosition(), SoundEvents.MOSS_BREAK, SoundSource.PLAYERS, 2.0f, 0.5f);
             }
         }

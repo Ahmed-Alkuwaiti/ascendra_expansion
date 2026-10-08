@@ -80,7 +80,7 @@ public class RelicPedestalBlock extends Block {
         ServerLevel server = (ServerLevel) level;
         server.setBlock(pos, state.setValue(FILLED, true), 3);
         server.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 2.0f, 0.8f);
-        server.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, 40, 0.3, 0.6, 0.3, 0.05);
+        com.aurelia.Perf.particles(server, ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, 40, 0.3, 0.6, 0.3, 0.05);
         int filled = 0;
         int total = 0;
         for (BlockPos p : BlockPos.betweenClosed(pos.offset(-36, -8, -36), pos.offset(36, 8, 36))) {

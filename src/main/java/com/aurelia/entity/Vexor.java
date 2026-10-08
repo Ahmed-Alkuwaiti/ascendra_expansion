@@ -132,8 +132,8 @@ public class Vexor extends AureliaBoss {
         if (this.jamTicks > 0) {
             this.jamTicks--;
             this.getMoveControl().setWantedPosition(c.x, c.y + 0.5, c.z - 5.0, 1.0);
-            level.sendParticles(ParticleTypes.CRIT, getX(), getY() + 2.5, getZ(), 8, 2.0, 1.5, 2.0, 0.1);
-            level.sendParticles(ParticleTypes.SMOKE, getX(), getY() + 3.0, getZ(), 4, 1.5, 1.0, 1.5, 0.02);
+            com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX(), getY() + 2.5, getZ(), 8, 2.0, 1.5, 2.0, 0.1);
+            com.aurelia.Perf.particles(level, ParticleTypes.SMOKE, getX(), getY() + 3.0, getZ(), 4, 1.5, 1.0, 1.5, 0.02);
             if (this.jamTicks == 0) {
                 this.playSound(SoundEvents.PISTON_EXTEND, 4.0f, 0.4f);
             }
@@ -157,7 +157,7 @@ public class Vexor extends AureliaBoss {
             }
             BlockPos master = masterPos();
             if (master != null) {
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, master.getX() + 0.5, master.getY() + 1.0, master.getZ() + 0.5, 6, 0.3, 0.5, 0.3, 0.05);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, master.getX() + 0.5, master.getY() + 1.0, master.getZ() + 0.5, 6, 0.3, 0.5, 0.3, 0.05);
             }
             if (this.channelTicks == 0) {
                 eatTheHour(level);
@@ -239,7 +239,7 @@ public class Vexor extends AureliaBoss {
             ArrayDeque<Vec3> past = this.history.get(player.getUUID());
             if (past != null && !past.isEmpty()) {
                 Vec3 then = past.peekFirst();
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(), 60, 0.4, 1.0, 0.4, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(), 60, 0.4, 1.0, 0.4, 0.2);
                 player.teleportTo(then.x, then.y, then.z);
                 player.fallDistance = 0;
             }
@@ -301,7 +301,7 @@ public class Vexor extends AureliaBoss {
             if (t <= 22 && t % 3 == 0) {
                 for (int k = 0; k < 10; k++) {
                     double a = k * Math.PI / 5.0;
-                    level.sendParticles(ParticleTypes.END_ROD, at.x + Math.cos(a) * 2.2, at.y + 0.2, at.z + Math.sin(a) * 2.2, 1, 0, 0, 0, 0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, at.x + Math.cos(a) * 2.2, at.y + 0.2, at.z + Math.sin(a) * 2.2, 1, 0, 0, 0, 0);
                 }
             }
             if (t <= 0) {
@@ -309,8 +309,8 @@ public class Vexor extends AureliaBoss {
                     player.hurt(this.damageSources().magic(), damage);
                     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                 }
-                level.sendParticles(ParticleTypes.REVERSE_PORTAL, at.x, at.y + 1.0, at.z, 50, 0.5, 2.0, 0.5, 0.2);
-                level.sendParticles(ParticleTypes.ELECTRIC_SPARK, at.x, at.y + 0.5, at.z, 20, 1.0, 0.5, 1.0, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, at.x, at.y + 1.0, at.z, 50, 0.5, 2.0, 0.5, 0.2);
+                com.aurelia.Perf.particles(level, ParticleTypes.ELECTRIC_SPARK, at.x, at.y + 0.5, at.z, 20, 1.0, 0.5, 1.0, 0.2);
                 level.playSound(null, BlockPos.containing(at), SoundEvents.BELL_BLOCK, SoundSource.HOSTILE, 1.5f, 1.8f);
                 this.strikeAt.remove(i);
                 this.strikeTicks.remove(i);
@@ -335,7 +335,7 @@ public class Vexor extends AureliaBoss {
         double dz = Math.sin(this.pendulumAngle);
         if (this.pendulumTicks % 4 == 0 && this.pendulumTicks > 0) {
             for (double t = -13.0; t <= 13.0; t += 1.0) {
-                level.sendParticles(ParticleTypes.SMALL_FLAME, c.x + dx * t, c.y + 0.2, c.z + dz * t, 1, 0.05, 0.0, 0.05, 0.0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SMALL_FLAME, c.x + dx * t, c.y + 0.2, c.z + dz * t, 1, 0.05, 0.0, 0.05, 0.0);
             }
         }
         if (this.pendulumTicks == 0) {
@@ -352,7 +352,7 @@ public class Vexor extends AureliaBoss {
                 }
             }
             for (double t = -13.0; t <= 13.0; t += 0.5) {
-                level.sendParticles(ParticleTypes.SWEEP_ATTACK, c.x + dx * t, c.y + 1.0, c.z + dz * t, 1, 0, 0, 0, 0);
+                com.aurelia.Perf.particles(level, ParticleTypes.SWEEP_ATTACK, c.x + dx * t, c.y + 1.0, c.z + dz * t, 1, 0, 0, 0, 0);
             }
             this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 4.0f, 0.4f);
         }
@@ -372,7 +372,7 @@ public class Vexor extends AureliaBoss {
                 Vec3 d = to.subtract(eye);
                 for (double t = 0.0; t < 1.0; t += 0.04) {
                     Vec3 p = eye.add(d.scale(t));
-                    level.sendParticles(ParticleTypes.REVERSE_PORTAL, p.x, p.y, p.z, 1, 0, 0, 0, 0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.REVERSE_PORTAL, p.x, p.y, p.z, 1, 0, 0, 0, 0);
                 }
                 victim.hurt(this.damageSources().indirectMagic(this, this), phase >= 3 ? 18.0f : 14.0f);
             }

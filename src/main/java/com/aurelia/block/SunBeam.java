@@ -74,8 +74,8 @@ public final class SunBeam {
             }
         }
         for (BlockPos p : path) {
-            level.sendParticles(ParticleTypes.END_ROD, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 3, 0.15, 0.15, 0.15, 0.0);
-            level.sendParticles(ParticleTypes.WAX_ON, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 1, 0.1, 0.1, 0.1, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.END_ROD, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 3, 0.15, 0.15, 0.15, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.WAX_ON, p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 1, 0.1, 0.1, 0.1, 0.0);
         }
         level.playSound(null, well, SoundEvents.BEACON_POWER_SELECT, SoundSource.BLOCKS, 1.5f, 1.4f);
         if (player != null && lastLens == null) {

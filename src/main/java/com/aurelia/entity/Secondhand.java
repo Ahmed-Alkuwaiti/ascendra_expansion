@@ -54,7 +54,7 @@ public class Secondhand extends FlyingGuard {
         Vec3 d = target.getEyePosition().subtract(from);
         for (double t = 0.0; t < 1.0; t += 0.05) {
             Vec3 p = from.add(d.scale(t));
-            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, p.x, p.y, p.z, 1, 0, 0, 0, 0);
+            com.aurelia.Perf.particles(level, ParticleTypes.ELECTRIC_SPARK, p.x, p.y, p.z, 1, 0, 0, 0, 0);
         }
         target.hurt(this.damageSources().indirectMagic(this, this), 8.0f);
         target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2));

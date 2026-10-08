@@ -30,6 +30,19 @@ public class SpecRenderer<T extends Mob> extends MobRenderer<T, SpecModel<T>> {
         }
     }
 
+    /** Past the client's configured distance, ordinary guards and creatures are not drawn; Wardens and lieutenants always are. */
+    @Override
+    public boolean shouldRender(T entity, net.minecraft.client.renderer.culling.Frustum frustum, double camX, double camY, double camZ) {
+        if (!super.shouldRender(entity, frustum, camX, camY, camZ)) {
+            return false;
+        }
+        int d = com.aurelia.AureliaClientConfig.MOB_RENDER_DISTANCE.get();
+        if (d <= 0 || entity instanceof com.aurelia.entity.AureliaBoss || entity instanceof com.aurelia.entity.Lieutenant) {
+            return true;
+        }
+        return entity.distanceToSqr(camX, camY, camZ) <= (double) d * d;
+    }
+
     @Override
     public ResourceLocation getTextureLocation(T entity) {
         return this.texture;

@@ -130,7 +130,7 @@ public class TempestRoc extends AureliaBoss {
             case TELEGRAPH -> {
                 this.getLookControl().setLookAt(target, 60.0f, 60.0f);
                 if (this.level() instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, getX(), getY() + 0.9, getZ(),
+                    com.aurelia.Perf.particles(serverLevel, ParticleTypes.ELECTRIC_SPARK, getX(), getY() + 0.9, getZ(),
                             8, 1.4, 0.6, 1.4, 0.1);
                 }
                 if (--this.modeTicks <= 0) {
@@ -168,7 +168,7 @@ public class TempestRoc extends AureliaBoss {
             case STUNNED -> {
                 this.setDeltaMovement(Vec3.ZERO);
                 if (this.level() instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + 1.5, getZ(), 6, 1.2, 0.4, 1.2, 0.1);
+                    com.aurelia.Perf.particles(serverLevel, ParticleTypes.CRIT, getX(), getY() + 1.5, getZ(), 6, 1.2, 0.4, 1.2, 0.1);
                 }
                 if (--this.modeTicks <= 0) {
                     this.mode = Mode.HOVER;
@@ -187,7 +187,7 @@ public class TempestRoc extends AureliaBoss {
         }
         this.playSound(SoundEvents.ENDER_DRAGON_FLAP, 3.0f, 0.6f);
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ(), 80, 4.0, 1.0, 4.0, 0.4);
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.CLOUD, getX(), getY(), getZ(), 80, 4.0, 1.0, 4.0, 0.4);
         }
     }
 

@@ -160,7 +160,7 @@ public class Vorath extends AureliaBoss {
     protected void tickBoss(@Nullable LivingEntity target) {
         Vec3 c = centre();
         if (this.level() instanceof ServerLevel level && this.isInWater() && this.tickCount % 4 == 0) {
-            level.sendParticles(ParticleTypes.BUBBLE, getX(), getY() + 1.0, getZ(), 6, 2.0, 0.8, 2.0, 0.05);
+            com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE, getX(), getY() + 1.0, getZ(), 6, 2.0, 0.8, 2.0, 0.05);
         }
         if (this.undertowTicks > 0) {
             this.undertowTicks--;
@@ -198,9 +198,9 @@ public class Vorath extends AureliaBoss {
                 if (this.level() instanceof ServerLevel level) {
                     for (int i = 0; i < 12; i++) {
                         double a = i * Math.PI / 6 + this.tickCount * 0.1;
-                        level.sendParticles(ParticleTypes.BUBBLE_POP, lungeTo.x + Math.cos(a) * 3.0, lungeTo.y + 0.2, lungeTo.z + Math.sin(a) * 3.0, 1, 0.0, 0.2, 0.0, 0.02);
+                        com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE_POP, lungeTo.x + Math.cos(a) * 3.0, lungeTo.y + 0.2, lungeTo.z + Math.sin(a) * 3.0, 1, 0.0, 0.2, 0.0, 0.02);
                     }
-                    level.sendParticles(ParticleTypes.SPLASH, lungeTo.x, lungeTo.y + 0.2, lungeTo.z, 6, 1.5, 0.1, 1.5, 0.1);
+                    com.aurelia.Perf.particles(level, ParticleTypes.SPLASH, lungeTo.x, lungeTo.y + 0.2, lungeTo.z, 6, 1.5, 0.1, 1.5, 0.1);
                 }
                 if (--this.modeTicks <= 0) {
                     this.mode = Mode.LUNGE;
@@ -250,7 +250,7 @@ public class Vorath extends AureliaBoss {
             case EXPOSED -> {
                 steer(exposedSpot(c), 0.2);
                 if (this.level() instanceof ServerLevel level) {
-                    level.sendParticles(ParticleTypes.CRIT, getX(), getY() + 2.5, getZ(), 6, 2.0, 0.6, 2.0, 0.1);
+                    com.aurelia.Perf.particles(level, ParticleTypes.CRIT, getX(), getY() + 2.5, getZ(), 6, 2.0, 0.6, 2.0, 0.1);
                 }
                 if (this.modeTicks % 30 == 0) {
                     thrash();
@@ -327,7 +327,7 @@ public class Vorath extends AureliaBoss {
         this.playSound(SoundEvents.RAVAGER_ATTACK, 4.0f, 0.4f);
         this.playSound(SoundEvents.GENERIC_SPLASH, 4.0f, 0.6f);
         if (this.level() instanceof ServerLevel level) {
-            level.sendParticles(ParticleTypes.SPLASH, getX(), getY() + 1.0, getZ(), 120, 3.0, 1.0, 3.0, 0.3);
+            com.aurelia.Perf.particles(level, ParticleTypes.SPLASH, getX(), getY() + 1.0, getZ(), 120, 3.0, 1.0, 3.0, 0.3);
         }
     }
 
@@ -345,7 +345,7 @@ public class Vorath extends AureliaBoss {
             player.push(out.x, 0.0, out.z);
             player.hurtMarked = true;
             if (this.level() instanceof ServerLevel level && this.tickCount % 5 == 0) {
-                level.sendParticles(ParticleTypes.BUBBLE_POP, player.getX(), player.getY() + 0.2, player.getZ(), 4, 0.4, 0.1, 0.4, 0.02);
+                com.aurelia.Perf.particles(level, ParticleTypes.BUBBLE_POP, player.getX(), player.getY() + 0.2, player.getZ(), 4, 0.4, 0.1, 0.4, 0.02);
             }
         }
     }
@@ -367,7 +367,7 @@ public class Vorath extends AureliaBoss {
         if (this.level() instanceof ServerLevel level) {
             for (int i = 0; i < 36; i++) {
                 double a = i * Math.PI / 18;
-                level.sendParticles(ParticleTypes.SPLASH, c.x + Math.cos(a) * 11, c.y + 0.5, c.z + Math.sin(a) * 11, 10, 0.5, 0.5, 0.5, 0.3);
+                com.aurelia.Perf.particles(level, ParticleTypes.SPLASH, c.x + Math.cos(a) * 11, c.y + 0.5, c.z + Math.sin(a) * 11, 10, 0.5, 0.5, 0.5, 0.3);
             }
         }
     }

@@ -60,7 +60,7 @@ public final class RealmTravel {
         playDepartureEffects(player);
         player.teleportTo(dest, c.getX() + 0.5, c.getY(), c.getZ() + 6.5, 180.0f, 0.0f);
         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0, false, false, false));
-        dest.sendParticles(ParticleTypes.REVERSE_PORTAL, c.getX() + 0.5, c.getY() + 1.0, c.getZ() + 6.5,
+        com.aurelia.Perf.particles(dest, ParticleTypes.REVERSE_PORTAL, c.getX() + 0.5, c.getY() + 1.0, c.getZ() + 6.5,
                 150, 0.6, 1.2, 0.6, 0.25);
 
         Story.title(player, realm.title, realm.subtitle, realm.color);
@@ -99,7 +99,7 @@ public final class RealmTravel {
         if (!(player.level() instanceof ServerLevel from)) {
             return;
         }
-        from.sendParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(),
+        com.aurelia.Perf.particles(from, ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0, player.getZ(),
                 120, 0.5, 1.0, 0.5, 0.3);
         from.playSound(null, player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.PLAYERS, 1.0f, 1.0f);
         LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(from);

@@ -55,7 +55,7 @@ public class Sunseer extends AureliaMinion {
                 double len = d.length();
                 for (double t = 0.0; t < len; t += 1.0) {
                     Vec3 p = from.add(d.scale(t / len));
-                    level.sendParticles(ParticleTypes.WAX_ON, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0);
+                    com.aurelia.Perf.particles(level, ParticleTypes.WAX_ON, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0);
                 }
             }
             if (this.focusTicks == 0 && target != null && target.isAlive()

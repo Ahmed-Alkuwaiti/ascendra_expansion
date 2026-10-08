@@ -108,7 +108,7 @@ public class MossbackTitan extends AureliaBoss {
             this.heal(this.getMaxHealth() * 0.012f * this.hearts.size());
             if (this.level() instanceof ServerLevel serverLevel) {
                 for (BlockPos pos : this.hearts) {
-                    serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 6, 0.3, 0.4, 0.3, 0.0);
+                    com.aurelia.Perf.particles(serverLevel, ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 6, 0.3, 0.4, 0.3, 0.0);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class MossbackTitan extends AureliaBoss {
             this.slamTicks--;
             this.getNavigation().stop();
             if (this.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.ANGRY_VILLAGER, getX(), getY() + getBbHeight() + 0.5, getZ(),
+                com.aurelia.Perf.particles(serverLevel, ParticleTypes.ANGRY_VILLAGER, getX(), getY() + getBbHeight() + 0.5, getZ(),
                         3, 0.8, 0.2, 0.8, 0.0);
             }
             if (this.slamTicks == 0) {
@@ -150,8 +150,8 @@ public class MossbackTitan extends AureliaBoss {
         }
         this.playSound(SoundEvents.GENERIC_EXPLODE, 3.0f, 0.6f);
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 0.5, getZ(), 1, 0, 0, 0, 0);
-            serverLevel.sendParticles(ParticleTypes.POOF, getX(), getY() + 0.2, getZ(), 60, radius / 2.0, 0.1, radius / 2.0, 0.05);
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.EXPLOSION_EMITTER, getX(), getY() + 0.5, getZ(), 1, 0, 0, 0, 0);
+            com.aurelia.Perf.particles(serverLevel, ParticleTypes.POOF, getX(), getY() + 0.2, getZ(), 60, radius / 2.0, 0.1, radius / 2.0, 0.05);
         }
     }
 

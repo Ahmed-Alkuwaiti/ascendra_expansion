@@ -55,7 +55,7 @@ public class SandglassSentinel extends AureliaMinion {
             for (Player player : level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(4.0))) {
                 player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 50, 0));
             }
-            level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.RED_SAND.defaultBlockState()),
+            com.aurelia.Perf.particles(level, new BlockParticleOption(ParticleTypes.BLOCK, Blocks.RED_SAND.defaultBlockState()),
                     getX(), getY() + 1.5, getZ(), 80, 1.5, 1.0, 1.5, 0.2);
             this.playSound(SoundEvents.SAND_BREAK, 2.0f, 0.6f);
         }

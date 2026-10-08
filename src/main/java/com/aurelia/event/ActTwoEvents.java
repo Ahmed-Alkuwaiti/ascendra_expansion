@@ -70,7 +70,7 @@ public class ActTwoEvents {
         } else if (ticks > 0) {
             int pct = ticks * 100 / NEEDED;
             player.displayClientMessage(Component.literal("The stone is listening... " + pct + "%").withStyle(ChatFormatting.WHITE), true);
-            level.sendParticles(ParticleTypes.SNOWFLAKE, below.getX() + 0.5, below.getY() + 1.1, below.getZ() + 0.5, 3, 0.3, 0.1, 0.3, 0.0);
+            com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, below.getX() + 0.5, below.getY() + 1.1, below.getZ() + 0.5, 3, 0.3, 0.1, 0.3, 0.0);
         }
     }
 }

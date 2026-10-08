@@ -55,7 +55,7 @@ public class PaleMirage extends AureliaMinion {
         }
         this.playSound(SoundEvents.GLASS_BREAK, 1.5f, 1.2f);
         if (this.level() instanceof ServerLevel level) {
-            level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY() + 3.0, getZ(), 60, 0.6, 2.0, 0.6, 0.08);
+            com.aurelia.Perf.particles(level, ParticleTypes.SNOWFLAKE, getX(), getY() + 3.0, getZ(), 60, 0.6, 2.0, 0.6, 0.08);
         }
         this.discard();
         return false;
