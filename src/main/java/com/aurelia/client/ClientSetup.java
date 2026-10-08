@@ -131,10 +131,10 @@ public class ClientSetup {
                 ctx -> new ScaledRenderer<GroveAnt, SpiderModel<GroveAnt>>(ctx,
                         new SpiderModel<GroveAnt>(ctx.bakeLayer(ModelLayers.SPIDER)), 1.0f, 1.3f, tex("grove_ant")));
         event.registerEntityRenderer(ModEntities.SKY_SENTINEL.get(),
-                ctx -> new ScaledRenderer<SkySentinel, ZombieModel<SkySentinel>>(ctx,
-                        new ZombieModel<SkySentinel>(ctx.bakeLayer(ModelLayers.ZOMBIE)), 0.6f, 1.15f, tex("sky_sentinel")));
+                ctx -> new ScaledRenderer<SkySentinel, net.minecraft.client.model.HumanoidModel<SkySentinel>>(ctx,
+                        new net.minecraft.client.model.HumanoidModel<SkySentinel>(ctx.bakeLayer(ModelLayers.ZOMBIE)), 0.6f, 1.15f, tex("sky_sentinel")));
         event.registerEntityRenderer(ModEntities.HOLLOW_SHADE.get(),
-                ctx -> new ScaledRenderer<HollowShade, ZombieModel<HollowShade>>(ctx,
-                        new ZombieModel<HollowShade>(ctx.bakeLayer(ModelLayers.ZOMBIE)), 0.5f, 1.0f, tex("hollow_shade")));
+                ctx -> new ScaledRenderer<HollowShade, net.minecraft.client.model.HumanoidModel<HollowShade>>(ctx,
+                        new net.minecraft.client.model.HumanoidModel<HollowShade>(ctx.bakeLayer(ModelLayers.ZOMBIE)), 0.5f, 1.0f, tex("hollow_shade")));
     }
 }

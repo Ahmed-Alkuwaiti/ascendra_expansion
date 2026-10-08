@@ -116,8 +116,8 @@ public class ClockDialBlock extends Block {
         int minX = found.stream().mapToInt(BlockPos::getX).min().orElse(0), maxX = found.stream().mapToInt(BlockPos::getX).max().orElse(0);
         int minZ = found.stream().mapToInt(BlockPos::getZ).min().orElse(0), maxZ = found.stream().mapToInt(BlockPos::getZ).max().orElse(0);
         boolean alongX = maxX - minX >= maxZ - minZ;
-        found.sort(alongX ? Comparator.comparingInt(BlockPos::getX).thenComparingInt(BlockPos::getZ)
-                : Comparator.comparingInt(BlockPos::getZ).thenComparingInt(BlockPos::getX));
+        found.sort(alongX ? Comparator.comparingInt((BlockPos p) -> p.getX()).thenComparingInt(p -> p.getZ())
+                : Comparator.comparingInt((BlockPos p) -> p.getZ()).thenComparingInt(p -> p.getX()));
         return found;
     }
 

@@ -188,7 +188,7 @@ public class Lieutenant extends Monster {
             this.chargeTicks--;
             for (Player p : level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(1.2))) {
                 if (p.invulnerableTime == 0) {
-                    p.hurt(this.damageSources().mobAttack(this), kind.damage * 1.2f);
+                    p.hurt(this.damageSources().mobAttack(this), (float) (kind.damage * 1.2f));
                     Vec3 away = p.position().subtract(this.position()).normalize();
                     p.push(away.x * 1.6, 0.6, away.z * 1.6);
                     p.hurtMarked = true;
@@ -274,7 +274,7 @@ public class Lieutenant extends Monster {
                     com.aurelia.Perf.particles(level, this.particle(), getX() + Math.cos(t) * 6, getY() + 1, getZ() + Math.sin(t) * 6, 2, 0.2, 0.6, 0.2, 0.02);
                 }
                 for (Player p : this.players(8.0)) {
-                    p.hurt(this.damageSources().mobAttack(this), kind.damage * 0.8f);
+                    p.hurt(this.damageSources().mobAttack(this), (float) (kind.damage * 0.8f));
                     this.affect(p);
                 }
                 this.playSound(this.elementSound(), 3.0f, 0.6f);
@@ -286,7 +286,7 @@ public class Lieutenant extends Monster {
                     this.teleportTo(behind.x, behind.y + (kind.flying ? 1.0 : 0.0), behind.z);
                 }
                 this.lookAt(target, 360f, 360f);
-                target.hurt(this.damageSources().mobAttack(this), kind.damage * 1.1f);
+                target.hurt(this.damageSources().mobAttack(this), (float) (kind.damage * 1.1f));
                 this.affect(target);
                 this.playSound(SoundEvents.ENDERMAN_TELEPORT, 2.0f, 0.6f);
             }
@@ -309,7 +309,7 @@ public class Lieutenant extends Monster {
                         bolt.setVisualOnly(true);
                         level.addFreshEntity(bolt);
                     }
-                    p.hurt(this.damageSources().lightningBolt(), kind.damage * 0.7f);
+                    p.hurt(this.damageSources().lightningBolt(), (float) (kind.damage * 0.7f));
                 }
             }
             case ROOT -> {
@@ -336,7 +336,7 @@ public class Lieutenant extends Monster {
             com.aurelia.Perf.particles(level, this.particle(), getX() + Math.cos(t) * r, getY() + 0.3, getZ() + Math.sin(t) * r, 2, 0.1, 0.2, 0.1, 0.02);
         }
         for (Player p : this.players(r)) {
-            p.hurt(this.damageSources().mobAttack(this), kind.damage * scale);
+            p.hurt(this.damageSources().mobAttack(this), (float) (kind.damage * scale));
             Vec3 away = p.position().subtract(this.position()).multiply(1, 0, 1).normalize();
             p.push(away.x * 1.2, 0.8, away.z * 1.2);
             p.hurtMarked = true;
@@ -352,7 +352,7 @@ public class Lieutenant extends Monster {
         HitResult hit = this.level().clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
         this.line(from, hit.getLocation());
         if (hit.getType() == HitResult.Type.MISS) {
-            target.hurt(this.damageSources().indirectMagic(this, this), kind.damage * scale);
+            target.hurt(this.damageSources().indirectMagic(this, this), (float) (kind.damage * scale));
             this.affect(target);
         }
         this.playSound(this.elementSound(), 1.5f, 1.4f);
