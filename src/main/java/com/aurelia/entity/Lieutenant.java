@@ -513,6 +513,10 @@ public class Lieutenant extends Monster {
         Item[] loot = ModItems.lieutenantLoot(kind.realm);
         this.drop(new ItemStack(loot[0], 4 + this.random.nextInt(5) + looting));
         this.drop(new ItemStack(loot[1], 1 + this.random.nextInt(2)));
+        Item trophy = com.aurelia.registry.ExtraContent.trophy(kind);      // and always its trophy, for the realm's charm
+        if (trophy != null) {
+            this.drop(new ItemStack(trophy));
+        }
     }
 
     private void drop(ItemStack stack) {

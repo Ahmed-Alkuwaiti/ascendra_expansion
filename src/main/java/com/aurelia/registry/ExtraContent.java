@@ -1,9 +1,14 @@
 package com.aurelia.registry;
 
 import com.aurelia.AureliaMod;
+import com.aurelia.entity.LieutenantKind;
 import com.aurelia.item.BestiaryItem;
+import com.aurelia.item.CharmItem;
+import com.aurelia.item.LoreItem;
 import com.aurelia.item.WayfinderItem;
+import com.aurelia.world.Realm;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -123,11 +128,118 @@ public final class ExtraContent {
     public static final RegistryObject<PaintingVariant> PAINTING_THE_SHATTERED_CROWN = PAINTINGS.register("the_shattered_crown", () -> new PaintingVariant(64, 48));
     public static final RegistryObject<PaintingVariant> PAINTING_THE_CONVERGENCE_GATE = PAINTINGS.register("the_convergence_gate", () -> new PaintingVariant(48, 48));
 
+    // ---- the lieutenants' trophies (one each, always dropped) and the realm charms made from them
+    public static final RegistryObject<Item> THORNMAW_TROPHY = ModItems.ITEMS.register("thornmaw_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.thornmaw_trophy.lore"));
+    public static final RegistryObject<Item> HOLLOWBARK_TROPHY = ModItems.ITEMS.register("hollowbark_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.hollowbark_trophy.lore"));
+    public static final RegistryObject<Item> ROT_MATRON_TROPHY = ModItems.ITEMS.register("rot_matron_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.rot_matron_trophy.lore"));
+    public static final RegistryObject<Item> GALECLAW_TROPHY = ModItems.ITEMS.register("galeclaw_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.galeclaw_trophy.lore"));
+    public static final RegistryObject<Item> THUNDER_COLOSSUS_TROPHY = ModItems.ITEMS.register("thunder_colossus_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.thunder_colossus_trophy.lore"));
+    public static final RegistryObject<Item> SQUALL_SERAPH_TROPHY = ModItems.ITEMS.register("squall_seraph_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.squall_seraph_trophy.lore"));
+    public static final RegistryObject<Item> CINDERJAW_TROPHY = ModItems.ITEMS.register("cinderjaw_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.cinderjaw_trophy.lore"));
+    public static final RegistryObject<Item> CHAINWARDEN_TROPHY = ModItems.ITEMS.register("chainwarden_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.chainwarden_trophy.lore"));
+    public static final RegistryObject<Item> ASHEN_CHOIR_TROPHY = ModItems.ITEMS.register("ashen_choir_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.ashen_choir_trophy.lore"));
+    public static final RegistryObject<Item> REEF_CRUSHER_TROPHY = ModItems.ITEMS.register("reef_crusher_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.reef_crusher_trophy.lore"));
+    public static final RegistryObject<Item> DROWNED_ADMIRAL_TROPHY = ModItems.ITEMS.register("drowned_admiral_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.drowned_admiral_trophy.lore"));
+    public static final RegistryObject<Item> ABYSSAL_SIREN_TROPHY = ModItems.ITEMS.register("abyssal_siren_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.abyssal_siren_trophy.lore"));
+    public static final RegistryObject<Item> FROSTMAW_TROPHY = ModItems.ITEMS.register("frostmaw_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.frostmaw_trophy.lore"));
+    public static final RegistryObject<Item> RIME_KNIGHT_TROPHY = ModItems.ITEMS.register("rime_knight_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.rime_knight_trophy.lore"));
+    public static final RegistryObject<Item> THE_MOURNER_TROPHY = ModItems.ITEMS.register("the_mourner_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.the_mourner_trophy.lore"));
+    public static final RegistryObject<Item> DUNE_TYRANT_TROPHY = ModItems.ITEMS.register("dune_tyrant_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.dune_tyrant_trophy.lore"));
+    public static final RegistryObject<Item> SAND_PHARAOH_TROPHY = ModItems.ITEMS.register("sand_pharaoh_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.sand_pharaoh_trophy.lore"));
+    public static final RegistryObject<Item> GLASS_DJINN_TROPHY = ModItems.ITEMS.register("glass_djinn_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.glass_djinn_trophy.lore"));
+    public static final RegistryObject<Item> PENDULUM_BUTCHER_TROPHY = ModItems.ITEMS.register("pendulum_butcher_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.pendulum_butcher_trophy.lore"));
+    public static final RegistryObject<Item> GEARWYRM_TROPHY = ModItems.ITEMS.register("gearwyrm_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.gearwyrm_trophy.lore"));
+    public static final RegistryObject<Item> HOURLESS_ORACLE_TROPHY = ModItems.ITEMS.register("hourless_oracle_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.hourless_oracle_trophy.lore"));
+    public static final RegistryObject<Item> ROT_BEHEMOTH_TROPHY = ModItems.ITEMS.register("rot_behemoth_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.rot_behemoth_trophy.lore"));
+    public static final RegistryObject<Item> PALE_GARDENER_TROPHY = ModItems.ITEMS.register("pale_gardener_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.pale_gardener_trophy.lore"));
+    public static final RegistryObject<Item> LUMEN_HORROR_TROPHY = ModItems.ITEMS.register("lumen_horror_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.lumen_horror_trophy.lore"));
+    public static final RegistryObject<Item> HERALD_OF_RUIN_TROPHY = ModItems.ITEMS.register("herald_of_ruin_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.herald_of_ruin_trophy.lore"));
+    public static final RegistryObject<Item> HERALD_OF_SILENCE_TROPHY = ModItems.ITEMS.register("herald_of_silence_trophy",
+            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.herald_of_silence_trophy.lore"));
+
+    public static final RegistryObject<Item> GROVE_CHARM = ModItems.ITEMS.register("grove_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.GROVE));
+    public static final RegistryObject<Item> SKYREACH_CHARM = ModItems.ITEMS.register("skyreach_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.SKYREACH));
+    public static final RegistryObject<Item> HOLLOW_CHARM = ModItems.ITEMS.register("hollow_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.HOLLOW));
+    public static final RegistryObject<Item> DROWNED_CHARM = ModItems.ITEMS.register("drowned_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.DROWNED));
+    public static final RegistryObject<Item> PALE_CHARM = ModItems.ITEMS.register("pale_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.PALE));
+    public static final RegistryObject<Item> SCARLET_CHARM = ModItems.ITEMS.register("scarlet_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.SCARLET));
+    public static final RegistryObject<Item> CLOCKWORK_CHARM = ModItems.ITEMS.register("clockwork_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.CLOCKWORK));
+    public static final RegistryObject<Item> MYCELIAL_CHARM = ModItems.ITEMS.register("mycelial_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.MYCELIAL));
+    public static final RegistryObject<Item> LAST_CHARM = ModItems.ITEMS.register("last_charm",
+            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.LAST));
+
+    /** The trophy a lieutenant drops. */
+    @Nullable
+    public static Item trophy(LieutenantKind kind) {
+        RegistryObject<Item> ro = switch (kind) {
+            case THORNMAW -> THORNMAW_TROPHY;
+            case HOLLOWBARK -> HOLLOWBARK_TROPHY;
+            case ROT_MATRON -> ROT_MATRON_TROPHY;
+            case GALECLAW -> GALECLAW_TROPHY;
+            case THUNDER_COLOSSUS -> THUNDER_COLOSSUS_TROPHY;
+            case SQUALL_SERAPH -> SQUALL_SERAPH_TROPHY;
+            case CINDERJAW -> CINDERJAW_TROPHY;
+            case CHAINWARDEN -> CHAINWARDEN_TROPHY;
+            case ASHEN_CHOIR -> ASHEN_CHOIR_TROPHY;
+            case REEF_CRUSHER -> REEF_CRUSHER_TROPHY;
+            case DROWNED_ADMIRAL -> DROWNED_ADMIRAL_TROPHY;
+            case ABYSSAL_SIREN -> ABYSSAL_SIREN_TROPHY;
+            case FROSTMAW -> FROSTMAW_TROPHY;
+            case RIME_KNIGHT -> RIME_KNIGHT_TROPHY;
+            case THE_MOURNER -> THE_MOURNER_TROPHY;
+            case DUNE_TYRANT -> DUNE_TYRANT_TROPHY;
+            case SAND_PHARAOH -> SAND_PHARAOH_TROPHY;
+            case GLASS_DJINN -> GLASS_DJINN_TROPHY;
+            case PENDULUM_BUTCHER -> PENDULUM_BUTCHER_TROPHY;
+            case GEARWYRM -> GEARWYRM_TROPHY;
+            case HOURLESS_ORACLE -> HOURLESS_ORACLE_TROPHY;
+            case ROT_BEHEMOTH -> ROT_BEHEMOTH_TROPHY;
+            case PALE_GARDENER -> PALE_GARDENER_TROPHY;
+            case LUMEN_HORROR -> LUMEN_HORROR_TROPHY;
+            case HERALD_OF_RUIN -> HERALD_OF_RUIN_TROPHY;
+            case HERALD_OF_SILENCE -> HERALD_OF_SILENCE_TROPHY;
+        };
+        return ro.isPresent() ? ro.get() : null;
+    }
+
     /** Touches the class so the registrations above happen before the registers fire. */
     public static void init() {}
 
     /** Everything here for the creative tab, in order. */
     public static List<RegistryObject<Item>> tabItems() {
-        return List.of(WAYFINDERS_LODESTAR, AURELIAN_BESTIARY, GROVE_BRICKS_ITEM, GROVE_BRICK_STAIRS_ITEM, GROVE_BRICK_SLAB_ITEM, GROVE_SIGIL_STONE_ITEM, GROVE_SIGIL_LAMP_ITEM, SKYREACH_BRICKS_ITEM, SKYREACH_BRICK_STAIRS_ITEM, SKYREACH_BRICK_SLAB_ITEM, SKYREACH_SIGIL_STONE_ITEM, SKYREACH_SIGIL_LAMP_ITEM, HOLLOW_BRICKS_ITEM, HOLLOW_BRICK_STAIRS_ITEM, HOLLOW_BRICK_SLAB_ITEM, HOLLOW_SIGIL_STONE_ITEM, HOLLOW_SIGIL_LAMP_ITEM, DROWNED_BRICKS_ITEM, DROWNED_BRICK_STAIRS_ITEM, DROWNED_BRICK_SLAB_ITEM, DROWNED_SIGIL_STONE_ITEM, DROWNED_SIGIL_LAMP_ITEM, PALE_BRICKS_ITEM, PALE_BRICK_STAIRS_ITEM, PALE_BRICK_SLAB_ITEM, PALE_SIGIL_STONE_ITEM, PALE_SIGIL_LAMP_ITEM, SCARLET_BRICKS_ITEM, SCARLET_BRICK_STAIRS_ITEM, SCARLET_BRICK_SLAB_ITEM, SCARLET_SIGIL_STONE_ITEM, SCARLET_SIGIL_LAMP_ITEM, CLOCKWORK_BRICKS_ITEM, CLOCKWORK_BRICK_STAIRS_ITEM, CLOCKWORK_BRICK_SLAB_ITEM, CLOCKWORK_SIGIL_STONE_ITEM, CLOCKWORK_SIGIL_LAMP_ITEM, MYCELIAL_BRICKS_ITEM, MYCELIAL_BRICK_STAIRS_ITEM, MYCELIAL_BRICK_SLAB_ITEM, MYCELIAL_SIGIL_STONE_ITEM, MYCELIAL_SIGIL_LAMP_ITEM);
+        return List.of(WAYFINDERS_LODESTAR, AURELIAN_BESTIARY, GROVE_BRICKS_ITEM, GROVE_BRICK_STAIRS_ITEM, GROVE_BRICK_SLAB_ITEM, GROVE_SIGIL_STONE_ITEM, GROVE_SIGIL_LAMP_ITEM, SKYREACH_BRICKS_ITEM, SKYREACH_BRICK_STAIRS_ITEM, SKYREACH_BRICK_SLAB_ITEM, SKYREACH_SIGIL_STONE_ITEM, SKYREACH_SIGIL_LAMP_ITEM, HOLLOW_BRICKS_ITEM, HOLLOW_BRICK_STAIRS_ITEM, HOLLOW_BRICK_SLAB_ITEM, HOLLOW_SIGIL_STONE_ITEM, HOLLOW_SIGIL_LAMP_ITEM, DROWNED_BRICKS_ITEM, DROWNED_BRICK_STAIRS_ITEM, DROWNED_BRICK_SLAB_ITEM, DROWNED_SIGIL_STONE_ITEM, DROWNED_SIGIL_LAMP_ITEM, PALE_BRICKS_ITEM, PALE_BRICK_STAIRS_ITEM, PALE_BRICK_SLAB_ITEM, PALE_SIGIL_STONE_ITEM, PALE_SIGIL_LAMP_ITEM, SCARLET_BRICKS_ITEM, SCARLET_BRICK_STAIRS_ITEM, SCARLET_BRICK_SLAB_ITEM, SCARLET_SIGIL_STONE_ITEM, SCARLET_SIGIL_LAMP_ITEM, CLOCKWORK_BRICKS_ITEM, CLOCKWORK_BRICK_STAIRS_ITEM, CLOCKWORK_BRICK_SLAB_ITEM, CLOCKWORK_SIGIL_STONE_ITEM, CLOCKWORK_SIGIL_LAMP_ITEM, MYCELIAL_BRICKS_ITEM, MYCELIAL_BRICK_STAIRS_ITEM, MYCELIAL_BRICK_SLAB_ITEM, MYCELIAL_SIGIL_STONE_ITEM, MYCELIAL_SIGIL_LAMP_ITEM, GROVE_CHARM, SKYREACH_CHARM, HOLLOW_CHARM, DROWNED_CHARM, PALE_CHARM, SCARLET_CHARM, CLOCKWORK_CHARM, MYCELIAL_CHARM, LAST_CHARM, THORNMAW_TROPHY, HOLLOWBARK_TROPHY, ROT_MATRON_TROPHY, GALECLAW_TROPHY, THUNDER_COLOSSUS_TROPHY, SQUALL_SERAPH_TROPHY, CINDERJAW_TROPHY, CHAINWARDEN_TROPHY, ASHEN_CHOIR_TROPHY, REEF_CRUSHER_TROPHY, DROWNED_ADMIRAL_TROPHY, ABYSSAL_SIREN_TROPHY, FROSTMAW_TROPHY, RIME_KNIGHT_TROPHY, THE_MOURNER_TROPHY, DUNE_TYRANT_TROPHY, SAND_PHARAOH_TROPHY, GLASS_DJINN_TROPHY, PENDULUM_BUTCHER_TROPHY, GEARWYRM_TROPHY, HOURLESS_ORACLE_TROPHY, ROT_BEHEMOTH_TROPHY, PALE_GARDENER_TROPHY, LUMEN_HORROR_TROPHY, HERALD_OF_RUIN_TROPHY, HERALD_OF_SILENCE_TROPHY);
     }
 }

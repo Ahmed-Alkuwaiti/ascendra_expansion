@@ -1,0 +1,88 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 9071178,
+    "fog_color": 6965802,
+    "water_color": 6961840,
+    "water_fog_color": 1706544,
+    "grass_color": 8018586,
+    "foliage_color": 6965898,
+    "particle": {
+      "options": {
+        "type": "minecraft:reverse_portal"
+      },
+      "probability": 0.012
+    },
+    "ambient_sound": "minecraft:ambient.basalt_deltas.loop",
+    "additions_sound": {
+      "sound": "minecraft:block.chain.place",
+      "tick_chance": 0.002
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "aurelia:gearskitter",
+        "weight": 14,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:enderman",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:cogling",
+        "weight": 12,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": []
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [
+      "minecraft:amethyst_geode"
+    ],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_redstone",
+      "minecraft:ore_lapis",
+      "aurelia:ore_chronite",
+      "minecraft:ore_copper_large",
+      "minecraft:ore_redstone_lower"
+    ],
+    [
+      "minecraft:pointed_dripstone"
+    ],
+    [
+      "minecraft:spring_lava"
+    ],
+    [
+      "minecraft:glow_lichen"
+    ],
+    []
+  ]
+}

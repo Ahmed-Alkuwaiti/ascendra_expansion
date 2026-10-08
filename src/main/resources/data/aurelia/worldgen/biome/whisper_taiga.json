@@ -1,0 +1,94 @@
+{
+  "has_precipitation": true,
+  "temperature": -0.7,
+  "downfall": 0.5,
+  "effects": {
+    "sky_color": 13226970,
+    "fog_color": 11057352,
+    "water_color": 5930927,
+    "water_fog_color": 2241354,
+    "grass_color": 8822922,
+    "foliage_color": 6191718,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:snowflake"
+      },
+      "probability": 0.008
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:stray",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "aurelia:rimefang",
+        "weight": 40,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:frost_hare",
+        "weight": 14,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_diamond",
+      "minecraft:ore_gold",
+      "minecraft:ore_iron_middle",
+      "aurelia:ore_rime"
+    ],
+    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava_frozen"
+    ],
+    [
+      "minecraft:patch_berry_common",
+      "minecraft:trees_taiga",
+      "minecraft:trees_grove",
+      "minecraft:patch_taiga_grass",
+      "minecraft:brown_mushroom_taiga"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

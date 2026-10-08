@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:drowned"
+    "aurelia:coral_graveyard",
+    "aurelia:drowned",
+    "aurelia:kelp_forest"
   ]
 }

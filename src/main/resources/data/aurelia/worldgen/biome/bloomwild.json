@@ -1,0 +1,85 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.85,
+  "downfall": 0.9,
+  "effects": {
+    "sky_color": 8378111,
+    "fog_color": 16176872,
+    "water_color": 4180200,
+    "water_fog_color": 1740704,
+    "grass_color": 11853930,
+    "foliage_color": 15902418,
+    "particle": {
+      "options": {
+        "type": "minecraft:cherry_leaves"
+      },
+      "probability": 0.01
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "aurelia:grove_ant",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:mossling",
+        "weight": 14,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_diamond",
+      "aurelia:ore_verdant"
+    ],
+    [],
+    [
+      "aurelia:grove_springs",
+      "minecraft:spring_water"
+    ],
+    [
+      "minecraft:glow_lichen",
+      "minecraft:flower_flower_forest",
+      "minecraft:patch_tall_grass",
+      "minecraft:trees_cherry",
+      "minecraft:flower_cherry",
+      "minecraft:flower_meadow",
+      "minecraft:patch_grass_plain",
+      "minecraft:patch_sunflower",
+      "minecraft:patch_berry_common"
+    ],
+    []
+  ]
+}

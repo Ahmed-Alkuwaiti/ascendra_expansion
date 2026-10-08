@@ -53,14 +53,29 @@
   "features": [
     [],
     [],
+    [
+      "minecraft:forest_rock"
+    ],
     [],
     [],
     [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_gold",
+      "aurelia:ore_stormglass"
+    ],
     [],
-    [],
-    [],
-    [],
-    [],
+    [
+      "minecraft:spring_water"
+    ],
+    [
+      "minecraft:patch_tall_grass",
+      "minecraft:flower_meadow",
+      "minecraft:patch_grass_plain",
+      "minecraft:trees_meadow"
+    ],
     []
   ]
 }

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:pendulum_butcher_trophy"
+    },
+    "B": {
+      "item": "aurelia:gearwyrm_trophy"
+    },
+    "C": {
+      "item": "aurelia:hourless_oracle_trophy"
+    },
+    "S": {
+      "item": "aurelia:temporal_core"
+    },
+    "M": {
+      "item": "aurelia:chronite_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:clockwork_charm"
+  }
+}

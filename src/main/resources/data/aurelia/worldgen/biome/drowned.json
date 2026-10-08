@@ -99,9 +99,9 @@
     [
       "minecraft:ore_coal_upper",
       "minecraft:ore_iron_upper",
-      "minecraft:ore_iron_middle",
-      "minecraft:ore_gold",
       "minecraft:ore_diamond",
+      "minecraft:ore_gold",
+      "minecraft:ore_iron_middle",
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
@@ -112,12 +112,12 @@
       "minecraft:spring_water"
     ],
     [
+      "minecraft:glow_lichen",
+      "minecraft:sea_pickle",
       "minecraft:trees_mangrove",
       "minecraft:warm_ocean_vegetation",
       "minecraft:kelp_warm",
-      "minecraft:seagrass_warm",
-      "minecraft:sea_pickle",
-      "minecraft:glow_lichen"
+      "minecraft:seagrass_warm"
     ],
     []
   ]

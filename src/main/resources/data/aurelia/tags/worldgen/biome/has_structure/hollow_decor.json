@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:hollow"
+    "aurelia:ember_deeps",
+    "aurelia:hollow",
+    "aurelia:soulfire_wastes"
   ]
 }

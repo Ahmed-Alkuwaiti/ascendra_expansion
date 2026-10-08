@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aurelia:item/squall_seraph_trophy"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "A B",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:herald_of_ruin_trophy"
+    },
+    "B": {
+      "item": "aurelia:herald_of_silence_trophy"
+    },
+    "S": {
+      "item": "aurelia:fractured_genesis"
+    },
+    "M": {
+      "item": "aurelia:genesis_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:last_charm"
+  }
+}

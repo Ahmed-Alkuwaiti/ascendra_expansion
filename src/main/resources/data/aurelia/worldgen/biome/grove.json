@@ -50,7 +50,9 @@
   },
   "features": [
     [],
-    [],
+    [
+      "minecraft:lake_lava_underground"
+    ],
     [],
     [],
     [],
@@ -58,13 +60,17 @@
     [
       "minecraft:ore_coal_upper",
       "minecraft:ore_iron_upper",
-      "minecraft:ore_diamond"
+      "minecraft:ore_copper",
+      "minecraft:ore_diamond",
+      "aurelia:ore_verdant"
     ],
     [],
     [
-      "aurelia:grove_springs"
+      "aurelia:grove_springs",
+      "minecraft:spring_water"
     ],
     [
+      "minecraft:glow_lichen",
       "minecraft:trees_jungle",
       "minecraft:mushroom_island_vegetation",
       "minecraft:patch_large_fern",

@@ -1,0 +1,141 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:grove_charm"
+    },
+    "title": {
+      "text": "Lucky Charm"
+    },
+    "description": {
+      "text": "Make a realm charm from its lieutenants' trophies."
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "grove": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:grove_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "skyreach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:skyreach_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "hollow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hollow_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "drowned": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:drowned_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "pale": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:pale_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:scarlet_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "clockwork": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:clockwork_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "mycelial": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:mycelial_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "last": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:last_charm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:lieutenants_grove",
+  "requirements": [
+    [
+      "grove",
+      "skyreach",
+      "hollow",
+      "drowned",
+      "pale",
+      "scarlet",
+      "clockwork",
+      "mycelial",
+      "last"
+    ]
+  ]
+}

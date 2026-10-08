@@ -1,0 +1,85 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.85,
+  "downfall": 0.9,
+  "effects": {
+    "sky_color": 6195822,
+    "fog_color": 6983258,
+    "water_color": 4180200,
+    "water_fog_color": 1740704,
+    "grass_color": 4094508,
+    "foliage_color": 2907682,
+    "particle": {
+      "options": {
+        "type": "minecraft:spore_blossom_air"
+      },
+      "probability": 0.03
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "aurelia:grove_ant",
+        "weight": 16,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:mossling",
+        "weight": 12,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_diamond",
+      "aurelia:ore_verdant"
+    ],
+    [],
+    [
+      "aurelia:grove_springs",
+      "minecraft:spring_water"
+    ],
+    [
+      "minecraft:glow_lichen",
+      "minecraft:trees_jungle",
+      "minecraft:patch_large_fern",
+      "minecraft:patch_grass_jungle",
+      "aurelia:grove_vines",
+      "minecraft:dark_forest_vegetation",
+      "minecraft:vines",
+      "minecraft:brown_mushroom_old_growth",
+      "minecraft:red_mushroom_old_growth"
+    ],
+    []
+  ]
+}

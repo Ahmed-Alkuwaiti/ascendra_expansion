@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:dune_tyrant_trophy"
+    },
+    "B": {
+      "item": "aurelia:sand_pharaoh_trophy"
+    },
+    "C": {
+      "item": "aurelia:glass_djinn_trophy"
+    },
+    "S": {
+      "item": "aurelia:amber_venom_vial"
+    },
+    "M": {
+      "item": "aurelia:sunglass_shard"
+    }
+  },
+  "result": {
+    "item": "aurelia:scarlet_charm"
+  }
+}

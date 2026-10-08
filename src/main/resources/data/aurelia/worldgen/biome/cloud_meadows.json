@@ -1,0 +1,83 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.6,
+  "downfall": 0.3,
+  "effects": {
+    "sky_color": 11066623,
+    "fog_color": 15267071,
+    "water_color": 5227519,
+    "water_fog_color": 3841752,
+    "grass_color": 10412154,
+    "foliage_color": 8382112,
+    "particle": {
+      "options": {
+        "type": "minecraft:end_rod"
+      },
+      "probability": 0.004
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:phantom",
+        "weight": 20,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "aurelia:sky_sentinel",
+        "weight": 40,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:cloud_ray",
+        "weight": 14,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": []
+  },
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:forest_rock"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_gold",
+      "aurelia:ore_stormglass"
+    ],
+    [],
+    [
+      "minecraft:spring_water"
+    ],
+    [
+      "minecraft:patch_tall_grass",
+      "minecraft:flower_meadow",
+      "minecraft:patch_grass_plain",
+      "minecraft:patch_sunflower",
+      "minecraft:trees_birch_and_oak",
+      "minecraft:flower_plains"
+    ],
+    []
+  ]
+}

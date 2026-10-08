@@ -34,5 +34,6 @@ public class AureliaMod {
         MinecraftForge.EVENT_BUS.register(new CrownEvents());
         MinecraftForge.EVENT_BUS.register(new ActTwoEvents());
         MinecraftForge.EVENT_BUS.register(new com.aurelia.event.KitEvents());
+        MinecraftForge.EVENT_BUS.register(new com.aurelia.event.CharmEvents());
     }
 }

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:mycelial"
+    "aurelia:glowcap_hollows",
+    "aurelia:mycelial",
+    "aurelia:rootmaw"
   ]
 }

@@ -4,8 +4,99 @@
     "type": "minecraft:noise",
     "settings": "aurelia:drowned",
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "aurelia:drowned"
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "aurelia:drowned",
+          "parameters": {
+            "temperature": [
+              -0.3,
+              0.3
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "continentalness": [
+              -2.0,
+              2.0
+            ],
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "weirdness": [
+              -2.0,
+              2.0
+            ],
+            "depth": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "aurelia:kelp_forest",
+          "parameters": {
+            "temperature": [
+              -1.0,
+              -0.3
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "continentalness": [
+              -2.0,
+              2.0
+            ],
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "weirdness": [
+              -2.0,
+              2.0
+            ],
+            "depth": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "aurelia:coral_graveyard",
+          "parameters": {
+            "temperature": [
+              0.3,
+              1.0
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "continentalness": [
+              -2.0,
+              2.0
+            ],
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "weirdness": [
+              -2.0,
+              2.0
+            ],
+            "depth": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0
+          }
+        }
+      ]
     }
   }
 }

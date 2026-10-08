@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:cinderjaw_trophy"
+    },
+    "B": {
+      "item": "aurelia:chainwarden_trophy"
+    },
+    "C": {
+      "item": "aurelia:ashen_choir_trophy"
+    },
+    "S": {
+      "item": "aurelia:caged_soul_ember"
+    },
+    "M": {
+      "item": "aurelia:soulsteel_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:hollow_charm"
+  }
+}

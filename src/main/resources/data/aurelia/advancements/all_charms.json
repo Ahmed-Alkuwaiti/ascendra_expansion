@@ -1,0 +1,131 @@
+{
+  "display": {
+    "icon": {
+      "item": "aurelia:last_charm"
+    },
+    "title": {
+      "text": "Charmed, I'm Sure"
+    },
+    "description": {
+      "text": "Hold all nine realm charms."
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "grove": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:grove_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "skyreach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:skyreach_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "hollow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:hollow_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "drowned": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:drowned_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "pale": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:pale_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:scarlet_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "clockwork": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:clockwork_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "mycelial": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:mycelial_charm"
+            ]
+          }
+        ]
+      }
+    },
+    "last": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "aurelia:last_charm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "aurelia:first_charm",
+  "rewards": {
+    "experience": 750
+  }
+}

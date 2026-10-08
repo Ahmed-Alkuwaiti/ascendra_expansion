@@ -422,6 +422,93 @@ def items_data():
         'aurelia:sunscar_citadel', 'aurelia:paradox_keep', 'aurelia:spore_cathedral', 'aurelia:convergence_gate']})
 
 
+# ================================================================================================ trophies and charms
+CHARM_REALMS = REALMS + ['last']
+CHARM = {'grove': ('Charm of the Rot Crown', 'Regeneration'), 'skyreach': ('Charm of the Tempest', 'Slow Falling'),
+         'hollow': ('Charm of the Hollow Throne', 'Fire Resistance'), 'drowned': ('Charm of the Deep', 'Water Breathing and Dolphin\'s Grace'),
+         'pale': ('Charm of the White Silence', 'Night Vision, and you never freeze'), 'scarlet': ('Charm of the Scarlet Sun', 'Haste'),
+         'clockwork': ('Charm of the Unwound Hour', 'Speed'), 'mycelial': ('Charm of the Bloom', 'Luck, and poison and nausea cannot take hold'),
+         'last': ('Charm of the Unmade', 'Strength and Resistance')}
+CHARM_GLOW = dict(GLOW, last=(200, 120, 255))
+TROPHY_PART = {'beast': 'Fang', 'biped': 'Crown', 'spider': 'Mandible', 'flyer': 'Plume', 'serpent': 'Scale'}
+
+
+def tex_trophy(lt):
+    """A trophy shaped by its owner's body: a fang, a horned crown, a mandible, a plume or a scale, in its realm's colours."""
+    from pixelart import Sprite
+    realm = lt['realm']
+    glow = CHARM_GLOW[realm]
+    stone = STONE.get(realm, (226, 218, 200))
+    s = Sprite(16, 500 + LIEUTENANTS.index(lt))
+    body = lt['body']
+    if body == 'beast':
+        s.poly([(5, 2), (11, 2), (9, 14), (8, 15), (7, 14)], 'bone')
+        s.rect(4, 1, 12, 4, mat(stone))
+        s.gem(8, 2.5, 1.2, mat(glow, glow=True))
+    elif body == 'biped':
+        s.poly([(3, 6), (13, 6), (12, 13), (4, 13)], 'gold')
+        for x in (3.5, 8, 12.5):
+            s.poly([(x - 1.6, 6.5), (x + 1.6, 6.5), (x, 1.5)], 'gold')
+        s.line((3, 6), (1, 2), 1.4, 'bone', 0.5)
+        s.line((13, 6), (15, 2), 1.4, 'bone', 0.5)
+        s.gem(8, 9.5, 2.0, mat(glow, glow=True))
+    elif body == 'spider':
+        s.path([(4, 3), (6, 8), (5, 13), (7, 15)], 2.2, mat(stone), 0.8)
+        s.path([(12, 3), (10, 8), (11, 13), (9, 15)], 2.2, mat(stone), 0.8)
+        s.ellipse(8, 4, 3.2, 2.2, 'black')
+        s.gem(8, 4, 1.1, mat(glow, glow=True))
+    elif body == 'flyer':
+        s.path([(3, 14), (7, 9), (11, 4), (13, 1)], 1.0, 'bone')
+        s.poly([(4, 13), (5, 8), (9, 3), (13, 1), (12, 5), (9, 10)], mat(stone))
+        s.poly([(6, 11), (8, 7), (11, 4), (10, 8)], mat(glow, glow=True))
+    else:
+        s.poly([(8, 1), (14, 6), (12, 14), (4, 14), (2, 6)], mat(stone))
+        s.poly([(8, 4), (11, 7), (10, 12), (6, 12), (5, 7)], mat(tuple(int(c * 0.7) for c in stone)))
+        s.gem(8, 8, 1.8, mat(glow, glow=True))
+    return s.render()
+
+
+def tex_charm(realm):
+    from pixelart import Sprite
+    s = Sprite(16, 600 + CHARM_REALMS.index(realm))
+    s.path([(3, 2), (8, 6), (13, 2)], 1.0, 'gold')
+    s.ellipse(8, 10, 5, 5, 'gold')
+    s.ellipse(8, 10, 3.6, 3.6, 'abyss')
+    s.gem(8, 10, 3.0, mat(CHARM_GLOW[realm], glow=True))
+    s.gem(8, 10, 1.2, 'star')
+    return s.render()
+
+
+def trophies_and_charms():
+    lang = {}
+    for lt in LIEUTENANTS:
+        tid = f'{lt["id"]}_trophy'
+        tex_trophy(lt).save(f'{A}/textures/item/{tid}.png')
+        dump(f'{A}/models/item/{tid}.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'aurelia:item/{tid}'}})
+        part = TROPHY_PART[lt['body']]
+        nm = lt['name'][4:] if lt['name'].startswith('The ') else lt['name']
+        lang[f'item.aurelia.{tid}'] = f'{nm}\'s {part}'
+        lang[f'item.aurelia.{tid}.lore'] = f'Taken from {lt["name"]}, {lt["title"]}. Part of a realm charm.'
+    for realm in CHARM_REALMS:
+        cid = f'{realm}_charm'
+        tex_charm(realm).save(f'{A}/textures/item/{cid}.png')
+        dump(f'{A}/models/item/{cid}.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'aurelia:item/{cid}'}})
+        lang[f'item.aurelia.{cid}'] = CHARM[realm][0]
+        lang[f'item.aurelia.{cid}.lore'] = 'Grants ' + CHARM[realm][1] + '.'
+        lts = of_realm(realm)
+        keys = 'ABC'[:len(lts)]
+        top = (keys + ' ' * 3)[:3] if len(lts) == 3 else 'A B'
+        key = {k: {'item': f'aurelia:{lt["id"]}_trophy'} for k, lt in zip(keys if len(lts) == 3 else 'AB', lts)}
+        if realm == 'last':
+            key.update({'S': {'item': 'aurelia:fractured_genesis'}, 'M': {'item': 'aurelia:genesis_ingot'}})
+        else:
+            from kit_data import ARSENAL
+            key.update({'S': {'item': f'aurelia:{ARSENAL[realm]["special"]}'}, 'M': {'item': f'aurelia:{METAL[realm]}'}})
+        dump(f'{D}/recipes/{cid}.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': [top, ' S ', 'M M'], 'key': key,
+                                         'result': {'item': f'aurelia:{cid}'}})
+    return lang
+
+
 # ================================================================================================ advancements
 ADV = []
 
@@ -504,6 +591,10 @@ def advancements():
         {r: has(f'{r}_sigil_lamp') for r in REALMS}, frame='goal', xp=200)
     adv('all_realms', 'enter_mycelial', 'aurelia:waygate', 'Walker Between Worlds', 'Set foot in every realm, the Last included.',
         {r: enter(r) for r in REALMS + ['last']}, frame='challenge', xp=300)
+    adv('first_charm', 'lieutenants_grove', 'aurelia:grove_charm', 'Lucky Charm', 'Make a realm charm from its lieutenants\' trophies.',
+        {r: has(f'{r}_charm') for r in CHARM_REALMS}, requirements=[[f'{r}' for r in CHARM_REALMS]])
+    adv('all_charms', 'first_charm', 'aurelia:last_charm', 'Charmed, I\'m Sure', 'Hold all nine realm charms.',
+        {r: has(f'{r}_charm') for r in CHARM_REALMS}, frame='challenge', xp=750)
 
 
 # ================================================================================================ Java and lang
@@ -524,12 +615,23 @@ def java():
     pt = [f'    public static final RegistryObject<PaintingVariant> PAINTING_{p[0].upper()} = PAINTINGS.register("{p[0]}", () -> new PaintingVariant({p[2]}, {p[3]}));'
           for p in PAINTINGS]
     tab = ', '.join([f'{b[0].upper()}_ITEM' for b in BLOCKS])
+    tr = [f'    public static final RegistryObject<Item> {lt["id"].upper()}_TROPHY = ModItems.ITEMS.register("{lt["id"]}_trophy",\n'
+          f'            () -> new LoreItem(new Item.Properties().rarity(Rarity.UNCOMMON), "item.aurelia.{lt["id"]}_trophy.lore"));' for lt in LIEUTENANTS]
+    ch = [f'    public static final RegistryObject<Item> {r.upper()}_CHARM = ModItems.ITEMS.register("{r}_charm",\n'
+          f'            () -> new CharmItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), Realm.{r.upper()}));' for r in CHARM_REALMS]
+    tcase = '\n'.join(f'            case {lt["id"].upper()} -> {lt["id"].upper()}_TROPHY;' for lt in LIEUTENANTS)
+    tab += ', ' + ', '.join([f'{r.upper()}_CHARM' for r in CHARM_REALMS] + [f'{lt["id"].upper()}_TROPHY' for lt in LIEUTENANTS])
     open(f'{J}/registry/ExtraContent.java', 'w').write(f'''package com.aurelia.registry;
 
 import com.aurelia.AureliaMod;
+import com.aurelia.entity.LieutenantKind;
 import com.aurelia.item.BestiaryItem;
+import com.aurelia.item.CharmItem;
+import com.aurelia.item.LoreItem;
 import com.aurelia.item.WayfinderItem;
+import com.aurelia.world.Realm;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -559,6 +661,20 @@ public final class ExtraContent {{
 
 {chr(10).join(pt)}
 
+    // ---- the lieutenants' trophies (one each, always dropped) and the realm charms made from them
+{chr(10).join(tr)}
+
+{chr(10).join(ch)}
+
+    /** The trophy a lieutenant drops. */
+    @Nullable
+    public static Item trophy(LieutenantKind kind) {{
+        RegistryObject<Item> ro = switch (kind) {{
+{tcase}
+        }};
+        return ro.isPresent() ? ro.get() : null;
+    }}
+
     /** Touches the class so the registrations above happen before the registers fire. */
     public static void init() {{}}
 
@@ -579,6 +695,7 @@ public final class ExtraContent {{
         if kind == 'cube':
             nice = 'Bricks' if bid.endswith('_bricks') else 'Sigil Stone'
         lang[f'block.aurelia.{bid}'] = f'{SHORT[realm]} {nice}'
+    lang.update(trophies_and_charms())
     for pid, _, _, _ in PAINTINGS:
         lang[f'painting.aurelia.{pid}.title'] = PAINT_TITLE[pid]
         lang[f'painting.aurelia.{pid}.author'] = 'The Last Archivist'

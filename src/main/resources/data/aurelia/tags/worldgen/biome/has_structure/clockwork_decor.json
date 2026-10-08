@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:clockwork"
+    "aurelia:clockwork",
+    "aurelia:gearfields",
+    "aurelia:stopped_hour"
   ]
 }

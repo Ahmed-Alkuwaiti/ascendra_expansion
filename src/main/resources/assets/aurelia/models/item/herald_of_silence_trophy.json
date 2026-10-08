@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "aurelia:item/herald_of_silence_trophy"
+  }
+}

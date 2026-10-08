@@ -499,6 +499,41 @@ Supplementary content round the quest, all from `tools/gen_extras.py` (it writes
 - **The Aurelian Bestiary** (book, ink sac, feather, amethyst shard): every Warden and every lieutenant, with health, damage, what each ability does and how to beat it. It opens at the section for the realm you are standing in, and it stays a bestiary (it never turns into a plain book).
 - **Advancements**: a tree of 56 under its own tab. Entering each realm, each realm's lieutenants, each Warden, the three crowns, the Eightfold Seal (all eight relics), the Last Realm, the Heralds, the Unmaker, the Hand of Genesis, the Genesis armour, each realm's armour set and weapon, and the long hunts: Lieutenant Hunter (all 26), Arsenals of the Tenfold Seal (every weapon), Mason of the Realms (every sigil lamp) and Walker Between Worlds (every realm).
 
+## The realms' biomes, completed
+
+Every realm was a single biome, and some were bare: Skyreach and the Clockwork Rift had no features at all, the Grove never placed Verdant ore and the Hollow never placed Emberheart ore. `tools/gen_biomes.py` now makes each realm three biomes, picked by the temperature noise (the sky realms' noise routers got that noise too), and gives every biome a complete feature list: its realm's ore (new `ore_stormglass` and `ore_chronite` features for Skyreach and the Rift), common ores, springs and lakes, ground decoration and vegetation, with its own colours, particles and creature weights.
+
+| Realm | Biomes |
+|---|---|
+| Grove | The Gaudy Grove; **Bloomwild** (cherry trees, flower meadows, pink canopy); **Mossveil Thicket** (dark, fern-choked jungle, spores) |
+| Skyreach | Skyreach; **Cloud Meadows** (birch and flowers, pale sky); **Stormfront** (black sky, sparks, windswept trees) |
+| Hollow | The Hollow; **Soulfire Wastes** (soul sand, blue flame); **Ember Deeps** (basalt deltas and columns, fire, falling ash) |
+| Drowned | The Drowned Expanse; **Kelp Forest**; **Coral Graveyard** (dead reefs, fossils, magma vents) |
+| Pale | The Pale Reach; **Frozen Spires** (ice spikes, icebergs, snow); **Whisper Taiga** (snowbound spruce, berries) |
+| Scarlet | The Scarlet Waste; **Glass Dunes** (a richer seam of scarlet glass, wells, cacti); **Bone Flats** (fossils, dead brush) |
+| Clockwork | The Clockwork Rift; **Gearfields** (copper and redstone); **The Stopped Hour** (amethyst, great dripstone, sculk veins) |
+| Mycelial | The Mycelial Deep; **Glowcap Hollows** (lush cave growth, glow berries); **Rootmaw** (roots, dripstone, dungeons) |
+
+All 25 biomes list their features in one shared order per generation step, so the game's feature-order check cannot fail, and the realms' structure tags include every new biome, so all realm structures still generate everywhere in their realm. Existing worlds keep their old single biome in chunks already generated; new chunks get the new ones.
+
+## Trophies and Realm Charms
+
+Every lieutenant now always drops its **trophy** (a fang, a crown, a mandible, a plume or a scale, by its body). A realm's trophies, its special material and two of its metal make its **Realm Charm**; the two Heralds' trophies with Fractured Genesis and Genesis ingots make the Charm of the Unmade. Carried anywhere in the inventory, a charm renews its boon every two seconds:
+
+| Charm | Boon |
+|---|---|
+| Rot Crown (Grove) | Regeneration |
+| Tempest (Skyreach) | Slow Falling |
+| Hollow Throne (Hollow) | Fire Resistance |
+| Deep (Drowned) | Water Breathing, Dolphin's Grace |
+| White Silence (Pale) | Night Vision, and you never freeze |
+| Scarlet Sun (Scarlet) | Haste |
+| Unwound Hour (Clockwork) | Speed |
+| Bloom (Mycelial) | Luck, and poison and nausea are cleared |
+| Unmade (Heralds) | Strength, Resistance |
+
+Two advancements go with them: Lucky Charm (make any charm) and Charmed, I'm Sure (hold all nine).
+
 ## The Warden arenas
 
 Every realm's arena is now a structure of its own, `arena_<realm>` (129 x 116 x 129, from `tools/gen_arenas.py`), placed once round the landing pad when the realm is first built, before the realm's gimmick blocks go in (`ArenaBuilder.decorate`). The fight is unchanged: the pad (radius 12, where the bosses fight and every gimmick stands) is never touched, nor the Drowned water ring, and the air over the battleground (radius 33, thirty blocks up) is kept clear for the flyers. Each arena widens the floor to radius 31, rings it with a wall broken by four ways out (toward the lieutenants' lairs), and builds its realm's setting round it:

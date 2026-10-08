@@ -89,7 +89,7 @@ class Sprite:
         return self.poly([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], mat)
 
     def ellipse(self, cx, cy, rx, ry, mat):
-        self.shapes.append((self._mask(lambda d: d.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=255)), M[mat], True))
+        self.shapes.append((self._mask(lambda d: d.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=255)), M[mat] if isinstance(mat, str) else mat, True))
         return self
 
     def line(self, p0, p1, w, mat, w1=None):

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:frostmaw_trophy"
+    },
+    "B": {
+      "item": "aurelia:rime_knight_trophy"
+    },
+    "C": {
+      "item": "aurelia:the_mourner_trophy"
+    },
+    "S": {
+      "item": "aurelia:frozen_black_flame_core"
+    },
+    "M": {
+      "item": "aurelia:rime_crystal"
+    }
+  },
+  "result": {
+    "item": "aurelia:pale_charm"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:thornmaw_trophy"
+    },
+    "B": {
+      "item": "aurelia:hollowbark_trophy"
+    },
+    "C": {
+      "item": "aurelia:rot_matron_trophy"
+    },
+    "S": {
+      "item": "aurelia:living_root_fiber"
+    },
+    "M": {
+      "item": "aurelia:verdantite_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:grove_charm"
+  }
+}

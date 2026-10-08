@@ -63,27 +63,30 @@
   "features": [
     [],
     [],
-    [],
+    [
+      "minecraft:ice_spike",
+      "minecraft:ice_patch"
+    ],
     [],
     [],
     [],
     [
       "minecraft:ore_coal_upper",
       "minecraft:ore_iron_upper",
-      "minecraft:ore_iron_middle",
-      "minecraft:ore_gold",
       "minecraft:ore_diamond",
+      "minecraft:ore_gold",
+      "minecraft:ore_iron_middle",
       "aurelia:ore_rime"
     ],
-    [],
     [
-      "minecraft:spring_water"
+      "minecraft:blue_ice"
     ],
     [
-      "minecraft:ice_spike",
-      "minecraft:ice_patch",
-      "minecraft:trees_snowy",
-      "minecraft:blue_ice"
+      "minecraft:spring_water",
+      "minecraft:spring_lava_frozen"
+    ],
+    [
+      "minecraft:trees_snowy"
     ],
     [
       "minecraft:freeze_top_layer"

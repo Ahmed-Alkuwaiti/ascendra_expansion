@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    " S ",
+    "M M"
+  ],
+  "key": {
+    "A": {
+      "item": "aurelia:reef_crusher_trophy"
+    },
+    "B": {
+      "item": "aurelia:drowned_admiral_trophy"
+    },
+    "C": {
+      "item": "aurelia:abyssal_siren_trophy"
+    },
+    "S": {
+      "item": "aurelia:tidestone_shard"
+    },
+    "M": {
+      "item": "aurelia:tidesteel_ingot"
+    }
+  },
+  "result": {
+    "item": "aurelia:drowned_charm"
+  }
+}

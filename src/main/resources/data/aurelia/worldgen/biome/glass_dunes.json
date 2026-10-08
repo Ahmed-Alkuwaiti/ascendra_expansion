@@ -1,0 +1,94 @@
+{
+  "has_precipitation": false,
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 16752752,
+    "fog_color": 16758912,
+    "water_color": 11553322,
+    "water_fog_color": 4856336,
+    "grass_color": 10510394,
+    "foliage_color": 9067056,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.02
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:husk",
+        "weight": 60,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "aurelia:glasswing_scarab",
+        "weight": 14,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "creature": [
+      {
+        "type": "aurelia:sand_skink",
+        "weight": 12,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_surface"
+    ],
+    [],
+    [],
+    [
+      "minecraft:desert_well"
+    ],
+    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_diamond",
+      "minecraft:ore_gold",
+      "minecraft:ore_iron_middle",
+      "minecraft:ore_gold_extra",
+      "aurelia:ore_sunglass",
+      "aurelia:ore_sunglass_rich"
+    ],
+    [],
+    [
+      "minecraft:spring_lava"
+    ],
+    [
+      "minecraft:patch_cactus_decorated",
+      "minecraft:patch_dead_bush_2"
+    ],
+    []
+  ]
+}

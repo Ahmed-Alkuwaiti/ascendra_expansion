@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:grove"
+    "aurelia:bloomwild",
+    "aurelia:grove",
+    "aurelia:mossveil_thicket"
   ]
 }

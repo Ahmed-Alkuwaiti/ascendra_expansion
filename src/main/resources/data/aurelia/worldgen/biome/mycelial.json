@@ -68,26 +68,29 @@
   "features": [
     [],
     [],
+    [],
     [
       "minecraft:amethyst_geode"
     ],
     [],
     [],
-    [],
     [
       "minecraft:ore_iron_upper",
-      "minecraft:ore_gold",
       "minecraft:ore_diamond",
+      "minecraft:ore_gold",
+      "minecraft:ore_tuff",
       "aurelia:ore_bloomspore"
     ],
     [],
-    [],
     [
-      "minecraft:mushroom_island_vegetation",
-      "minecraft:spore_blossom",
+      "minecraft:spring_water"
+    ],
+    [
       "minecraft:glow_lichen",
+      "minecraft:mushroom_island_vegetation",
       "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal"
+      "minecraft:red_mushroom_normal",
+      "minecraft:spore_blossom"
     ],
     []
   ]

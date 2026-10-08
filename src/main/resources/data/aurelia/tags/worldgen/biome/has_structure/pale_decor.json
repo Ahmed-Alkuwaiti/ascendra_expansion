@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "aurelia:pale"
+    "aurelia:frozen_spires",
+    "aurelia:pale",
+    "aurelia:whisper_taiga"
   ]
 }

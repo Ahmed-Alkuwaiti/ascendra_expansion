@@ -59,13 +59,28 @@
     [],
     [],
     [],
+    [
+      "minecraft:amethyst_geode"
+    ],
     [],
     [],
-    [],
-    [],
-    [],
-    [],
-    [],
+    [
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_copper",
+      "minecraft:ore_redstone",
+      "minecraft:ore_lapis",
+      "aurelia:ore_chronite"
+    ],
+    [
+      "minecraft:pointed_dripstone"
+    ],
+    [
+      "minecraft:spring_lava"
+    ],
+    [
+      "minecraft:glow_lichen"
+    ],
     []
   ]
 }
