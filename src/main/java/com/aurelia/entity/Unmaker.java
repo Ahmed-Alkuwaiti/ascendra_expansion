@@ -98,7 +98,7 @@ public class Unmaker extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(12000.0, 40.0, 0.2).add(Attributes.FLYING_SPEED, 0.4).add(Attributes.ARMOR, 20.0);
+        return baseAttributes(12000.0, 32.0, 0.2).add(Attributes.FLYING_SPEED, 0.4).add(Attributes.ARMOR, 20.0);
     }
 
     @Override

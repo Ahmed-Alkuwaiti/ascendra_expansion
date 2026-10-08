@@ -47,7 +47,7 @@ public class TempestRoc extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(3000.0, 36.0, 0.2).add(Attributes.FLYING_SPEED, 0.5);
+        return baseAttributes(3000.0, 16.0, 0.2).add(Attributes.FLYING_SPEED, 0.5);
     }
 
     @Override

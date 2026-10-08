@@ -424,7 +424,7 @@ def items_data():
 
 # ================================================================================================ trophies and charms
 CHARM_REALMS = REALMS + ['last']
-CHARM = {'grove': ('Charm of the Rot Crown', 'Regeneration'), 'skyreach': ('Charm of the Tempest', 'Slow Falling'),
+CHARM = {'grove': ('Charm of the Rot Crown', 'Regeneration while below half health'), 'skyreach': ('Charm of the Tempest', 'Slow Falling'),
          'hollow': ('Charm of the Hollow Throne', 'Fire Resistance'), 'drowned': ('Charm of the Deep', 'Water Breathing and Dolphin\'s Grace'),
          'pale': ('Charm of the White Silence', 'Night Vision, and you never freeze'), 'scarlet': ('Charm of the Scarlet Sun', 'Haste'),
          'clockwork': ('Charm of the Unwound Hour', 'Speed'), 'mycelial': ('Charm of the Bloom', 'Luck, and poison and nausea cannot take hold'),

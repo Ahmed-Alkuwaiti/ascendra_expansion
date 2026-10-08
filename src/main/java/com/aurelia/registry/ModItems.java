@@ -385,7 +385,7 @@ public class ModItems {
     public static final RegistryObject<Item> VERDANT_BOOTS = ITEMS.register("verdant_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.VERDANT, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> ROOTBREAKER = ITEMS.register("rootbreaker",
-            () -> new RealmWeaponItem(RealmTier.VERDANT, 7, -3.1f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.VERDANT, 6, -3.1f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> VERDANT_FIG = ITEMS.register("verdant_fig",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> MOSSLING_EGG = ITEMS.register("mossling_spawn_egg",
@@ -399,7 +399,7 @@ public class ModItems {
     public static final RegistryObject<Item> STORMGLASS_BOOTS = ITEMS.register("stormglass_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.STORMGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> STORMPIERCER = ITEMS.register("stormpiercer",
-            () -> new RealmWeaponItem(RealmTier.STORMGLASS, 5, -2.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.STORMGLASS, 3, -2.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SKY_JELLY = ITEMS.register("sky_jelly",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.SLOW_FALLING, 300, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> CLOUD_RAY_EGG = ITEMS.register("cloud_ray_spawn_egg",
@@ -427,7 +427,7 @@ public class ModItems {
     public static final RegistryObject<Item> TIDESTONE_BOOTS = ITEMS.register("tidestone_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.TIDESTONE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> TIDEBINDER = ITEMS.register("tidebinder",
-            () -> new RealmWeaponItem(RealmTier.TIDESTONE, 6, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.TIDESTONE, 5, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> GLOWING_GEL = ITEMS.register("glowing_gel",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.5f).effect(() -> new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 600, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> LANTERN_JELLY_EGG = ITEMS.register("lantern_jelly_spawn_egg",
@@ -441,7 +441,7 @@ public class ModItems {
     public static final RegistryObject<Item> RIME_BOOTS = ITEMS.register("rime_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.RIME, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SILENT_REQUIEM = ITEMS.register("silent_requiem",
-            () -> new RealmWeaponItem(RealmTier.RIME, 7, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.RIME, 8, -3.0f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> FROST_HARE_HAUNCH = ITEMS.register("frost_hare_haunch",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.9f).build())));
     public static final RegistryObject<Item> FROST_HARE_EGG = ITEMS.register("frost_hare_spawn_egg",
@@ -455,7 +455,7 @@ public class ModItems {
     public static final RegistryObject<Item> SUNGLASS_BOOTS = ITEMS.register("sunglass_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.SUNGLASS, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> VENOMFANGS = ITEMS.register("venomfangs",
-            () -> new RealmWeaponItem(RealmTier.SUNGLASS, 3, -1.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.SUNGLASS, 0, -1.6f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SUNBAKED_TAIL = ITEMS.register("sunbaked_tail",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6f).effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> SAND_SKINK_EGG = ITEMS.register("sand_skink_spawn_egg",
@@ -483,7 +483,7 @@ public class ModItems {
     public static final RegistryObject<Item> BLOOMSPORE_BOOTS = ITEMS.register("bloomspore_boots",
             () -> new RealmArmorItem(RealmArmorMaterial.BLOOMSPORE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> SPORETHORN = ITEMS.register("sporethorn",
-            () -> new RealmWeaponItem(RealmTier.BLOOMSPORE, 5, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new RealmWeaponItem(RealmTier.BLOOMSPORE, 8, -2.8f, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> PUFFCAP = ITEMS.register("puffcap",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8f).effect(() -> new MobEffectInstance(MobEffects.SATURATION, 1, 0), 1.0f).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 1.0f).alwaysEat().build())));
     public static final RegistryObject<Item> SPORE_PUFF_EGG = ITEMS.register("spore_puff_spawn_egg",

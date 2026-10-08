@@ -70,6 +70,11 @@ public final class BossSignatures {
         start(boss, level, s, target);
     }
 
+    /** A signature's damage, scaled by the boss's attack (30 is the reference), so the curve and the config follow it. */
+    private static float dmg(AureliaBoss boss, float base) {
+        return base * (float) (boss.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE) / 30.0);
+    }
+
     private static List<Player> players(AureliaBoss boss, double r) {
         return boss.level().getEntitiesOfClass(Player.class, boss.getBoundingBox().inflate(r), p -> p.isAlive() && !p.isSpectator() && !p.isCreative());
     }
@@ -175,7 +180,7 @@ public final class BossSignatures {
                     bolt(level, at);
                     for (Player p : players(boss, 48)) {
                         if (flat(p.position(), at) < 2.0) {
-                            p.hurt(boss.damageSources().lightningBolt(), 7.0f);
+                            p.hurt(boss.damageSources().lightningBolt(), dmg(boss, 7.0f));
                         }
                     }
                 }
@@ -196,7 +201,7 @@ public final class BossSignatures {
                         p.push(in.x, 0.3, in.z);
                         p.hurtMarked = true;
                         p.addEffect(new MobEffectInstance(MobEffects.WITHER, 40, 1));
-                        p.hurt(boss.damageSources().mobAttack(boss), 3.0f);
+                        p.hurt(boss.damageSources().mobAttack(boss), dmg(boss, 3.0f));
                     }
                 }
             }
@@ -221,7 +226,7 @@ public final class BossSignatures {
                 if (Math.abs(rel.dot(s.dir)) < 1.6 && Math.abs(rel.dot(side)) < 16 && s.hit.add(p.getUUID())) {
                     p.push(s.dir.x * 2.0, 0.6, s.dir.z * 2.0);
                     p.hurtMarked = true;
-                    p.hurt(boss.damageSources().drown(), 6.0f);
+                    p.hurt(boss.damageSources().drown(), dmg(boss, 6.0f));
                     p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2));
                 }
             }
@@ -264,7 +269,7 @@ public final class BossSignatures {
             if (t % 10 == 0) {
                 for (Player p : players(boss, 64)) {
                     if (flat(p.position(), s.centre) > r) {
-                        p.hurt(boss.damageSources().magic(), 4.0f);
+                        p.hurt(boss.damageSources().magic(), dmg(boss, 4.0f));
                         p.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 0));
                     }
                 }
@@ -279,7 +284,7 @@ public final class BossSignatures {
             for (Player p : players(boss, 40)) {
                 Vec3 m = s.marks.get(p.getUUID());
                 if (m != null && flat(p.position(), m) < 2.6) {
-                    p.hurt(boss.damageSources().mobAttack(boss), 10.0f);
+                    p.hurt(boss.damageSources().mobAttack(boss), dmg(boss, 10.0f));
                     p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 70, 6));
                     p.addEffect(new MobEffectInstance(MobEffects.JUMP, 70, 128));
                     p.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
@@ -290,7 +295,7 @@ public final class BossSignatures {
             bolt(level, s.centre);
             for (Player p : players(boss, 48)) {
                 if (flat(p.position(), s.centre) < 3.0) {
-                    p.hurt(boss.damageSources().lightningBolt(), 12.0f);
+                    p.hurt(boss.damageSources().lightningBolt(), dmg(boss, 12.0f));
                     p.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 30, 1));
                 }
             }
@@ -312,7 +317,7 @@ public final class BossSignatures {
                 level.sendParticles(ParticleTypes.SNOWFLAKE, boss.getX(), boss.getY() + 2, boss.getZ(), 80, 1.0, 2.0, 1.0, 0.05);
                 boss.teleportTo(behind.x, p.getY(), behind.z);
                 p.setTicksFrozen(p.getTicksRequiredToFreeze() + 160);
-                p.hurt(boss.damageSources().freeze(), 8.0f);
+                p.hurt(boss.damageSources().freeze(), dmg(boss, 8.0f));
                 boss.playSound(SoundEvents.GLASS_BREAK, 3.0f, 0.4f);
                 for (int k = 0; k < 2; k++) {                                   // and it is not alone in the white
                     PaleMirage m = ModEntities.PALE_MIRAGE.get().create(level);
@@ -333,7 +338,7 @@ public final class BossSignatures {
                 Vec3 rel = p.position().subtract(boss.position());
                 Vec3 flatRel = new Vec3(rel.x, 0, rel.z);
                 if (flatRel.length() < 10.5 && flatRel.normalize().dot(s.dir) > 0.5) {
-                    p.hurt(boss.damageSources().mobAttack(boss), 14.0f);
+                    p.hurt(boss.damageSources().mobAttack(boss), dmg(boss, 14.0f));
                     p.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 1));
                     p.setSecondsOnFire(4);
                 }
@@ -356,7 +361,7 @@ public final class BossSignatures {
                 level.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, q.x, q.y + 1, q.z, 40, 1.5, 1.0, 1.5, 0.05);
                 for (Player p : players(boss, 32)) {
                     if (flat(p.position(), q) < 2.5) {
-                        p.hurt(boss.damageSources().mobAttack(boss), 8.0f);
+                        p.hurt(boss.damageSources().mobAttack(boss), dmg(boss, 8.0f));
                         p.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 2));
                         p.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 25, 1));
                     }
@@ -366,7 +371,7 @@ public final class BossSignatures {
             boss.playSound(SoundEvents.WARDEN_SONIC_BOOM, 4.0f, 0.5f);
             for (Player p : players(boss, 64)) {
                 if (flat(p.position(), s.centre) > 7.5) {
-                    p.hurt(boss.damageSources().magic(), 12.0f);
+                    p.hurt(boss.damageSources().magic(), dmg(boss, 12.0f));
                     p.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 1));
                 }
             }

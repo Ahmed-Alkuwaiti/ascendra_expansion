@@ -72,7 +72,7 @@ public class Vexor extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(6000.0, 30.0, 0.2).add(Attributes.FLYING_SPEED, 0.45);
+        return baseAttributes(6000.0, 26.0, 0.2).add(Attributes.FLYING_SPEED, 0.45);
     }
 
     @Override

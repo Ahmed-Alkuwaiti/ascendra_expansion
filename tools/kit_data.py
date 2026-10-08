@@ -6,7 +6,7 @@ REALMS = ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwor
 KIT = {
     'grove': dict(material='verdant_shard', block='verdant_block', armor='verdant', armor_name='Verdant',
                   palette=[(34, 60, 28), (70, 120, 46), (128, 190, 80), (210, 240, 150)], accent=(120, 255, 90),
-                  bonus='Regeneration II; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.',
+                  bonus='Regeneration I; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.',
                   weapon='rootbreaker', weapon_name='Rootbreaker', weapon_power='Roots the target (Slowness III), poisons it, and heals you a heart.', weapon_ability='Bramble Eruption: thorns tear up through the ground in a line ahead (10 damage, rooted). 8 s.',
                   critter='mossling', critter_name='Mossling', critter_desc='A slow little tortoise with a garden growing on its shell.',
                   food='verdant_fig', food_name='Verdant Fig', food_power='Regeneration for 5 seconds.', ore=None),
@@ -36,7 +36,7 @@ KIT = {
                  food='frost_hare_haunch', food_name='Frost Hare Haunch', food_power='Very filling.', ore=None),
     'scarlet': dict(material='sunglass_shard', block='sunglass_block', armor='sunglass', armor_name='Sunglass',
                     palette=[(80, 24, 18), (160, 50, 30), (230, 110, 50), (255, 210, 120)], accent=(255, 90, 60),
-                    bonus='By day Haste II and Strength II, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.',
+                    bonus='By day Haste II and Strength I, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.',
                     weapon='venomfangs', weapon_name='Venomfangs', weapon_power='Very fast. Poisons the target, and half the blow cuts everything else within reach.', weapon_ability='Fang Flurry: you whirl through everything within 6 blocks (16 damage, Poison II). 8 s.',
                     critter='sand_skink', critter_name='Sand Skink', critter_desc='A red lizard that swims through the dunes.',
                     food='sunbaked_tail', food_name='Sunbaked Tail', food_power='Haste for 20 seconds.', ore=None),

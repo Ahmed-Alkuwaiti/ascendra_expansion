@@ -41,7 +41,7 @@ public class MossbackTitan extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(2500.0, 26.0, 0.27);
+        return baseAttributes(2500.0, 14.0, 0.27);
     }
 
     @Override

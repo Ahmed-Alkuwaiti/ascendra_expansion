@@ -221,12 +221,12 @@ On top of that, each set has its own helm:
 
 Full-set powers, each with a particle aura:
 
-- **Mossbound:** Regeneration II; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.
+- **Mossbound:** Regeneration I; poison cannot touch you; anyone who strikes you takes 4 damage and is rooted. Green spores drift round you.
 - **Tempest:** Jump Boost III, Speed I, no fall damage; a third of those who strike you are struck by lightning. Sparks crackle round you.
 - **Sovereign:** Fire Resistance and Strength I; anyone who strikes you burns for 6 seconds. Embers rise off you.
 - **Abyssal:** Water Breathing; Dolphin's Grace, Conduit Power and Regeneration in water or rain. Bubbles stream off you.
 - **Rimebound:** Immune to freezing, walk on powder snow, Resistance I; water freezes under your feet; anyone who strikes you is frozen. Snow falls round you.
-- **Glasscarapace:** By day Haste II and Strength II, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.
+- **Glasscarapace:** By day Haste II and Strength I, by night Night Vision; a third of arrows and projectiles glance off you. Sunlight glints round you.
 - **Paradox:** Speed II and Haste II. Borrowed Time: a killing blow throws you back to where you stood five seconds ago at half health instead (once every 90 s).
 - **Bloomguard:** Night Vision; poison and wither cannot touch you; it feeds you when hungry; allies near you regenerate; anyone who strikes you is poisoned.
 
@@ -515,6 +515,34 @@ Every realm was a single biome, and some were bare: Skyreach and the Clockwork R
 | Mycelial | The Mycelial Deep; **Glowcap Hollows** (lush cave growth, glow berries); **Rootmaw** (roots, dripstone, dungeons) |
 
 All 25 biomes list their features in one shared order per generation step, so the game's feature-order check cannot fail, and the realms' structure tags include every new biome, so all realm structures still generate everywhere in their realm. Existing worlds keep their old single biome in chunks already generated; new chunks get the new ones.
+
+## Balance for Ascendra
+
+Balanced for Ascendra's melee and gear side: Armageddon's boss progression, Goety's bosses, Apotheosis-style enchanting and affixes. Spells (Iron's Spells and its addons) are left out on purpose. I could not open the pack's full mod list from here, so the in-game config below is the way to finish the job against your own pack.
+
+**Wardens** now hit on a curve instead of 26 to 40 from the start. A first Warden that hit for 26 one-shot a player in iron armour:
+
+| Warden | Health | Hit (was) |
+|---|---|---|
+| Mossback | 2,500 | 14 (26) |
+| Tempest Roc | 3,000 | 16 (36) |
+| The Hollow King | 4,000 | 18 (28) |
+| Vorath | 4,500 | 20 (30) |
+| The White Silence | 5,000 | 22 (30) |
+| Kharzul | 6,000 | 24 (34) |
+| Vexor | 6,000 | 26 (30) |
+| The Bloom Mother | 6,500 | 28 (32) |
+| The Unmaker | 12,000 | 32 (40) |
+
+Health is unchanged: the damage caps (2% of health per hit, 4% per second) already stop affixed or heavily enchanted gear from melting a Warden, so a fight lasts at least about 25 seconds whatever you swing. The **signature moves** scale with each boss's attack, so they follow the curve and the config. **Lieutenants** hit for about 70% of their Warden (10 in the Grove up to 20 in the Mycelial Deep, 24 for the Heralds).
+
+**Realm weapons** now climb in damage per second realm by realm (about 10 for Rootbreaker up to 17 for Sporethorn). Venomfangs had been doing twice anyone else's (now 6 damage at its very fast speed). Rootbreaker 11, Stormpiercer 8, Soulcleaver 12, Tidebinder 10.5, Silent Requiem 13.5, Venomfangs 6, Hourshatter 10, Sporethorn 14.5. Armour stays on its curve (diamond-level in the first realms, past netherite by the last), and Genesis stays on top.
+
+**Set bonuses and charms:** Mossbound gives Regeneration I (was II) and Glasscarapace Strength I by day (was II), so no early set hands out lasting power ahead of its tier. The Grove's charm mends you only while you are below half health.
+
+**Dungeon loot** is tiered 1 to 8 as above and stays below the realm gear you are already making; enchanted books top out around level 40, which Apotheosis-style tables already beat, so they are a supplement rather than a shortcut.
+
+**The config, `config/aurelia-common.toml`**: multipliers (0.1 to 20, default 1.0) on health and damage for the Wardens and the Unmaker (`wardenHealth`, `wardenDamage`), the lieutenants and Heralds (`lieutenantHealth`, `lieutenantDamage`), and every guard (`guardHealth`, `guardDamage`). They apply to each creature once, as it first appears. If the pack's gear outclasses the mod, raise the damage and health multipliers; if a fight is a wall, lower them.
 
 ## Dungeons
 

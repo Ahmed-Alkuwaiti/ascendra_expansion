@@ -59,7 +59,7 @@ public class BloomMother extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(6500.0, 32.0, 0.0);
+        return baseAttributes(6500.0, 28.0, 0.0);
     }
 
     @Override

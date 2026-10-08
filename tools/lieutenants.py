@@ -18,8 +18,8 @@ the names and the gallery.
 
 REALM_ORDER = ['grove', 'skyreach', 'hollow', 'drowned', 'pale', 'scarlet', 'clockwork', 'mycelial', 'last']
 STATS = {   # health, attack damage per realm (the Wardens have 2,500 to 6,500; the Unmaker 12,000)
-    'grove': (800, 14), 'skyreach': (950, 15), 'hollow': (1300, 18), 'drowned': (1400, 18), 'pale': (1500, 19),
-    'scarlet': (1800, 21), 'clockwork': (1900, 22), 'mycelial': (2100, 23), 'last': (3600, 30)}
+    'grove': (800, 10), 'skyreach': (950, 11), 'hollow': (1300, 13), 'drowned': (1400, 14), 'pale': (1500, 15),
+    'scarlet': (1800, 17), 'clockwork': (1900, 18), 'mycelial': (2100, 20), 'last': (3600, 24)}
 
 LIEUTENANTS = [
     # ---------------------------------------------------------------------------------------------- the Gaudy Grove

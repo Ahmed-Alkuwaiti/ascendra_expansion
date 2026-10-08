@@ -89,7 +89,7 @@ public class KitEvents {
         }
         switch (set) {
             case VERDANT -> {
-                keep(p, MobEffects.REGENERATION, 1);
+                keep(p, MobEffects.REGENERATION, 0);
                 p.removeEffect(MobEffects.POISON);
             }
             case STORMGLASS -> {
@@ -115,7 +115,7 @@ public class KitEvents {
             case SUNGLASS -> {
                 if (p.level().getDayTime() % 24000L < 12500L) {
                     keep(p, MobEffects.DIG_SPEED, 1);
-                    keep(p, MobEffects.DAMAGE_BOOST, 1);
+                    keep(p, MobEffects.DAMAGE_BOOST, 0);
                 } else {
                     keep(p, MobEffects.NIGHT_VISION, 0);
                 }

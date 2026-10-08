@@ -62,7 +62,7 @@ public class Kharzul extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(6000.0, 34.0, 0.3);
+        return baseAttributes(6000.0, 24.0, 0.3);
     }
 
     @Override

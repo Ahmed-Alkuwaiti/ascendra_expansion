@@ -60,7 +60,7 @@ public class Vorath extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(4500.0, 30.0, 0.3);
+        return baseAttributes(4500.0, 20.0, 0.3);
     }
 
     @Override

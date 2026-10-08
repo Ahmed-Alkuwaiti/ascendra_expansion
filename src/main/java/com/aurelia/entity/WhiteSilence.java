@@ -61,7 +61,7 @@ public class WhiteSilence extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(5000.0, 30.0, 0.27);
+        return baseAttributes(5000.0, 22.0, 0.27);
     }
 
     @Override

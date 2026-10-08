@@ -36,7 +36,11 @@ public class CharmEvents {
         }
         for (Realm realm : held) {
             switch (realm) {
-                case GROVE -> give(player, MobEffects.REGENERATION);
+                case GROVE -> {                                                // the Grove's charm mends you only when you are hurt
+                    if (player.getHealth() < player.getMaxHealth() * 0.5f) {
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 0, true, false, true));
+                    }
+                }
                 case SKYREACH -> give(player, MobEffects.SLOW_FALLING);
                 case HOLLOW -> give(player, MobEffects.FIRE_RESISTANCE);
                 case DROWNED -> {

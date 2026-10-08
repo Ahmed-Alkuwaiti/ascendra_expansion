@@ -44,7 +44,7 @@ public class HollowKing extends AureliaBoss {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return baseAttributes(4000.0, 28.0, 0.3);
+        return baseAttributes(4000.0, 18.0, 0.3);
     }
 
     @Override
