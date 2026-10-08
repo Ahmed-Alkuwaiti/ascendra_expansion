@@ -30,5 +30,9 @@ grep -E "Done \(|server exited" run/logs/latest.log server_console.log | head
 echo "==== errors and exceptions ===="
 grep -nE "ERROR|Exception|Caused by|Failed to|Unknown|Couldn't" run/logs/latest.log | grep -v "Realms\|realms-telemetry\|Narrator" | head -150
 echo "==== command failures ===="
-grep -nE "Unknown or incomplete command|Invalid|not found|Failed to place|No such" run/logs/latest.log | head -60
+grep -nE "Unknown or incomplete command|Invalid|not found|Failed to place|No such|There is no|Could not|Couldn't|Incorrect argument|Expected" run/logs/latest.log | head -60
+echo "==== command results (expect $(grep -c 'run place\|^place' ci/smoke_commands.txt) placements) ===="
+grep -oE "Generated structure|Placed (template|structure|feature|jigsaw)[^ ]*|Marked [0-9]+ chunks?|Chunk at [^ ]+ is already" run/logs/latest.log | sed -E 's/[0-9]+/N/g' | sort | uniq -c
+echo "==== last 40 server lines ===="
+grep "Server thread/INFO" run/logs/latest.log | tail -40 | cut -c1-220
 grep -q "Done (" run/logs/latest.log
