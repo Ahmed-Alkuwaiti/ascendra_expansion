@@ -698,7 +698,39 @@ Code: `entity/Lieutenant.java` (the fighter and its abilities), `entity/Lieutena
 - **The fortresses and doubled structures are big templates** (the citadels are 1.1 to 1.6 MB each). Structure placement happens during world generation, so a slow first load near one is expected. Structures already generated in an existing world do not change; only newly generated chunks get the new versions.
 - **Doubled guards' footing:** guards were moved down onto solid blocks where doubling left a gap, and `validate_all.py` checks that every guard stands on something, but in-game pathing in the doubled interiors is untested.
 
-## Building the jar
+## Getting the mod into CurseForge (Ascendra)
+
+**1. Get the jar.** Every push to this repository builds it automatically on GitHub:
+- Open the repository on GitHub, go to the **Actions** tab, and open the newest run of **Build the mod jar** that has a green tick.
+- At the bottom of the run, under **Artifacts**, download **aurelia-mod-jar**. It is a zip; inside is `aurelia-1.0.0.jar`.
+- To build it yourself instead, install JDK 17 and Gradle 8.8, then run `gradle build` in this folder. The jar lands in `build/libs/`.
+
+**2. Put it in Ascendra.**
+- In the CurseForge app, open **My Modpacks**, then the **Ascendra** tile.
+- Click the **three dots** next to Play, then **Open Folder**.
+- Drag `aurelia-1.0.0.jar` into the `mods` folder there and start the game. In-game, **Mods** lists it as *Aurelia: The Shattered Crown*.
+- Make a **new world** for it: the realms, structures and biomes generate as new chunks are made.
+- Better still, first make a copy of the profile: three dots, then **Duplicate**. Play Aurelia in the copy so your main Ascendra world is never at risk.
+
+**3. Settings.** After the first launch, `config/aurelia-common.toml` holds the balance and smoothness settings, and `config/aurelia-client.toml` holds the drawing distance. The CurseForge **Open Folder** button gets you there.
+
+**To publish it on CurseForge itself**, create a project at <https://authors.curseforge.com> (type: Mod, game version 1.20.1, loader Forge) and upload the same jar. The `mods.toml` already carries the name, description, logo and the Forge and Minecraft version ranges CurseForge reads.
+
+## Performance (smoother play)
+
+Aurelia adds big structures, many guards and lots of particles, so it has its own smoothness settings, on by default:
+
+- **Dozing guards** (`guardSleepDistance`, default 48 blocks; `guardSleepInterval`, default 20 ticks). Citadels, lair rings and dungeons hold hundreds of guards, and Minecraft ticks every one in loaded chunks. A guard with no player within 48 blocks, no target and no fresh hurt now skips its ticks, waking for one tick a second. It wakes fully the moment you come near. Wardens and lieutenants never doze.
+- **Particle density** (`particleDensity`, default 0.7). The mod's auras, trails and bursts send 70% of their particles. Attack warnings (every Warden's signature telegraph, trap warnings) are never thinned. Set it to 0.4 on a weak machine or a busy server, or to 1.0 for everything.
+- **Model draw distance** (client, `mobRenderDistance`, default 64 blocks). The mod's detailed guard and creature models are not drawn past this distance. Wardens and lieutenants are always drawn.
+
+**For the rest of the pack** (none of these are part of this mod):
+- Give Ascendra 8 to 10 GB of memory: CurseForge, then Settings, then Minecraft, then Allocated Memory.
+- Keep simulation distance at 6 to 8. Render distance can stay higher.
+- Ascendra probably already ships the usual Forge performance mods, such as Embeddium, ModernFix, FerriteCore, ImmediatelyFast and Entity Culling. If yours lacks any of them, adding them helps most.
+- The first entry into a realm builds its arena and its lairs, and the Last Realm's hub, all at once. Expect one pause of a few seconds there, the first time only.
+
+## Building the jar (the manual way, with the Forge MDK)
 
 1. Install **JDK 17**.
 2. Download the official **Forge MDK for 1.20.1** (47.x) from files.minecraftforge.net and extract it.
