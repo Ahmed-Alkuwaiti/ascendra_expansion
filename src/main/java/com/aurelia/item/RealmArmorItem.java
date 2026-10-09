@@ -69,7 +69,7 @@ public class RealmArmorItem extends ArmorItem {
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new com.aurelia.client.RealmArmorClient(piece()));
+        consumer.accept(new com.aurelia.client.RealmArmorClient(this::piece));
     }
 
     private static final UUID[] VIGOR = {UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e01"), UUID.fromString("5d1c7a52-8f0e-4b3a-9c6e-1a2b3c4d5e02"),
