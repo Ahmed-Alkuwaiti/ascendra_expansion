@@ -17,7 +17,7 @@ modified.
 
 Usage:
     python3 -I tools/atm10_world/clean_world.py <world folder or .zip> <output folder>
-        [--keep NAMESPACE ...] [--jobs N] [--zip]
+        [--keep NAMESPACE ...] [--reset-end] [--jobs N] [--zip]
 
 --keep keeps a mod's content (e.g. --keep create) if that mod is also in ATM10.
 """
@@ -62,8 +62,9 @@ NS_RE = re.compile(r"^([a-z0-9_.-]+):[a-z0-9_./-]+$")
 
 
 class Cleaner:
-    def __init__(self, keep):
+    def __init__(self, keep, reset_end=False):
         self.keep = {"minecraft"} | set(keep)
+        self.reset_end = reset_end
         self.removed = collections.Counter()
 
     def foreign(self, s):
@@ -240,14 +241,14 @@ class Cleaner:
         self.scrub_root(Tag(COMPOUND, {"_": p}))
         d = p.v
         dim = d.get("Dimension")
-        if dim is not None and self.foreign(dim.v):
+        if dim is not None and (self.foreign(dim.v) or (self.reset_end and dim.v == "minecraft:the_end")):
             self.count("player moved out of", dim.v)
             d["Dimension"] = Tag(STRING, "minecraft:overworld")
             x, y, z = spawn
             d["Pos"] = Tag(LIST, (DOUBLE, [Tag(DOUBLE, x + 0.5), Tag(DOUBLE, float(y)), Tag(DOUBLE, z + 0.5)]))
             d.pop("RootVehicle", None)
         sd = d.get("SpawnDimension")
-        if sd is not None and self.foreign(sd.v):
+        if sd is not None and (self.foreign(sd.v) or (self.reset_end and sd.v == "minecraft:the_end")):
             for k in ("SpawnDimension", "SpawnX", "SpawnY", "SpawnZ", "SpawnForced", "SpawnAngle"):
                 d.pop(k, None)
         for k in ("recipeBook",):
@@ -295,6 +296,8 @@ class Cleaner:
         ef = d.get("enabled_features")
         if ef is not None:
             ef.v = (STRING, [s for s in ef.v[1] if not self.foreign(s.v)])
+        if self.reset_end and d.pop("DragonFight", None) is not None:
+            notes.append("reset the End: the dragon will be back")
         spawn = (d["SpawnX"].v, d["SpawnY"].v, d["SpawnZ"].v)
         if "Player" in d:
             self.clean_player(d["Player"], spawn)
@@ -388,8 +391,8 @@ def process_region(args):
 
 
 def process_player(args):
-    src, dst, keep, spawn = args
-    c = Cleaner(keep)
+    src, dst, keep, spawn, reset_end = args
+    c = Cleaner(keep, reset_end)
     (name, root), gz = nbt.read_file(src)
     c.clean_player(root, spawn)
     nbt.write_file(dst, root, name, gz)
@@ -421,6 +424,8 @@ def main():
     ap.add_argument("output", help="folder to write the cleaned world into (must not exist)")
     ap.add_argument("--keep", nargs="*", default=[], help="mod namespaces to keep (mods also in ATM10)")
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 2)
+    ap.add_argument("--reset-end", action="store_true",
+                    help="leave the End out so it regenerates with a new Ender Dragon")
     ap.add_argument("--zip", action="store_true", help="also write <output>.zip")
     a = ap.parse_args()
 
@@ -437,7 +442,7 @@ def main():
         sys.exit(f"{out} already exists; pick a new output folder")
     os.makedirs(out)
 
-    cleaner = Cleaner(a.keep)
+    cleaner = Cleaner(a.keep, a.reset_end)
     totals = collections.Counter()
 
     (lname, level), lgz = nbt.read_file(os.path.join(src, "level.dat"))
@@ -452,6 +457,9 @@ def main():
         parts = [] if rel_dir == "." else rel_dir.split(os.sep)
         if parts:
             top = parts[0]
+            if a.reset_end and top == "DIM1":
+                dirnames[:] = []
+                continue
             if top not in VANILLA_TOP or (top == "dimensions" and len(parts) > 1 and parts[1] not in cleaner.keep):
                 if (top == "dimensions" and len(parts) == 2) or len(parts) == 1:
                     dropped.append(rel_dir)
@@ -470,7 +478,7 @@ def main():
             elif fn.endswith(".mca") and parts[-1] in ("region", "entities", "poi"):
                 region_jobs.append((s, dpath, rel, a.keep))
             elif parts[0] == "playerdata" and fn.endswith(".dat"):
-                player_jobs.append((s, dpath, a.keep, spawn))
+                player_jobs.append((s, dpath, a.keep, spawn, a.reset_end))
             elif parts[0] in ("advancements", "stats") and fn.endswith(".json"):
                 clean_json(s, dpath, cleaner)
             elif parts[0] == "data" and len(parts) == 1:
