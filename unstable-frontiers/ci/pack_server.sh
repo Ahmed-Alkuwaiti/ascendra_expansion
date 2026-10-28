@@ -6,7 +6,7 @@ set -u
 rm -rf run/mods run/config run/kubejs run/world
 mkdir -p run/mods
 python3 ci/pack/select_mods.py pack/mods run/mods antarchy integrated_superheroes morph boogaloo_core electric_boogaloo kubejs \
-  marvel marvellegacy viltrumitecore lootr curios bettercombat | tee pack_selection.txt
+  marvel marvellegacy viltrumitecore lootr curios bettercombat witchery | tee pack_selection.txt
 cp -r pack/overrides/config run/config 2>/dev/null || true
 mkdir -p run/kubejs && cp -r pack/overrides/kubejs/server_scripts run/kubejs/ 2>/dev/null || true
 echo "eula=true" > run/eula.txt

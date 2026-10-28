@@ -108,8 +108,8 @@ public final class EncounterManager {
                 continue;
             }
             for (LandmarkPiece piece : LandmarkLocator.near(level, p.blockPosition(), 2)) {
-                if (data.get(piece.origin().asLong()) == null && FrontierData.landmark(piece.template()) != null) {
-                    data.add(new LandmarkState(piece.template(), piece.origin(), piece.rotation()));
+                if (data.get(piece.origin().asLong()) == null && FrontierData.landmark(piece.templateId()) != null) {
+                    data.add(new LandmarkState(piece.templateId(), piece.origin(), piece.rotation()));
                 }
             }
         }
@@ -140,8 +140,8 @@ public final class EncounterManager {
                 Roster r = usable(z.roster());
                 if (r != null) {
                     zs.session++;
+                    zs.dormantPlaced = true;      // before spawning: the join check admits dormant creatures only once placed
                     spawnGroup(level, s, z, zs, r, true);
-                    zs.dormantPlaced = true;
                     data(level).setDirty();
                 }
             }
@@ -821,8 +821,8 @@ public final class EncounterManager {
             }
         }
         for (LandmarkPiece piece : LandmarkLocator.near(level, pos, 1)) {
-            if (piece.getBoundingBox().inflatedBy(slack).isInside(pos) && FrontierData.landmark(piece.template()) != null) {
-                LandmarkState s = new LandmarkState(piece.template(), piece.origin(), piece.rotation());
+            if (piece.getBoundingBox().inflatedBy(slack).isInside(pos) && FrontierData.landmark(piece.templateId()) != null) {
+                LandmarkState s = new LandmarkState(piece.templateId(), piece.origin(), piece.rotation());
                 data(level).add(s);
                 return s;
             }

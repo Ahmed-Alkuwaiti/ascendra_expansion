@@ -59,7 +59,7 @@ public class LandmarkPiece extends TemplateStructurePiece {
         }
     }
 
-    public ResourceLocation template() {
+    public ResourceLocation templateId() {
         return ResourceLocation.parse(templateName);
     }
 

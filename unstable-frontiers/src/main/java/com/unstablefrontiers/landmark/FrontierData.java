@@ -29,7 +29,7 @@ public final class FrontierData {
     private static Map<ResourceLocation, Roster> rosters = Map.of();
     private static List<String> problems = List.of();
 
-    private FrontierData() {}
+    public FrontierData() {}
 
     @SubscribeEvent
     public void onReload(AddReloadListenerEvent event) {

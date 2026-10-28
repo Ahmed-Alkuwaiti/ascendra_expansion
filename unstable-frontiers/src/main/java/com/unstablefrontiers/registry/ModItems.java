@@ -11,6 +11,7 @@ import com.unstablefrontiers.item.TrophyItem;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +52,7 @@ public final class ModItems {
     public static final DeferredBlock<Block> CAGE_BEACON = BLOCKS.register("cage_beacon",
             () -> new CageBeaconBlock(Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(5.0F, 1200.0F)
                     .requiresCorrectToolForDrops().lightLevel(s -> 13).sound(SoundType.LODESTONE)));
-    public static final DeferredItem<Item> CAGE_BEACON_ITEM = ITEMS.registerSimpleBlockItem("cage_beacon", CAGE_BEACON,
+    public static final DeferredItem<BlockItem> CAGE_BEACON_ITEM = ITEMS.registerSimpleBlockItem("cage_beacon", CAGE_BEACON,
             new Item.Properties().rarity(Rarity.EPIC));
 
     public static final Supplier<CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
