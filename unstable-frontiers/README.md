@@ -1,6 +1,8 @@
-# Antarchy: Unstable Frontiers
+# Unstable Frontiers
 
-A companion addon for [Antarchy](https://www.curseforge.com/minecraft/mc-mods/antarchy) (by CraisinLord) on Minecraft 1.20.1 Forge.
+A companion addon for the [Integrated Boogaloo](https://www.curseforge.com/minecraft/modpacks/integrated-boogaloo) modpack
+(by CraisinLord; Minecraft 1.21.1, NeoForge), built around the pack's [Antarchy](https://www.curseforge.com/minecraft/mc-mods/antarchy) creatures.
+Version 0.1.0 targeted Forge 1.20.1; from 0.2.0 it targets NeoForge 1.21.1 only.
 It adds the **Unstable Frontier**, a dangerous wilderness dimension in the spirit of OreSpawn's Danger Dimension: huge
 terrain, an ash-grey sky, cage towers on the skyline, and flying predators hunting giant insects at the foot of them.
 
@@ -11,12 +13,12 @@ one rivalry, one reward. The roadmap at the bottom covers the rest.
 
 | | Status |
 |---|---|
-| Minecraft 1.20.1, Forge 47.x, Java 17 | Built against Forge 47.3.0; runs on any 47.x (your pack runs 47.4.20). |
-| Antarchy | **Optional dependency** (`[2.2.0,)`). Without it the addon uses vanilla stand-ins and says so in the log. |
-| Antarchy entity ids used | Read from Antarchy's public source, `forge-1.20.1` module, version 2.2.9 (commit `f3e73b1e`): `mantis`, `alpha_mantis`, `scorpion`, `springbug`, `wasp`, `brutalfly`, `stratoshark`, `nightmare` and more (see the tags). **Not yet tested in a game with Antarchy installed.** |
+| Minecraft 1.21.1, NeoForge 21.1.x, Java 21 | Built against NeoForge 21.1.181 (the version Antarchy's own build uses); requires 21.1 or newer. **I have not seen the pack's exact NeoForge version yet.** |
+| Antarchy | **Optional dependency** (any version). Without it the addon uses vanilla stand-ins and says so in the log. |
+| Antarchy entity ids used | Read from Antarchy's public source, `common-1.21.1`/`neoforge-1.21.1` modules, version 2.2.9 (commit `f3e73b1e`): `mantis`, `alpha_mantis`, `scorpion`, `springbug`, `wasp`, `brutalfly`, `stratoshark`, `nightmare` and more (see the tags). **Not yet tested in a game with Antarchy installed.** |
 | Dedicated server | Smoke-tested in CI **without Antarchy** (see "Automated checks"). |
 | Client | Not tested by me; I cannot run a Minecraft client here. Client code is resources only (models, textures, lang). |
-| Superhero / Transformers mods | Not integrated yet (milestone 4). Nothing in this addon disables powers or flight. |
+| Integrated Superheroes, Morph, Electric Boogaloo (the pack's own mods) | Not integrated yet (milestone 5); their source is not public, so I need their real item ids from your install first. No Transformers mod is confirmed in the pack. Nothing in this addon disables powers or flight. |
 
 Antarchy is "All Rights Reserved". This addon contains none of its code or assets; it refers to its creatures by id only,
 through config lists and optional tag entries, so nothing breaks when Antarchy is missing or renames something.
@@ -125,7 +127,7 @@ netherite ingots. I have not compared this against Antarchy's own gear in play y
 ## Configuration and presets
 
 `config/unstable_frontiers-common.toml`. Set `density.preset`, then override single values (-1 = use the preset).
-Every value is range-checked; Forge resets an out-of-range value to its default.
+Every value is range-checked; NeoForge resets an out-of-range value to its default.
 
 | Limit | Conservative | **Standard** | High density |
 |---|---|---|---|
@@ -151,7 +153,7 @@ These numbers are a starting point. They have **not been profiled** on your mach
 (`/spark profiler start`, fight a tower, `/spark profiler stop`) and send me the link. Many Antarchy creatures are large
 GeckoLib models; on an RX 6650 XT the render cost of a crowded floor is the thing to watch, and I can't predict a frame rate.
 
-**Memory**: give the pack 8 to 10 GB (CurseForge > Settings > Minecraft > Allocated Memory). Not more than about 12 GB of
+**Memory**: Integrated Boogaloo has about 170 mods; give it 8 to 10 GB (CurseForge > Settings > Minecraft > Allocated Memory). Not more than about 12 GB of
 your 32: a larger heap means longer garbage-collection pauses, not more speed.
 
 ## Commands
@@ -173,26 +175,26 @@ so the encounter system cannot see that tower.
 
 ## Building
 
-Needs Java 17 and Gradle 8.8 (or the Gradle that ships with your IDE). From this folder:
+Needs Java 21 and Gradle 8.10 or newer (or the Gradle that ships with your IDE). From this folder:
 
 ```
 gradle build
 ```
 
-The jar is `build/libs/unstable_frontiers-0.1.0.jar`. Every push to this folder also builds it on GitHub Actions
+The jar is `build/libs/unstable_frontiers-0.2.0.jar`. Every push to this folder also builds it on GitHub Actions
 ("Build Unstable Frontiers" workflow); the jar is the `unstable-frontiers-jar` artifact of the run.
 
 Textures are drawn by `python3 tools/gen_textures.py` (needs Pillow).
 
 ## Installing
 
-Put the jar in the instance's `mods` folder next to Antarchy and its dependencies (Anthology, AntOS, Integrated API,
-GeckoLib, Sizeable Foliage, Pehkui). Use a **new world, or a new region of an old one**: the frontier is a new dimension, so
+Put the jar in the Integrated Boogaloo instance's `mods` folder (CurseForge: the pack's ⋮ menu > Open Folder). Antarchy and
+its dependencies are already in the pack. Use a **new world, or a new region of an old one**: the frontier is a new dimension, so
 existing worlds are not changed, but towers only appear in newly generated frontier chunks.
 
 ## Automated checks
 
-`ci/smoke.sh` boots a dedicated server with the addon and **without Antarchy**, then:
+`ci/smoke.sh` boots a dedicated NeoForge server with the addon and **without Antarchy**, then:
 builds a tower, finds it with the encounter lookup, wakes the Swarm Pen and checks that creatures spawned, waits for the
 idle floor to reset itself, wakes the Aerie and the Crown, resets the tower, and locates a naturally generated tower. It
 fails on any failed command, any exception in the log, or any missing step.
@@ -234,7 +236,7 @@ Please try these and tell me what happens (with `logs/latest.log` if anything go
    and limited reinforcements; more rivalries (nest defenders against intruders).
 4. **Equipment and progression**: movement gear, more weapons with abilities, rare treasures, trophy unlocks, a harder
    region and a major challenge.
-5. **Optional integrations**: superhero and Transformers mods, only after checking their real item ids. Disabled
+5. **Optional integrations**: the pack's Integrated Superheroes, Morph and Electric Boogaloo (and a Transformers mod if you add one), only after checking their real item ids. Disabled
    automatically when they are absent. Encounters account for flight with ranged threats and objectives, not by turning
    powers off.
 6. **Polish**: sounds, particles, music, visuals.
