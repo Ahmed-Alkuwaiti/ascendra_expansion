@@ -35,6 +35,7 @@ def modrinth():
     res = get(f'https://api.modrinth.com/v2/search?query={q}&facets=%5B%5B%22project_type%3Amodpack%22%5D%5D')
     if not res:
         return False
+    say('modrinth search hits:', len(res.get('hits', [])))
     for h in res.get('hits', [])[:5]:
         say('modrinth hit:', h['slug'], '|', h['title'], '| by', h.get('author'))
     hits = [h for h in res.get('hits', []) if 'boogaloo' in h['slug']]
@@ -108,6 +109,54 @@ def curseforge():
     return True
 
 
-ok = modrinth() or curseforge()
+def cdn(fid, name):
+    q = urllib.parse.quote(name)
+    return f'https://mediafilez.forgecdn.net/files/{fid // 1000}/{fid % 1000}/{q}'
+
+
+def cfwidget():
+    """CFWidget mirrors CurseForge project and file listings without an API key; files come from CurseForge's CDN."""
+    proj = get('https://api.cfwidget.com/minecraft/modpacks/integrated-boogaloo')
+    if not proj or 'files' not in proj:
+        say('cfwidget: no project', str(proj)[:300])
+        return False
+    say('CFWIDGET PACK', proj.get('id'), proj.get('title'), '| files listed:', len(proj['files']))
+    files = sorted(proj['files'], key=lambda f: f.get('uploaded_at', ''), reverse=True)
+    for f in files[:8]:
+        say('  pack file:', f['id'], f['name'], f.get('uploaded_at'), f.get('versions'), f.get('type'))
+    main = [f for f in files if f['name'].endswith('.zip') and 'server' not in f['name'].lower()] or files
+    f = main[0]
+    data = get(cdn(f['id'], f['name']), binary=True)
+    if not data:
+        return False
+    z = zipfile.ZipFile(io.BytesIO(data))
+    man = json.loads(z.read('manifest.json'))
+    json.dump(man, open(f'{OUT}/manifest.json', 'w'), indent=1)
+    say('PACK FILE', f['name'], '| minecraft', man['minecraft'], '| pack version', man.get('version'))
+    names = {}
+    for e in man['files']:
+        pid, fid = e['projectID'], e['fileID']
+        info = get(f'https://api.cfwidget.com/{pid}', tries=3) or {}
+        hit = [x for x in info.get('files', []) if x.get('id') == fid]
+        title = info.get('title', '?')
+        if not hit:
+            say('MOD ?', pid, fid, title, '(file not in mirror listing)')
+            continue
+        name = hit[0]['name']
+        names[pid] = name
+        jar = get(cdn(fid, name), binary=True, tries=3)
+        if jar:
+            open(f'{OUT}/mods/{name}', 'wb').write(jar)
+        say('MOD', name, '|', title, '| project', pid, '| file', fid, '| ok' if jar else '| DOWNLOAD FAILED')
+    over = man.get('overrides', 'overrides') + '/'
+    for n in z.namelist():
+        if n.startswith(over) and not n.endswith('/'):
+            p = f'{OUT}/overrides/' + n[len(over):]
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            open(p, 'wb').write(z.read(n))
+    return True
+
+
+ok = modrinth() or cfwidget() or curseforge()
 say('PACK FETCHED' if ok else 'PACK NOT FOUND')
 sys.exit(0 if ok else 1)
