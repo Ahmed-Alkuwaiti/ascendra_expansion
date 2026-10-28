@@ -26,13 +26,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.10.2'
-      - name: Cache the pack download
-        uses: actions/cache@v4
+      - name: Restore the pack download
+        id: pack
+        uses: actions/cache/restore@v4
         with:
           path: unstable-frontiers/pack
           key: integrated-boogaloo-1.0.8-v1
       - name: Fetch Integrated Boogaloo (skipped when cached)
-        run: test -f pack/manifest.json || python3 ci/pack/fetch_pack.py pack
+        if: steps.pack.outputs.cache-hit != 'true'
+        run: python3 ci/pack/fetch_pack.py pack
+      # Saved straight away, so a failing test later in the job does not throw the 174-mod download away.
+      - name: Save the pack download
+        if: steps.pack.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: unstable-frontiers/pack
+          key: integrated-boogaloo-1.0.8-v1
       - name: Build
         run: gradle build --no-daemon --console=plain
       - name: Server with the pack's mods
