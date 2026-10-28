@@ -27,7 +27,7 @@ check "a floor spawned creatures" "active=swarm_pen wave=[1-9][0-9]* alive=[1-9]
 check "idle floor reset itself" "active=none wave=0 alive=0 session=2"
 check "crown guardian spawned" "active=crown wave=1 alive=[1-9]"
 check "natural towers locatable" "Nearest cage tower"
-check "natural tower generated and readable" "tower -?[0-9]+ centre 32 [0-9]+ 160 "
+check "natural tower generated and readable" "tower -?[0-9]+ centre 40 [0-9]+ 168 "
 if grep -qE "SMOKE FAILED|SMOKE ok \(0\)" $L; then echo "FAIL a command failed or returned 0:"; grep -E "SMOKE FAILED|SMOKE ok \(0\)" $L | cut -c1-300; ok=0; fi
 if grep -qE "Exception|Caused by" $L; then echo "FAIL exceptions in the log"; ok=0; fi
 [ $ok = 1 ]

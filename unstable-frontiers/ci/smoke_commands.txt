@@ -29,8 +29,10 @@ execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
 execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower reset
 execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
 execute in unstable_frontiers:frontier positioned 8 0 8 run frontier locate
-# The seed is fixed, so the nearest natural tower is at 32 ~ 160: generate its chunks and read it back from the world.
+# The seed is fixed, so the nearest natural tower starts in the chunk at 32 ~ 160 (centre 40 ~ 168): generate it and read it back.
 execute in unstable_frontiers:frontier run forceload add 16 144 48 176
 frontier stats
 execute in unstable_frontiers:frontier positioned 32 0 160 run frontier tower info
 frontier stats
+# Its crown light (centre, base + 60): proves worldgen placed the blocks, not just the structure record.
+execute in unstable_frontiers:frontier if block 40 170 168 minecraft:shroomlight
