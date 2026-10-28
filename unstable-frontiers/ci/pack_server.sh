@@ -20,8 +20,19 @@ echo "eula=true" > run/eula.txt
 printf "level-seed=frontiers\nmax-tick-time=-1\nspawn-protection=0\nonline-mode=false\ndifficulty=normal\n" > run/server.properties
 rm -f run/logs/latest.log
 export UF_SMOKE="$PWD/ci/pack_smoke_commands.txt"
-timeout 2400 gradle runServer --no-daemon < /dev/null > server_console.log 2>&1
-echo "server exited: $?"
+# Client-only mods that the name list missed refuse to construct on a dedicated server ("invalid dist"); drop each one
+# named in the crash report and boot again, at most 8 times. Each dropped mod is listed in pack_selection.txt.
+for attempt in 1 2 3 4 5 6 7 8; do
+  rm -rf run/crash-reports run/world
+  timeout 2400 gradle runServer --no-daemon < /dev/null > server_console.log 2>&1
+  code=$?
+  crash=$(ls run/crash-reports/*.txt 2>/dev/null | head -1)
+  [ -n "$crash" ] || break
+  bad=$(grep -B6 "invalid dist DEDICATED_SERVER" "$crash" | grep -oE "run/mods/[^ ]+\.jar" | sort -u)
+  [ -n "$bad" ] || break
+  for j in $bad; do echo "SKIP (client-only, refused on a server) $(basename $j)" | tee -a pack_selection.txt; rm -f "$j"; done
+done
+echo "server exited: $code"
 L=run/logs/latest.log
 echo "==== mods loaded ===="
 grep -E "Unstable Frontiers loading|Loading [0-9]+ mods|Done \(" $L | cut -c1-200
