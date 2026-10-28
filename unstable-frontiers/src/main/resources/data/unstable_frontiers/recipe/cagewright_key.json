@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "unstable_frontiers:cage_trophy"
+    },
+    {
+      "item": "unstable_frontiers:rookery_talon"
+    },
+    {
+      "item": "unstable_frontiers:hive_heart"
+    },
+    {
+      "item": "antarchy:uranium_ingot"
+    },
+    {
+      "item": "minecraft:tripwire_hook"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:cagewright_key",
+    "count": 1
+  }
+}

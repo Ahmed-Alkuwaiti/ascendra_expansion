@@ -3,392 +3,894 @@ package com.unstablefrontiers.encounter;
 import com.unstablefrontiers.UnstableFrontiers;
 import com.unstablefrontiers.config.FrontierConfig;
 import com.unstablefrontiers.ecology.Creatures;
-import com.unstablefrontiers.ecology.Rosters;
-import com.unstablefrontiers.world.TowerBlueprint;
-import com.unstablefrontiers.world.TowerLocator;
-import com.unstablefrontiers.world.TowerRef;
+import com.unstablefrontiers.ecology.Roster;
+import com.unstablefrontiers.landmark.FrontierData;
+import com.unstablefrontiers.landmark.LandmarkDef;
+import com.unstablefrontiers.landmark.LandmarkDef.Kind;
+import com.unstablefrontiers.landmark.LandmarkDef.Zone;
+import com.unstablefrontiers.registry.ModSounds;
+import com.unstablefrontiers.world.LandmarkLocator;
+import com.unstablefrontiers.world.LandmarkPiece;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Runs the tower fights, server side only.
- *
- * <p>A stage (one of the three cage floors, or the crown) wakes when a player steps inside it and it is not yet cleared.
- * Only one stage per tower fights at a time, however many players arrive, and the server-wide number of fighting towers
- * is capped. A stage sends a fixed number of waves; each wave is limited by the per-player and per-tower caps, and the
- * next one waits for both the cooldown and for the floor to thin out. The stage is cleared when every wave has come and
- * every creature in it is dead. Clearing all four stages completes the tower and rewards the players who fought there,
- * once each, recorded in {@link TowerState#rewarded}.
- *
- * <p>If nobody is near for {@code disengageTicks}, the unfinished stage resets: its creatures are removed (loaded ones at
- * once, unloaded ones when their chunk loads, by session number) and floors already cleared stay cleared. Nothing spawns
- * while no player is near, so a fight never runs on with nobody watching.
+ * Runs every landmark fight. All state lives in {@link LandmarkData}; this class only acts on landmarks with a player
+ * within {@link #AWAKE} blocks, and every search it makes is a box around one landmark. Per kind:
+ * <ul>
+ * <li>WAVES: waves come while waves remain, each when the last is mostly down and the cooldown has passed.</li>
+ * <li>BROOD: like waves, but every wave hatches from the egg clutches still whole; smash them and the waves stop.</li>
+ * <li>AMBUSH: one burst from hiding (and from the zone's release points) the moment you cross the trigger.</li>
+ * <li>CELL / ROOST: the prisoners or roosting flyers are already there, dormant and visible; they wake when you step into
+ * the zone or strike one.</li>
+ * <li>GUARDIAN: an elite with escorts, a boss bar and telegraphed abilities. Opens the landmark's gate when it falls.</li>
+ * <li>FINALE: started by the Cagewright's Key at the lock; the beast is shielded while its pylons stand.</li>
+ * <li>TERRITORY: no fight; residents live here (see {@link com.unstablefrontiers.ecology.Rivalry}).</li>
+ * </ul>
+ * A fight nobody is near for disengageTicks resets: its creatures are removed and it can be tried again. Rosters that
+ * cannot be resolved stop the fight from starting and say why, in chat and in the log; nothing is substituted.
  */
 public final class EncounterManager {
-    private static final int SCAN_INTERVAL = 20;
-    private static final int STAGE_INTERVAL = 10;
-    private static final int MISSING_TIMEOUT = 600;
-    private static final double NEAR_VERTICAL = 48.0D;
-
-    /** When each tracked creature was last found loaded; memory only, rebuilt after a restart. */
-    private static final Map<UUID, Long> LAST_SEEN = new HashMap<>();
-    /** Towers started from a command: they may spawn with no player near (for testing), and still reset when idle. */
-    private static final Set<Long> FORCED = new HashSet<>();
-    private static final Set<String> EMPTY_WARNED = new HashSet<>();
-    private static final Map<Long, Integer> FAILS = new HashMap<>();
+    public static final int AWAKE = 48;
+    private static final Map<String, ServerBossEvent> BARS = new HashMap<>();
 
     private EncounterManager() {}
 
+    public static LandmarkData data(ServerLevel level) {
+        return LandmarkData.get(level);
+    }
+
+    // ------------------------------------------------------------------------------------------------------- the tick
     public static void tick(ServerLevel level) {
-        long time = level.getGameTime();
-        TowerData data = TowerData.get(level);
+        long t = level.getGameTime();
+        LandmarkData data = data(level);
+        if (t % 40 == 0) {
+            discover(level, data);
+        }
+        if (t % 10 != 0) {
+            return;
+        }
+        for (LandmarkState s : data.all()) {
+            LandmarkDef def = FrontierData.landmark(s.id);
+            if (def == null || !level.isLoaded(s.centre(def))) {
+                continue;
+            }
+            BoundingBox bounds = s.bounds(def);
+            List<ServerPlayer> near = players(level, bounds, AWAKE);
+            boolean anyActive = false;
+            for (Zone z : def.zones()) {
+                anyActive |= s.zone(z).status == ZoneState.Status.ACTIVE;
+            }
+            if (near.isEmpty() && !anyActive) {
+                continue;
+            }
+            if (!near.isEmpty()) {
+                welcome(level, s, def, players(level, bounds, 6));
+                wake(level, s, def, t);
+            }
+            for (Zone z : def.zones()) {
+                tickZone(level, data, s, def, z, s.zone(z), t);
+            }
+        }
+    }
+
+    /** Registers the landmarks around each player from the structure references of loaded chunks. */
+    private static void discover(ServerLevel level, LandmarkData data) {
         for (ServerPlayer p : level.players()) {
-            if (p.isSpectator() || (time + p.getId()) % SCAN_INTERVAL != 0) {
+            if (p.isSpectator()) {
                 continue;
             }
-            TowerRef ref = TowerLocator.at(level, p.blockPosition(), false);
-            if (ref != null) {
-                playerAtTower(level, data, ref, p, time);
-            }
-        }
-        if (time % STAGE_INTERVAL == 0) {
-            for (TowerState s : data.active()) {
-                tickStage(level, data, s, time);
+            for (LandmarkPiece piece : LandmarkLocator.near(level, p.blockPosition(), 2)) {
+                if (data.get(piece.origin().asLong()) == null && FrontierData.landmark(piece.template()) != null) {
+                    data.add(new LandmarkState(piece.template(), piece.origin(), piece.rotation()));
+                }
             }
         }
     }
 
-    private static void playerAtTower(ServerLevel level, TowerData data, TowerRef ref, ServerPlayer p, long time) {
-        TowerState s = data.getOrCreate(ref);
-        if (s.completed) {
+    /** First steps into a landmark: its name, once per player. */
+    private static void welcome(ServerLevel level, LandmarkState s, LandmarkDef def, List<ServerPlayer> inside) {
+        List<ServerPlayer> fresh = new ArrayList<>();
+        for (ServerPlayer p : inside) {
+            if (s.visitors.add(p.getUUID())) {
+                fresh.add(p);
+            }
+        }
+        if (fresh.isEmpty() || def.kind().equals("wayside")) {
             return;
         }
-        if (s.activeStage >= 0) {
-            if (s.participants.add(p.getUUID())) {
+        data(level).setDirty();
+        Feedback.title(fresh, Component.literal(def.title()).withStyle(ChatFormatting.DARK_RED),
+                Component.translatable("landmark.unstable_frontiers." + def.kind() + ".subtitle").withStyle(ChatFormatting.GRAY));
+        Feedback.sound(level, fresh.get(0).blockPosition(), ModSounds.DISCOVER.get(), 1.0F, 1.0F);
+    }
+
+    /** A player is near: place dormant prisoners and roosting flyers, and move residents in. */
+    private static void wake(ServerLevel level, LandmarkState s, LandmarkDef def, long t) {
+        for (Zone z : def.zones()) {
+            ZoneState zs = s.zone(z);
+            if ((z.kind() == Kind.CELL || z.kind() == Kind.ROOST) && zs.status == ZoneState.Status.IDLE && !zs.dormantPlaced) {
+                Roster r = usable(z.roster());
+                if (r != null) {
+                    zs.session++;
+                    spawnGroup(level, s, z, zs, r, true);
+                    zs.dormantPlaced = true;
+                    data(level).setDirty();
+                }
+            }
+        }
+        if (!def.residents().isEmpty()) {
+            pruneResidents(level, s);
+            if (s.residents.isEmpty() && (s.residentsAt == Long.MIN_VALUE || t - s.residentsAt >= FrontierConfig.RESIDENT_RESPAWN.get())
+                    && !CageBeacons.covers(level, s.centre(def))) {
+                spawnResidents(level, s, def);
+                s.residentsAt = t;
+                data(level).setDirty();
+            }
+        }
+    }
+
+    private static void tickZone(ServerLevel level, LandmarkData data, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, long t) {
+        if (z.kind() == Kind.TERRITORY || zs.status == ZoneState.Status.CLEARED) {
+            return;
+        }
+        BoundingBox box = s.world(z.box());
+        if (zs.status == ZoneState.Status.IDLE) {
+            List<ServerPlayer> inTrigger = players(level, s.world(z.trigger()), 0);
+            if (inTrigger.isEmpty()) {
+                return;
+            }
+            if (!requirementsMet(s, def, z)) {
+                hint(zs, t, inTrigger, Component.translatable("message.unstable_frontiers.sealed", z.name(), progress(s, def, z))
+                        .withStyle(ChatFormatting.GOLD));
+                return;
+            }
+            if (z.kind() == Kind.FINALE) {
+                hint(zs, t, inTrigger, Component.translatable("message.unstable_frontiers.finale_locked").withStyle(ChatFormatting.GOLD));
+                return;
+            }
+            start(level, s, def, z, zs, inTrigger, t);
+            return;
+        }
+        // ACTIVE
+        prune(level, zs);
+        for (ServerPlayer p : players(level, box, 4)) {
+            if (zs.participants.add(p.getUUID())) {
                 data.setDirty();
             }
+        }
+        List<ServerPlayer> engaged = players(level, box, 24);
+        if (!engaged.isEmpty()) {
+            zs.lastEngaged = t;
+        } else if (t - zs.lastEngaged > FrontierConfig.DISENGAGE_TICKS.get()) {
+            reset(level, s, def, z, zs);
             return;
         }
-        int stage = TowerBlueprint.stageAt(ref.localX(p.getX()), ref.localY(p.getY()), ref.localZ(p.getZ()));
-        if (stage < 0 || s.isCleared(stage) || p.isCreative()) {
+        leash(level, s, z, zs, box);
+        Roster r = FrontierData.roster(z.roster());
+        if (r == null) {
             return;
         }
-        if (data.active().size() >= FrontierConfig.activeTowers()) {
-            p.displayClientMessage(Component.translatable("message.unstable_frontiers.tower_busy"), true);
-            return;
+        switch (z.kind()) {
+            case WAVES, AMBUSH, BROOD -> waves(level, s, def, z, zs, r, t, engaged);
+            case GUARDIAN, FINALE -> Elites.tick(level, s, def, z, zs, r, t, engaged);
+            default -> {}
         }
-        s.participants.add(p.getUUID());
-        start(level, data, s, stage, time, false);
-    }
-
-    /** Wakes a stage. Used by players stepping in and by the debug command (forced). */
-    public static void start(ServerLevel level, TowerData data, TowerState s, int stage, long time, boolean forced) {
-        removeCreatures(level, s);
-        s.activeStage = stage;
-        s.session++;
-        s.wave = 0;
-        s.nextWaveTime = time + 40;
-        s.lastPresence = time;
-        if (forced) {
-            FORCED.add(s.ref.id());
+        if (cleared(level, s, z, zs)) {
+            clear(level, s, def, z, zs);
         } else {
-            FORCED.remove(s.ref.id());
+            updateBar(level, s, def, z, zs, box);
         }
         data.setDirty();
-        Vec3 c = s.ref.stageCentre(stage);
-        SoundEvent wake = stage == 3 ? SoundEvents.RAVAGER_ROAR : SoundEvents.CHAIN_BREAK;
-        level.playSound(null, c.x, c.y, c.z, wake, SoundSource.HOSTILE, 3.0F, 0.6F);
-        level.sendParticles(ParticleTypes.LARGE_SMOKE, c.x, c.y + 1, c.z, Creatures.particles(30), 4.0D, 1.0D, 4.0D, 0.02D);
-        announce(level, c, Component.translatable("message.unstable_frontiers.stage_wakes", stageName(stage)));
-        UnstableFrontiers.LOGGER.debug("Tower {} stage {} woke (session {})", s.ref.id(), stage, s.session);
     }
 
-    private static void tickStage(ServerLevel level, TowerData data, TowerState s, long time) {
-        int stage = s.activeStage;
-        Vec3 c = s.ref.stageCentre(stage);
-        double leash = FrontierConfig.LEASH_RADIUS.get();
-        List<ServerPlayer> near = playersNear(level, c, leash + 8);
-        if (!near.isEmpty()) {
-            s.lastPresence = time;
-            for (ServerPlayer p : near) {
-                if (s.participants.add(p.getUUID())) {
-                    data.setDirty();
-                }
-            }
-        }
-        if (time - s.lastPresence > FrontierConfig.DISENGAGE_TICKS.get()) {
-            UnstableFrontiers.LOGGER.debug("Tower {} stage {} reset: nobody near", s.ref.id(), stage);
-            abandon(level, data, s);
+    // -------------------------------------------------------------------------------------------------- starting
+    private static void start(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, List<ServerPlayer> players, long t) {
+        Roster r = FrontierData.roster(z.roster());
+        List<ResourceLocation> missing = r == null ? List.of() : r.missing();
+        if (r == null || !missing.isEmpty()) {
+            Component why = r == null
+                    ? Component.translatable("message.unstable_frontiers.roster_missing", z.roster())
+                    : Component.translatable("message.unstable_frontiers.roster_unusable", z.roster(), missing.toString());
+            hint(zs, t, players, why.copy().withStyle(ChatFormatting.RED));
             return;
         }
-
-        List<ServerPlayer> targets = new ArrayList<>();
-        for (ServerPlayer p : near) {
-            if (!p.isCreative()) {
-                targets.add(p);
-            }
+        if (activeCount(level) >= FrontierConfig.activeEncounters()) {
+            hint(zs, t, players, Component.translatable("message.unstable_frontiers.busy").withStyle(ChatFormatting.GRAY));
+            return;
         }
-        Iterator<UUID> it = s.alive.iterator();
-        while (it.hasNext()) {
-            UUID u = it.next();
-            Entity e = level.getEntity(u);
-            if (e == null) {
-                // Unloaded, or removed by something else. Give up on it after a while if players are here to see.
-                long seen = LAST_SEEN.computeIfAbsent(u, k -> time);
-                if (!near.isEmpty() && time - seen > MISSING_TIMEOUT) {
-                    it.remove();
-                    LAST_SEEN.remove(u);
-                    data.setDirty();
+        boolean wasDormant = zs.dormantPlaced;
+        zs.status = ZoneState.Status.ACTIVE;
+        if (!wasDormant) {
+            zs.session++;
+        }
+        zs.lastEngaged = t;
+        zs.eliteSlain = false;
+        zs.telegraphed = false;
+        for (ServerPlayer p : players) {
+            zs.participants.add(p.getUUID());
+        }
+        BlockPos at = s.world(z.centre());
+        switch (z.kind()) {
+            case WAVES -> {
+                zs.wavesLeft = z.waves() > 0 ? z.waves() : FrontierConfig.wavesPerFloor();
+                zs.nextWaveAt = t + 40;
+            }
+            case BROOD -> {
+                zs.broodStart = brood(level, s, z).size();
+                zs.wavesLeft = 1 + Math.min(4, zs.broodStart / 3);
+                zs.nextWaveAt = t + 40;
+            }
+            case AMBUSH -> {
+                zs.wavesLeft = Math.max(1, z.waves());
+                zs.nextWaveAt = t;
+            }
+            case CELL, ROOST -> {
+                int woken = wakeDormant(level, zs, players.get(0));
+                if (woken == 0) {
+                    spawnGroup(level, s, z, zs, r, false);
                 }
-                continue;
             }
-            LAST_SEEN.put(u, time);
-            if (!e.isAlive()) {
-                it.remove();
-                LAST_SEEN.remove(u);
-                data.setDirty();
-                continue;
-            }
-            if (e instanceof Mob m) {
-                leash(m, c, leash, targets);
-            }
+            case GUARDIAN, FINALE -> Elites.begin(level, s, def, z, zs, r, players.get(0));
+            default -> {}
         }
+        Feedback.title(players(level, s.world(z.box()), 16), Component.literal(z.name()).withStyle(ChatFormatting.RED),
+                Component.translatable("zone.unstable_frontiers." + z.kind().name().toLowerCase() + ".start").withStyle(ChatFormatting.GRAY));
+        Feedback.sound(level, at, z.kind() == Kind.GUARDIAN || z.kind() == Kind.FINALE ? ModSounds.ELITE_TELL.get() : ModSounds.WAKE.get(),
+                2.0F, 1.0F);
+        data(level).setDirty();
+    }
 
-        boolean mayspawn = !near.isEmpty() || FORCED.contains(s.ref.id());
-        int waves = stage == 3 ? 1 : FrontierConfig.wavesPerFloor();
-        int thin = Math.max(1, FrontierConfig.mobsPerWave() / 2);
-        if (s.wave < waves && mayspawn && time >= s.nextWaveTime && s.alive.size() <= thin) {
-            boolean done = spawnWave(level, data, s, Math.max(1, near.size()), targets);
-            int fails = done ? 0 : FAILS.merge(s.ref.id(), 1, Integer::sum);
-            if (done || fails >= 5) {
-                // A wave that cannot be placed five times running (floor blocked up) is skipped rather than stalling the stage.
-                FAILS.remove(s.ref.id());
-                s.wave++;
-                s.nextWaveTime = time + FrontierConfig.waveCooldown();
-            } else {
-                s.nextWaveTime = time + 100;
-            }
-            data.setDirty();
+    /** A dormant creature was struck or the finale lock was opened: start its zone if it may start. */
+    public static void provoke(ServerLevel level, Entity e, @Nullable ServerPlayer by) {
+        LandmarkState s = data(level).get(Creatures.landmark(e));
+        LandmarkDef def = s == null ? null : FrontierData.landmark(s.id);
+        if (def == null || Creatures.zone(e) >= def.zones().size()) {
+            return;
         }
-        if (s.wave >= waves && s.alive.isEmpty()) {
-            clearStage(level, data, s, near);
+        Zone z = def.zones().get(Creatures.zone(e));
+        ZoneState zs = s.zone(z);
+        if (zs.status != ZoneState.Status.IDLE) {
+            return;
+        }
+        List<ServerPlayer> who = new ArrayList<>(players(level, s.world(z.box()), 12));
+        if (by != null && !who.contains(by)) {
+            who.add(by);
+        }
+        if (!who.isEmpty() && requirementsMet(s, def, z)) {
+            start(level, s, def, z, zs, who, level.getGameTime());
+        } else if (e instanceof Mob m) {
+            Creatures.setDormant(m, false);
         }
     }
 
-    /** A short pursuit: past the leash the creature drops its target and walks home; far past it, it is put back. */
-    private static void leash(Mob m, Vec3 c, double leash, List<ServerPlayer> targets) {
-        double dx = m.getX() - c.x;
-        double dz = m.getZ() - c.z;
-        double d2 = dx * dx + dz * dz;
-        double dy = Math.abs(m.getY() - c.y);
-        if (d2 > leash * leash || dy > 40) {
-            m.setTarget(null);
-            if (d2 > leash * leash * 2.25D || dy > 60) {
-                m.teleportTo(c.x, c.y, c.z);
-            } else {
-                m.getNavigation().moveTo(c.x, c.y, c.z, 1.0D);
+    /** The Cagewright's Key used on a block: returns true (and starts the finale) if it is a Great Cage lock. */
+    public static boolean useKey(ServerLevel level, ServerPlayer player, BlockPos clicked) {
+        for (LandmarkState s : data(level).all()) {
+            LandmarkDef def = FrontierData.landmark(s.id);
+            if (def == null) {
+                continue;
             }
-        } else if (m.getTarget() == null && !targets.isEmpty()) {
-            m.setTarget(nearest(targets, m));
+            for (Zone z : def.zones()) {
+                if (z.kind() != Kind.FINALE || z.lock() == null || s.world(z.lock()).distSqr(clicked) > 4) {
+                    continue;
+                }
+                ZoneState zs = s.zone(z);
+                if (zs.status != ZoneState.Status.IDLE) {
+                    player.displayClientMessage(Component.translatable("message.unstable_frontiers.lock_open"), true);
+                    return true;
+                }
+                if (usable(z.roster()) == null) {
+                    player.displayClientMessage(Component.translatable("message.unstable_frontiers.roster_unusable", z.roster(),
+                            String.valueOf(rosterMissing(z.roster()))).withStyle(ChatFormatting.RED), false);
+                    return true;
+                }
+                if (z.lockGate() != null) {
+                    openGate(level, s, def, z.lockGate());
+                }
+                start(level, s, def, z, zs, List.of(player), level.getGameTime());
+                return zs.status == ZoneState.Status.ACTIVE;
+            }
         }
+        return false;
     }
 
-    /** Spawns one wave; false if nothing could be placed (no room under the caps, or every spot blocked). */
-    private static boolean spawnWave(ServerLevel level, TowerData data, TowerState s, int players, List<ServerPlayer> targets) {
-        int stage = s.activeStage;
-        int cap = Math.min(FrontierConfig.encounterPerTower(), FrontierConfig.encounterPerPlayer() * players);
-        int room = cap - s.alive.size();
-        if (room <= 0) {
-            return false;
+    // ---------------------------------------------------------------------------------------------------- waves
+    private static void waves(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, Roster r, long t,
+                              List<ServerPlayer> engaged) {
+        if (zs.wavesLeft <= 0) {
+            return;
         }
-        List<EntityType<?>> types;
-        if (stage == 3) {
-            types = new ArrayList<>(Creatures.pick(Rosters.stage(3), room, level.random));
-            types.addAll(Creatures.pick(Rosters.crownEscorts(), Math.max(0, room - types.size()), level.random));
-        } else {
-            int n = Math.min(room, FrontierConfig.mobsPerWave() + players - 1);
-            types = Creatures.pick(Rosters.stage(stage), n, level.random);
+        int size = waveSize(zs, engaged.size());
+        int alive = zs.mobs.size();
+        if (alive > Math.max(0, size / 3) || t < zs.nextWaveAt - 30) {
+            return;
         }
-        if (types.isEmpty()) {
-            if (EMPTY_WARNED.add("stage" + stage)) {
-                UnstableFrontiers.LOGGER.warn("Tower stage {} has no usable creatures in its roster; it will clear without a fight", TowerBlueprint.STAGE_NAMES[stage]);
+        List<BlockPos> clutches = z.kind() == Kind.BROOD ? brood(level, s, z) : List.of();
+        if (z.kind() == Kind.BROOD && zs.wavesLeft < 1 + Math.min(4, zs.broodStart / 3) && clutches.isEmpty()) {
+            zs.wavesLeft = 0;
+            Feedback.bar(engaged, Component.translatable("message.unstable_frontiers.brood_broken").withStyle(ChatFormatting.GREEN));
+            return;
+        }
+        if (!zs.telegraphed) {
+            zs.telegraphed = true;
+            List<Vec3> spots = spots(s, z, clutches);
+            for (Vec3 p : spots) {
+                Feedback.burst(level, z.kind() == Kind.BROOD ? ParticleTypes.ITEM_SLIME : ParticleTypes.SMOKE, p.add(0, 0.5D, 0), 6, 0.4D);
             }
-            return true;
+            Feedback.sound(level, s.world(z.centre()), z.kind() == Kind.BROOD ? ModSounds.BROOD.get() : ModSounds.WAVE.get(), 1.5F, 1.0F);
+            if (z.kind() == Kind.BROOD) {
+                Feedback.bar(engaged, Component.translatable("message.unstable_frontiers.brood_left", clutches.size())
+                        .withStyle(ChatFormatting.YELLOW));
+            }
+            return;
         }
-        int[][] spots = stage == 3 ? TowerBlueprint.CROWN_SPAWNS : TowerBlueprint.FLOOR_SPAWNS;
-        List<int[]> order = new ArrayList<>(List.of(spots));
-        Collections.shuffle(order, new java.util.Random(level.random.nextLong()));
-        int fy = s.ref.baseY() + TowerBlueprint.stageFloor(stage) + 1;
-        int next = 0;
-        int placed = 0;
+        if (t < zs.nextWaveAt) {
+            return;
+        }
+        int n = z.kind() == Kind.BROOD ? Math.min(size, 1 + clutches.size() / 2) : size;
+        List<Vec3> spots = spots(s, z, clutches);
+        List<EntityType<?>> types = Roster.pick(r.mobs(), n, level.random);
+        int i = 0;
         for (EntityType<?> type : types) {
-            Mob mob = null;
-            for (int tries = 0; tries < order.size() && mob == null; tries++) {
-                int[] o = order.get(next++ % order.size());
-                double x = s.ref.originX() + TowerBlueprint.C + o[0] + 0.5D;
-                double z = s.ref.originZ() + TowerBlueprint.C + o[1] + 0.5D;
-                mob = Creatures.create(level, type, new Vec3(x, fy, z));
-                if (mob != null && Creatures.flies(mob)) {
-                    mob.moveTo(x, fy + 3, z);
+            Mob m = spawn(level, type, spots.get(i++ % spots.size()));
+            if (m != null) {
+                enlist(level, s, z, zs, m, false, engaged.isEmpty() ? null : engaged.get(0));
+            }
+        }
+        if (z.kind() == Kind.AMBUSH && !r.flyers().isEmpty() && !z.flyerSpawns().isEmpty()) {
+            for (EntityType<?> type : Roster.pick(r.flyers(), Math.min(2, z.flyerSpawns().size()), level.random)) {
+                Mob m = spawn(level, type, s.feet(z.flyerSpawns().get(level.random.nextInt(z.flyerSpawns().size()))));
+                if (m != null) {
+                    enlist(level, s, z, zs, m, false, engaged.isEmpty() ? null : engaged.get(0));
                 }
             }
-            if (mob == null) {
-                continue;
-            }
-            Creatures.tagEncounter(mob, s.ref.id(), s.session);
-            if (!targets.isEmpty()) {
-                mob.setTarget(nearest(targets, mob));
-            }
-            s.alive.add(mob.getUUID());
-            if (!level.addFreshEntity(mob)) {
-                s.alive.remove(mob.getUUID());
-                continue;
-            }
-            placed++;
-            level.sendParticles(ParticleTypes.LARGE_SMOKE, mob.getX(), mob.getY() + 1, mob.getZ(), Creatures.particles(8), 0.5D, 0.5D, 0.5D, 0.02D);
         }
-        data.setDirty();
-        return placed > 0;
+        zs.wavesLeft--;
+        zs.nextWaveAt = t + FrontierConfig.waveCooldown();
+        zs.telegraphed = false;
     }
 
-    private static void clearStage(ServerLevel level, TowerData data, TowerState s, List<ServerPlayer> near) {
-        int stage = s.activeStage;
-        s.cleared |= 1 << stage;
-        s.activeStage = -1;
-        s.wave = 0;
-        FORCED.remove(s.ref.id());
-        data.setDirty();
-        Vec3 c = s.ref.stageCentre(stage);
-        level.playSound(null, c.x, c.y, c.z, SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.PLAYERS, 1.0F, 1.0F);
-        announce(level, c, Component.translatable("message.unstable_frontiers.stage_cleared", stageName(stage)));
-        UnstableFrontiers.LOGGER.debug("Tower {} stage {} cleared", s.ref.id(), stage);
-        if (s.allCleared() && !s.completed) {
-            s.completed = true;
-            Rewards.completeTower(level, s);
-            UnstableFrontiers.LOGGER.info("Cage tower at {} {} completed", s.ref.originX() + TowerBlueprint.C, s.ref.originZ() + TowerBlueprint.C);
-        }
+    private static int waveSize(ZoneState zs, int players) {
+        int budget = Math.min(FrontierConfig.encounterPerPlayer() * Math.max(1, players), FrontierConfig.encounterPerLandmark());
+        return Math.max(1, Math.min(FrontierConfig.mobsPerWave(), budget));
     }
 
-    /** Ends the unfinished stage without clearing it. Cleared stages, completion and rewards are untouched. */
-    public static void abandon(ServerLevel level, TowerData data, TowerState s) {
-        removeCreatures(level, s);
-        s.activeStage = -1;
-        s.wave = 0;
-        s.session++;
-        FORCED.remove(s.ref.id());
-        data.setDirty();
-    }
-
-    /** Debug: forget every cleared floor and completion, keep the record of who was rewarded. */
-    public static void reset(ServerLevel level, TowerData data, TowerState s) {
-        abandon(level, data, s);
-        s.cleared = 0;
-        s.completed = false;
-        s.participants.clear();
-        data.setDirty();
-    }
-
-    private static void removeCreatures(ServerLevel level, TowerState s) {
-        for (UUID u : s.alive) {
-            Entity e = level.getEntity(u);
-            if (e != null) {
-                e.discard();
+    /** Spawn points for a wave: around intact clutches for a brood, the zone's spawns plus release points otherwise. */
+    private static List<Vec3> spots(LandmarkState s, Zone z, List<BlockPos> clutches) {
+        List<Vec3> out = new ArrayList<>();
+        if (!clutches.isEmpty()) {
+            for (BlockPos c : clutches) {
+                out.add(new Vec3(c.getX() + 0.5D, c.getY(), c.getZ() + 0.5D));
             }
-            LAST_SEEN.remove(u);
+            return out;
         }
-        s.alive.clear();
+        for (BlockPos p : z.spawns()) {
+            out.add(s.feet(p));
+        }
+        if (z.kind() == Kind.AMBUSH) {
+            for (BlockPos p : z.brood()) {
+                out.add(s.feet(p.below()));
+            }
+        }
+        if (out.isEmpty()) {
+            out.add(s.feet(z.centre()));
+        }
+        return out;
     }
 
-    /** Called when a tracked creature dies. */
-    public static void onDeath(ServerLevel level, Entity e) {
-        TowerData data = TowerData.get(level);
-        TowerState s = data.get(e.getPersistentData().getLong(Creatures.TOWER));
-        if (s != null && s.alive.remove(e.getUUID())) {
-            LAST_SEEN.remove(e.getUUID());
-            data.setDirty();
+    /** Intact egg clutches of a brood zone, in world positions. */
+    public static List<BlockPos> brood(ServerLevel level, LandmarkState s, Zone z) {
+        List<BlockPos> out = new ArrayList<>();
+        Block egg = z.broodBlock() != null ? BuiltInRegistries.BLOCK.get(ResourceLocation.parse(z.broodBlock())) : Blocks.TURTLE_EGG;
+        if (!z.brood().isEmpty() && z.kind() != Kind.AMBUSH) {
+            for (BlockPos p : z.brood()) {
+                BlockPos w = s.world(p);
+                if (level.getBlockState(w).is(egg)) {
+                    out.add(w);
+                }
+            }
+            return out;
+        }
+        BoundingBox b = s.world(z.box());
+        for (BlockPos p : BlockPos.betweenClosed(b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ())) {
+            if (level.getBlockState(p).is(egg)) {
+                out.add(p.immutable());
+            }
+        }
+        return out;
+    }
+
+    // ---------------------------------------------------------------------------------------------- spawning
+    /** Places a zone's group: one creature per spawn point (flyers at the flyer points), up to the roster's count. */
+    private static void spawnGroup(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Roster r, boolean dormant) {
+        int n = Math.max(1, Math.min(z.spawns().size(), FrontierConfig.mobsPerWave()));
+        if (z.waves() > 0 && z.kind() == Kind.CELL) {
+            n = Math.min(n, r.mobs().size() + 1);
+        }
+        List<EntityType<?>> types = Roster.pick(r.mobs(), n, level.random);
+        for (int i = 0; i < types.size(); i++) {
+            Mob m = spawn(level, types.get(i), s.feet(z.spawns().get(i % z.spawns().size())));
+            if (m != null) {
+                enlist(level, s, z, zs, m, dormant, null);
+            }
+        }
+        if (!z.flyerSpawns().isEmpty() && !r.flyers().isEmpty()) {
+            List<EntityType<?>> flyers = Roster.pick(r.flyers(), z.flyerSpawns().size(), level.random);
+            for (int i = 0; i < flyers.size(); i++) {
+                Mob m = spawn(level, flyers.get(i), s.feet(z.flyerSpawns().get(i)));
+                if (m != null) {
+                    enlist(level, s, z, zs, m, dormant, null);
+                }
+            }
         }
     }
 
-    /** Whether a tower creature loading back into the world still belongs to a running fight. */
-    public static boolean belongs(ServerLevel level, Entity e) {
-        TowerState s = TowerData.get(level).get(e.getPersistentData().getLong(Creatures.TOWER));
-        return s != null && s.activeStage >= 0 && s.session == e.getPersistentData().getInt(Creatures.SESSION) && s.alive.contains(e.getUUID());
+    public static void enlist(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Mob m, boolean dormant, @Nullable LivingEntity target) {
+        Creatures.tagEncounter(m, s.key(), z.index(), zs.session);
+        if (dormant) {
+            Creatures.setDormant(m, true);
+        }
+        level.addFreshEntity(m);
+        zs.mobs.add(m.getUUID());
+        if (!dormant && target != null) {
+            m.setTarget(target);
+        }
     }
 
-    public static void clearMemory() {
-        LAST_SEEN.clear();
-        FORCED.clear();
-        FAILS.clear();
+    /** Creates a creature at a spot, nudging it to free space nearby if the spot is blocked. Not yet added to the world. */
+    @Nullable
+    public static Mob spawn(ServerLevel level, EntityType<?> type, Vec3 at) {
+        for (int i = 0; i < 6; i++) {
+            Vec3 p = i == 0 ? at : at.add(level.random.nextInt(5) - 2, level.random.nextInt(2), level.random.nextInt(5) - 2);
+            Mob m = Creatures.create(level, type, p, i == 5);
+            if (m != null) {
+                return m;
+            }
+        }
+        return null;
     }
 
-    /** Whether any stage is fighting, so a forced test fight keeps running with no player in the dimension. */
-    public static boolean anyActive(ServerLevel level) {
-        return !FORCED.isEmpty() || !TowerData.get(level).active().isEmpty();
-    }
-
-    public static int trackedCount(TowerData data) {
+    private static int wakeDormant(ServerLevel level, ZoneState zs, ServerPlayer target) {
         int n = 0;
-        for (TowerState s : data.all()) {
-            n += s.alive.size();
+        for (UUID id : zs.mobs) {
+            if (level.getEntity(id) instanceof Mob m && Creatures.isDormant(m)) {
+                Creatures.setDormant(m, false);
+                m.setTarget(target);
+                Feedback.burst(level, ParticleTypes.ANGRY_VILLAGER, m.position().add(0, m.getBbHeight(), 0), 3, 0.3D);
+                n++;
+            }
         }
         return n;
     }
 
-    public static Component stageName(int stage) {
-        return Component.translatable("stage.unstable_frontiers." + TowerBlueprint.STAGE_NAMES[stage]);
-    }
-
-    static List<ServerPlayer> playersNear(ServerLevel level, Vec3 c, double radius) {
-        List<ServerPlayer> out = new ArrayList<>();
-        for (ServerPlayer p : level.players()) {
-            if (p.isSpectator() || !p.isAlive()) {
+    private static void spawnResidents(ServerLevel level, LandmarkState s, LandmarkDef def) {
+        int cap = FrontierConfig.residentsPerLandmark();
+        int placed = 0;
+        for (LandmarkDef.Resident res : def.residents()) {
+            Roster r = usable(res.roster());
+            if (r == null || res.spots().isEmpty()) {
                 continue;
             }
-            double dx = p.getX() - c.x;
-            double dz = p.getZ() - c.z;
-            if (dx * dx + dz * dz <= radius * radius && Math.abs(p.getY() - c.y) <= NEAR_VERTICAL) {
+            String side = res.roster().equals(def.rivalryHunters()) ? "hunter" : res.roster().equals(def.rivalryPrey()) ? "prey" : "";
+            List<Roster.Entry> list = res.flying() && !r.flyers().isEmpty() ? r.flyers() : r.mobs();
+            for (EntityType<?> type : Roster.pick(list, Math.min(res.count(), cap - placed), level.random)) {
+                Mob m = spawn(level, type, s.feet(res.spots().get(level.random.nextInt(res.spots().size()))));
+                if (m == null) {
+                    continue;
+                }
+                Creatures.tagResident(m, s.key(), side);
+                level.addFreshEntity(m);
+                s.residents.add(m.getUUID());
+                placed++;
+            }
+        }
+    }
+
+    private static void pruneResidents(ServerLevel level, LandmarkState s) {
+        s.residents.removeIf(id -> {
+            Entity e = level.getEntity(id);
+            return e == null || !e.isAlive();
+        });
+    }
+
+    private static void prune(ServerLevel level, ZoneState zs) {
+        zs.mobs.removeIf(id -> {
+            Entity e = level.getEntity(id);
+            return e == null || !e.isAlive();
+        });
+    }
+
+    /** Creatures that stray too far are brought back to the fight; flyers get twice the room. */
+    private static void leash(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, BoundingBox box) {
+        double r = FrontierConfig.LEASH_RADIUS.get();
+        Vec3 c = box.getCenter().getCenter();
+        for (UUID id : zs.mobs) {
+            if (!(level.getEntity(id) instanceof Mob m)) {
+                continue;
+            }
+            double limit = Creatures.flies(m) ? r * 2 : r;
+            if (m.position().distanceToSqr(c) > limit * limit && !z.spawns().isEmpty()) {
+                Vec3 back = s.feet(z.spawns().get(level.random.nextInt(z.spawns().size())));
+                m.teleportTo(back.x, back.y, back.z);
+                m.getNavigation().stop();
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------- finishing
+    private static boolean cleared(ServerLevel level, LandmarkState s, Zone z, ZoneState zs) {
+        return switch (z.kind()) {
+            case WAVES, AMBUSH, BROOD -> zs.wavesLeft <= 0 && zs.mobs.isEmpty();
+            case CELL, ROOST -> zs.mobs.isEmpty();
+            case GUARDIAN, FINALE -> zs.eliteSlain;
+            default -> false;
+        };
+    }
+
+    private static void clear(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs) {
+        zs.status = ZoneState.Status.CLEARED;
+        zs.elite = null;
+        // Escorts left when an elite falls go wild: they stay, but no longer belong to the fight.
+        for (UUID id : zs.mobs) {
+            if (level.getEntity(id) instanceof Mob m) {
+                Creatures.tagResident(m, s.key(), "");
+            }
+        }
+        zs.mobs.clear();
+        removeBar(s, z);
+        BlockPos at = s.world(z.centre());
+        List<ServerPlayer> here = players(level, s.world(z.box()), 24);
+        if (z.gate() != null) {
+            openGate(level, s, def, z.gate());
+        }
+        if (z.reward() != null) {
+            reward(level, s, def, z, zs);
+        }
+        boolean all = true;
+        for (Zone o : def.zones()) {
+            all &= o.kind() == Kind.TERRITORY || s.zone(o).status == ZoneState.Status.CLEARED;
+        }
+        if (z.last() || all) {
+            Feedback.title(here, Component.translatable("message.unstable_frontiers.conquered", def.title()).withStyle(ChatFormatting.GOLD),
+                    Component.translatable("landmark.unstable_frontiers." + def.kind() + ".conquered").withStyle(ChatFormatting.GRAY));
+            Feedback.sound(level, at, ModSounds.CONQUER.get(), 2.0F, 1.0F);
+            for (ServerPlayer p : here) {
+                Progress.conquered(p, def.kind());
+            }
+        } else {
+            Feedback.bar(here, Component.translatable("message.unstable_frontiers.zone_cleared", z.name()).withStyle(ChatFormatting.GREEN));
+            Feedback.sound(level, at, ModSounds.WAKE.get(), 1.0F, 1.6F);
+        }
+        data(level).setDirty();
+    }
+
+    private static void reset(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs) {
+        for (UUID id : zs.mobs) {
+            Entity e = level.getEntity(id);
+            if (e != null) {
+                e.discard();
+            }
+        }
+        zs.mobs.clear();
+        zs.status = ZoneState.Status.IDLE;
+        zs.dormantPlaced = false;
+        zs.elite = null;
+        zs.wavesLeft = 0;
+        zs.participants.clear();
+        zs.session++;
+        removeBar(s, z);
+        data(level).setDirty();
+        UnstableFrontiers.LOGGER.debug("Landmark {} zone {} reset (nobody near)", s.id, z.id());
+    }
+
+    /** Removes a named gate from the world: the blocks crumble with particles and a grinding sound. */
+    public static void openGate(ServerLevel level, LandmarkState s, LandmarkDef def, String gate) {
+        List<BlockPos> blocks = def.gates().get(gate);
+        if (blocks == null || !s.openGates.add(gate)) {
+            return;
+        }
+        for (BlockPos local : blocks) {
+            BlockPos p = s.world(local);
+            BlockState was = level.getBlockState(p);
+            if (!was.isAir()) {
+                level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, was), p.getX() + 0.5D, p.getY() + 0.5D, p.getZ() + 0.5D,
+                        Math.max(1, FrontierConfig.particleCount(8)), 0.3D, 0.3D, 0.3D, 0.05D);
+                level.setBlock(p, Blocks.AIR.defaultBlockState(), 3);
+            }
+        }
+        if (!blocks.isEmpty()) {
+            Feedback.sound(level, s.world(blocks.get(0)), ModSounds.GATE.get(), 2.0F, 1.0F);
+        }
+        data(level).setDirty();
+    }
+
+    private static void reward(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs) {
+        ResourceLocation id = z.reward().contains(":") ? ResourceLocation.parse(z.reward()) : UnstableFrontiers.id(z.reward());
+        if (!BuiltInRegistries.ITEM.containsKey(id)) {
+            UnstableFrontiers.LOGGER.error("Landmark {} zone {} names reward {}, which is not an item", s.id, z.id(), id);
+            return;
+        }
+        Item item = BuiltInRegistries.ITEM.get(id);
+        for (UUID u : zs.participants) {
+            if (!(level.getPlayerByUUID(u) instanceof ServerPlayer p) || p.distanceToSqr(s.world(z.centre()).getCenter()) > 96 * 96) {
+                continue;
+            }
+            if (!s.rewarded.add(u)) {
+                continue;
+            }
+            ItemStack stack = new ItemStack(item);
+            if (!p.getInventory().add(stack)) {
+                p.drop(stack, false);
+            }
+            p.displayClientMessage(Component.translatable("message.unstable_frontiers.reward", new ItemStack(item).getHoverName())
+                    .withStyle(ChatFormatting.GOLD), false);
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------- the boss bar
+    private static String barKey(LandmarkState s, Zone z) {
+        return s.key() + "/" + z.index();
+    }
+
+    private static void updateBar(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, BoundingBox box) {
+        if (zs.elite == null || !(level.getEntity(zs.elite) instanceof LivingEntity elite)) {
+            return;
+        }
+        Roster r = FrontierData.roster(z.roster());
+        ServerBossEvent bar = BARS.computeIfAbsent(barKey(s, z), k -> new ServerBossEvent(elite.getDisplayName(),
+                color(r == null || r.elite() == null ? "red" : r.elite().bar()), BossEvent.BossBarOverlay.NOTCHED_10));
+        Component name = elite.getDisplayName();
+        if (z.kind() == Kind.FINALE) {
+            int pylons = Elites.pylons(level, s, z).size();
+            name = name.copy().append(Component.translatable("bar.unstable_frontiers.pylons", pylons).withStyle(ChatFormatting.LIGHT_PURPLE));
+        }
+        bar.setName(name);
+        bar.setProgress(Math.max(0, Math.min(1, elite.getHealth() / elite.getMaxHealth())));
+        List<ServerPlayer> near = players(level, box, 32);
+        for (ServerPlayer p : new ArrayList<>(bar.getPlayers())) {
+            if (!near.contains(p)) {
+                bar.removePlayer(p);
+            }
+        }
+        for (ServerPlayer p : near) {
+            bar.addPlayer(p);
+        }
+    }
+
+    private static BossEvent.BossBarColor color(String name) {
+        try {
+            return BossEvent.BossBarColor.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return BossEvent.BossBarColor.RED;
+        }
+    }
+
+    private static void removeBar(LandmarkState s, Zone z) {
+        ServerBossEvent bar = BARS.remove(barKey(s, z));
+        if (bar != null) {
+            bar.removeAllPlayers();
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------------ events
+    /** Whether a tagged creature that is loading still belongs to a live fight (otherwise it is turned away). */
+    public static boolean belongs(ServerLevel level, Entity e) {
+        LandmarkState s = data(level).get(Creatures.landmark(e));
+        LandmarkDef def = s == null ? null : FrontierData.landmark(s.id);
+        if (def == null || Creatures.zone(e) >= def.zones().size()) {
+            return false;
+        }
+        ZoneState zs = s.zone(def.zones().get(Creatures.zone(e)));
+        if (zs.session != Creatures.session(e)) {
+            return false;
+        }
+        return zs.status == ZoneState.Status.ACTIVE || (zs.status == ZoneState.Status.IDLE && zs.dormantPlaced && Creatures.isDormant(e));
+    }
+
+    public static void onDeath(ServerLevel level, Entity e) {
+        LandmarkState s = data(level).get(Creatures.landmark(e));
+        LandmarkDef def = s == null ? null : FrontierData.landmark(s.id);
+        if (def == null) {
+            return;
+        }
+        if (Creatures.isResident(e)) {
+            s.residents.remove(e.getUUID());
+            return;
+        }
+        if (Creatures.zone(e) >= def.zones().size()) {
+            return;
+        }
+        ZoneState zs = s.zone(def.zones().get(Creatures.zone(e)));
+        zs.mobs.remove(e.getUUID());
+        if (e.getUUID().equals(zs.elite)) {
+            zs.eliteSlain = true;
+        }
+        data(level).setDirty();
+    }
+
+    public static boolean anyActive(ServerLevel level) {
+        return activeCount(level) > 0;
+    }
+
+    private static int activeCount(ServerLevel level) {
+        int n = 0;
+        for (LandmarkState s : data(level).all()) {
+            for (ZoneState z : s.zones) {
+                if (z.status == ZoneState.Status.ACTIVE) {
+                    n++;
+                }
+            }
+        }
+        return n;
+    }
+
+    public static void clearMemory() {
+        for (ServerBossEvent bar : BARS.values()) {
+            bar.removeAllPlayers();
+        }
+        BARS.clear();
+    }
+
+    // --------------------------------------------------------------------------------------------------- helpers
+    public static boolean requirementsMet(LandmarkState s, LandmarkDef def, Zone z) {
+        for (String req : z.requires()) {
+            Zone o = def.zone(req);
+            if (o != null && s.zone(o).status != ZoneState.Status.CLEARED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String progress(LandmarkState s, LandmarkDef def, Zone z) {
+        int done = 0;
+        for (String req : z.requires()) {
+            Zone o = def.zone(req);
+            if (o == null || s.zone(o).status == ZoneState.Status.CLEARED) {
+                done++;
+            }
+        }
+        return done + "/" + z.requires().size();
+    }
+
+    private static void hint(ZoneState zs, long t, List<ServerPlayer> to, Component line) {
+        if (t - zs.hintAt < 60) {
+            return;
+        }
+        zs.hintAt = t;
+        Feedback.bar(to, line);
+    }
+
+    @Nullable
+    public static Roster usable(String name) {
+        Roster r = FrontierData.roster(name);
+        return r != null && r.missing().isEmpty() ? r : null;
+    }
+
+    private static List<ResourceLocation> rosterMissing(String name) {
+        Roster r = FrontierData.roster(name);
+        return r == null ? List.of() : r.missing();
+    }
+
+    public static List<ServerPlayer> players(ServerLevel level, BoundingBox box, int inflate) {
+        AABB area = AABB.of(box).inflate(inflate);
+        List<ServerPlayer> out = new ArrayList<>();
+        for (ServerPlayer p : level.players()) {
+            if (!p.isSpectator() && p.isAlive() && area.contains(p.position())) {
                 out.add(p);
             }
         }
         return out;
     }
 
-    private static void announce(ServerLevel level, Vec3 c, Component message) {
-        for (ServerPlayer p : playersNear(level, c, 64)) {
-            p.displayClientMessage(message, true);
-        }
-    }
-
+    /** The landmark and zone at a position, for commands. */
     @Nullable
-    private static ServerPlayer nearest(List<ServerPlayer> players, Entity e) {
-        ServerPlayer best = null;
-        double bestD = Double.MAX_VALUE;
-        for (ServerPlayer p : players) {
-            double d = p.distanceToSqr(e);
-            if (d < bestD) {
-                bestD = d;
-                best = p;
+    public static LandmarkState at(ServerLevel level, BlockPos pos, int slack) {
+        for (LandmarkState s : data(level).all()) {
+            LandmarkDef def = FrontierData.landmark(s.id);
+            if (def != null && s.bounds(def).inflatedBy(slack).isInside(pos)) {
+                return s;
             }
         }
-        return best;
+        for (LandmarkPiece piece : LandmarkLocator.near(level, pos, 1)) {
+            if (piece.getBoundingBox().inflatedBy(slack).isInside(pos) && FrontierData.landmark(piece.template()) != null) {
+                LandmarkState s = new LandmarkState(piece.template(), piece.origin(), piece.rotation());
+                data(level).add(s);
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /** For commands: forces a zone to start, clear or reset. */
+    public static String force(ServerLevel level, LandmarkState s, String zoneId, String action, ServerPlayer by) {
+        LandmarkDef def = FrontierData.landmark(s.id);
+        Zone z = def == null ? null : def.zone(zoneId);
+        if (z == null) {
+            return "no zone '" + zoneId + "'";
+        }
+        ZoneState zs = s.zone(z);
+        switch (action) {
+            case "start" -> {
+                if (zs.status == ZoneState.Status.ACTIVE) {
+                    return "already active";
+                }
+                zs.status = ZoneState.Status.IDLE;
+                if (z.kind() == Kind.FINALE && z.lockGate() != null) {
+                    openGate(level, s, def, z.lockGate());
+                }
+                start(level, s, def, z, zs, List.of(by), level.getGameTime());
+            }
+            case "clear" -> {
+                for (UUID id : zs.mobs) {
+                    Entity e = level.getEntity(id);
+                    if (e != null) {
+                        e.discard();
+                    }
+                }
+                zs.mobs.clear();
+                zs.participants.add(by.getUUID());
+                clear(level, s, def, z, zs);
+            }
+            case "reset" -> {
+                reset(level, s, def, z, zs);
+                if (z.gate() != null) {
+                    s.openGates.remove(z.gate());
+                }
+            }
+            default -> {
+                return "unknown action";
+            }
+        }
+        return z.id() + " is now " + zs.status;
+    }
+
+    /** One line per zone, for /frontier landmark info. */
+    public static List<String> describe(ServerLevel level, LandmarkState s) {
+        List<String> out = new ArrayList<>();
+        LandmarkDef def = FrontierData.landmark(s.id);
+        if (def == null) {
+            out.add(s.id + ": no definition loaded");
+            return out;
+        }
+        out.add(def.title() + " (" + s.id + ") origin " + s.origin.toShortString() + " rotation " + s.rotation + " centre "
+                + s.centre(def).toShortString());
+        for (Zone z : def.zones()) {
+            ZoneState zs = s.zone(z);
+            Roster r = FrontierData.roster(z.roster());
+            String roster = r == null ? "MISSING" : r.missing().isEmpty() ? "ok" : "missing " + r.missing();
+            out.add("  " + z.id() + " [" + z.kind() + "] " + zs.status + " session " + zs.session + " mobs " + zs.mobs.size() + " waves left "
+                    + zs.wavesLeft + " roster " + z.roster() + " (" + roster + ")" + (requirementsMet(s, def, z) ? "" : " sealed"));
+        }
+        out.add("  residents " + s.residents.size() + ", gates open " + s.openGates + ", rewarded " + s.rewarded.size());
+        return out;
     }
 }

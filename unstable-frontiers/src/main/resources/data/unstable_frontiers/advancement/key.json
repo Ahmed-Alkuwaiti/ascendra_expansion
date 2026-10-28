@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:cagewright_key"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.key"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.key.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:cagewright_key"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:trophy"
+}

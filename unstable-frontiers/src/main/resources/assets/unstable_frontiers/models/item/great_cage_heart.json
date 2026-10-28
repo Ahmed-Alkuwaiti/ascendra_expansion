@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "unstable_frontiers:item/great_cage_heart"
+  }
+}

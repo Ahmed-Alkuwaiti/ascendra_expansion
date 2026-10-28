@@ -233,9 +233,10 @@ def zones(b):
     b.zone('rookmother', 'The Rookmother', box, sky, 'rookery_mother', kind='guardian', reward='rookery_talon', final=True,
            requires=['roost'], flyer_spawns=sky)
     tun = b.meta['tunnel']
-    mid = tun[len(tun) // 2]
-    b.zone('tunnel', 'Scavengers in the rock', (mid[0] - 6, mid[1] - 6, mid[2] - 6, mid[0] + 6, mid[1] + 6, mid[2] + 6),
-           [tuple(p) for p in tun[4:9]], 'rookery_scavengers', kind='ambush', waves=1)
+    spots = [tuple(p) for p in tun[4:9]]
+    lo = [min(p[i] for p in spots) - 3 for i in range(3)]
+    hi = [max(p[i] for p in spots) + 3 for i in range(3)]
+    b.zone('tunnel', 'Scavengers in the rock', (*lo, *hi), spots, 'rookery_scavengers', kind='ambush', waves=1)
 
 
 if __name__ == '__main__':

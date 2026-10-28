@@ -1,0 +1,34 @@
+{
+  "structures": [
+    {
+      "structure": "unstable_frontiers:gibbet_spire",
+      "weight": 4
+    },
+    {
+      "structure": "unstable_frontiers:hanging_gaol",
+      "weight": 3
+    },
+    {
+      "structure": "unstable_frontiers:rookery",
+      "weight": 4
+    },
+    {
+      "structure": "unstable_frontiers:brood_hive",
+      "weight": 3
+    },
+    {
+      "structure": "unstable_frontiers:carrion_field",
+      "weight": 3
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 20,
+    "separation": 9,
+    "salt": 917264511,
+    "exclusion_zone": {
+      "other_set": "unstable_frontiers:great_cage",
+      "chunk_count": 6
+    }
+  }
+}

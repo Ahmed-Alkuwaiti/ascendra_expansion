@@ -8,9 +8,9 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="Ahmed Alkuwaiti"
 description='''
-A companion addon for the Integrated Boogaloo modpack: the Unstable Frontier, a dangerous wilderness dimension with cage
-towers, monster rivalries and rewards. Uses Antarchy's creatures when Antarchy is installed and labelled vanilla stand-ins
-when it is not.
+An adventure expansion for the Integrated Boogaloo modpack (1.0.8): the Unstable Frontier, a wilderness of cage towers,
+a hanging gaol, rookeries, brood hives, carrion fields and the Great Cage, fought with Antarchy's creatures. Requires
+Antarchy; it never substitutes other creatures.
 '''
 
 [[dependencies.${mod_id}]]
@@ -27,10 +27,11 @@ when it is not.
     ordering="NONE"
     side="BOTH"
 
-# Optional: when present, its creatures fill the frontier. Load after it so its entity types are registered first.
+# Required: every fight is built from Antarchy's creatures, and the Brood Hive uses its chitin blocks. Without it NeoForge
+# stops at the loading screen and names the missing mod. Load after it so its entity types are registered first.
 [[dependencies.${mod_id}]]
     modId="antarchy"
-    type="optional"
-    versionRange="*"
+    type="required"
+    versionRange="[2.2.9,)"
     ordering="AFTER"
     side="BOTH"

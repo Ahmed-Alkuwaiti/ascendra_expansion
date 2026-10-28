@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "unstable_frontiers:block/cage_beacon_top",
+    "bottom": "unstable_frontiers:block/cage_beacon_bottom",
+    "side": "unstable_frontiers:block/cage_beacon_side"
+  }
+}

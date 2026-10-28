@@ -1,0 +1,19 @@
+{
+ "template": "unstable_frontiers:camp_ransacked",
+ "size": [
+  29,
+  16,
+  29
+ ],
+ "zones": [],
+ "points": {
+  "journal": [
+   15,
+   2,
+   18
+  ]
+ },
+ "kind": "camp",
+ "title": "Expedition Camp",
+ "ground": 2
+}

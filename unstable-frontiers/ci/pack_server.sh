@@ -27,6 +27,33 @@ grep -vE "mixin/|DISTXFORM" server_console.log | tail -80 | cut -c1-300
 for c in run/crash-reports/*.txt; do [ -f "$c" ] && { echo "==== $c ===="; head -60 "$c" | cut -c1-300; }; done
 echo "==== DUMP ===="
 grep -E "DUMP " $L | sed 's/.*DUMP //'
-echo "==== commands ===="
-grep -E "SMOKE>|SMOKE ok|SMOKE FAILED|tower [0-9-]+ centre|towers known|Built a cage" $L | cut -c1-300
-grep -q "SMOKE finished" $L
+echo "==== rosters ===="
+grep -E "ROSTER " $L | sed 's/.*ROSTER /ROSTER /' | cut -c1-300
+echo "==== landmarks ===="
+grep -E "SMOKE>|SMOKE FAILED|LANDMARK |LOCATE |STATS |Built " $L | sed 's/^\[[^]]*\] \[[^]]*\] \[[^]]*\]: //' | cut -c1-400
+echo "==== data load problems ===="
+grep -nE "Couldn't parse|Failed to (load|parse)|Unknown (registry|loot)|unstable_frontiers.*(ERROR|error)|Unstable Frontiers: " $L | cut -c1-400 | head -60
+echo "==== checks ===="
+ok=1
+check() { if grep -qE "$2" $L; then echo "PASS $1"; else echo "FAIL $1"; ok=0; fi; }
+nocheck() { if grep -qE "$2" $L; then echo "FAIL $1"; ok=0; else echo "PASS $1"; fi; }
+check "server finished the script" "SMOKE finished"
+check "Antarchy loaded with the addon" "Unstable Frontiers loading with Antarchy 2\.2\.9"
+check "every roster resolves against the installed Antarchy" "rosters, 0 unusable"
+nocheck "no data-load problems reported by the addon" "Unstable Frontiers: (landmark|roster)"
+check "Gibbet Spire built" "Built Gibbet Spire"
+check "spire wave floor spawned creatures" "swarm_pen \[WAVES\] ACTIVE session [0-9]+ mobs [1-9]"
+check "spire crown guardian spawned" "crown \[GUARDIAN\] ACTIVE session [0-9]+ mobs [1-9]"
+check "spire crown cleared and its gate opened" "gates open \[crown\]"
+check "gaol cell prisoner spawned" "cell_south \[CELL\] ACTIVE session [0-9]+ mobs [1-9]"
+check "gaol warden spawned" "warden \[GUARDIAN\] ACTIVE session [0-9]+ mobs [1-9]"
+check "rookery roost spawned" "roost \[ROOST\] ACTIVE session [0-9]+ mobs [1-9]"
+check "rookmother spawned" "rookmother \[GUARDIAN\] ACTIVE session [0-9]+ mobs [1-9]"
+check "hive brood spawned" "brood \[BROOD\] ACTIVE"
+check "hive tyrant spawned" "royal \[GUARDIAN\] ACTIVE session [0-9]+ mobs [1-9]"
+check "great cage finale spawned" "finale \[FINALE\] ACTIVE session [0-9]+ mobs [1-9]"
+check "great cage lock gate opened" "gates open \[.*lock"
+check "natural camps generate" "LOCATE camp"
+check "natural landmarks generate" "LOCATE any"
+check "the Great Cage generates" "LOCATE great_cage"
+[ $ok = 1 ]

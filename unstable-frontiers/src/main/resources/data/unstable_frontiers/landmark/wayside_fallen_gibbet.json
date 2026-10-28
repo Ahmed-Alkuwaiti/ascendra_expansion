@@ -1,0 +1,12 @@
+{
+ "template": "unstable_frontiers:wayside_fallen_gibbet",
+ "size": [
+  11,
+  8,
+  11
+ ],
+ "zones": [],
+ "points": {},
+ "kind": "wayside",
+ "ground": 1
+}

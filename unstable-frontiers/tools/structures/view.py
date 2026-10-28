@@ -40,7 +40,7 @@ BASE = {
     'honeycomb_block': (229, 148, 29), 'honey_block': (240, 170, 40), 'bee_nest': (200, 160, 80), 'amethyst_block': (133, 97, 191),
     'crying_obsidian': (60, 10, 120), 'obsidian': (20, 18, 30), 'iron_block': (210, 210, 214), 'oxidized_copper': (82, 160, 136),
     'weathered_copper': (108, 154, 110), 'exposed_copper': (161, 125, 103), 'copper_block': (192, 107, 79), 'lightning_rod': (200, 110, 80),
-    'redstone_lamp': (180, 110, 60), 'target': (220, 200, 180), 'tinted_glass': (44, 38, 52), 'black_stained_glass': (30, 30, 34),
+    'redstone_lamp': (180, 110, 60), 'chitin_block': (96, 72, 46), 'ochre_froglight': (250, 220, 150), 'honey_block': (240, 170, 40), 'mycelium': (111, 99, 105), 'podzol': (91, 63, 24), 'target': (220, 200, 180), 'tinted_glass': (44, 38, 52), 'black_stained_glass': (30, 30, 34),
 }
 THIN = ('bars', 'chain', 'fence', '_wall', 'rod', 'lantern', 'ladder', 'cobweb', 'dead_bush', 'short_grass', 'roots', 'skull',
         'vine', 'lichen', 'campfire', 'torch', 'flower', 'mushroom', 'egg', 'pointed', 'sapling')
@@ -71,7 +71,7 @@ def load(name):
     return {tuple(int(v) for v in b['pos']): pal[int(b['state'])] for b in t['blocks']}, [int(v) for v in t['size']]
 
 
-def render(name, out, cut=None, cutx=None, rot=0, size=1000, title=None, ground=None, bg=((24, 26, 34), (58, 62, 78))):
+def render(name, out, cut=None, cutx=None, rot=0, size=1000, title=None, ground=None, bg=((24, 26, 34), (58, 62, 78)), ymax=None, hide=()):
     blocks, (W, H, L) = load(name)
     vis = {}
     for (x, y, z), n in blocks.items():
@@ -82,6 +82,10 @@ def render(name, out, cut=None, cutx=None, rot=0, size=1000, title=None, ground=
         if cut is not None and z > cut:
             continue
         if cutx is not None and x > cutx:
+            continue
+        if ymax is not None and y > ymax:
+            continue
+        if any(k in n for k in hide):
             continue
         vis[(x, y, z)] = n
     if rot % 2:
@@ -168,5 +172,7 @@ if __name__ == '__main__':
     ap.add_argument('--rot', type=int, default=0)
     ap.add_argument('--size', type=int, default=1000)
     ap.add_argument('--ground', type=int)
+    ap.add_argument('--ymax', type=int)
+    ap.add_argument('--hide', nargs='*', default=[])
     a = ap.parse_args()
-    render(a.name, a.out or f'{a.name}.png', a.cut, a.cutx, a.rot, a.size, ground=a.ground)
+    render(a.name, a.out or f'{a.name}.png', a.cut, a.cutx, a.rot, a.size, ground=a.ground, ymax=a.ymax, hide=a.hide)

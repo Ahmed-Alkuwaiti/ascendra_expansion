@@ -1,7 +1,0 @@
-{
-  "type": "unstable_frontiers:cage_tower",
-  "biomes": "#unstable_frontiers:has_structure/cage_tower",
-  "step": "surface_structures",
-  "spawn_overrides": {},
-  "terrain_adaptation": "beard_box"
-}

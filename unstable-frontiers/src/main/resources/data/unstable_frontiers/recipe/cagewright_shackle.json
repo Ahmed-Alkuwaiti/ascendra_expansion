@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "C C",
+    "CTC",
+    " L "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "T": {
+      "item": "unstable_frontiers:rookery_talon"
+    },
+    "L": {
+      "item": "minecraft:lead"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:cagewright_shackle",
+    "count": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "structures": [
+    {
+      "structure": "unstable_frontiers:wayside_fallen_gibbet",
+      "weight": 1
+    },
+    {
+      "structure": "unstable_frontiers:wayside_impaled",
+      "weight": 1
+    },
+    {
+      "structure": "unstable_frontiers:wayside_egg_cluster",
+      "weight": 1
+    },
+    {
+      "structure": "unstable_frontiers:wayside_claw_stone",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 6,
+    "separation": 2,
+    "salt": 66128031,
+    "exclusion_zone": {
+      "other_set": "unstable_frontiers:major_landmarks",
+      "chunk_count": 3
+    }
+  }
+}

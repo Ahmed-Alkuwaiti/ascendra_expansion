@@ -1,0 +1,12 @@
+{
+ "template": "unstable_frontiers:wayside_claw_stone",
+ "size": [
+  11,
+  12,
+  11
+ ],
+ "zones": [],
+ "points": {},
+ "kind": "wayside",
+ "ground": 1
+}

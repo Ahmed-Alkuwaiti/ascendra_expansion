@@ -1,6 +1,7 @@
 package com.unstablefrontiers.travel;
 
 import com.unstablefrontiers.UnstableFrontiers;
+import com.unstablefrontiers.block.CageBeaconBlock;
 import com.unstablefrontiers.registry.ModAttachments;
 import com.unstablefrontiers.registry.ModStructures;
 import com.unstablefrontiers.world.FrontierDimension;
@@ -56,12 +57,20 @@ public final class RiftTravel {
         ret.putDouble("Z", player.getZ());
         persisted(player).put(RETURN, ret);
 
-        double border = frontier.getWorldBorder().getSize() / 2 - 64;
-        int x = Mth.floor(Mth.clamp(player.getX(), -border, border));
-        int z = Mth.floor(Mth.clamp(player.getZ(), -border, border));
-        BlockPos at = safeSpot(frontier, x, z);
+        BlockPos anchor = CageBeaconBlock.anchor(player, frontier);
+        BlockPos at;
+        if (anchor != null) {
+            at = safeSpot(frontier, anchor.getX() + 2, anchor.getZ());
+        } else {
+            double border = frontier.getWorldBorder().getSize() / 2 - 64;
+            int x = Mth.floor(Mth.clamp(player.getX(), -border, border));
+            int z = Mth.floor(Mth.clamp(player.getZ(), -border, border));
+            at = safeSpot(frontier, x, z);
+        }
         teleport(player, frontier, at);
-        hintNearestTower(player, frontier, at);
+        if (anchor == null) {
+            hintNearestCamp(player, frontier, at);
+        }
     }
 
     public static void goHome(ServerPlayer player) {
@@ -144,19 +153,19 @@ public final class RiftTravel {
                 && !level.getBlockState(feet.below()).getCollisionShape(level, feet.below()).isEmpty();
     }
 
-    /** One bounded search (the same one /locate uses, limited to 20 chunks) to point newcomers at a tower. */
-    private static void hintNearestTower(ServerPlayer player, ServerLevel level, BlockPos from) {
-        BlockPos tower = level.findNearestMapStructure(ModStructures.CAGE_TOWERS, from, 20, false);
-        if (tower == null) {
+    /** One bounded search (the same one /locate uses, limited to 20 chunks) to point newcomers at an expedition camp. */
+    private static void hintNearestCamp(ServerPlayer player, ServerLevel level, BlockPos from) {
+        BlockPos camp = level.findNearestMapStructure(ModStructures.CAMPS, from, 20, false);
+        if (camp == null) {
             player.displayClientMessage(Component.translatable("message.unstable_frontiers.arrive_none"), false);
             return;
         }
-        int dx = tower.getX() - from.getX();
-        int dz = tower.getZ() - from.getZ();
+        int dx = camp.getX() - from.getX();
+        int dz = camp.getZ() - from.getZ();
         int dist = (int) Math.sqrt((double) dx * dx + (double) dz * dz);
         player.displayClientMessage(Component.translatable("message.unstable_frontiers.arrive", dist, direction(dx, dz))
                 .withStyle(ChatFormatting.DARK_RED), false);
-        UnstableFrontiers.LOGGER.debug("{} arrived {} blocks from a tower", player.getGameProfile().getName(), dist);
+        UnstableFrontiers.LOGGER.debug("{} arrived {} blocks from a camp", player.getGameProfile().getName(), dist);
     }
 
     private static Component direction(int dx, int dz) {

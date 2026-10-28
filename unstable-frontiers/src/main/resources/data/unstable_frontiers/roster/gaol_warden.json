@@ -1,0 +1,19 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:scorpion",
+      "weight": 1
+    }
+  ],
+  "escorts": 2,
+  "elite": {
+    "id": "antarchy:manticore",
+    "title": "The Gaoler",
+    "bar": "yellow",
+    "abilities": [
+      "pounce",
+      "screech",
+      "rally"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:mantis",
+      "weight": 3,
+      "max": 3
+    },
+    {
+      "id": "antarchy:scorpion",
+      "weight": 3
+    },
+    {
+      "id": "antarchy:red_ant",
+      "weight": 2
+    }
+  ]
+}

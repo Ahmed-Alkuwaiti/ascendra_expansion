@@ -23,6 +23,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.10.2'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Standalone data checks (references, models, lang, sounds)
+        run: |
+          pip install --quiet nbtlib
+          python3 tools/check_data.py
       - name: Build
         run: |
           set -o pipefail
@@ -38,7 +45,7 @@ jobs:
           name: unstable-frontiers-jar
           path: unstable-frontiers/build/libs/*.jar
           if-no-files-found: error
-      - name: Dedicated server smoke test
+      - name: Without Antarchy the server stops with an actionable error
         run: bash ci/smoke.sh
       - name: Keep the server log
         if: always()

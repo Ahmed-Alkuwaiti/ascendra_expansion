@@ -1,41 +1,59 @@
 package com.unstablefrontiers.ecology;
 
 import com.unstablefrontiers.config.FrontierConfig;
+import com.unstablefrontiers.encounter.CageBeacons;
+import com.unstablefrontiers.encounter.Elites;
 import com.unstablefrontiers.encounter.EncounterManager;
+import com.unstablefrontiers.item.ShackleItem;
+import com.unstablefrontiers.landmark.FrontierData;
 import com.unstablefrontiers.world.FrontierDimension;
 import java.util.Iterator;
+import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
- * Server-side hooks for the frontier. Everything is limited to the frontier dimension and to creatures this mod spawned.
+ * Server-side hooks for the frontier. Everything is limited to the frontier dimension and to creatures this mod placed
+ * (plus creatures bound with the Shackle, wherever they are).
  *
  * <p>Loot eligibility: a frontier creature drops items and experience only if a player hurt it recently, so predators
- * killing prey (or a tower fight nobody watched) never piles up items, and at most maxDropsPerMob stacks drop.
+ * killing prey (or a fight nobody watched) never piles up items, and at most maxDropsPerMob stacks drop.
  */
 public final class FrontierEvents {
     @SubscribeEvent
     public void onServerTick(ServerTickEvent.Post event) {
+        for (ServerLevel l : event.getServer().getAllLevels()) {
+            ShackleItem.tick(l, l.getGameTime());
+        }
         ServerLevel level = event.getServer().getLevel(FrontierDimension.LEVEL);
         if (level == null || level.players().isEmpty() && !EncounterManager.anyActive(level)) {
             return;
         }
         long time = level.getGameTime();
         EncounterManager.tick(level);
-        AmbientDirector.tick(level, time);
         Rivalry.tick(level, time);
+        Overflight.tick(level, time);
     }
 
-    /** A tower creature whose fight was reset or finished while its chunk was unloaded is turned away when it loads. */
+    /** A landmark creature whose fight was reset or finished while its chunk was unloaded is turned away when it loads. */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onJoin(EntityJoinLevelEvent event) {
         Entity e = event.getEntity();
@@ -50,8 +68,60 @@ public final class FrontierEvents {
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
         Entity e = event.getEntity();
-        if (e.level() instanceof ServerLevel level && Creatures.isEncounter(e)) {
+        if (e.level() instanceof ServerLevel level && (Creatures.isEncounter(e) || Creatures.isResident(e))) {
             EncounterManager.onDeath(level, e);
+        }
+    }
+
+    @SubscribeEvent
+    public void onDamage(LivingIncomingDamageEvent event) {
+        Entity e = event.getEntity();
+        if (!(e.level() instanceof ServerLevel level) || !Creatures.isEncounter(e)) {
+            return;
+        }
+        if (Creatures.isDormant(e)) {
+            EncounterManager.provoke(level, e, event.getSource().getEntity() instanceof ServerPlayer p ? p : null);
+        }
+        event.setAmount(Elites.shield(level, e, event.getAmount()));
+    }
+
+    /** A bound creature never turns on players. */
+    @SubscribeEvent
+    public void onTarget(LivingChangeTargetEvent event) {
+        if (event.getNewAboutToBeSetTarget() instanceof Player && ShackleItem.isBound(event.getEntity())) {
+            event.setCanceled(true);
+        }
+    }
+
+    /** The Great Cage's pylon cores are crying obsidian; while its fight runs they break about ten times faster. */
+    @SubscribeEvent
+    public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
+        if (event.getEntity().level() instanceof ServerLevel level && FrontierDimension.is(level) && event.getPosition().isPresent()
+                && Elites.isActivePylon(level, event.getPosition().get())) {
+            event.setNewSpeed(event.getNewSpeed() * 10.0F);
+        }
+    }
+
+    /** Safe ground around a Cage Beacon: nothing spawns there naturally. */
+    @SubscribeEvent
+    public void onFinalizeSpawn(FinalizeSpawnEvent event) {
+        if (event.getLevel().getLevel() instanceof ServerLevel level && FrontierDimension.is(level)
+                && (event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION)
+                && CageBeacons.covers(level, event.getEntity().blockPosition())) {
+            event.setSpawnCancelled(true);
+        }
+    }
+
+    /** Operators are told about data problems (missing creatures, broken rosters) when they join. */
+    @SubscribeEvent
+    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        List<String> problems = FrontierData.problems();
+        if (problems.isEmpty() || !(event.getEntity() instanceof ServerPlayer p) || !p.hasPermissions(2)) {
+            return;
+        }
+        p.displayClientMessage(Component.translatable("message.unstable_frontiers.problems", problems.size()).withStyle(ChatFormatting.RED), false);
+        for (int i = 0; i < Math.min(3, problems.size()); i++) {
+            p.displayClientMessage(Component.literal(" - " + problems.get(i)).withStyle(ChatFormatting.GRAY), false);
         }
     }
 
@@ -85,5 +155,7 @@ public final class FrontierEvents {
     public void onStopped(ServerStoppedEvent event) {
         EncounterManager.clearMemory();
         Rivalry.clearMemory();
+        ShackleItem.clearMemory();
+        Overflight.clearMemory();
     }
 }

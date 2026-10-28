@@ -8,7 +8,9 @@ import com.unstablefrontiers.ecology.FrontierEvents;
 import com.unstablefrontiers.item.SwarmbreakerEvents;
 import com.unstablefrontiers.registry.ModAttachments;
 import com.unstablefrontiers.registry.ModItems;
+import com.unstablefrontiers.registry.ModSounds;
 import com.unstablefrontiers.registry.ModStructures;
+import com.unstablefrontiers.landmark.FrontierData;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -25,21 +27,22 @@ public final class UnstableFrontiers {
 
     public UnstableFrontiers(IEventBus modBus, ModContainer container) {
         ModItems.register(modBus);
+        ModSounds.register(modBus);
         ModStructures.register(modBus);
         ModAttachments.register(modBus);
         container.registerConfig(ModConfig.Type.COMMON, FrontierConfig.SPEC, "unstable_frontiers-common.toml");
 
         IEventBus game = NeoForge.EVENT_BUS;
         game.register(new FrontierEvents());
+        game.register(new FrontierData());
         game.register(new SwarmbreakerEvents());
         game.addListener(FrontierCommand::register);
         game.register(new SmokeTest());
 
-        LOGGER.info("Unstable Frontiers loading; Antarchy {}", antarchyLoaded() ? "found, using its creatures" : "absent, using vanilla stand-ins");
-    }
-
-    public static boolean antarchyLoaded() {
-        return ModList.get().isLoaded("antarchy");
+        // Antarchy is a required dependency (neoforge.mods.toml), so NeoForge itself refuses to start without it and names
+        // the missing mod. The version is logged so a mismatch with the targeted 2.2.9 build is visible in latest.log.
+        LOGGER.info("Unstable Frontiers loading with Antarchy {}", ModList.get().getModContainerById("antarchy")
+                .map(c -> c.getModInfo().getVersion().toString()).orElse("(missing)"));
     }
 
     public static ResourceLocation id(String path) {

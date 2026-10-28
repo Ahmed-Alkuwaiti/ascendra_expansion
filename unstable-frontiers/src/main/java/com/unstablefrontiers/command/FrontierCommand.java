@@ -1,47 +1,58 @@
 package com.unstablefrontiers.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.unstablefrontiers.UnstableFrontiers;
 import com.unstablefrontiers.config.FrontierConfig;
+import com.unstablefrontiers.debug.RegistryDump;
 import com.unstablefrontiers.ecology.Rivalry;
+import com.unstablefrontiers.ecology.Roster;
 import com.unstablefrontiers.encounter.EncounterManager;
-import com.unstablefrontiers.encounter.TowerData;
-import com.unstablefrontiers.encounter.TowerState;
+import com.unstablefrontiers.encounter.LandmarkData;
+import com.unstablefrontiers.encounter.LandmarkState;
+import com.unstablefrontiers.encounter.ZoneState;
+import com.unstablefrontiers.landmark.FrontierData;
+import com.unstablefrontiers.landmark.LandmarkDef;
 import com.unstablefrontiers.registry.ModStructures;
 import com.unstablefrontiers.travel.RiftTravel;
 import com.unstablefrontiers.world.FrontierDimension;
-import com.unstablefrontiers.world.TowerBlueprint;
-import com.unstablefrontiers.world.TowerLocator;
-import com.unstablefrontiers.world.TowerRef;
-import java.util.function.BiFunction;
+import com.unstablefrontiers.world.LandmarkPiece;
+import com.unstablefrontiers.world.LandmarkStructure;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import com.unstablefrontiers.world.CageTowerPiece;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 /**
  * /frontier return is for everyone (the recovery route home, on a cooldown). Everything else needs permission level 2:
- * travel, locating a tower, and inspecting, starting, resetting or forgetting the tower at your position.
+ * travel, locating landmarks, building and driving landmarks for testing, and checking the pack integration.
  */
 public final class FrontierCommand {
     private static final String RETURN_USED = "unstable_frontiers.return_used";
+    private static final Map<String, TagKey<Structure>> GROUPS = Map.of("any", ModStructures.LANDMARKS, "cage", ModStructures.CAGES,
+            "lair", ModStructures.LAIRS, "camp", ModStructures.CAMPS, "great_cage", ModStructures.GREAT_CAGE);
 
     private FrontierCommand() {}
 
@@ -53,35 +64,34 @@ public final class FrontierCommand {
                     RiftTravel.goToFrontier(c.getSource().getPlayerOrException());
                     return 1;
                 }))
-                .then(Commands.literal("locate").requires(s -> s.hasPermission(2)).executes(FrontierCommand::locate))
-                .then(Commands.literal("debug").requires(s -> s.hasPermission(2))
-                        .then(Commands.literal("dump").then(Commands.argument("namespace", com.mojang.brigadier.arguments.StringArgumentType.word())
-                                .executes(c -> com.unstablefrontiers.debug.RegistryDump.dump(c.getSource().getLevel(),
-                                        com.mojang.brigadier.arguments.StringArgumentType.getString(c, "namespace"))))))
+                .then(Commands.literal("locate").requires(s -> s.hasPermission(2))
+                        .then(Commands.argument("group", StringArgumentType.word())
+                                .suggests((c, b) -> SharedSuggestionProvider.suggest(GROUPS.keySet(), b))
+                                .executes(c -> locate(c, StringArgumentType.getString(c, "group")))))
                 .then(Commands.literal("stats").requires(s -> s.hasPermission(2)).executes(FrontierCommand::stats))
-                .then(Commands.literal("tower").requires(s -> s.hasPermission(2))
-                        .then(Commands.literal("build").executes(FrontierCommand::build))
-                        .then(Commands.literal("info").executes(c -> withTower(c, FrontierCommand::info)))
-                        .then(Commands.literal("reset").executes(c -> withTower(c, (level, s) -> {
-                            EncounterManager.reset(level, TowerData.get(level), s);
-                            return "reset: floors uncleared, creatures removed (rewarded players stay rewarded)";
-                        })))
-                        .then(Commands.literal("forget").executes(c -> withTower(c, (level, s) -> {
-                            EncounterManager.abandon(level, TowerData.get(level), s);
-                            TowerData.get(level).remove(s.ref.id());
-                            return "forgotten: this tower starts fresh and can reward everyone again";
-                        })))
-                        .then(Commands.literal("start").then(Commands.argument("stage", IntegerArgumentType.integer(0, TowerBlueprint.STAGES - 1))
-                                .executes(c -> {
-                                    int stage = IntegerArgumentType.getInteger(c, "stage");
-                                    return withTower(c, (level, s) -> {
-                                        EncounterManager.start(level, TowerData.get(level), s, stage, level.getGameTime(), true);
-                                        return "started stage " + stage + " (" + TowerBlueprint.STAGE_NAMES[stage] + ")";
-                                    });
-                                })))));
+                .then(Commands.literal("debug").requires(s -> s.hasPermission(2))
+                        .then(Commands.literal("dump").then(Commands.argument("namespace", StringArgumentType.word())
+                                .executes(c -> RegistryDump.dump(c.getSource().getLevel(), StringArgumentType.getString(c, "namespace")))))
+                        .then(Commands.literal("rosters").executes(FrontierCommand::rosters)))
+                .then(Commands.literal("landmark").requires(s -> s.hasPermission(2))
+                        .then(Commands.literal("build").then(Commands.argument("id", StringArgumentType.string())
+                                .suggests((c, b) -> SharedSuggestionProvider.suggest(
+                                        FrontierData.landmarks().keySet().stream().map(ResourceLocation::getPath), b))
+                                .executes(c -> build(c, StringArgumentType.getString(c, "id"), Rotation.NONE))
+                                .then(Commands.argument("rotation", StringArgumentType.word())
+                                        .suggests((c, b) -> SharedSuggestionProvider.suggest(List.of("none", "clockwise_90", "clockwise_180",
+                                                "counterclockwise_90"), b))
+                                        .executes(c -> build(c, StringArgumentType.getString(c, "id"),
+                                                Rotation.valueOf(StringArgumentType.getString(c, "rotation").toUpperCase()))))))
+                        .then(Commands.literal("info").executes(FrontierCommand::info))
+                        .then(Commands.literal("forget").executes(FrontierCommand::forget))
+                        .then(Commands.literal("zone").then(Commands.argument("zone", StringArgumentType.word())
+                                .then(Commands.literal("start").executes(c -> zone(c, "start")))
+                                .then(Commands.literal("clear").executes(c -> zone(c, "clear")))
+                                .then(Commands.literal("reset").executes(c -> zone(c, "reset")))))));
     }
 
-    private static int returnHome(CommandContext<CommandSourceStack> c) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+    private static int returnHome(CommandContext<CommandSourceStack> c) throws CommandSyntaxException {
         ServerPlayer p = c.getSource().getPlayerOrException();
         if (!FrontierDimension.is(p.level())) {
             c.getSource().sendFailure(Component.translatable("message.unstable_frontiers.return_not_here"));
@@ -100,69 +110,155 @@ public final class FrontierCommand {
     }
 
     /**
-     * Builds a tower at your position, registered like a generated one (so encounters, /frontier tower and /locate all see
-     * it). Unlike /place structure, which builds the blocks but leaves no structure record behind.
+     * Builds a landmark centred on your chunk, registered like a generated one (a structure start with references in every
+     * chunk it covers), so fights, the Rift Lens and /locate all see it. Its ground row is set at the surface there.
      */
-    private static int build(CommandContext<CommandSourceStack> c) {
+    private static int build(CommandContext<CommandSourceStack> c, String name, Rotation rotation) {
         ServerLevel level = frontier(c);
-        Structure tower = level == null ? null : TowerLocator.tower(level);
-        if (tower == null) {
+        if (level == null) {
+            return 0;
+        }
+        ResourceLocation id = name.contains(":") ? ResourceLocation.parse(name) : UnstableFrontiers.id(name);
+        LandmarkDef def = FrontierData.landmark(id);
+        if (def == null) {
+            c.getSource().sendFailure(Component.literal("No landmark " + id));
+            return 0;
+        }
+        Structure structure = null;
+        for (Structure s : level.registryAccess().registryOrThrow(Registries.STRUCTURE)) {
+            if (s instanceof LandmarkStructure ls && ls.template().equals(def.template())) {
+                structure = s;
+                break;
+            }
+        }
+        StructureTemplate t = level.getStructureManager().get(def.template()).orElse(null);
+        if (structure == null || t == null) {
+            c.getSource().sendFailure(Component.literal("No structure uses template " + def.template()));
             return 0;
         }
         BlockPos pos = BlockPos.containing(c.getSource().getPosition());
         ChunkPos cp = new ChunkPos(pos);
-        int x0 = cp.getMiddleBlockX() - TowerBlueprint.C;
-        int z0 = cp.getMiddleBlockZ() - TowerBlueprint.C;
+        BoundingBox local = t.getBoundingBox(LandmarkPiece.settings(rotation), BlockPos.ZERO);
+        int ox = cp.getMiddleBlockX() - (local.minX() + local.maxX()) / 2;
+        int oz = cp.getMiddleBlockZ() - (local.minZ() + local.maxZ()) / 2;
         level.getChunk(cp.x, cp.z);
-        int base = Math.max(level.getHeight(Heightmap.Types.WORLD_SURFACE, cp.getMiddleBlockX(), cp.getMiddleBlockZ()), level.getSeaLevel() + 1);
-        base = Math.min(base, level.getMaxBuildHeight() - TowerBlueprint.TOP - 4);
+        int ground = level.getHeight(Heightmap.Types.OCEAN_FLOOR, cp.getMiddleBlockX(), cp.getMiddleBlockZ());
+        int oy = Math.min(ground - def.ground(), level.getMaxBuildHeight() - t.getSize().getY() - 2);
+        BlockPos origin = new BlockPos(ox, oy, oz);
         StructurePiecesBuilder pieces = new StructurePiecesBuilder();
-        pieces.addPiece(new CageTowerPiece(x0, base, z0, level.random.nextInt()));
-        StructureStart start = new StructureStart(tower, cp, 0, pieces.build());
+        pieces.addPiece(new LandmarkPiece(level.getStructureManager(), def.template(), origin, rotation, true,
+                ((LandmarkStructure) structure).clearSite() ? def.ground() : -1));
+        StructureStart start = new StructureStart(structure, cp, 0, pieces.build());
         BoundingBox bb = start.getBoundingBox();
-        int cx0 = SectionPos.blockToSectionCoord(bb.minX()), cx1 = SectionPos.blockToSectionCoord(bb.maxX());
-        int cz0 = SectionPos.blockToSectionCoord(bb.minZ()), cz1 = SectionPos.blockToSectionCoord(bb.maxZ());
-        level.getChunk(cp.x, cp.z).setStartForStructure(tower, start);
-        for (int x = cx0; x <= cx1; x++) {
-            for (int z = cz0; z <= cz1; z++) {
+        level.getChunk(cp.x, cp.z).setStartForStructure(structure, start);
+        for (int x = SectionPos.blockToSectionCoord(bb.minX()); x <= SectionPos.blockToSectionCoord(bb.maxX()); x++) {
+            for (int z = SectionPos.blockToSectionCoord(bb.minZ()); z <= SectionPos.blockToSectionCoord(bb.maxZ()); z++) {
                 ChunkAccess chunk = level.getChunk(x, z);
-                chunk.addReferenceForStructure(tower, cp.toLong());
+                chunk.addReferenceForStructure(structure, cp.toLong());
                 chunk.setUnsaved(true);
                 BoundingBox area = new BoundingBox(x << 4, level.getMinBuildHeight(), z << 4, (x << 4) + 15, level.getMaxBuildHeight(), (z << 4) + 15);
                 start.placeInChunk(level, level.structureManager(), level.getChunkSource().getGenerator(), level.getRandom(), area, new ChunkPos(x, z));
             }
         }
-        // Chunks that are already live are not post-processed again, so join the bars here.
-        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-        for (int x = bb.minX(); x <= bb.maxX(); x++) {
-            for (int z = bb.minZ(); z <= bb.maxZ(); z++) {
-                for (int y = bb.minY(); y <= bb.maxY(); y++) {
-                    p.set(x, y, z);
-                    BlockState st = level.getBlockState(p);
-                    if (st.is(Blocks.IRON_BARS)) {
-                        level.setBlock(p, Block.updateFromNeighbourShapes(st, level, p), 2);
-                    }
-                }
-            }
-        }
-        int fb = base;
-        c.getSource().sendSuccess(() -> Component.literal("Built a cage tower centred at " + (x0 + TowerBlueprint.C) + " " + fb + " " + (z0 + TowerBlueprint.C)), true);
+        LandmarkData data = EncounterManager.data(level);
+        data.remove(origin.asLong());
+        LandmarkState s = new LandmarkState(def.id(), origin, rotation);
+        data.add(s);
+        BlockPos centre = s.centre(def);
+        c.getSource().sendSuccess(() -> Component.literal("Built " + def.title() + " (" + def.id() + ") origin " + origin.toShortString()
+                + " centre " + centre.toShortString() + " rotation " + rotation), true);
         return 1;
     }
 
-    private static int locate(CommandContext<CommandSourceStack> c) {
+    private static int info(CommandContext<CommandSourceStack> c) {
         ServerLevel level = frontier(c);
-        if (level == null) {
+        LandmarkState s = level == null ? null : here(c, level);
+        if (s == null) {
+            return 0;
+        }
+        for (String line : EncounterManager.describe(level, s)) {
+            c.getSource().sendSuccess(() -> Component.literal(line), false);
+            UnstableFrontiers.LOGGER.info("LANDMARK {}", line);
+        }
+        return 1;
+    }
+
+    private static int forget(CommandContext<CommandSourceStack> c) {
+        ServerLevel level = frontier(c);
+        LandmarkState s = level == null ? null : here(c, level);
+        if (s == null) {
+            return 0;
+        }
+        LandmarkDef def = FrontierData.landmark(s.id);
+        if (def != null) {
+            for (LandmarkDef.Zone z : def.zones()) {
+                if (s.zone(z).status == ZoneState.Status.ACTIVE) {
+                    EncounterManager.force(level, s, z.id(), "reset", c.getSource().getPlayer());
+                }
+            }
+        }
+        EncounterManager.data(level).remove(s.key());
+        c.getSource().sendSuccess(() -> Component.literal("Forgotten: " + s.id + " starts fresh (gates already opened stay open)"), true);
+        return 1;
+    }
+
+    private static int zone(CommandContext<CommandSourceStack> c, String action) throws CommandSyntaxException {
+        ServerLevel level = frontier(c);
+        LandmarkState s = level == null ? null : here(c, level);
+        if (s == null) {
+            return 0;
+        }
+        ServerPlayer by = c.getSource().getPlayer();
+        if (by == null) {
+            by = level.players().isEmpty() ? null : level.players().get(0);
+        }
+        if (by == null && !action.equals("reset")) {
+            // Fights need a player to aim at; for console runs (CI) a fake player stands in.
+            by = net.neoforged.neoforge.common.util.FakePlayerFactory.getMinecraft(level);
+            by.moveTo(c.getSource().getPosition());
+        }
+        String msg = EncounterManager.force(level, s, StringArgumentType.getString(c, "zone"), action, by);
+        c.getSource().sendSuccess(() -> Component.literal(msg), true);
+        UnstableFrontiers.LOGGER.info("LANDMARK zone {} {}: {}", StringArgumentType.getString(c, "zone"), action, msg);
+        return 1;
+    }
+
+    private static int locate(CommandContext<CommandSourceStack> c, String group) {
+        ServerLevel level = frontier(c);
+        TagKey<Structure> tag = GROUPS.get(group);
+        if (level == null || tag == null) {
             return 0;
         }
         BlockPos from = BlockPos.containing(c.getSource().getPosition());
-        BlockPos at = level.findNearestMapStructure(ModStructures.CAGE_TOWERS, from, 64, false);
+        BlockPos at = level.findNearestMapStructure(tag, from, 64, false);
         if (at == null) {
-            c.getSource().sendFailure(Component.literal("No cage tower within 64 chunks"));
+            c.getSource().sendFailure(Component.literal("No " + group + " landmark within 64 chunks"));
             return 0;
         }
-        c.getSource().sendSuccess(() -> Component.literal("Nearest cage tower: " + at.getX() + " ~ " + at.getZ()), false);
+        c.getSource().sendSuccess(() -> Component.literal("Nearest " + group + ": " + at.getX() + " ~ " + at.getZ()), false);
+        UnstableFrontiers.LOGGER.info("LOCATE {} {} {}", group, at.getX(), at.getZ());
         return 1;
+    }
+
+    private static int rosters(CommandContext<CommandSourceStack> c) {
+        int bad = 0;
+        for (Roster r : FrontierData.rosters().values()) {
+            List<ResourceLocation> missing = r.missing();
+            String line = "ROSTER " + r.id() + (missing.isEmpty() ? " ok" : " MISSING " + missing) + " mobs=" + r.mobs().size()
+                    + " flyers=" + r.flyers().size() + (r.elite() == null ? "" : " elite=" + r.elite().type());
+            UnstableFrontiers.LOGGER.info(line);
+            c.getSource().sendSuccess(() -> Component.literal(line), false);
+            bad += missing.isEmpty() ? 0 : 1;
+        }
+        for (String p : FrontierData.problems()) {
+            UnstableFrontiers.LOGGER.info("ROSTER PROBLEM {}", p);
+        }
+        int fb = bad;
+        UnstableFrontiers.LOGGER.info("ROSTER summary: {} rosters, {} unusable, {} landmarks", FrontierData.rosters().size(), bad,
+                FrontierData.landmarks().size());
+        c.getSource().sendSuccess(() -> Component.literal(FrontierData.rosters().size() + " rosters, " + fb + " unusable, "
+                + FrontierData.landmarks().size() + " landmarks"), false);
+        return bad == 0 ? 1 : 0;
     }
 
     private static int stats(CommandContext<CommandSourceStack> c) {
@@ -170,47 +266,28 @@ public final class FrontierCommand {
         if (level == null) {
             return 0;
         }
-        TowerData data = TowerData.get(level);
-        int completed = 0;
-        for (TowerState s : data.all()) {
-            if (s.completed) {
-                completed++;
+        int known = 0, active = 0, tracked = 0, residents = 0;
+        for (LandmarkState s : EncounterManager.data(level).all()) {
+            known++;
+            residents += s.residents.size();
+            for (ZoneState z : s.zones) {
+                active += z.status == ZoneState.Status.ACTIVE ? 1 : 0;
+                tracked += z.mobs.size();
             }
         }
-        String msg = "towers known=" + data.all().size() + " completed=" + completed + " fighting=" + data.active().size()
-                + " tracked creatures=" + EncounterManager.trackedCount(data) + " rivalry fights=" + Rivalry.fightCount()
-                + " | " + FrontierConfig.describe();
+        String msg = "landmarks known=" + known + " fights=" + active + " tracked creatures=" + tracked + " residents=" + residents
+                + " rivalry fights=" + Rivalry.fightCount() + " | " + FrontierConfig.describe();
         c.getSource().sendSuccess(() -> Component.literal(msg), false);
+        UnstableFrontiers.LOGGER.info("STATS {}", msg);
         return 1;
     }
 
-    private static String info(ServerLevel level, TowerState s) {
-        StringBuilder b = new StringBuilder("tower ").append(s.ref.id()).append(" centre ")
-                .append(s.ref.originX() + TowerBlueprint.C).append(' ').append(s.ref.baseY()).append(' ').append(s.ref.originZ() + TowerBlueprint.C)
-                .append(" | completed=").append(s.completed).append(" cleared=[");
-        for (int i = 0; i < TowerBlueprint.STAGES; i++) {
-            b.append(s.isCleared(i) ? TowerBlueprint.STAGE_NAMES[i] + " " : "");
+    private static LandmarkState here(CommandContext<CommandSourceStack> c, ServerLevel level) {
+        LandmarkState s = EncounterManager.at(level, BlockPos.containing(c.getSource().getPosition()), 8);
+        if (s == null) {
+            c.getSource().sendFailure(Component.literal("Not standing in a landmark"));
         }
-        b.append("] active=").append(s.activeStage < 0 ? "none" : TowerBlueprint.STAGE_NAMES[s.activeStage])
-                .append(" wave=").append(s.wave).append(" alive=").append(s.alive.size()).append(" session=").append(s.session)
-                .append(" participants=").append(s.participants.size()).append(" rewarded=").append(s.rewarded.size());
-        return b.toString();
-    }
-
-    private static int withTower(CommandContext<CommandSourceStack> c, BiFunction<ServerLevel, TowerState, String> action) {
-        ServerLevel level = frontier(c);
-        if (level == null) {
-            return 0;
-        }
-        TowerRef ref = TowerLocator.at(level, BlockPos.containing(c.getSource().getPosition()), true);
-        if (ref == null) {
-            c.getSource().sendFailure(Component.literal("Not standing in a cage tower's footprint"));
-            return 0;
-        }
-        TowerState s = TowerData.get(level).getOrCreate(ref);
-        String msg = action.apply(level, s);
-        c.getSource().sendSuccess(() -> Component.literal(msg), true);
-        return 1;
+        return s;
     }
 
     private static ServerLevel frontier(CommandContext<CommandSourceStack> c) {

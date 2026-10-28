@@ -1,0 +1,19 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:mantis",
+      "weight": 1
+    }
+  ],
+  "escorts": 2,
+  "elite": {
+    "id": "antarchy:alpha_mantis",
+    "title": "The Crowned Mantis",
+    "bar": "green",
+    "abilities": [
+      "slam",
+      "pounce",
+      "rally"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+ "template": "unstable_frontiers:wayside_impaled",
+ "size": [
+  9,
+  14,
+  9
+ ],
+ "zones": [],
+ "points": {},
+ "kind": "wayside",
+ "ground": 1
+}

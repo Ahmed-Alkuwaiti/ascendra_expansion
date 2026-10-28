@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/wayside_impaled",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:wayside_impaled",
+  "ground": 1,
+  "max_slope": 4,
+  "max_water": 0,
+  "foundation": false,
+  "clear_site": false
+}

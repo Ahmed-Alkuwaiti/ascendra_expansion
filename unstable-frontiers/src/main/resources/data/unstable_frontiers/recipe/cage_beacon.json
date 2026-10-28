@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BOB",
+    "OHO",
+    "BOB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "O": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "H": {
+      "item": "unstable_frontiers:great_cage_heart"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:cage_beacon",
+    "count": 1
+  }
+}

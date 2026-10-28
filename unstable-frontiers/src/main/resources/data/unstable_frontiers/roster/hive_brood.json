@@ -1,0 +1,17 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:wasp",
+      "weight": 3
+    },
+    {
+      "id": "antarchy:springbug",
+      "weight": 1,
+      "max": 2
+    },
+    {
+      "id": "antarchy:termite",
+      "weight": 2
+    }
+  ]
+}

@@ -14,10 +14,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 
 /**
- * The one deliberate rivalry of this milestone: flying predators (entity tag unstable_frontiers:raptors) hunt ground
- * insects (unstable_frontiers:swarm). It only ever involves wild creatures this mod spawned, never the player's pets,
- * Antarchy's bosses or anything else, and it never replaces a creature's AI: a predator with no target is simply handed
- * the nearest prey, and the prey's own retaliation does the rest.
+ * Situated rivalry: at a landmark that declares one (the Carrion Field: predators on the spine, insects in the ribs),
+ * its resident hunters go for its resident prey. It only ever involves residents of the same landmark, never the
+ * player's pets, Antarchy's bosses or anything else, and it never replaces a creature's AI: an idle hunter is handed the
+ * nearest prey, and the prey's own retaliation does the rest. A player who arrives finds a fight already under way.
  *
  * <p>Bounded everywhere: updates run every aiUpdateIntervalTicks; each looks in boxes of rivalrySearchRadius around
  * players only; each player has at most rivalryFightsPerPlayer fights; a fight ends after pursuitTicks or when the two
@@ -48,7 +48,7 @@ public final class Rivalry {
                 continue;
             }
             List<Mob> hunters = level.getEntitiesOfClass(Mob.class, p.getBoundingBox().inflate(radius * 2.0D, radius, radius * 2.0D),
-                    m -> m.isAlive() && Creatures.isAmbient(m) && m.getType().is(Creatures.RAPTORS) && m.getTarget() == null
+                    m -> m.isAlive() && Creatures.isResident(m) && "hunter".equals(Creatures.side(m)) && m.getTarget() == null
                             && !FIGHTS.containsKey(m.getUUID()) && RESTING.getOrDefault(m.getUUID(), 0L) <= time);
             for (Mob hunter : hunters) {
                 if (active >= perPlayer) {
@@ -108,7 +108,8 @@ public final class Rivalry {
         Mob best = null;
         double bestD = Double.MAX_VALUE;
         for (Mob m : level.getEntitiesOfClass(Mob.class, hunter.getBoundingBox().inflate(radius),
-                m -> m.isAlive() && Creatures.isAmbient(m) && m.getType().is(Creatures.SWARM))) {
+                m -> m.isAlive() && Creatures.isResident(m) && "prey".equals(Creatures.side(m))
+                        && Creatures.landmark(m) == Creatures.landmark(hunter))) {
             double d = m.distanceToSqr(hunter);
             if (d < bestD) {
                 bestD = d;

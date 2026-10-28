@@ -1,0 +1,9 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:hercules_beetle",
+      "weight": 1,
+      "max": 1
+    }
+  ]
+}

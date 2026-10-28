@@ -1,6 +1,16 @@
 package com.unstablefrontiers.item;
 
+import com.unstablefrontiers.UnstableFrontiers;
 import com.unstablefrontiers.config.FrontierConfig;
+import com.unstablefrontiers.registry.ModSounds;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Block;
 import com.unstablefrontiers.ecology.Creatures;
 import com.unstablefrontiers.registry.ModItems;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,7 +28,11 @@ import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-/** Server-side effects of the Swarmbreaker: insect bonus damage, and the Pounce landing. */
+/**
+ * Server-side effects of the Swarmbreaker, the brood-breaker: 50% more damage to insects, and the Pounce landing, whose
+ * shockwave smashes every egg clutch around you (a hatchery's waves come from its clutches, so this ends them sooner)
+ * and staggers the insects it hits (slowed and weakened for three seconds).
+ */
 public final class SwarmbreakerEvents {
     private static final double SHOCK_RADIUS = 4.5D;
     private static final float SHOCK_DAMAGE = 6.0F;
@@ -63,13 +77,32 @@ public final class SwarmbreakerEvents {
         shockwave((ServerLevel) p.level(), p);
     }
 
+    public static final TagKey<Block> BROOD = TagKey.create(Registries.BLOCK, UnstableFrontiers.id("brood"));
+
     private static void shockwave(ServerLevel level, ServerPlayer p) {
+        int smashed = 0;
+        BlockPos c = p.blockPosition();
+        int r = (int) Math.ceil(SHOCK_RADIUS);
+        for (BlockPos b : BlockPos.betweenClosed(c.offset(-r, -2, -r), c.offset(r, 2, r))) {
+            if (b.distSqr(c) <= SHOCK_RADIUS * SHOCK_RADIUS && level.getBlockState(b).is(BROOD)) {
+                level.destroyBlock(b, false, p);
+                smashed++;
+            }
+        }
+        if (smashed > 0) {
+            level.playSound(null, c, ModSounds.BROOD.get(), SoundSource.PLAYERS, 1.0F, 1.3F);
+            p.displayClientMessage(Component.translatable("message.unstable_frontiers.brood_smashed", smashed).withStyle(ChatFormatting.GREEN), true);
+        }
         for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(SHOCK_RADIUS, 1.5D, SHOCK_RADIUS))) {
             if (e == p || e instanceof Player || !e.isAlive() || (e instanceof OwnableEntity o && p.getUUID().equals(o.getOwnerUUID()))) {
                 continue;
             }
-            float dmg = isInsect(e) ? SHOCK_DAMAGE * 1.5F : SHOCK_DAMAGE;
-            e.hurt(p.damageSources().playerAttack(p), dmg);
+            boolean insect = isInsect(e);
+            e.hurt(p.damageSources().playerAttack(p), insect ? SHOCK_DAMAGE * 1.5F : SHOCK_DAMAGE);
+            if (insect) {
+                e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1));
+                e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 0));
+            }
             double dx = e.getX() - p.getX();
             double dz = e.getZ() - p.getZ();
             e.knockback(0.9D, -dx, -dz);

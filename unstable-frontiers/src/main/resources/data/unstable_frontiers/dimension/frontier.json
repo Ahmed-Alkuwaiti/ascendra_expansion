@@ -2,7 +2,7 @@
   "type": "unstable_frontiers:frontier",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:amplified",
+    "settings": "minecraft:overworld",
     "biome_source": {
       "type": "minecraft:multi_noise",
       "biomes": [
@@ -10,7 +10,7 @@
           "biome": "unstable_frontiers:gnashwood_wilds",
           "parameters": {
             "temperature": [
-              -1.0,
+              -0.2,
               1.0
             ],
             "humidity": [
@@ -27,7 +27,34 @@
             ],
             "weirdness": [
               -1.0,
+              0.55
+            ],
+            "depth": 0.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "unstable_frontiers:talon_spires",
+          "parameters": {
+            "temperature": [
+              -1.0,
+              -0.2
+            ],
+            "humidity": [
+              -0.35,
               1.0
+            ],
+            "continentalness": [
+              -1.0,
+              1.0
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "weirdness": [
+              -1.0,
+              0.55
             ],
             "depth": 0.0,
             "offset": 0.0
@@ -54,6 +81,33 @@
             ],
             "weirdness": [
               -1.0,
+              0.55
+            ],
+            "depth": 0.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "unstable_frontiers:rustbone_scar",
+          "parameters": {
+            "temperature": [
+              -1.0,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              1.0
+            ],
+            "continentalness": [
+              -1.0,
+              1.0
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "weirdness": [
+              0.55,
               1.0
             ],
             "depth": 0.0,

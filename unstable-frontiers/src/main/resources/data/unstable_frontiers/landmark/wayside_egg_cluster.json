@@ -1,0 +1,12 @@
+{
+ "template": "unstable_frontiers:wayside_egg_cluster",
+ "size": [
+  11,
+  6,
+  11
+ ],
+ "zones": [],
+ "points": {},
+ "kind": "wayside",
+ "ground": 1
+}

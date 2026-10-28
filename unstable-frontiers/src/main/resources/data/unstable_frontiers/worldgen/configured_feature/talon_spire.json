@@ -1,0 +1,6 @@
+{
+  "type": "unstable_frontiers:terrain",
+  "config": {
+    "shape": "talon_spire"
+  }
+}

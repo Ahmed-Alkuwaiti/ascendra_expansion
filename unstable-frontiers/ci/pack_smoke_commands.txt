@@ -1,21 +1,54 @@
 # Run on a dedicated server with the Integrated Boogaloo mods the addon touches (see ci/pack_server.sh).
+frontier debug rosters
 frontier debug dump antarchy
 frontier debug dump integrated_superheroes
 frontier debug dump boogaloo_core
-frontier debug dump electric_boogaloo
 frontier debug dump marvel
 frontier debug dump viltrumitecore
-execute in unstable_frontiers:frontier run forceload add -40 -40 40 40
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower build
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 0
+frontier debug dump unstable_frontiers
+# Gibbet Spire: a wave floor, then the crown guardian; clearing the crown must open its gate.
+execute in unstable_frontiers:frontier run forceload add -48 -48 64 64
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier landmark build gibbet_spire
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark zone swarm_pen start
 frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark zone hatchery start
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark zone crown start
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark zone crown clear
+execute in unstable_frontiers:frontier positioned 8 0 8 positioned over motion_blocking run frontier landmark info
+# Hanging Gaol: cells and the warden.
+execute in unstable_frontiers:frontier run forceload add 152 -48 264 64
+execute in unstable_frontiers:frontier positioned 200 0 8 run frontier landmark build hanging_gaol
+execute in unstable_frontiers:frontier positioned 200 0 8 positioned over motion_blocking run frontier landmark zone cell_south start
+execute in unstable_frontiers:frontier positioned 200 0 8 positioned over motion_blocking run frontier landmark zone cell_east start
+execute in unstable_frontiers:frontier positioned 200 0 8 positioned over motion_blocking run frontier landmark zone warden start
+execute in unstable_frontiers:frontier positioned 200 0 8 positioned over motion_blocking run frontier landmark info
+# Rookery: the roost and the Rookmother.
+execute in unstable_frontiers:frontier run forceload add 352 -48 464 64
+execute in unstable_frontiers:frontier positioned 408 0 8 run frontier landmark build rookery
+execute in unstable_frontiers:frontier positioned 408 0 8 positioned over motion_blocking run frontier landmark zone roost start
+execute in unstable_frontiers:frontier positioned 408 0 8 positioned over motion_blocking run frontier landmark zone rookmother start
+execute in unstable_frontiers:frontier positioned 408 0 8 positioned over motion_blocking run frontier landmark info
+# Brood Hive: the brood counts its clutches; the Tyrant.
+execute in unstable_frontiers:frontier run forceload add 552 -48 664 64
+execute in unstable_frontiers:frontier positioned 600 0 8 run frontier landmark build brood_hive
+execute in unstable_frontiers:frontier positioned 600 0 8 positioned over motion_blocking run frontier landmark zone brood start
+execute in unstable_frontiers:frontier positioned 600 0 8 positioned over motion_blocking run frontier landmark zone royal start
+execute in unstable_frontiers:frontier positioned 600 0 8 positioned over motion_blocking run frontier landmark info
+# The Great Cage: the finale with its pylons.
+execute in unstable_frontiers:frontier run forceload add 744 -80 888 96
+execute in unstable_frontiers:frontier positioned 808 0 8 run frontier landmark build great_cage
+execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier landmark zone finale start
 frontier stats
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 2
+execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier landmark info
+# The rest of the set builds cleanly.
+execute in unstable_frontiers:frontier positioned 1000 0 8 run frontier landmark build carrion_field
+execute in unstable_frontiers:frontier positioned 1100 0 8 run frontier landmark build camp_torn
+execute in unstable_frontiers:frontier positioned 1150 0 8 run frontier landmark build wayside_impaled
+# Natural generation: landmarks must be findable in a fresh frontier.
+execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate camp
+execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate any
+execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate great_cage
 frontier stats
-frontier stats
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 3
-frontier stats
-frontier stats
-execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info

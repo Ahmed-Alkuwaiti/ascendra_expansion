@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/carrion_field",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:carrion_field",
+  "ground": 6,
+  "max_slope": 10,
+  "max_water": 2,
+  "foundation": false,
+  "clear_site": true
+}

@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/great_cage",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:great_cage",
+  "ground": 8,
+  "max_slope": 24,
+  "max_water": 2,
+  "foundation": true,
+  "clear_site": true
+}

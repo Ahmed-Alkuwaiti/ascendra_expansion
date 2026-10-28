@@ -24,9 +24,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * The tower's signature reward: a glaive that hits like a netherite sword (8) but is built for the frontier. It deals 50%
- * more to insects, and its Pounce leaps you forward and up; when you land, a shockwave hurts and throws back everything
- * around you (insects most). Fall damage is cancelled for that landing. Repaired with Cage Trophies.
+ * The brood-breaker, forged from a Hive Heart: a glaive (Better Combat's glaive moves when that mod is present) that hits
+ * like a netherite sword (8). It deals 50% more to insects; its Pounce leaps you forward and up, and the landing's
+ * shockwave hurts and throws back everything around you, staggers insects and smashes egg clutches. Fall damage is
+ * cancelled for that landing. Its role is crowd and nest control in the frontier's brood fights, not raw damage: it
+ * does not out-damage Antarchy's Ultimate or Big Bertha weapons. Repaired with Cage Trophies.
  */
 public class SwarmbreakerItem extends SwordItem {
     public static final int POUNCE_COOLDOWN = 160;
@@ -70,5 +72,6 @@ public class SwarmbreakerItem extends SwordItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.unstable_frontiers.swarmbreaker.tip0").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("item.unstable_frontiers.swarmbreaker.tip1").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.unstable_frontiers.swarmbreaker.tip2").withStyle(ChatFormatting.GRAY));
     }
 }

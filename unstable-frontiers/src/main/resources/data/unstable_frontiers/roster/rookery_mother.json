@@ -1,0 +1,24 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:stratoshark",
+      "weight": 1
+    }
+  ],
+  "flyers": [
+    {
+      "id": "antarchy:stratoshark",
+      "weight": 1
+    }
+  ],
+  "escorts": 1,
+  "elite": {
+    "id": "antarchy:nightmare",
+    "title": "The Rookmother",
+    "bar": "purple",
+    "abilities": [
+      "screech",
+      "pounce"
+    ]
+  }
+}

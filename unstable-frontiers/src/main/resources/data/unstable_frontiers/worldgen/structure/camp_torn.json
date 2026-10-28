@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/camp_torn",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:camp_torn",
+  "ground": 2,
+  "max_slope": 6,
+  "max_water": 1,
+  "foundation": false,
+  "clear_site": true
+}

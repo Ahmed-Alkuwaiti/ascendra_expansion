@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/hanging_gaol",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:hanging_gaol",
+  "ground": 26,
+  "max_slope": 20,
+  "max_water": 2,
+  "foundation": true,
+  "clear_site": true
+}

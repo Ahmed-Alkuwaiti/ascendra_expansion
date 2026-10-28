@@ -1,0 +1,12 @@
+{
+  "flyers": [
+    {
+      "id": "antarchy:nightmare",
+      "weight": 1
+    },
+    {
+      "id": "antarchy:stratoshark",
+      "weight": 3
+    }
+  ]
+}

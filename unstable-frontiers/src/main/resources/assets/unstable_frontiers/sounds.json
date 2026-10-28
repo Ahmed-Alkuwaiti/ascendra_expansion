@@ -1,0 +1,122 @@
+{
+  "landmark.discover": {
+    "subtitle": "subtitles.unstable_frontiers.landmark.discover",
+    "sounds": [
+      {
+        "name": "minecraft:block.bell.resonate",
+        "type": "event",
+        "pitch": 0.6
+      }
+    ]
+  },
+  "landmark.wake": {
+    "subtitle": "subtitles.unstable_frontiers.landmark.wake",
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.listening_angry",
+        "type": "event",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "landmark.wave": {
+    "subtitle": "subtitles.unstable_frontiers.landmark.wave",
+    "sounds": [
+      {
+        "name": "minecraft:block.beehive.work",
+        "type": "event",
+        "pitch": 0.6
+      }
+    ]
+  },
+  "landmark.gate": {
+    "subtitle": "subtitles.unstable_frontiers.landmark.gate",
+    "sounds": [
+      {
+        "name": "minecraft:block.chain.break",
+        "type": "event",
+        "pitch": 0.5
+      }
+    ]
+  },
+  "landmark.conquer": {
+    "subtitle": "subtitles.unstable_frontiers.landmark.conquer",
+    "sounds": [
+      {
+        "name": "minecraft:ui.toast.challenge_complete",
+        "type": "event",
+        "pitch": 1.0
+      }
+    ]
+  },
+  "elite.tell": {
+    "subtitle": "subtitles.unstable_frontiers.elite.tell",
+    "sounds": [
+      {
+        "name": "minecraft:entity.ravager.roar",
+        "type": "event",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "elite.slam": {
+    "subtitle": "subtitles.unstable_frontiers.elite.slam",
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.attack_impact",
+        "type": "event",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "finale.pylon": {
+    "subtitle": "subtitles.unstable_frontiers.finale.pylon",
+    "sounds": [
+      {
+        "name": "minecraft:block.respawn_anchor.deplete",
+        "type": "event",
+        "pitch": 0.6
+      }
+    ]
+  },
+  "finale.shield": {
+    "subtitle": "subtitles.unstable_frontiers.finale.shield",
+    "sounds": [
+      {
+        "name": "minecraft:block.amethyst_block.resonate",
+        "type": "event",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "brood.crack": {
+    "subtitle": "subtitles.unstable_frontiers.brood.crack",
+    "sounds": [
+      {
+        "name": "minecraft:entity.turtle.egg_crack",
+        "type": "event",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "item.shackle": {
+    "subtitle": "subtitles.unstable_frontiers.item.shackle",
+    "sounds": [
+      {
+        "name": "minecraft:block.chain.place",
+        "type": "event",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "item.lens": {
+    "subtitle": "subtitles.unstable_frontiers.item.lens",
+    "sounds": [
+      {
+        "name": "minecraft:item.spyglass.use",
+        "type": "event",
+        "pitch": 0.8
+      }
+    ]
+  }
+}

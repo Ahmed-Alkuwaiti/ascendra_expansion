@@ -1,0 +1,22 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:wasp",
+      "weight": 1
+    },
+    {
+      "id": "antarchy:termite",
+      "weight": 1
+    }
+  ],
+  "escorts": 3,
+  "elite": {
+    "id": "antarchy:hercules_beetle",
+    "title": "The Hive Tyrant",
+    "bar": "yellow",
+    "abilities": [
+      "slam",
+      "rally"
+    ]
+  }
+}

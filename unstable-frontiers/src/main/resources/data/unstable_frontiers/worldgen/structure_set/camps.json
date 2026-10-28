@@ -1,0 +1,26 @@
+{
+  "structures": [
+    {
+      "structure": "unstable_frontiers:camp_intact",
+      "weight": 2
+    },
+    {
+      "structure": "unstable_frontiers:camp_ransacked",
+      "weight": 1
+    },
+    {
+      "structure": "unstable_frontiers:camp_torn",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 14,
+    "separation": 5,
+    "salt": 228471,
+    "exclusion_zone": {
+      "other_set": "unstable_frontiers:major_landmarks",
+      "chunk_count": 4
+    }
+  }
+}

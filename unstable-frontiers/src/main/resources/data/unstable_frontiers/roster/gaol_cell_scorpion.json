@@ -1,0 +1,9 @@
+{
+  "mobs": [
+    {
+      "id": "antarchy:emperor_scorpion",
+      "weight": 1,
+      "max": 1
+    }
+  ]
+}

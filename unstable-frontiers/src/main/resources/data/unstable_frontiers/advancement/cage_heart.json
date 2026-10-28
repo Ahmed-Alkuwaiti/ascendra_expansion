@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:great_cage_heart"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.cage_heart"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.cage_heart.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:great_cage_heart"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:great_cage"
+}
