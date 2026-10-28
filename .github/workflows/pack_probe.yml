@@ -23,9 +23,8 @@ jobs:
         run: python3 ci/pack/fetch_pack.py pack
       - name: What the pack contains
         run: python3 ci/pack/inspect_jars.py pack/mods
-      - name: Pack overrides (configs, scripts)
-        run: |
-          find pack/overrides -maxdepth 3 | sort | head -300
+      - name: Pack details the addon depends on
+        run: python3 ci/pack/details.py pack
       - name: Keep the report
         if: always()
         uses: actions/upload-artifact@v4
