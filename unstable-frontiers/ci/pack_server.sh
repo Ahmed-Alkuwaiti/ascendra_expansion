@@ -18,6 +18,8 @@ echo "server exited: $?"
 L=run/logs/latest.log
 echo "==== mods loaded ===="
 grep -E "Unstable Frontiers loading|Loading [0-9]+ mods|Done \(" $L | cut -c1-200
+echo "==== dependency problems ===="
+grep -A25 "Missing or unsupported mandatory dependencies" $L | head -40 | cut -c1-300
 echo "==== errors (first 120) ===="
 grep -nE "ERROR|Exception|Caused by" $L | cut -c1-300 | head -120
 echo "==== DUMP ===="

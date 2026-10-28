@@ -1,0 +1,298 @@
+{
+ "template": "unstable_frontiers:hanging_gaol",
+ "size": [
+  65,
+  82,
+  49
+ ],
+ "zones": [
+  {
+   "id": "cell_west",
+   "name": "A hanging cell",
+   "box": [
+    16,
+    47,
+    17,
+    18,
+    50,
+    19
+   ],
+   "trigger": [
+    13,
+    45,
+    14,
+    21,
+    52,
+    22
+   ],
+   "spawns": [
+    [
+     17,
+     47,
+     18
+    ],
+    [
+     18,
+     47,
+     19
+    ],
+    [
+     16,
+     47,
+     17
+    ],
+    [
+     18,
+     47,
+     17
+    ],
+    [
+     16,
+     47,
+     19
+    ]
+   ],
+   "roster": "gaol_cell_insect",
+   "kind": "cell",
+   "waves": 1
+  },
+  {
+   "id": "cell_north",
+   "name": "A hanging cell",
+   "box": [
+    23,
+    39,
+    30,
+    25,
+    42,
+    32
+   ],
+   "trigger": [
+    20,
+    37,
+    27,
+    28,
+    44,
+    35
+   ],
+   "spawns": [
+    [
+     24,
+     39,
+     31
+    ],
+    [
+     25,
+     39,
+     32
+    ],
+    [
+     23,
+     39,
+     30
+    ],
+    [
+     25,
+     39,
+     30
+    ],
+    [
+     23,
+     39,
+     32
+    ]
+   ],
+   "roster": "gaol_cell_wasp",
+   "kind": "cell",
+   "waves": 1
+  },
+  {
+   "id": "warden",
+   "name": "The Warden's Cage",
+   "box": [
+    29,
+    18,
+    21,
+    35,
+    24,
+    27
+   ],
+   "trigger": [
+    26,
+    16,
+    18,
+    38,
+    26,
+    30
+   ],
+   "spawns": [
+    [
+     32,
+     18,
+     24
+    ],
+    [
+     33,
+     18,
+     25
+    ],
+    [
+     31,
+     18,
+     23
+    ],
+    [
+     33,
+     18,
+     23
+    ],
+    [
+     31,
+     18,
+     25
+    ]
+   ],
+   "roster": "gaol_warden",
+   "kind": "guardian",
+   "reward": "cage_trophy",
+   "gate": "warden",
+   "final": true,
+   "requires": [
+    "cell_west",
+    "cell_north",
+    "cell_south",
+    "cell_east"
+   ]
+  },
+  {
+   "id": "cell_south",
+   "name": "A hanging cell",
+   "box": [
+    39,
+    39,
+    16,
+    41,
+    42,
+    18
+   ],
+   "trigger": [
+    36,
+    37,
+    13,
+    44,
+    44,
+    21
+   ],
+   "spawns": [
+    [
+     40,
+     39,
+     17
+    ],
+    [
+     41,
+     39,
+     18
+    ],
+    [
+     39,
+     39,
+     16
+    ],
+    [
+     41,
+     39,
+     16
+    ],
+    [
+     39,
+     39,
+     18
+    ]
+   ],
+   "roster": "gaol_cell_scorpion",
+   "kind": "cell",
+   "waves": 1
+  },
+  {
+   "id": "cell_east",
+   "name": "A hanging cell",
+   "box": [
+    46,
+    47,
+    29,
+    48,
+    50,
+    31
+   ],
+   "trigger": [
+    43,
+    45,
+    26,
+    51,
+    52,
+    34
+   ],
+   "spawns": [
+    [
+     47,
+     47,
+     30
+    ],
+    [
+     48,
+     47,
+     31
+    ],
+    [
+     46,
+     47,
+     29
+    ],
+    [
+     48,
+     47,
+     29
+    ],
+    [
+     46,
+     47,
+     31
+    ]
+   ],
+   "roster": "gaol_cell_flyer",
+   "kind": "cell",
+   "waves": 1
+  }
+ ],
+ "points": {
+  "vault": [
+   30,
+   19,
+   22
+  ]
+ },
+ "gates": {
+  "warden": [
+   [
+    30,
+    18,
+    23
+   ],
+   [
+    30,
+    19,
+    23
+   ],
+   [
+    30,
+    20,
+    23
+   ]
+  ]
+ },
+ "kind": "cage_tower",
+ "title": "Hanging Gaol",
+ "ground": 26,
+ "foundation_level": 0
+}

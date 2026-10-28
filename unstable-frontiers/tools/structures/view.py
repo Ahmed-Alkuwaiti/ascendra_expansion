@@ -87,11 +87,15 @@ def render(name, out, cut=None, cutx=None, rot=0, size=1000, title=None, ground=
     if rot % 2:
         W, L = L, W
     if ground is not None:
-        cols = {(x, z) for (x, y, z) in vis}
-        for x in range(-6, W + 6):
-            for z in range(-6, L + 6):
-                if (x, z) not in cols and (cut is None or z <= cut):
-                    vis[(x, ground, z)] = 'minecraft:grass_block'
+        # surround the template with terrain up to the ground line, as it sits in the world (cells the template sets win)
+        allp = set(blocks)
+        for x in range(-4, W + 4):
+            for z in range(-4, L + 4):
+                if cut is not None and z > cut:
+                    continue
+                for y in range(max(0, ground - 3), ground + 1):
+                    if (x, y, z) not in allp:
+                        vis[(x, y, z)] = 'minecraft:grass_block' if y == ground else 'minecraft:dirt'
     xs = [p[0] for p in vis]; ys = [p[1] for p in vis]; zs = [p[2] for p in vis]
     x0, y0, z0 = min(xs), min(ys), min(zs)
     W, H, L = max(xs) - x0 + 1, max(ys) - y0 + 1, max(zs) - z0 + 1
