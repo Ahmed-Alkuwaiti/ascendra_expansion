@@ -21,7 +21,10 @@ grep -E "Unstable Frontiers loading|Loading [0-9]+ mods|Done \(" $L | cut -c1-20
 echo "==== dependency problems ===="
 grep -A25 "Missing or unsupported mandatory dependencies" $L | head -40 | cut -c1-300
 echo "==== errors (first 120) ===="
-grep -nE "ERROR|Exception|Caused by" $L | cut -c1-300 | head -120
+grep -nE "ERROR|Exception|Caused by" $L | grep -vE "mixin/|DISTXFORM" | cut -c1-300 | head -120
+echo "==== console tail ===="
+grep -vE "mixin/|DISTXFORM" server_console.log | tail -80 | cut -c1-300
+for c in run/crash-reports/*.txt; do [ -f "$c" ] && { echo "==== $c ===="; head -60 "$c" | cut -c1-300; }; done
 echo "==== DUMP ===="
 grep -E "DUMP " $L | sed 's/.*DUMP //'
 echo "==== commands ===="
