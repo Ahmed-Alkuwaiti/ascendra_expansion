@@ -1,0 +1,21 @@
+# Run on a dedicated server with the Integrated Boogaloo mods the addon touches (see ci/pack_server.sh).
+frontier debug dump antarchy
+frontier debug dump integrated_superheroes
+frontier debug dump boogaloo_core
+frontier debug dump electric_boogaloo
+frontier debug dump marvel
+frontier debug dump viltrumitecore
+execute in unstable_frontiers:frontier run forceload add -40 -40 40 40
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower build
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 0
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 2
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 3
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info

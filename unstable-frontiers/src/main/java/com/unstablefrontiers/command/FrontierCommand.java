@@ -54,6 +54,10 @@ public final class FrontierCommand {
                     return 1;
                 }))
                 .then(Commands.literal("locate").requires(s -> s.hasPermission(2)).executes(FrontierCommand::locate))
+                .then(Commands.literal("debug").requires(s -> s.hasPermission(2))
+                        .then(Commands.literal("dump").then(Commands.argument("namespace", com.mojang.brigadier.arguments.StringArgumentType.word())
+                                .executes(c -> com.unstablefrontiers.debug.RegistryDump.dump(c.getSource().getLevel(),
+                                        com.mojang.brigadier.arguments.StringArgumentType.getString(c, "namespace"))))))
                 .then(Commands.literal("stats").requires(s -> s.hasPermission(2)).executes(FrontierCommand::stats))
                 .then(Commands.literal("tower").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("build").executes(FrontierCommand::build))
