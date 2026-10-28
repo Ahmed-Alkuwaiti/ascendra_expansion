@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:wayside_claw_stone",
   "ground": 1,
-  "max_slope": 4,
-  "max_water": 0,
+  "max_slope": 8,
+  "max_water": 1,
   "foundation": false,
   "clear_site": false
 }

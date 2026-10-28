@@ -6,11 +6,7 @@
     },
     {
       "id": "antarchy:scorpion",
-      "weight": 2
-    },
-    {
-      "id": "antarchy:red_ant",
-      "weight": 1
+      "weight": 3
     }
   ]
 }

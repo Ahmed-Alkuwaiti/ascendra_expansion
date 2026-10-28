@@ -41,33 +41,39 @@ def elite(id_, title, bar, abilities):
 A = 'antarchy:'
 ROSTERS = {
     # Gibbet Spire: insects below, flyers above, the Alpha Mantis in the crown.
-    'tower_swarm_pen': {'mobs': [m(A + 'mantis', 3, 3), m(A + 'scorpion', 3), m(A + 'red_ant', 2)]},
+    # Health and attack as measured in Integrated Boogaloo 1.0.8 (Boogaloo Core scaling applied), see TESTING.md:
+    # mantis 125/18, scorpion 75/10, wasp 40/8, springbug 250/24, stratoshark 100/10, manticore 150/22,
+    # alpha mantis 950/36, nightmare 950/32, emperor scorpion 1050/56, brutalfly 1250/30, Hercules beetle 1625/60,
+    # basilisk 800/72. Red ants and termites are passive creatures (12.5 health), used only as hive colour.
+    'tower_swarm_pen': {'mobs': [m(A + 'mantis', 3, 2), m(A + 'scorpion', 4)]},
     'tower_hatchery': {'mobs': [m(A + 'wasp', 3), m(A + 'scorpion', 2), m(A + 'springbug', 1, 1)]},
     'tower_aerie': {'mobs': [m(A + 'wasp', 2)], 'flyers': [m(A + 'stratoshark', 3, 2), m(A + 'brutalfly', 1, 1)]},
     'tower_crown': {'mobs': [m(A + 'mantis')], 'escorts': 2,
                     'elite': elite(A + 'alpha_mantis', 'The Crowned Mantis', 'green', ['slam', 'pounce', 'rally'])},
     # Hanging Gaol: every cell holds one prisoner worth hunting for Antarchy's own recipes.
-    'gaol_cell_insect': {'mobs': [m(A + 'hercules_beetle', 1, 1)]},
-    'gaol_cell_wasp': {'mobs': [m(A + 'wasp', 3, 3), m(A + 'springbug', 1, 1)]},
+    # The cells hold mid-tier prisoners (springbug legs, manticore wings, scorpions); the Gaoler is the brutalfly, whose
+    # wing is what Antarchy's Brutalfly Elytra needs. The emperor scorpion is the one heavy cell (Big Bertha's stinger).
+    'gaol_cell_insect': {'mobs': [m(A + 'springbug', 1, 1), m(A + 'mantis', 1, 1)]},
+    'gaol_cell_wasp': {'mobs': [m(A + 'wasp', 3, 3)]},
     'gaol_cell_scorpion': {'mobs': [m(A + 'emperor_scorpion', 1, 1)]},
-    'gaol_cell_flyer': {'mobs': [m(A + 'mantis', 1, 1)], 'flyers': [m(A + 'brutalfly', 1, 1)]},
+    'gaol_cell_flyer': {'mobs': [m(A + 'manticore', 1, 1)]},
     'gaol_warden': {'mobs': [m(A + 'scorpion')], 'escorts': 2,
-                    'elite': elite(A + 'manticore', 'The Gaoler', 'yellow', ['pounce', 'screech', 'rally'])},
+                    'elite': elite(A + 'brutalfly', 'The Gaoler', 'yellow', ['pounce', 'screech', 'rally'])},
     # Rookery: predators on their perches, scavengers in the tunnel, the Nightmare as its mother.
     'rookery_roost': {'mobs': [m(A + 'scorpion')], 'flyers': [m(A + 'stratoshark', 3), m(A + 'brutalfly', 1, 1)]},
     'rookery_mother': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(A + 'stratoshark')], 'escorts': 1,
                        'elite': elite(A + 'nightmare', 'The Rookmother', 'purple', ['screech', 'pounce'])},
-    'rookery_scavengers': {'mobs': [m(A + 'scorpion', 2), m(A + 'termite', 2), m(A + 'red_ant', 1)]},
+    'rookery_scavengers': {'mobs': [m(A + 'scorpion', 3), m(A + 'springbug', 1, 1)]},
     # Brood Hive.
-    'hive_workers': {'mobs': [m(A + 'termite', 3), m(A + 'red_ant', 3), m(A + 'wasp', 1)]},
-    'hive_brood': {'mobs': [m(A + 'wasp', 3), m(A + 'springbug', 1, 2), m(A + 'termite', 2)]},
+    'hive_workers': {'mobs': [m(A + 'wasp', 3), m(A + 'termite', 1, 2), m(A + 'red_ant', 1, 2)]},
+    'hive_brood': {'mobs': [m(A + 'wasp', 4), m(A + 'springbug', 1, 1), m(A + 'mantis', 1, 1)]},
     'hive_tyrant': {'mobs': [m(A + 'wasp'), m(A + 'termite')], 'escorts': 3,
                     'elite': elite(A + 'hercules_beetle', 'The Hive Tyrant', 'yellow', ['slam', 'rally'])},
     # Carrion Field residents: insects feed in the ribs, predators stand on the spine.
-    'carrion_swarm': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 2), m(A + 'red_ant', 1)]},
+    'carrion_swarm': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 3)]},
     'carrion_raptors': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(A + 'stratoshark', 3), m(A + 'brutalfly', 1, 1)]},
     # The Great Cage.
-    'great_cage_finale': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 2), m(A + 'wasp', 1)],
+    'great_cage_finale': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 2), m(A + 'springbug', 1, 1)],
                           'flyers': [m(A + 'stratoshark', 3), m(A + 'nightmare', 1, 1)], 'escorts': 3,
                           'elite': elite(A + 'basilisk', 'The Cagewright\'s Beast', 'red', ['slam', 'screech', 'rally', 'pounce'])},
     # Between landmarks, after dark.
@@ -77,19 +83,21 @@ ROSTERS = {
 # --------------------------------------------------------------------------------------------------------- landmarks
 # name: (biomes, max_slope, max_water, clear_site)
 LANDMARKS = {
-    'gibbet_spire': (['gnashwood_wilds', 'hushed_barrens'], 16, 2, True),
-    'hanging_gaol': (['hushed_barrens'], 20, 2, True),
-    'rookery': (['talon_spires'], 40, 3, False),
-    'brood_hive': (['gnashwood_wilds'], 16, 2, True),
-    'carrion_field': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires'], 10, 2, True),
-    'camp_intact': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires'], 6, 1, True),
-    'camp_ransacked': (['gnashwood_wilds', 'hushed_barrens'], 6, 1, True),
-    'camp_torn': (['talon_spires', 'hushed_barrens'], 6, 1, True),
-    'wayside_fallen_gibbet': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires', 'rustbone_scar'], 4, 0, False),
-    'wayside_impaled': (['gnashwood_wilds', 'hushed_barrens', 'rustbone_scar'], 4, 0, False),
-    'wayside_egg_cluster': (['gnashwood_wilds', 'talon_spires'], 4, 0, False),
-    'wayside_claw_stone': (['hushed_barrens', 'talon_spires', 'rustbone_scar'], 4, 0, False),
-    'great_cage': (['rustbone_scar'], 24, 2, True),
+    # Slopes are generous because the site is cleared (LandmarkPiece) and given a foundation; the first pack test with
+    # tighter limits found the nearest landmark ~800 blocks away.
+    'gibbet_spire': (['gnashwood_wilds', 'hushed_barrens'], 24, 3, True),
+    'hanging_gaol': (['hushed_barrens'], 28, 3, True),
+    'rookery': (['talon_spires'], 48, 4, False),
+    'brood_hive': (['gnashwood_wilds'], 24, 3, True),
+    'carrion_field': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires'], 16, 3, True),
+    'camp_intact': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires'], 12, 2, True),
+    'camp_ransacked': (['gnashwood_wilds', 'hushed_barrens'], 12, 2, True),
+    'camp_torn': (['talon_spires', 'hushed_barrens'], 12, 2, True),
+    'wayside_fallen_gibbet': (['gnashwood_wilds', 'hushed_barrens', 'talon_spires', 'rustbone_scar'], 8, 1, False),
+    'wayside_impaled': (['gnashwood_wilds', 'hushed_barrens', 'rustbone_scar'], 8, 1, False),
+    'wayside_egg_cluster': (['gnashwood_wilds', 'talon_spires'], 8, 1, False),
+    'wayside_claw_stone': (['hushed_barrens', 'talon_spires', 'rustbone_scar'], 8, 1, False),
+    'great_cage': (['rustbone_scar'], 32, 3, True),
 }
 SETS = {
     # One set for the major landmarks, so two of them never overlap; the game tries them in weighted order per site.

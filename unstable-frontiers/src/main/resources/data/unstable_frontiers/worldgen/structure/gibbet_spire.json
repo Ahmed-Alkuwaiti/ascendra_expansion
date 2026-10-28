@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:gibbet_spire",
   "ground": 6,
-  "max_slope": 16,
-  "max_water": 2,
+  "max_slope": 24,
+  "max_water": 3,
   "foundation": true,
   "clear_site": true
 }

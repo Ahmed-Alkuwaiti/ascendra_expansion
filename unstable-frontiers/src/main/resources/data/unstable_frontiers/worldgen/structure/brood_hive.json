@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:brood_hive",
   "ground": 30,
-  "max_slope": 16,
-  "max_water": 2,
+  "max_slope": 24,
+  "max_water": 3,
   "foundation": false,
   "clear_site": true
 }

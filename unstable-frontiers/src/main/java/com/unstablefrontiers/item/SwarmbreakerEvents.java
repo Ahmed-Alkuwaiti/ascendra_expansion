@@ -35,7 +35,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  */
 public final class SwarmbreakerEvents {
     private static final double SHOCK_RADIUS = 4.5D;
-    private static final float SHOCK_DAMAGE = 6.0F;
+    private static final float SHOCK_DAMAGE = 24.0F;
     private static final long LEAP_TIMEOUT = 100;
 
     public static boolean isInsect(LivingEntity e) {

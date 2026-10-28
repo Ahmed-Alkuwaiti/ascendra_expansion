@@ -51,4 +51,9 @@ execute in unstable_frontiers:frontier positioned 1150 0 8 run frontier landmark
 execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate camp
 execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate any
 execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate great_cage
+# Density: the nearest landmark of any kind from four more points (distances go into TESTING.md).
+execute in unstable_frontiers:frontier positioned 3000 100 0 run frontier locate any
+execute in unstable_frontiers:frontier positioned -3000 100 0 run frontier locate any
+execute in unstable_frontiers:frontier positioned 0 100 -3000 run frontier locate any
+execute in unstable_frontiers:frontier positioned 3000 100 3000 run frontier locate camp
 frontier stats

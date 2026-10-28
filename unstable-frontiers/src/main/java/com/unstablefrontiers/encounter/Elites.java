@@ -130,7 +130,8 @@ public final class Elites {
                     if (p.isSpectator() || p.isCreative() || p.distanceToSqr(elite) > 5.5D * 5.5D) {
                         continue;
                     }
-                    p.hurt(level.damageSources().mobAttack(elite), 7.0F);
+                    // Scaled from the elite's own attack (which the pack's difficulty scaling has already set).
+                    p.hurt(level.damageSources().mobAttack(elite), slamDamage(elite));
                     p.knockback(1.2D, elite.getX() - p.getX(), elite.getZ() - p.getZ());
                     p.hurtMarked = true;
                 }
@@ -167,6 +168,11 @@ public final class Elites {
             }
             default -> {}
         }
+    }
+
+    private static float slamDamage(Mob elite) {
+        var attack = elite.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+        return Math.max(7.0F, (float) (attack == null ? 7.0D : attack.getValue() * 0.8D));
     }
 
     // ---------------------------------------------------------------------------------------------------- pylons

@@ -24,8 +24,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * The brood-breaker, forged from a Hive Heart: a glaive (Better Combat's glaive moves when that mod is present) that hits
- * like a netherite sword (8). It deals 50% more to insects; its Pounce leaps you forward and up, and the landing's
+ * The brood-breaker, forged from a Hive Heart: a glaive (Better Combat's glaive moves when that mod is present) dealing
+ * 40. It deals 50% more to insects; its Pounce leaps you forward and up, and the landing's
  * shockwave hurts and throws back everything around you, staggers insects and smashes egg clutches. Fall damage is
  * cancelled for that landing. Its role is crowd and nest control in the frontier's brood fights, not raw damage: it
  * does not out-damage Antarchy's Ultimate or Big Bertha weapons. Repaired with Cage Trophies.
@@ -47,9 +47,13 @@ public class SwarmbreakerItem extends SwordItem {
         super(TIER, properties);
     }
 
-    /** 1 base + 4 tier + 3 = 8 attack damage, like a netherite sword; slightly slower swing. */
+    /**
+     * 1 base + 4 tier + 35 = 40 attack damage. Set against Integrated Boogaloo as measured (see TESTING.md): Antarchy's
+     * Nightmare Sword deals 50 and its Ultimate Sword 100, while a frontier mantis has 125 health. So the Swarmbreaker
+     * stays below Antarchy's best blades and earns its place through the insect bonus and the Pounce.
+     */
     public static ItemAttributeModifiers attributes() {
-        return SwordItem.createAttributes(TIER, 3, -2.5F);
+        return SwordItem.createAttributes(TIER, 35, -2.5F);
     }
 
     @Override

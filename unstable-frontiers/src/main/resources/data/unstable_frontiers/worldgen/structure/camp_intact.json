@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:camp_intact",
   "ground": 2,
-  "max_slope": 6,
-  "max_water": 1,
+  "max_slope": 12,
+  "max_water": 2,
   "foundation": false,
   "clear_site": true
 }

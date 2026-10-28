@@ -236,7 +236,8 @@ public final class FrontierCommand {
             return 0;
         }
         c.getSource().sendSuccess(() -> Component.literal("Nearest " + group + ": " + at.getX() + " ~ " + at.getZ()), false);
-        UnstableFrontiers.LOGGER.info("LOCATE {} {} {}", group, at.getX(), at.getZ());
+        UnstableFrontiers.LOGGER.info("LOCATE {} {} {} from {} {} distance {}", group, at.getX(), at.getZ(), from.getX(), from.getZ(),
+                (int) Math.sqrt(Math.pow(at.getX() - from.getX(), 2) + Math.pow(at.getZ() - from.getZ(), 2)));
         return 1;
     }
 

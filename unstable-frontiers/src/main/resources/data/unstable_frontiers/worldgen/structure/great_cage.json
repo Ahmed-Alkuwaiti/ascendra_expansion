@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:great_cage",
   "ground": 8,
-  "max_slope": 24,
-  "max_water": 2,
+  "max_slope": 32,
+  "max_water": 3,
   "foundation": true,
   "clear_site": true
 }

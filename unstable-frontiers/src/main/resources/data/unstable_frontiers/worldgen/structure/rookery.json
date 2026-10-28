@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:rookery",
   "ground": 4,
-  "max_slope": 40,
-  "max_water": 3,
+  "max_slope": 48,
+  "max_water": 4,
   "foundation": true,
   "clear_site": false
 }

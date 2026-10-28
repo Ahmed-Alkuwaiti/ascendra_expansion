@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:hanging_gaol",
   "ground": 26,
-  "max_slope": 20,
-  "max_water": 2,
+  "max_slope": 28,
+  "max_water": 3,
   "foundation": true,
   "clear_site": true
 }

@@ -6,8 +6,8 @@
   "terrain_adaptation": "none",
   "template": "unstable_frontiers:carrion_field",
   "ground": 6,
-  "max_slope": 10,
-  "max_water": 2,
+  "max_slope": 16,
+  "max_water": 3,
   "foundation": false,
   "clear_site": true
 }
