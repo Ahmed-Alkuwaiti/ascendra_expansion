@@ -1,0 +1,33 @@
+# Run by the mod itself on a dedicated server when UF_SMOKE names this file (see ci/smoke.sh). One command every two seconds.
+execute in unstable_frontiers:frontier run forceload add -40 -40 40 40
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower build
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 0
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 2
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower start 3
+frontier stats
+frontier stats
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower reset
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier tower info
+execute in unstable_frontiers:frontier positioned 8 0 8 run frontier locate
+execute in unstable_frontiers:frontier run forceload remove all
+frontier stats

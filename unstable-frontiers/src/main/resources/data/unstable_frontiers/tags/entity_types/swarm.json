@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "antarchy:mantis",
+      "required": false
+    },
+    {
+      "id": "antarchy:alpha_mantis",
+      "required": false
+    },
+    {
+      "id": "antarchy:scorpion",
+      "required": false
+    },
+    {
+      "id": "antarchy:springbug",
+      "required": false
+    },
+    "minecraft:spider",
+    "minecraft:cave_spider"
+  ]
+}

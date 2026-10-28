@@ -1,0 +1,78 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "antarchy:mantis",
+      "required": false
+    },
+    {
+      "id": "antarchy:alpha_mantis",
+      "required": false
+    },
+    {
+      "id": "antarchy:scorpion",
+      "required": false
+    },
+    {
+      "id": "antarchy:emperor_scorpion",
+      "required": false
+    },
+    {
+      "id": "antarchy:springbug",
+      "required": false
+    },
+    {
+      "id": "antarchy:wasp",
+      "required": false
+    },
+    {
+      "id": "antarchy:brutalfly",
+      "required": false
+    },
+    {
+      "id": "antarchy:bed_bug",
+      "required": false
+    },
+    {
+      "id": "antarchy:stink_bug",
+      "required": false
+    },
+    {
+      "id": "antarchy:spit_bug",
+      "required": false
+    },
+    {
+      "id": "antarchy:red_ant",
+      "required": false
+    },
+    {
+      "id": "antarchy:brown_ant",
+      "required": false
+    },
+    {
+      "id": "antarchy:rainbow_ant",
+      "required": false
+    },
+    {
+      "id": "antarchy:termite",
+      "required": false
+    },
+    {
+      "id": "antarchy:hercules_beetle",
+      "required": false
+    },
+    {
+      "id": "antarchy:rolly_polly",
+      "required": false
+    },
+    {
+      "id": "antarchy:caterpillar",
+      "required": false
+    },
+    "minecraft:spider",
+    "minecraft:cave_spider",
+    "minecraft:silverfish",
+    "minecraft:endermite",
+    "minecraft:bee"
+  ]
+}

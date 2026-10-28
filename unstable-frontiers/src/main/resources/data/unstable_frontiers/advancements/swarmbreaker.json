@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "unstable_frontiers:swarmbreaker"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.swarmbreaker"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.swarmbreaker.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "unstable_frontiers:swarmbreaker"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:trophy"
+}

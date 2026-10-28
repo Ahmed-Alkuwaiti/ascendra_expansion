@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "unstable_frontiers:rift_shard"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.root"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.root.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/block/polished_blackstone_bricks.png"
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "unstable_frontiers:rift_shard"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Ahmed Alkuwaiti"
+description='''
+A companion addon for Antarchy: the Unstable Frontier, a dangerous wilderness dimension with cage towers,
+monster rivalries and rewards. Uses Antarchy's creatures when Antarchy is installed and labelled vanilla stand-ins when it is not.
+'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+# Optional: when present, its creatures fill the frontier. Load after it so its entity types are registered first.
+[[dependencies.${mod_id}]]
+    modId="antarchy"
+    mandatory=false
+    versionRange="[2.2.0,)"
+    ordering="AFTER"
+    side="BOTH"

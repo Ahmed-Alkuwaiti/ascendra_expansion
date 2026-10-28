@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "antarchy:brutalfly",
+      "required": false
+    },
+    {
+      "id": "antarchy:stratoshark",
+      "required": false
+    },
+    {
+      "id": "antarchy:nightmare",
+      "required": false
+    },
+    "minecraft:phantom"
+  ]
+}

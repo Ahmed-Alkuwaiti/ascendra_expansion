@@ -2,6 +2,9 @@ name: Build the mod jar
 
 on:
   push:
+    paths-ignore:
+      - 'unstable-frontiers/**'
+      - '.github/workflows/unstable_frontiers.yml'
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.enter"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.enter.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "unstable_frontiers:frontier"
+      }
+    }
+  },
+  "parent": "unstable_frontiers:root"
+}

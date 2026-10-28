@@ -1,0 +1,50 @@
+name: Build Unstable Frontiers
+
+on:
+  push:
+    paths:
+      - 'unstable-frontiers/**'
+      - '.github/workflows/unstable_frontiers.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: unstable-frontiers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.8'
+      - name: Build
+        run: |
+          set -o pipefail
+          gradle build --no-daemon 2>&1 | tee build.log
+      - name: Summarise the errors
+        if: failure()
+        run: |
+          echo "==== ERRORS ===="
+          grep -E "error:|warning: \[removal\]|What went wrong|Could not|> " -A3 build.log | grep -v "^--$" | head -400
+      - name: Upload the jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: unstable-frontiers-jar
+          path: unstable-frontiers/build/libs/*.jar
+          if-no-files-found: error
+      - name: Dedicated server smoke test
+        run: bash ci/smoke.sh
+      - name: Keep the server log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unstable-frontiers-server-log
+          path: |
+            unstable-frontiers/run/logs/latest.log
+            unstable-frontiers/server_console.log
+          if-no-files-found: ignore
