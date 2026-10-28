@@ -7,7 +7,7 @@ rm -rf run/mods run/config run/kubejs run/defaultconfigs run/world
 mkdir -p run/mods
 # Every jar of the pack except client-only ones (rendering, menus, tooltips, input). Several pack mods carry mixins that
 # hard-require other pack mods, so a hand-picked subset does not boot; the whole pack is also what players run.
-CLIENT_ONLY='sodium|iris|fancymenu|konkrete|melody|drippy|dark_loading_screen|mousetweaks|stellar|bhmenu|better-advanced-tooltips|justenoughthreads|overflowingbars|entityculling|immediatelyfast|modernfix-client|reeses|controlling|searchables|appleskin-client|betterf3|chat_heads|continuity|enhancedvisuals|notenoughanimations|skinlayers|3dskinlayers|presencefootsteps|ambientsounds|soundphysics|dynamiclights|lambdynamiclights|shulkerboxtooltip|legendarytooltips|iconic|crash.?assistant|mezz_config'
+CLIENT_ONLY='sodium|iris|fancymenu|konkrete|melody|drippy|dark_loading_screen|mousetweaks|stellar|bhmenu|better-advanced-tooltips|justenoughthreads|overflowingbars|entityculling|immediatelyfast|modernfix-client|reeses|controlling|searchables|appleskin-client|betterf3|chat_heads|continuity|enhancedvisuals|notenoughanimations|skinlayers|3dskinlayers|presencefootsteps|ambientsounds|soundphysics|dynamiclights|lambdynamiclights|shulkerboxtooltip|legendarytooltips|iconic|crash.?assistant|mezz_config|enhancedblockentities|better-clouds|retrodamageindicators|ebe'
 for j in pack/mods/*.jar; do
   b=$(basename "$j" | tr 'A-Z' 'a-z')
   if echo "$b" | grep -qE "$CLIENT_ONLY"; then echo "SKIP (client-only) $(basename "$j")"; else cp "$j" run/mods/; fi
@@ -21,14 +21,14 @@ printf "level-seed=frontiers\nmax-tick-time=-1\nspawn-protection=0\nonline-mode=
 rm -f run/logs/latest.log
 export UF_SMOKE="$PWD/ci/pack_smoke_commands.txt"
 # Client-only mods that the name list missed refuse to construct on a dedicated server ("invalid dist"); drop each one
-# named in the crash report and boot again, at most 8 times. Each dropped mod is listed in pack_selection.txt.
+# named in the crash report or seen in the stack trace and boot again, at most 8 times. Each dropped mod is listed in pack_selection.txt.
 for attempt in 1 2 3 4 5 6 7 8; do
   rm -rf run/crash-reports run/world
   timeout 2400 gradle runServer --no-daemon < /dev/null > server_console.log 2>&1
   code=$?
-  crash=$(ls run/crash-reports/*.txt 2>/dev/null | head -1)
-  [ -n "$crash" ] || break
-  bad=$(grep -B6 "invalid dist DEDICATED_SERVER" "$crash" | grep -oE "run/mods/[^ ]+\.jar" | sort -u)
+  grep -q "SMOKE finished" run/logs/latest.log 2>/dev/null && break
+  grep -q "invalid dist DEDICATED_SERVER" server_console.log run/crash-reports/*.txt 2>/dev/null || break
+  bad=$(python3 ci/pack/client_only_culprits.py run/mods server_console.log run/crash-reports/*.txt 2>/dev/null)
   [ -n "$bad" ] || break
   for j in $bad; do echo "SKIP (client-only, refused on a server) $(basename $j)" | tee -a pack_selection.txt; rm -f "$j"; done
 done
