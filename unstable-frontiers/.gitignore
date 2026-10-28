@@ -6,4 +6,4 @@ out/
 .idea/
 server_console.log
 build.log
-pack/
+/pack/
