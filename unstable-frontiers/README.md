@@ -47,13 +47,32 @@ which left no room for the large landmarks.
 | Landmark | Size | The fight | Reward |
 |---|---|---|---|
 | **Gibbet Spire** ([render](docs/renders/gibbet_spire.png)) | 47×100×47 | an octagonal birdcage spire: waves in the Swarm Pen, a Hatchery whose waves come from its egg clutches, an Aerie ambush from the hanging gibbets, and the **Crowned Mantis** (Antarchy alpha mantis) in the crown | Cage Trophy; the crown vault opens |
-| **Hanging Gaol** ([render](docs/renders/hanging_gaol.png)) | 65×82×49 | five cells hung over a pit on chains and rope bridges. Each prisoner (Hercules beetle, wasps, emperor scorpion, brutalfly…) is visible and dormant until you step aboard. Free four cells to unseal **the Gaoler** (manticore) | Cage Trophy; the warden's vault |
+| **Hanging Gaol** ([render](docs/renders/hanging_gaol.png)) | 65×82×49 | cells hung over a pit on chains and rope bridges. Each prisoner (a springbug and mantis, wasps, a manticore, an emperor scorpion) is visible and dormant until you step aboard. Free the four cells to unseal **the Gaoler** (Antarchy brutalfly) | Cage Trophy; the warden's vault |
 | **Rookery** ([render](docs/renders/rookery.png)) | 55×104×55 | a leaning white crag with a nest of whole trees on top. Stratosharks roost on the perches, asleep until you land in the nest or strike one. Clear the roost and **the Rookmother** (Antarchy nightmare) comes in from the sky. Scavengers wait in the tunnel | Rookery Talon |
 | **Brood Hive** ([render](docs/renders/brood_hive.png)) | 61×54×61 | a mud-and-chitin mound: an ambush in the hall, a brood chamber that keeps hatching while its clutches stand, and **the Hive Tyrant** (Hercules beetle) on a chitin throne. The resin wall behind it opens when it dies | Hive Heart |
 | **Carrion Field** ([render](docs/renders/carrion_field.png)) | 67×34×41 | not a fight you start: a giant's skeleton still being eaten. Insects live in the ribs, predators on the spine, and they fight each other whether or not you are there | the gullet's chest |
 | **Expedition camps** (3 kinds) ([render](docs/renders/camp_torn.png)) | 29×16×29 | Ilsa Vane's camps: intact, ransacked from below, torn open from above. Each has a different journal on its lectern | supplies; the Rift Lens (60%) |
 | **Waysides** (4 kinds) ([render](docs/renders/wayside_impaled.png)) | ≤11 wide | a fallen gibbet, an impaled carcass, an egg cluster, a claw-raked stone: small marks between the big landmarks | — |
 | **The Great Cage** ([render](docs/renders/great_cage.png), [cutaway](docs/renders/great_cage_section.png)) | 115×100×115 | a ring-walled prison with drum towers, eight cell blocks and a domed birdcage. The Cagewright's Key opens the lock by the south door and wakes **the Cagewright's Beast** (Antarchy basilisk). While its four pylons stand it takes only a sixth of the damage; the pylon cores break quickly once the fight is on, and every one that falls brings flyers down from the dome | Heart of the Great Cage; the vault below |
+
+### Who you fight, and when to come
+
+Numbers measured in Integrated Boogaloo 1.0.8 (Boogaloo Core's scaling applied, Normal difficulty):
+
+| Creature | Health / attack | Where |
+|---|---|---|
+| wasp, scorpion, mantis, stratoshark, manticore | 40–150 / 8–22 | waves, cells, roosts, escorts |
+| springbug | 250 / 24 | hatchery, cells, the Great Cage |
+| **Crowned Mantis** (alpha mantis) | 950 / 36 | Gibbet Spire crown |
+| **Rookmother** (nightmare) | 950 / 32 | Rookery |
+| emperor scorpion | 1050 / 56 | the Gaol's heavy cell |
+| **The Gaoler** (brutalfly) | 1250 / 30 | Hanging Gaol |
+| **Hive Tyrant** (Hercules beetle) | 1625 / 60 | Brood Hive |
+| **The Cagewright's Beast** (basilisk) | 800 / 72, shielded to a sixth while pylons stand | the Great Cage |
+
+The frontier is **mid-to-late game**: come with Antarchy gear at least at the Nightmare tier, or a superhero suit. The Rift
+Shard needs an eye of ender, which keeps early players out. Antarchy's King and Queen are not used: they stay where Antarchy
+puts them.
 
 ### How fights behave
 
@@ -63,7 +82,7 @@ which left no room for the large landmarks.
   in only after a Minecraft day. Creature health and damage are each creature's own; nothing is inflated. Integrated
   Boogaloo's own difficulty scaling (Boogaloo Core's KubeJS MobScaling) applies to these creatures as it does to any spawn.
 * **Telegraphed elites.** Guardians have a boss bar and abilities that are always announced first: a ring drawn on the
-  ground before a **slam**, a call before a **rally**, a crouch before a **pounce**, a breath before a **screech**
+  ground before a **slam** (damage scaled from the elite's own attack), a call before a **rally**, a crouch before a **pounce**, a breath before a **screech**
   (slowness and darkness). Each can be avoided by reacting.
 * **Leave and it resets.** A fight nobody is near for 20 seconds resets; its creatures leave and you can try again.
   Cleared parts stay cleared.
@@ -84,7 +103,7 @@ The rewards are built around Antarchy's own progression rather than bigger numbe
 | **Cagewright's Key** | trophy + talon + heart + Antarchy uranium ingot + tripwire hook | opens the Great Cage |
 | **Heart of the Great Cage** | the Cagewright's Beast | builds a Cage Beacon |
 | **Rift Lens** | camps (60%), or spyglass + amethyst + Antarchy chitin | in the frontier: names the nearest cage, lair and camp with distance, direction and whether you have conquered it; shows the Great Cage once you carry the key |
-| **Swarmbreaker** | Hive Heart + 2 Antarchy mantis claws + netherite sword | brood-breaker glaive (Better Combat glaive moves in the pack). Hits like a netherite sword; +50% vs insects; Pounce lands in a shockwave that smashes egg clutches (ending a hatchery's waves sooner) and staggers insects. It is a crowd and nest tool, not a replacement for Antarchy's Ultimate or Big Bertha weapons |
+| **Swarmbreaker** | Hive Heart + 2 Antarchy mantis claws + netherite sword | brood-breaker glaive (Better Combat glaive moves in the pack). 40 damage (60 vs insects); Pounce lands in a shockwave (24, 36 vs insects) that smashes egg clutches (ending a hatchery's waves sooner) and staggers insects. Below Antarchy's Nightmare Sword (50) and Ultimate Sword (100) as measured in the pack: a crowd and nest tool, not a replacement |
 | **Cagewright's Shackle** | Rookery Talon + chains + lead | binds a hostile creature below a third of its health as an ally for 60 s; it then crumbles with no drops. Not on bosses (`c:bosses`, Antarchy's spell-resistant bosses) or elites. 6 uses |
 | **Cage Beacon** | Heart of the Great Cage + crying obsidian + iron bars | safe ground: no natural frontier spawns within 48 blocks and residents do not return there; anchors your Rift Shard so you arrive beside it |
 

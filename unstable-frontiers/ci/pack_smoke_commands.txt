@@ -57,3 +57,4 @@ execute in unstable_frontiers:frontier positioned -3000 100 0 run frontier locat
 execute in unstable_frontiers:frontier positioned 0 100 -3000 run frontier locate any
 execute in unstable_frontiers:frontier positioned 3000 100 3000 run frontier locate camp
 frontier stats
+frontier debug sites

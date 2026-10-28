@@ -72,7 +72,8 @@ public final class FrontierCommand {
                 .then(Commands.literal("debug").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("dump").then(Commands.argument("namespace", StringArgumentType.word())
                                 .executes(c -> RegistryDump.dump(c.getSource().getLevel(), StringArgumentType.getString(c, "namespace")))))
-                        .then(Commands.literal("rosters").executes(FrontierCommand::rosters)))
+                        .then(Commands.literal("rosters").executes(FrontierCommand::rosters))
+                        .then(Commands.literal("sites").executes(FrontierCommand::sites)))
                 .then(Commands.literal("landmark").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("build").then(Commands.argument("id", StringArgumentType.string())
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(
@@ -260,6 +261,16 @@ public final class FrontierCommand {
         c.getSource().sendSuccess(() -> Component.literal(FrontierData.rosters().size() + " rosters, " + fb + " unusable, "
                 + FrontierData.landmarks().size() + " landmarks"), false);
         return bad == 0 ? 1 : 0;
+    }
+
+    /** Why candidate landmark sites were accepted or rejected since the server started (generation statistics). */
+    private static int sites(CommandContext<CommandSourceStack> c) {
+        LandmarkStructure.SITES.forEach((id, n) -> {
+            String line = "SITES " + id.getPath() + " tried=" + n[0] + " water=" + n[1] + " slope=" + n[2] + " height=" + n[3] + " placed=" + n[4];
+            UnstableFrontiers.LOGGER.info(line);
+            c.getSource().sendSuccess(() -> Component.literal(line), false);
+        });
+        return 1;
     }
 
     private static int stats(CommandContext<CommandSourceStack> c) {

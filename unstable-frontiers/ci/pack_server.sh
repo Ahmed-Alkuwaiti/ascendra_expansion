@@ -48,7 +48,7 @@ grep -E "DUMP " $L | sed 's/.*DUMP //'
 echo "==== rosters ===="
 grep -E "ROSTER " $L | sed 's/.*ROSTER /ROSTER /' | cut -c1-300
 echo "==== landmarks ===="
-grep -E "SMOKE>|SMOKE FAILED|LANDMARK |LOCATE |STATS |Built " $L | sed 's/^\[[^]]*\] \[[^]]*\] \[[^]]*\]: //' | cut -c1-400
+grep -E "SMOKE>|SMOKE FAILED|LANDMARK |LOCATE |STATS |SITES |Built " $L | sed 's/^\[[^]]*\] \[[^]]*\] \[[^]]*\]: //' | cut -c1-400
 echo "==== data load problems ===="
 grep -nE "Couldn't parse|Failed to (load|parse)|Unknown (registry|loot)|unstable_frontiers.*(ERROR|error)|Unstable Frontiers: " $L | cut -c1-400 | head -60
 echo "==== checks ===="

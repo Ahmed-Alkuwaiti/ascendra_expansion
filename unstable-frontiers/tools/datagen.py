@@ -122,7 +122,7 @@ def worldgen():
         write(d('worldgen', 'structure', name + '.json'), {
             'type': f'{NS}:landmark', 'biomes': f'#{NS}:has_structure/{name}', 'step': 'surface_structures',
             'spawn_overrides': {}, 'terrain_adaptation': 'none', 'template': f'{NS}:{name}', 'ground': side['ground'],
-            'max_slope': slope, 'max_water': water, 'foundation': 'foundation_level' in side, 'clear_site': clear})
+            'max_slope': slope, 'max_water': water, 'foundation': name != 'carrion_field', 'clear_site': clear})
         write(d('tags', 'worldgen', 'biome', 'has_structure', name + '.json'), {'values': [f'{NS}:{b}' for b in biomes]})
     for name, (structs, weights, spacing, sep, salt, excl) in SETS.items():
         placement = {'type': 'minecraft:random_spread', 'spacing': spacing, 'separation': sep, 'salt': salt}

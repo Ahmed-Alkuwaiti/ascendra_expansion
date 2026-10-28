@@ -8,6 +8,6 @@
   "ground": 30,
   "max_slope": 24,
   "max_water": 3,
-  "foundation": false,
+  "foundation": true,
   "clear_site": true
 }

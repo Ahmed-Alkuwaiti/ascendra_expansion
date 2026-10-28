@@ -40,6 +40,8 @@ public class LandmarkStructure extends Structure {
     ).apply(i, LandmarkStructure::new));
 
     private static final Set<ResourceLocation> WARNED = new HashSet<>();
+    /** Per template: candidate sites tried, rejected for water, for slope, for height, accepted. For /frontier debug sites. */
+    public static final java.util.Map<ResourceLocation, int[]> SITES = new java.util.concurrent.ConcurrentHashMap<>();
 
     private final ResourceLocation template;
     private final int ground;
@@ -83,6 +85,8 @@ public class LandmarkStructure extends Structure {
             return Optional.empty();
         }
         StructureTemplate t = found.get();
+        int[] stats = SITES.computeIfAbsent(template, k -> new int[5]);
+        stats[0]++;
         Rotation rotation = Rotation.getRandom(ctx.random());
         BoundingBox local = t.getBoundingBox(LandmarkPiece.settings(rotation), BlockPos.ZERO);
         ChunkPos chunk = ctx.chunkPos();
@@ -99,6 +103,7 @@ public class LandmarkStructure extends Structure {
                 int surface = height(ctx, x, z, Heightmap.Types.WORLD_SURFACE_WG);
                 int floor = height(ctx, x, z, Heightmap.Types.OCEAN_FLOOR_WG);
                 if (surface - floor > maxWater) {
+                    stats[1]++;
                     return Optional.empty();
                 }
                 ys[k++] = floor;
@@ -106,13 +111,16 @@ public class LandmarkStructure extends Structure {
         }
         Arrays.sort(ys);
         if (ys[8] - ys[0] > maxSlope) {
+            stats[2]++;
             return Optional.empty();
         }
         int base = ys[4] + yOffset;
         int oy = base - ground;
         if (oy < ctx.heightAccessor().getMinBuildHeight() + 4 || oy + t.getSize().getY() > ctx.heightAccessor().getMaxBuildHeight() - 2) {
+            stats[3]++;
             return Optional.empty();
         }
+        stats[4]++;
         BlockPos origin = new BlockPos(ox, oy, oz);
         BlockPos centre = new BlockPos(chunk.getMiddleBlockX(), base, chunk.getMiddleBlockZ());
         return Optional.of(new Structure.GenerationStub(centre,
