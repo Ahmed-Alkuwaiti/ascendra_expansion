@@ -1,0 +1,48 @@
+name: Print vanilla worldgen files
+
+# Prints the vanilla 1.21.1 files the addon derives its own from (so they are copied, not retyped from memory).
+on:
+  push:
+    paths:
+      - 'unstable-frontiers/ci/vanilla_probe.txt'
+      - '.github/workflows/vanilla_probe.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: unstable-frontiers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.10.2'
+      - name: Prepare Minecraft artifacts
+        run: gradle createMinecraftArtifacts --no-daemon --console=plain -q
+      - name: Print the files
+        run: |
+          python3 - <<'PY'
+          import glob, os, zipfile
+          want = [l.strip() for l in open('ci/vanilla_probe.txt') if l.strip() and not l.startswith('#')]
+          jars = [j for j in glob.glob(os.path.expanduser('~/.gradle/**/*.jar'), recursive=True) + glob.glob('build/**/*.jar', recursive=True)]
+          done = set()
+          for j in jars:
+              try:
+                  z = zipfile.ZipFile(j)
+              except Exception:
+                  continue
+              names = set(z.namelist())
+              for w in want:
+                  if w in names and w not in done:
+                      done.add(w)
+                      print(f'===== FILE {w} (from {os.path.basename(j)}) =====')
+                      print(z.read(w).decode())
+                      print(f'===== END {w} =====')
+          print('MISSING', [w for w in want if w not in done])
+          PY

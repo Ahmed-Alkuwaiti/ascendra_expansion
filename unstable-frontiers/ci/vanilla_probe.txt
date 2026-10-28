@@ -1,0 +1,2 @@
+# vanilla files to print
+data/minecraft/worldgen/noise_settings/overworld.json
