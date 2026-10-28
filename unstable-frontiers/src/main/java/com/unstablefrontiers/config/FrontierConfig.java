@@ -47,7 +47,7 @@ public final class FrontierConfig {
         PRESET = b.defineEnum("preset", Preset.STANDARD);
         ENCOUNTER_PER_PLAYER = b.comment("Landmark creatures alive at once, per participating player.").defineInRange("encounterMobsPerPlayer", -1, -1, 64);
         ENCOUNTER_PER_TOWER = b.comment("Landmark creatures alive at once in one landmark, however many players.").defineInRange("encounterMobsPerLandmark", -1, -1, 128);
-        ACTIVE_TOWERS = b.comment("Landmark fights running at once across the whole server.").defineInRange("simultaneousEncounters", -1, -1, 32);
+        ACTIVE_TOWERS = b.comment("Landmarks with a fight running at once across the whole server.").defineInRange("simultaneousEncounters", -1, -1, 32);
         WAVES_PER_FLOOR = b.comment("Waves in a wave fight when the landmark does not set its own count.").defineInRange("wavesPerFloor", -1, -1, 10);
         MOBS_PER_WAVE = b.comment("Creatures in one wave before the per-player and per-landmark limits apply.").defineInRange("mobsPerWave", -1, -1, 32);
         WAVE_COOLDOWN = b.comment("Minimum ticks between reinforcement waves (20 ticks = 1 second).").defineInRange("waveCooldownTicks", -1, -1, 12000);

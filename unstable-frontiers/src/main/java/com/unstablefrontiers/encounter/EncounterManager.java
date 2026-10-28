@@ -213,6 +213,12 @@ public final class EncounterManager {
 
     // -------------------------------------------------------------------------------------------------- starting
     private static void start(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, List<ServerPlayer> players, long t) {
+        start(level, s, def, z, zs, players, t, false);
+    }
+
+    /** forced: from an operator command; skips the server-wide fight limit. */
+    private static void start(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, List<ServerPlayer> players, long t,
+                              boolean forced) {
         Roster r = FrontierData.roster(z.roster());
         List<ResourceLocation> missing = r == null ? List.of() : r.missing();
         if (r == null || !missing.isEmpty()) {
@@ -222,7 +228,7 @@ public final class EncounterManager {
             hint(zs, t, players, why.copy().withStyle(ChatFormatting.RED));
             return;
         }
-        if (activeCount(level) >= FrontierConfig.activeEncounters()) {
+        if (!forced && activeCount(level, s) >= FrontierConfig.activeEncounters()) {
             hint(zs, t, players, Component.translatable("message.unstable_frontiers.busy").withStyle(ChatFormatting.GRAY));
             return;
         }
@@ -737,15 +743,20 @@ public final class EncounterManager {
     }
 
     public static boolean anyActive(ServerLevel level) {
-        return activeCount(level) > 0;
+        return activeCount(level, null) > 0;
     }
 
-    private static int activeCount(ServerLevel level) {
+    /** Landmarks with a fight running, other than `except` (several parts of one landmark count once). */
+    private static int activeCount(ServerLevel level, @Nullable LandmarkState except) {
         int n = 0;
         for (LandmarkState s : data(level).all()) {
+            if (s == except) {
+                continue;
+            }
             for (ZoneState z : s.zones) {
                 if (z.status == ZoneState.Status.ACTIVE) {
                     n++;
+                    break;
                 }
             }
         }
@@ -847,7 +858,7 @@ public final class EncounterManager {
                 if (z.kind() == Kind.FINALE && z.lockGate() != null) {
                     openGate(level, s, def, z.lockGate());
                 }
-                start(level, s, def, z, zs, List.of(by), level.getGameTime());
+                start(level, s, def, z, zs, List.of(by), level.getGameTime(), true);
             }
             case "clear" -> {
                 for (UUID id : zs.mobs) {
