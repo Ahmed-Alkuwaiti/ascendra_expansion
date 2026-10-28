@@ -3,12 +3,19 @@
 # dependency, from the real pack in ./pack), using the pack's own configs and server scripts. Run after fetch_pack.py
 # and `gradle build`, from the addon folder.
 set -u
-rm -rf run/mods run/config run/kubejs run/world
+rm -rf run/mods run/config run/kubejs run/defaultconfigs run/world
 mkdir -p run/mods
-python3 ci/pack/select_mods.py pack/mods run/mods antarchy integrated_superheroes morph boogaloo_core electric_boogaloo kubejs \
-  marvel marvellegacy viltrumitecore lootr curios bettercombat witchery | tee pack_selection.txt
+# Every jar of the pack except client-only ones (rendering, menus, tooltips, input). Several pack mods carry mixins that
+# hard-require other pack mods, so a hand-picked subset does not boot; the whole pack is also what players run.
+CLIENT_ONLY='sodium|iris|fancymenu|konkrete|melody|drippy|dark_loading_screen|mousetweaks|stellar|bhmenu|better-advanced-tooltips|justenoughthreads|overflowingbars|entityculling|immediatelyfast|modernfix-client|reeses|controlling|searchables|appleskin-client|betterf3|chat_heads|continuity|enhancedvisuals|notenoughanimations|skinlayers|3dskinlayers|presencefootsteps|ambientsounds|soundphysics|dynamiclights|lambdynamiclights|shulkerboxtooltip|legendarytooltips|iconic|crash.?assistant|mezz_config'
+for j in pack/mods/*.jar; do
+  b=$(basename "$j" | tr 'A-Z' 'a-z')
+  if echo "$b" | grep -qE "$CLIENT_ONLY"; then echo "SKIP (client-only) $(basename "$j")"; else cp "$j" run/mods/; fi
+done | tee pack_selection.txt
+echo "LOADED $(ls run/mods | wc -l) of $(ls pack/mods/*.jar | wc -l) pack jars" | tee -a pack_selection.txt
 cp -r pack/overrides/config run/config 2>/dev/null || true
-mkdir -p run/kubejs && cp -r pack/overrides/kubejs/server_scripts run/kubejs/ 2>/dev/null || true
+cp -r pack/overrides/kubejs run/kubejs 2>/dev/null || true
+cp -r pack/overrides/defaultconfigs run/defaultconfigs 2>/dev/null || true
 echo "eula=true" > run/eula.txt
 printf "level-seed=frontiers\nmax-tick-time=-1\nspawn-protection=0\nonline-mode=false\ndifficulty=normal\n" > run/server.properties
 rm -f run/logs/latest.log

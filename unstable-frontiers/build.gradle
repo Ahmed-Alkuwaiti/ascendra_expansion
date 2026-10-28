@@ -19,6 +19,8 @@ neoForge {
         server {
             server()
             programArgument '--nogui'
+            // The pack server test loads all of Integrated Boogaloo's server-side mods.
+            jvmArgument '-Xmx6G'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
         client {
