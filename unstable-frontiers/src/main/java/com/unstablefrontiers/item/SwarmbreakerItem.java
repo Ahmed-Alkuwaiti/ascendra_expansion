@@ -2,14 +2,19 @@ package com.unstablefrontiers.item;
 
 import com.unstablefrontiers.registry.ModItems;
 import java.util.List;
-import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -31,13 +36,18 @@ public class SwarmbreakerItem extends SwordItem {
         @Override public int getUses() { return 1800; }
         @Override public float getSpeed() { return 9.0F; }
         @Override public float getAttackDamageBonus() { return 4.0F; }
-        @Override public int getLevel() { return 4; }
+        @Override public TagKey<Block> getIncorrectBlocksForDrops() { return BlockTags.INCORRECT_FOR_NETHERITE_TOOL; }
         @Override public int getEnchantmentValue() { return 15; }
         @Override public Ingredient getRepairIngredient() { return Ingredient.of(ModItems.CAGE_TROPHY.get()); }
     };
 
     public SwarmbreakerItem(Properties properties) {
-        super(TIER, 3, -2.5F, properties);
+        super(TIER, properties);
+    }
+
+    /** 1 base + 4 tier + 3 = 8 attack damage, like a netherite sword; slightly slower swing. */
+    public static ItemAttributeModifiers attributes() {
+        return SwordItem.createAttributes(TIER, 3, -2.5F);
     }
 
     @Override
@@ -50,14 +60,14 @@ public class SwarmbreakerItem extends SwordItem {
             player.hurtMarked = true; // send the new motion to the client
             player.getPersistentData().putLong(LEAP, level.getGameTime());
             player.getCooldowns().addCooldown(this, POUNCE_COOLDOWN);
-            stack.hurtAndBreak(2, player, p -> p.broadcastBreakEvent(hand));
+            stack.hurtAndBreak(2, player, LivingEntity.getSlotForHand(hand));
             level.playSound(null, player.blockPosition(), SoundEvents.PHANTOM_FLAP, SoundSource.PLAYERS, 1.0F, 0.8F);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("item.unstable_frontiers.swarmbreaker.tip0").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("item.unstable_frontiers.swarmbreaker.tip1").withStyle(ChatFormatting.GRAY));
     }

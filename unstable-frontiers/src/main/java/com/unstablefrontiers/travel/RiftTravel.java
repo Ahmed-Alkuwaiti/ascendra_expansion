@@ -1,6 +1,7 @@
 package com.unstablefrontiers.travel;
 
 import com.unstablefrontiers.UnstableFrontiers;
+import com.unstablefrontiers.registry.ModAttachments;
 import com.unstablefrontiers.registry.ModStructures;
 import com.unstablefrontiers.world.FrontierDimension;
 import net.minecraft.ChatFormatting;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
- * Travel to and from the frontier. Going in remembers where you left (saved with the player, surviving death); coming
+ * Travel to and from the frontier. Going in remembers where you left (a player attachment, kept through death); coming
  * back returns you there, or to your respawn point, or to world spawn, whichever still exists. Arrival is always on a
  * safe spot: the top solid block at that column, or a small platform if the column is water, lava or empty.
  */
@@ -95,11 +96,7 @@ public final class RiftTravel {
     }
 
     private static CompoundTag persisted(Player player) {
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains(Player.PERSISTED_NBT_TAG)) {
-            data.put(Player.PERSISTED_NBT_TAG, new CompoundTag());
-        }
-        return data.getCompound(Player.PERSISTED_NBT_TAG);
+        return ModAttachments.of(player);
     }
 
     private static void teleport(ServerPlayer player, ServerLevel level, BlockPos at) {

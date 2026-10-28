@@ -18,6 +18,7 @@
     }
   },
   "result": {
-    "item": "unstable_frontiers:rift_shard"
+    "id": "unstable_frontiers:rift_shard",
+    "count": 1
   }
 }

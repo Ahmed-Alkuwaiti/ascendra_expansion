@@ -34,7 +34,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 /**
  * /frontier return is for everyone (the recovery route home, on a cooldown). Everything else needs permission level 2:

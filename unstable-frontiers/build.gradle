@@ -1,7 +1,6 @@
 plugins {
-    id 'eclipse'
-    id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'java-library'
+    id 'net.neoforged.moddev' version '[2.0.0,2.1)'
 }
 
 version = mod_version
@@ -11,67 +10,42 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-    copyIdeResources = true
+neoForge {
+    version = project.neo_version
 
     runs {
-        configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
         client {
-            property 'forge.enabledGameTestNamespaces', mod_id
+            client()
         }
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
 
-repositories {
-}
-
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-}
-
-tasks.named('jar', Jar).configure {
-    manifest {
-        attributes([
-            'Specification-Title'     : mod_id,
-            'Specification-Vendor'    : 'unstable_frontiers',
-            'Specification-Version'   : '1',
-            'Implementation-Title'    : project.name,
-            'Implementation-Version'  : project.jar.archiveVersion,
-            'Implementation-Vendor'   : 'unstable_frontiers'
-        ])
-    }
-    finalizedBy 'reobfJar'
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-// Fill the ${...} placeholders in mods.toml from gradle.properties so the versions live in one place.
+// Fill the ${...} placeholders in neoforge.mods.toml from gradle.properties so the versions live in one place.
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version_range: minecraft_version_range, forge_version_range: forge_version_range,
+            minecraft_version_range: minecraft_version_range, neo_version_range: neo_version_range,
             loader_version_range: loader_version_range, mod_id: mod_id, mod_name: mod_name,
             mod_license: mod_license, mod_version: mod_version
     ]
     inputs.properties replaceProperties
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }

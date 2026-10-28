@@ -1,7 +1,7 @@
 package com.unstablefrontiers.config;
 
 import java.util.List;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
  * Every limit that scales combat density. Each numeric limit defaults to -1, which means "use the preset"; any other value
@@ -10,39 +10,39 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public final class FrontierConfig {
     public enum Preset { CONSERVATIVE, STANDARD, HIGH_DENSITY }
 
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.EnumValue<Preset> PRESET;
+    public static final ModConfigSpec.EnumValue<Preset> PRESET;
 
-    private static final ForgeConfigSpec.IntValue ENCOUNTER_PER_PLAYER;
-    private static final ForgeConfigSpec.IntValue ENCOUNTER_PER_TOWER;
-    private static final ForgeConfigSpec.IntValue ACTIVE_TOWERS;
-    private static final ForgeConfigSpec.IntValue WAVES_PER_FLOOR;
-    private static final ForgeConfigSpec.IntValue MOBS_PER_WAVE;
-    private static final ForgeConfigSpec.IntValue WAVE_COOLDOWN;
-    private static final ForgeConfigSpec.IntValue AMBIENT_PER_PLAYER;
-    private static final ForgeConfigSpec.IntValue AMBIENT_INTERVAL;
-    private static final ForgeConfigSpec.IntValue RIVALRY_RADIUS;
-    private static final ForgeConfigSpec.IntValue AI_INTERVAL;
-    private static final ForgeConfigSpec.IntValue FIGHTS_PER_PLAYER;
-    private static final ForgeConfigSpec.IntValue DROPS_PER_MOB;
-    private static final ForgeConfigSpec.DoubleValue PARTICLES;
+    private static final ModConfigSpec.IntValue ENCOUNTER_PER_PLAYER;
+    private static final ModConfigSpec.IntValue ENCOUNTER_PER_TOWER;
+    private static final ModConfigSpec.IntValue ACTIVE_TOWERS;
+    private static final ModConfigSpec.IntValue WAVES_PER_FLOOR;
+    private static final ModConfigSpec.IntValue MOBS_PER_WAVE;
+    private static final ModConfigSpec.IntValue WAVE_COOLDOWN;
+    private static final ModConfigSpec.IntValue AMBIENT_PER_PLAYER;
+    private static final ModConfigSpec.IntValue AMBIENT_INTERVAL;
+    private static final ModConfigSpec.IntValue RIVALRY_RADIUS;
+    private static final ModConfigSpec.IntValue AI_INTERVAL;
+    private static final ModConfigSpec.IntValue FIGHTS_PER_PLAYER;
+    private static final ModConfigSpec.IntValue DROPS_PER_MOB;
+    private static final ModConfigSpec.DoubleValue PARTICLES;
 
-    public static final ForgeConfigSpec.IntValue PURSUIT_TICKS;
-    public static final ForgeConfigSpec.IntValue RIVALRY_COOLDOWN;
-    public static final ForgeConfigSpec.IntValue LEASH_RADIUS;
-    public static final ForgeConfigSpec.IntValue DISENGAGE_TICKS;
-    public static final ForgeConfigSpec.IntValue TOWER_CHANCE;
-    public static final ForgeConfigSpec.IntValue RETURN_COOLDOWN_SECONDS;
+    public static final ModConfigSpec.IntValue PURSUIT_TICKS;
+    public static final ModConfigSpec.IntValue RIVALRY_COOLDOWN;
+    public static final ModConfigSpec.IntValue LEASH_RADIUS;
+    public static final ModConfigSpec.IntValue DISENGAGE_TICKS;
+    public static final ModConfigSpec.IntValue TOWER_CHANCE;
+    public static final ModConfigSpec.IntValue RETURN_COOLDOWN_SECONDS;
 
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FLOOR0, FLOOR1, FLOOR2, CROWN, CROWN_ESCORTS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FLOOR0_FALLBACK, FLOOR1_FALLBACK, FLOOR2_FALLBACK,
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> FLOOR0, FLOOR1, FLOOR2, CROWN, CROWN_ESCORTS;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> FLOOR0_FALLBACK, FLOOR1_FALLBACK, FLOOR2_FALLBACK,
             CROWN_FALLBACK, CROWN_ESCORTS_FALLBACK;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SWARM, RAPTORS_DAY, RAPTORS_NIGHT;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SWARM_FALLBACK, RAPTORS_DAY_FALLBACK, RAPTORS_NIGHT_FALLBACK;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> SWARM, RAPTORS_DAY, RAPTORS_NIGHT;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> SWARM_FALLBACK, RAPTORS_DAY_FALLBACK, RAPTORS_NIGHT_FALLBACK;
 
     static {
-        ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder b = new ModConfigSpec.Builder();
 
         b.comment("Combat density. Pick a preset, then override single limits below (-1 = use the preset).",
                 "CONSERVATIVE suits weaker machines or busy servers, STANDARD is the default, HIGH_DENSITY is crowded.",
@@ -98,13 +98,13 @@ public final class FrontierConfig {
         SPEC = b.build();
     }
 
-    private static ForgeConfigSpec.ConfigValue<List<? extends String>> list(ForgeConfigSpec.Builder b, String name, List<String> def) {
-        return b.defineListAllowEmpty(List.of(name), () -> def, o -> o instanceof String s && s.matches("[a-z0-9_.-]+:[a-z0-9_/.-]+(@\\d+)?"));
+    private static ModConfigSpec.ConfigValue<List<? extends String>> list(ModConfigSpec.Builder b, String name, List<String> def) {
+        return b.defineListAllowEmpty(name, def, () -> "minecraft:spider", o -> o instanceof String s && s.matches("[a-z0-9_.-]+:[a-z0-9_/.-]+(@\\d+)?"));
     }
 
     private FrontierConfig() {}
 
-    private static int pick(ForgeConfigSpec.IntValue override, int conservative, int standard, int high) {
+    private static int pick(ModConfigSpec.IntValue override, int conservative, int standard, int high) {
         int v = override.get();
         if (v >= 0) {
             return v;

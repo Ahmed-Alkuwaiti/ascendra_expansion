@@ -21,6 +21,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -114,7 +115,8 @@ public final class EncounterManager {
         }
         data.setDirty();
         Vec3 c = s.ref.stageCentre(stage);
-        level.playSound(null, c.x, c.y, c.z, stage == 3 ? SoundEvents.RAVAGER_ROAR : SoundEvents.CHAIN_BREAK, SoundSource.HOSTILE, 3.0F, 0.6F);
+        SoundEvent wake = stage == 3 ? SoundEvents.RAVAGER_ROAR : SoundEvents.CHAIN_BREAK;
+        level.playSound(null, c.x, c.y, c.z, wake, SoundSource.HOSTILE, 3.0F, 0.6F);
         level.sendParticles(ParticleTypes.LARGE_SMOKE, c.x, c.y + 1, c.z, Creatures.particles(30), 4.0D, 1.0D, 4.0D, 0.02D);
         announce(level, c, Component.translatable("message.unstable_frontiers.stage_wakes", stageName(stage)));
         UnstableFrontiers.LOGGER.debug("Tower {} stage {} woke (session {})", s.ref.id(), stage, s.session);

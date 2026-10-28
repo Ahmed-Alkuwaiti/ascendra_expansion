@@ -3,13 +3,15 @@ package com.unstablefrontiers.world;
 import com.unstablefrontiers.UnstableFrontiers;
 import javax.annotation.Nullable;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.EndRodBlock;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 /**
  * The three-floor cage tower, as a pure function from local coordinates to a block. Local x and z run 0..24 across the
@@ -72,9 +74,12 @@ public final class TowerBlueprint {
 
     public static final BlockState FOUNDATION = Blocks.COBBLED_DEEPSLATE.defaultBlockState();
 
-    private static final ResourceLocation[] LOOT = {
-            UnstableFrontiers.id("chests/swarm_pen"), UnstableFrontiers.id("chests/hatchery"),
-            UnstableFrontiers.id("chests/aerie"), UnstableFrontiers.id("chests/crown_vault")};
+    @SuppressWarnings("unchecked")
+    private static final ResourceKey<LootTable>[] LOOT = new ResourceKey[] {loot("swarm_pen"), loot("hatchery"), loot("aerie"), loot("crown_vault")};
+
+    private static ResourceKey<LootTable> loot(String name) {
+        return ResourceKey.create(Registries.LOOT_TABLE, UnstableFrontiers.id("chests/" + name));
+    }
 
     private TowerBlueprint() {}
 
@@ -103,7 +108,7 @@ public final class TowerBlueprint {
 
     /** The loot table of the chest at this local position, or null. */
     @Nullable
-    public static ResourceLocation lootAt(int lx, int ly, int lz) {
+    public static ResourceKey<LootTable> lootAt(int lx, int ly, int lz) {
         if (lx != C || lz != C) {
             return null;
         }

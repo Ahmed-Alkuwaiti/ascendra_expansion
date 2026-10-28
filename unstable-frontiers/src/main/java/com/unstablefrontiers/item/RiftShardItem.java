@@ -2,7 +2,6 @@ package com.unstablefrontiers.item;
 
 import com.unstablefrontiers.travel.RiftTravel;
 import java.util.List;
-import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,7 +37,7 @@ public class RiftShardItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         for (int i = 0; i < 3; i++) {
             tooltip.add(Component.translatable("item.unstable_frontiers.rift_shard.tip" + i).withStyle(i == 0 ? ChatFormatting.DARK_PURPLE : ChatFormatting.GRAY));
         }

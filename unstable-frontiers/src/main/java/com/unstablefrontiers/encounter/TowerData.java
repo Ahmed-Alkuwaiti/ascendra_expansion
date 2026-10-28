@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nullable;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -22,7 +23,7 @@ public final class TowerData extends SavedData {
     private final Long2ObjectOpenHashMap<TowerState> towers = new Long2ObjectOpenHashMap<>();
 
     public static TowerData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(TowerData::load, TowerData::new, NAME);
+        return level.getDataStorage().computeIfAbsent(new SavedData.Factory<>(TowerData::new, TowerData::load, null), NAME);
     }
 
     @Nullable
@@ -61,7 +62,7 @@ public final class TowerData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
+    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         tag.putInt("DataVersion", DATA_VERSION);
         ListTag list = new ListTag();
         for (TowerState s : towers.values()) {
@@ -71,7 +72,7 @@ public final class TowerData extends SavedData {
         return tag;
     }
 
-    private static TowerData load(CompoundTag tag) {
+    private static TowerData load(CompoundTag tag, HolderLookup.Provider registries) {
         TowerData data = new TowerData();
         int version = tag.getInt("DataVersion");
         if (version > DATA_VERSION) {

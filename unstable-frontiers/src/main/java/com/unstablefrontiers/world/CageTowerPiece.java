@@ -3,19 +3,20 @@ package com.unstablefrontiers.world;
 import com.unstablefrontiers.registry.ModStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 /**
  * One cage tower. Built column by column from {@link TowerBlueprint}, clipped to the chunk being generated, so a tower
@@ -91,9 +92,9 @@ public class CageTowerPiece extends StructurePiece {
                     if (state.is(Blocks.IRON_BARS)) {
                         level.getChunk(p).markPosForPostprocessing(p); // join the bars to their neighbours
                     }
-                    ResourceLocation loot = TowerBlueprint.lootAt(lx, ly, lz);
+                    ResourceKey<LootTable> loot = TowerBlueprint.lootAt(lx, ly, lz);
                     if (loot != null && state.is(Blocks.CHEST)) {
-                        RandomizableContainerBlockEntity.setLootTable(level, random, p.immutable(), loot);
+                        RandomizableContainer.setBlockEntityLootTable(level, random, p.immutable(), loot);
                     }
                 }
             }

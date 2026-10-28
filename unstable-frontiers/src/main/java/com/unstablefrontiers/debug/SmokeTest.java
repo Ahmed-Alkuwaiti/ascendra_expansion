@@ -16,9 +16,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.slf4j.Logger;
 
 /**
@@ -54,8 +54,8 @@ public class SmokeTest {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ServerTickEvent event) {
-        if (!active || event.phase != TickEvent.Phase.END || --wait > 0) {
+    public void onTick(ServerTickEvent.Post event) {
+        if (!active || --wait > 0) {
             return;
         }
         MinecraftServer server = event.getServer();
@@ -84,7 +84,7 @@ public class SmokeTest {
             return;
         }
         ResourceKey<Level> key = m.group(1) == null ? Level.OVERWORLD
-                : ResourceKey.create(Registries.DIMENSION, new ResourceLocation(m.group(1)));
+                : ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(m.group(1)));
         ServerLevel level = server.getLevel(key);
         if (level == null) {
             return;

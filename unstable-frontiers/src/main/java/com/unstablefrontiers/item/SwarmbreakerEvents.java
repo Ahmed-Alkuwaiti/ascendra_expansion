@@ -10,13 +10,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 /** Server-side effects of the Swarmbreaker: insect bonus damage, and the Pounce landing. */
 public final class SwarmbreakerEvents {
@@ -25,11 +25,11 @@ public final class SwarmbreakerEvents {
     private static final long LEAP_TIMEOUT = 100;
 
     public static boolean isInsect(LivingEntity e) {
-        return e.getType().is(Creatures.INSECTS) || e.getMobType() == MobType.ARTHROPOD;
+        return e.getType().is(Creatures.INSECTS) || e.getType().is(EntityTypeTags.ARTHROPOD);
     }
 
     @SubscribeEvent
-    public void onHurt(LivingHurtEvent event) {
+    public void onHurt(LivingIncomingDamageEvent event) {
         if (event.getSource().getDirectEntity() instanceof Player p && p.getMainHandItem().is(ModItems.SWARMBREAKER.get()) && isInsect(event.getEntity())) {
             event.setAmount(event.getAmount() * 1.5F);
         }
@@ -43,8 +43,8 @@ public final class SwarmbreakerEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer p)) {
+    public void onPlayerTick(PlayerTickEvent.Post event) {
+        if (!(event.getEntity() instanceof ServerPlayer p)) {
             return;
         }
         CompoundTag d = p.getPersistentData();
@@ -79,6 +79,6 @@ public final class SwarmbreakerEvents {
             level.sendParticles(ParticleTypes.SWEEP_ATTACK, p.getX(), p.getY() + 0.3D, p.getZ(), n, SHOCK_RADIUS / 2, 0.1D, SHOCK_RADIUS / 2, 0.0D);
             level.sendParticles(ParticleTypes.EXPLOSION, p.getX(), p.getY() + 0.2D, p.getZ(), Math.max(1, n / 4), 1.0D, 0.1D, 1.0D, 0.0D);
         }
-        level.playSound(null, p.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 0.6F, 1.4F);
+        level.playSound(null, p.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.PLAYERS, 0.6F, 1.4F);
     }
 }

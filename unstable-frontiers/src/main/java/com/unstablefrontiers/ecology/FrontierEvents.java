@@ -7,14 +7,14 @@ import java.util.Iterator;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
  * Server-side hooks for the frontier. Everything is limited to the frontier dimension and to creatures this mod spawned.
@@ -24,10 +24,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  */
 public final class FrontierEvents {
     @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+    public void onServerTick(ServerTickEvent.Post event) {
         ServerLevel level = event.getServer().getLevel(FrontierDimension.LEVEL);
         if (level == null || level.players().isEmpty() && !EncounterManager.anyActive(level)) {
             return;

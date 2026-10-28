@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:crying_obsidian"
+      "id": "minecraft:crying_obsidian"
     },
     "title": {
       "translate": "advancement.unstable_frontiers.enter"

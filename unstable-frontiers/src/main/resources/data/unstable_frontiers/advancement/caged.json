@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:iron_bars"
+      "id": "minecraft:iron_bars"
     },
     "title": {
       "translate": "advancement.unstable_frontiers.caged"
@@ -24,7 +24,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structure": "unstable_frontiers:cage_tower"
+                "structures": "unstable_frontiers:cage_tower"
               }
             }
           }

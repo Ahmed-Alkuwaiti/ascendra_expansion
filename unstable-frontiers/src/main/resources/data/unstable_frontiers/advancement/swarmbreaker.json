@@ -1,15 +1,15 @@
 {
   "display": {
     "icon": {
-      "item": "unstable_frontiers:cage_trophy"
+      "id": "unstable_frontiers:swarmbreaker"
     },
     "title": {
-      "translate": "advancement.unstable_frontiers.trophy"
+      "translate": "advancement.unstable_frontiers.swarmbreaker"
     },
     "description": {
-      "translate": "advancement.unstable_frontiers.trophy.desc"
+      "translate": "advancement.unstable_frontiers.swarmbreaker.desc"
     },
-    "frame": "goal",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -20,13 +20,11 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "unstable_frontiers:cage_trophy"
-            ]
+            "items": "unstable_frontiers:swarmbreaker"
           }
         ]
       }
     }
   },
-  "parent": "unstable_frontiers:caged"
+  "parent": "unstable_frontiers:trophy"
 }

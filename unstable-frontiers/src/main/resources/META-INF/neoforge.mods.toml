@@ -8,20 +8,21 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="Ahmed Alkuwaiti"
 description='''
-A companion addon for Antarchy: the Unstable Frontier, a dangerous wilderness dimension with cage towers,
-monster rivalries and rewards. Uses Antarchy's creatures when Antarchy is installed and labelled vanilla stand-ins when it is not.
+A companion addon for the Integrated Boogaloo modpack: the Unstable Frontier, a dangerous wilderness dimension with cage
+towers, monster rivalries and rewards. Uses Antarchy's creatures when Antarchy is installed and labelled vanilla stand-ins
+when it is not.
 '''
 
 [[dependencies.${mod_id}]]
-    modId="forge"
-    mandatory=true
-    versionRange="${forge_version_range}"
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
@@ -29,7 +30,7 @@ monster rivalries and rewards. Uses Antarchy's creatures when Antarchy is instal
 # Optional: when present, its creatures fill the frontier. Load after it so its entity types are registered first.
 [[dependencies.${mod_id}]]
     modId="antarchy"
-    mandatory=false
-    versionRange="[2.2.0,)"
+    type="optional"
+    versionRange="*"
     ordering="AFTER"
     side="BOTH"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Boots a dedicated Forge server with the addon (no Antarchy, so the vanilla stand-ins are used), builds a tower in the
+# Boots a dedicated NeoForge server with the addon (no Antarchy, so the vanilla stand-ins are used), builds a tower in the
 # frontier, runs fights on three of its stages, lets one reset itself, then stops and reports. Run from this folder after
 # `gradle build`. The commands in ci/smoke_commands.txt are run by the mod itself (debug/SmokeTest) when UF_SMOKE is set.
 set -u

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "unstable_frontiers:rift_shard"
+      "id": "unstable_frontiers:rift_shard"
     },
     "title": {
       "translate": "advancement.unstable_frontiers.root"
@@ -21,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "unstable_frontiers:rift_shard"
-            ]
+            "items": "unstable_frontiers:rift_shard"
           }
         ]
       }

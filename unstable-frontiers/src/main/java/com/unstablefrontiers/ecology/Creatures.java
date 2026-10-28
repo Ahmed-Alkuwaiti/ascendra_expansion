@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import javax.annotation.Nullable;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.EventHooks;
 
 /**
  * Rosters, roles and spawning shared by the towers and the wild. Only creatures this mod spawns carry a role; nothing
@@ -56,13 +57,13 @@ public final class Creatures {
             }
             ResourceLocation rl = ResourceLocation.tryParse(id);
             // The entity registry answers unknown ids with its default (the pig), so check the key first.
-            if (rl == null || !ForgeRegistries.ENTITY_TYPES.containsKey(rl)) {
+            if (rl == null || !BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) {
                 if (WARNED.add(id)) {
                     UnstableFrontiers.LOGGER.warn("Roster entry '{}' is not a registered entity; skipping it", id);
                 }
                 continue;
             }
-            out.add(new Entry(ForgeRegistries.ENTITY_TYPES.getValue(rl), max));
+            out.add(new Entry(BuiltInRegistries.ENTITY_TYPE.get(rl), max));
         }
         return out;
     }
@@ -109,7 +110,6 @@ public final class Creatures {
      * caller tags it and adds it.
      */
     @Nullable
-    @SuppressWarnings("deprecation")
     public static Mob create(ServerLevel level, EntityType<?> type, Vec3 at) {
         Entity e = type.create(level);
         if (!(e instanceof Mob mob)) {
@@ -123,7 +123,7 @@ public final class Creatures {
             mob.discard();
             return null;
         }
-        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.EVENT, null, null);
+        EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.EVENT, null);
         return mob;
     }
 

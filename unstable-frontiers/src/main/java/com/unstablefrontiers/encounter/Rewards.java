@@ -1,5 +1,6 @@
 package com.unstablefrontiers.encounter;
 
+import com.unstablefrontiers.registry.ModAttachments;
 import com.unstablefrontiers.registry.ModItems;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
@@ -7,14 +8,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 /**
  * The tower's completion reward, given by the server straight into the inventory (or at the player's feet if full).
  * Each player is rewarded once per tower, and the Swarmbreaker only on a player's first tower; both are recorded where
- * they survive restarts (the tower's saved state, and the player's persisted data, which survives death).
+ * they survive restarts (the tower's saved state, and the player's attachment, which survives death).
  */
 final class Rewards {
     private static final String FIRST_TOWER = "unstable_frontiers.first_tower_done";
@@ -38,10 +38,9 @@ final class Rewards {
         int trophies = 2 + level.random.nextInt(2);
         give(p, new ItemStack(ModItems.CAGE_TROPHY.get(), trophies));
         p.giveExperiencePoints(150);
-        CompoundTag persisted = p.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
+        CompoundTag persisted = ModAttachments.of(p);
         if (!persisted.getBoolean(FIRST_TOWER)) {
             persisted.putBoolean(FIRST_TOWER, true);
-            p.getPersistentData().put(Player.PERSISTED_NBT_TAG, persisted);
             give(p, new ItemStack(ModItems.SWARMBREAKER.get()));
             p.sendSystemMessage(Component.translatable("message.unstable_frontiers.first_reward").withStyle(ChatFormatting.GOLD));
         }

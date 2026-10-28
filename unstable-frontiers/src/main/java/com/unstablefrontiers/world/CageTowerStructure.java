@@ -1,6 +1,6 @@
 package com.unstablefrontiers.world;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.unstablefrontiers.config.FrontierConfig;
 import com.unstablefrontiers.registry.ModStructures;
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
  * can thin them further. Each site samples the height map five times and nothing else.
  */
 public class CageTowerStructure extends Structure {
-    public static final Codec<CageTowerStructure> CODEC = simpleCodec(CageTowerStructure::new);
+    public static final MapCodec<CageTowerStructure> CODEC = simpleCodec(CageTowerStructure::new);
 
     public CageTowerStructure(Structure.StructureSettings settings) {
         super(settings);
