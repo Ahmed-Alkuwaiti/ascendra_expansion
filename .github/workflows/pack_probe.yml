@@ -21,10 +21,11 @@ jobs:
           python-version: '3.12'
       - name: Download the pack and every mod in it
         run: python3 ci/pack/fetch_pack.py pack
-      - name: What the pack contains
-        run: python3 ci/pack/inspect_jars.py pack/mods
       - name: Pack details the addon depends on
         run: python3 ci/pack/details.py pack
+      - name: What the pack contains
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: python3 ci/pack/inspect_jars.py pack/mods
       - name: Keep the report
         if: always()
         uses: actions/upload-artifact@v4

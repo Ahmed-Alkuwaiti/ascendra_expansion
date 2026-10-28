@@ -61,7 +61,11 @@ for n in z.namelist():
 section('antarchy: gear recipes (ultimate, nightmare, blood crystal, royal, primordial, tigers eye, wings, elytra, springy)')
 for n in sorted(z.namelist()):
     if n.startswith('data/antarchy/recipe/') and re.search(r'ultimate|nightmare|blood|royal|primordial|tigers_eye|wing|elytra|springy|bertha|whip|critter|bug_spray|temporal|scorpion|hercules|mantis|chitin', n):
-        d = json.loads(z.read(n))
+        try:
+            d = json.loads(z.read(n))
+        except Exception:
+            print('  (unreadable)', n)
+            continue
         keys = d.get('key') or {}
         ing = d.get('ingredients') or []
         def nm(x):
@@ -79,7 +83,11 @@ section('antarchy: entity loot tables of the frontier creatures')
 for e in ('mantis', 'alpha_mantis', 'scorpion', 'emperor_scorpion', 'springbug', 'wasp', 'brutalfly', 'stratoshark', 'nightmare', 'hercules_beetle', 'basilisk', 'manticore', 'toreterror', 'spit_bug', 'stink_bug', 'bed_bug', 'termite', 'red_ant', 'flytrap', 'crawling_blight', 'skulking_fright', 'molevore'):
     n = f'data/antarchy/loot_table/entities/{e}.json'
     if n in z.namelist():
-        d = json.loads(z.read(n))
+        try:
+            d = json.loads(z.read(n))
+        except Exception:
+            print('  (unreadable)', n)
+            continue
         items = []
         for pool in d.get('pools', []):
             for en in pool.get('entries', []):
@@ -90,7 +98,10 @@ for e in ('mantis', 'alpha_mantis', 'scorpion', 'emperor_scorpion', 'springbug',
 section('antarchy: tags that matter (c:bosses, horde, arthropods, nightmare_no_attack)')
 for n in z.namelist():
     if re.search(r'tags/entity_type/(arthropods|horde_bosses|nightmare_no_attack|spell_resistant_boss)\.json$', n) or n == 'data/c/tags/entity_type/bosses.json':
-        print('  ', n, json.loads(z.read(n)).get('values'))
+        try:
+            print('  ', n, json.loads(z.read(n)).get('values'))
+        except Exception:
+            print('  (unreadable)', n)
 section('antarchy: morph data files')
 print('  ', ', '.join(sorted(n.split('/')[-1][:-5] for n in z.namelist() if n.startswith('data/antarchy/morph/'))))
 mz = jar('morph-')
@@ -110,7 +121,11 @@ sz = jar('integrated_superheroes')
 section('integrated_superheroes: what serums and the gauntlet cost (recipe ingredients)')
 for n in sorted(sz.namelist()):
     if n.startswith('data/integrated_superheroes/recipe/') and re.search(r'syringe|gauntlet|stone|reactor', n):
-        d = json.loads(sz.read(n))
+        try:
+            d = json.loads(sz.read(n))
+        except Exception:
+            print('  (unreadable)', n)
+            continue
         def nm(x):
             if isinstance(x, dict):
                 return x.get('item') or x.get('tag') or str(x)
