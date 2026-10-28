@@ -185,7 +185,16 @@ def biomes():
             {'type': 'minecraft:in_square'}, {'type': 'minecraft:heightmap', 'heightmap': 'WORLD_SURFACE_WG'},
             {'type': 'minecraft:biome'}]})
 
+    # The frontier's terrain: vanilla 1.21.1 overworld noise (tools/vanilla, printed from the game jar by
+    # .github/workflows/vanilla_probe.yml) with the sea drained. The first pack test found two thirds of all landmark
+    # sites under water; with no sea level, oceans and rivers become dry basins and canyons, and aquifers are off so
+    # they stay dry. Underground lava lakes and springs remain.
+    noise = json.load(open(os.path.join(os.path.dirname(__file__), 'vanilla', 'overworld_noise_settings_1.21.1.json')))
+    noise['sea_level'] = -64
+    noise['aquifers_enabled'] = False
+    write(d('worldgen', 'noise_settings', 'frontier.json'), noise)
     dim = json.load(open(d('dimension', 'frontier.json')))
+    dim['generator']['settings'] = f'{NS}:frontier'
     full = [-1.0, 1.0]
 
     def point(b, temp, hum, weird):
