@@ -54,9 +54,17 @@ MobScaling scripts). It is a dedicated server, not the single-player client, at 
 These numbers changed the design: the Gaol's warden had been a manticore (150) guarding a Hercules beetle (1625); the
 cells now hold mid-tier prisoners and the Gaoler is the brutalfly. Elite slams now scale from the elite's own attack.
 
-**Landmark density** (nearest landmark of any kind from five points, fresh world seed `frontiers`): 166, 328, 384, 427 and
-800 blocks; nearest camp 766 from one point and 328 from another; nearest Great Cage 3818 blocks from (0, 3000). The
-`/frontier debug sites` line in the latest run shows why candidate sites are turned down (water, slope, height).
+**Landmark density** (fresh world, seed `frontiers`). The first runs found the nearest landmark 166–800 blocks away;
+`/frontier debug sites` showed that two thirds of all candidate sites were rejected for standing in water. The frontier now
+uses vanilla's overworld terrain with the sea drained (`worldgen/noise_settings/frontier.json`, derived from the game's own
+file), and the last run measured:
+
+| | |
+|---|---|
+| Nearest landmark of any kind, from four points 3000 blocks out | 17, 17, 43 and 58 blocks |
+| Nearest expedition camp, from two points | 281 and 370 blocks |
+| Nearest Great Cage, from (0, 3000) | 2239 blocks |
+| Candidate sites rejected for water / slope / height | 0 / 25–57% (small waysides on rough ground) / 0 |
 
 **Errors in the log that are not this addon's:** four pack recipes fail to parse (Pastel's waystones pedestal recipe, a
 Create Cybernetics recipe, two Infinity Gauntlet smithing recipes) and Moonlight skips two Quark colour sets. They appear

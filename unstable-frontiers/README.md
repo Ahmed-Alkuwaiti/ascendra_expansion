@@ -39,8 +39,10 @@ fine. Only frontier chunks you have not visited get the new landmarks.
 | **Talon Spires** | pale sky, hooked rock needles, floating islets | Rookeries, Carrion Fields, camps |
 | **Rustbone Scar** | red ground, bleached rib arches, crimson spores | the Great Cage (only here) |
 
-Terrain is standard overworld-style noise (hills, mountains, rivers, some sea). Earlier versions used amplified terrain,
-which left no room for the large landmarks.
+Terrain is vanilla's overworld terrain with the sea drained: hills and mountains as usual, and where the overworld would
+have oceans and rivers, dry basins and canyons. Earlier versions used amplified terrain (no room for the large landmarks),
+and plain overworld terrain put two thirds of landmark sites under water. A landmark of some kind is now typically within
+20–60 blocks, a camp within a few hundred, and the Great Cage a long journey (one run: about 2200 blocks).
 
 ### Landmarks
 
