@@ -50,6 +50,26 @@ execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion
 execute in unstable_frontiers:frontier run forceload add 1968 -32 2032 48
 execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial gnashback
 execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial shrikewing
+# The Orrery Warden and the Lumen Mite against the same kind of dummy.
+execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial warden
+execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial mite
+# The Rift Observatory: zones, the sealed dome, the engine and its gate.
+execute in unstable_frontiers:frontier run forceload add 1152 -48 1264 64
+execute in unstable_frontiers:frontier positioned 1208 0 8 run frontier landmark build rift_observatory
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark zone gatehouse start
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark zone hall start
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark zone vaults start
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier debug trial observatory
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark zone dome start
+execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motion_blocking run frontier landmark info
+# The Astral Abyss: its places, safe arrival, the void catch, item rescue; then the Eclipse Leviathan at the Hollow Crown.
+execute in unstable_frontiers:astral_abyss run forceload add 288 288 312 312
+execute in unstable_frontiers:astral_abyss run forceload add -40 496 88 624
+execute in unstable_frontiers:astral_abyss run frontier debug trial abyss
+execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark zone starwell start
+execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:astral_abyss run frontier debug trial leviathan
 # The rest of the set builds cleanly.
 execute in unstable_frontiers:frontier positioned 1000 0 8 run frontier landmark build carrion_field
 execute in unstable_frontiers:frontier positioned 1100 0 8 run frontier landmark build camp_torn

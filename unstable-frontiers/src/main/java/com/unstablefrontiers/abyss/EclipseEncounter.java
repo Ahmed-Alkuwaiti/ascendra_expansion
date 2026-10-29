@@ -53,7 +53,9 @@ public final class EclipseEncounter extends SavedData {
     private static final String NAME = "unstable_frontiers_eclipse";
     public static final String ADD_TAG = "uf_eclipse_add";
     public static final double ARENA_RADIUS = 40.0D;
-    private static final int ABANDON_TICKS = 600;
+    public static final int ABANDON_TICKS = 600;
+    /** Continuous-integration only: keeps the fight engaged with no real player in the arena. */
+    public static boolean trialHold;
 
     @Nullable
     private UUID boss;
@@ -144,7 +146,7 @@ public final class EclipseEncounter extends SavedData {
                 e.setDirty();
             }
         }
-        if (!on.isEmpty()) {
+        if (!on.isEmpty() || trialHold) {
             e.lastEngaged = level.getGameTime();
             return;
         }
@@ -275,6 +277,26 @@ public final class EclipseEncounter extends SavedData {
 
     public int kills() {
         return kills;
+    }
+
+    public boolean charged() {
+        return charged;
+    }
+
+    @Nullable
+    public UUID boss() {
+        return boss;
+    }
+
+    /** For tests: counts someone (a stand-in) as having fought, so the victory owes them its rewards. */
+    public void addParticipant(UUID u) {
+        participants.add(u);
+        setDirty();
+    }
+
+    /** Rewards waiting for someone who was not online at the victory. */
+    public List<String> owed(UUID u) {
+        return pending.getOrDefault(u, List.of());
     }
 
     // ------------------------------------------------------------------------------------------------- saving

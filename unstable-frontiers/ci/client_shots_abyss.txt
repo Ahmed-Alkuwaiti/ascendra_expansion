@@ -1,0 +1,107 @@
+# In-game screenshots of the Rift Observatory and the Astral Abyss (ci/pack_client.sh with UF_SHOT_SET=abyss).
+# The observatory's corner is at 3000 ~ 3000; an invisible marker (tag obs) stands on the Containment Well's floor at its centre.
+/gamerule doMobSpawning false
+/gamemode spectator
+/effect give @s minecraft:night_vision infinite 0 true
+gui off
+/execute in unstable_frontiers:frontier run tp @s 3040 200 3150
+wait 600
+# The approach from the south, over the gatehouse: the tear, its rings, the Lens Tower behind.
+/execute at @e[tag=obs,limit=1] run tp @s ~6 ~22 ~78 facing ~ ~34 ~
+wait 400
+shot 20_observatory_approach
+/execute at @e[tag=obs,limit=1] run tp @s ~58 ~48 ~-48 facing ~-6 ~34 ~-6
+wait 300
+shot 21_observatory_from_above
+/execute at @e[tag=obs,limit=1] run tp @s ~-62 ~20 ~40 facing ~-14 ~28 ~-14
+wait 300
+shot 22_observatory_west_side
+# Inside: the Containment Well with the dark engine and the sealed gate; the tear overhead.
+/execute at @e[tag=obs,limit=1] run tp @s ~3 ~3 ~9 facing ~ ~2 ~-4
+wait 200
+shot 23_containment_well_engine
+/execute at @e[tag=obs,limit=1] run tp @s ~2 ~1 ~6 facing ~1 ~30 ~-1
+wait 150
+shot 24_tear_from_below
+# The Orrery Hall, the Coolant Vaults, the Lens Dome.
+/execute at @e[tag=obs,limit=1] run tp @s ~-17 ~7 ~6 facing ~-30 ~8 ~-2
+wait 200
+shot 25_orrery_hall
+/execute at @e[tag=obs,limit=1] run tp @s ~10 ~-11 ~19 facing ~18 ~-11 ~16
+wait 200
+shot 26_coolant_vaults
+/execute at @e[tag=obs,limit=1] run tp @s ~-12 ~50 ~-14 facing ~-22 ~47 ~-23
+wait 250
+shot 27_lens_dome
+# The engine takes its parts: the gate opens.
+/gamemode creative
+/execute at @e[tag=obs,limit=1] run tp @s ~2 ~ ~2
+wait 40
+/frontier abyss restore
+wait 80
+/gamemode spectator
+/execute at @e[tag=obs,limit=1] run tp @s ~4 ~3 ~5 facing ~ ~3 ~-5
+wait 120
+shot 28_engine_restored_gate_open
+# Through the gate (in creative, so the gate takes us): arrival on the Landing.
+/gamemode creative
+/execute at @e[tag=obs,limit=1] run tp @s ~ ~1 ~-5
+wait 400
+/gamemode spectator
+/execute in unstable_frontiers:astral_abyss run tp @s 0 103 9 facing 0 104 -8
+wait 300
+shot 30_abyss_landing_gate
+/execute in unstable_frontiers:astral_abyss run tp @s 0 106 -2 facing 120 120 -60
+wait 200
+shot 31_abyss_sky_east
+/execute in unstable_frontiers:astral_abyss run tp @s 0 110 4 facing 40 90 260
+wait 200
+shot 32_abyss_islands_south
+/execute in unstable_frontiers:astral_abyss run tp @s -30 150 30 facing 0 160 0
+wait 100
+shot 33_abyss_sky_up
+# The places.
+/execute in unstable_frontiers:astral_abyss run tp @s 232 160 -100 facing 232 112 -148
+wait 500
+shot 34_starwell
+/execute in unstable_frontiers:astral_abyss run tp @s -236 150 -20 facing -236 136 -72
+wait 500
+shot 35_drifting_archive
+/execute in unstable_frontiers:astral_abyss run tp @s 64 130 220 facing 64 130 268
+wait 500
+shot 36_tether_spire
+/execute in unstable_frontiers:astral_abyss run tp @s 24 150 490 facing 24 112 560
+wait 600
+shot 37_hollow_crown
+# The creatures, posed on the Landing (AI off).
+/execute in unstable_frontiers:astral_abyss run summon unstable_frontiers:orrery_warden 4 104 -1 {NoAI:1b,PersistenceRequired:1b,Rotation:[160f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:astral_abyss run summon unstable_frontiers:lumen_mite -3 104 2 {NoAI:1b,PersistenceRequired:1b,Rotation:[200f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:astral_abyss run tp @s 0 104 10 facing 1 104 0
+wait 250
+shot 40_warden_and_mite
+/frontier debug pose @e[tag=shot] 1
+wait 30
+shot 41_warden_and_mite_tells
+/kill @e[tag=shot]
+# The Eclipse Leviathan at the Hollow Crown: called from the altar, then fighting.
+/execute in unstable_frontiers:astral_abyss run tp @s 24 116 530 facing 24 118 560
+wait 300
+/gamemode creative
+/effect give @s minecraft:resistance infinite 4 true
+/frontier abyss summon
+gui on
+wait 100
+shot 42_leviathan_rises
+wait 140
+/gamemode spectator
+/execute at @e[type=unstable_frontiers:eclipse_leviathan,limit=1] run tp @s ~ ~4 ~-20 facing entity @e[type=unstable_frontiers:eclipse_leviathan,limit=1] eyes
+wait 40
+shot 43_leviathan_close
+/gamemode creative
+/execute in unstable_frontiers:astral_abyss run tp @s 30 116 552 facing 24 120 560
+wait 200
+shot 44_leviathan_fight
+wait 200
+shot 45_leviathan_fight_later
+/frontier abyss reset
+quit

@@ -95,6 +95,8 @@ public class EclipseLeviathanEntity extends AnimatedMonster {
     private final List<Vec3> wells = new ArrayList<>();
     private final Set<UUID> hitThisPass = new HashSet<>();
     private final List<UUID> mites = new ArrayList<>();
+    /** Continuous-integration only: stand-ins (no real players on the test server) treated as fighters for attacks. */
+    public static final List<LivingEntity> TRIAL_TARGETS = new ArrayList<>();
 
     public EclipseLeviathanEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -224,7 +226,8 @@ public class EclipseLeviathanEntity extends AnimatedMonster {
     private void circle(List<ServerPlayer> fighters) {
         orbit += phase == 3 ? 0.016D : 0.012D;
         hover(center.add(Math.cos(orbit) * 22, 12 + Math.sin(orbit * 2) * 2, Math.sin(orbit) * 22));
-        if (cooldown > 0 || fighters.isEmpty()) {
+        TRIAL_TARGETS.removeIf(e -> !e.isAlive());
+        if (cooldown > 0 || fighters.isEmpty() && TRIAL_TARGETS.isEmpty()) {
             return;
         }
         int[] plan = switch (phase) {
@@ -254,7 +257,9 @@ public class EclipseLeviathanEntity extends AnimatedMonster {
             case WELL_TELL -> {
                 wells.clear();
                 int max = phase == 3 ? 4 : 3;
-                for (ServerPlayer p : fighters) {
+                List<LivingEntity> marked = new ArrayList<>(fighters);
+                marked.addAll(TRIAL_TARGETS);
+                for (LivingEntity p : marked) {
                     if (wells.size() < max) {
                         wells.add(new Vec3(p.getX(), center.y, p.getZ()));
                     }

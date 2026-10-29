@@ -189,7 +189,7 @@ public final class AbyssTravel {
         if (event.getEntity() instanceof ItemEntity item && !item.level().isClientSide && item.getY() < AbyssDimension.ITEM_RESCUE_Y
                 && AbyssDimension.is(item.level())) {
             AbyssTerrain.Anchor near = nearest(item.getX(), item.getZ());
-            Vec3 at = AbyssPlaces.standing(near).add(0, 1, 0);
+            Vec3 at = AbyssPlaces.safeSpot((ServerLevel) item.level(), near).add(0, 0.5D, 0);
             item.setDeltaMovement(Vec3.ZERO);
             item.teleportTo(at.x, at.y, at.z);
         }

@@ -67,7 +67,27 @@ public final class FrontierCommand {
                 .then(Commands.literal("abyss").requires(s -> s.hasPermission(2)).executes(c -> {
                     com.unstablefrontiers.abyss.AbyssTravel.enter(c.getSource().getPlayerOrException(), null);
                     return 1;
-                }))
+                })
+                        // the nearest rift engine (within 32) takes all three parts from you, as if you set them in
+                        .then(Commands.literal("restore").executes(FrontierCommand::restoreEngine))
+                        // the Eclipse Leviathan, called as if a sigil went into the Hollow Crown's altar; and sent back
+                        .then(Commands.literal("summon").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            ServerLevel abyss = p.server.getLevel(com.unstablefrontiers.abyss.AbyssDimension.LEVEL);
+                            if (abyss == null) {
+                                return 0;
+                            }
+                            com.unstablefrontiers.abyss.AbyssPlaces.build(abyss, com.unstablefrontiers.abyss.AbyssTerrain.HOLLOW_CROWN);
+                            com.unstablefrontiers.abyss.EclipseEncounter.summon(abyss, BlockPos.containing(com.unstablefrontiers.abyss.EclipseEncounter.center()), p);
+                            return 1;
+                        }))
+                        .then(Commands.literal("reset").executes(c -> {
+                            ServerLevel abyss = c.getSource().getServer().getLevel(com.unstablefrontiers.abyss.AbyssDimension.LEVEL);
+                            if (abyss != null) {
+                                com.unstablefrontiers.abyss.EclipseEncounter.forceReset(abyss);
+                            }
+                            return 1;
+                        })))
                 .then(Commands.literal("locate").requires(s -> s.hasPermission(2))
                         .then(Commands.argument("group", StringArgumentType.word())
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(GROUPS.keySet(), b))
@@ -315,6 +335,25 @@ public final class FrontierCommand {
         return 1;
     }
 
+    private static int restoreEngine(CommandContext<CommandSourceStack> c) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer p = c.getSource().getPlayerOrException();
+        ServerLevel level = p.serverLevel();
+        for (BlockPos q : BlockPos.betweenClosed(p.blockPosition().offset(-32, -16, -32), p.blockPosition().offset(32, 16, 32))) {
+            if (level.getBlockState(q).is(com.unstablefrontiers.registry.AbyssRegistry.RIFT_ENGINE.get())) {
+                BlockPos engine = q.immutable();
+                for (net.minecraft.world.item.Item part : List.of(com.unstablefrontiers.registry.AbyssRegistry.FOCUSING_LENS.get(),
+                        com.unstablefrontiers.registry.AbyssRegistry.COOLANT_HEART.get(), com.unstablefrontiers.registry.AbyssRegistry.STAR_CHART.get())) {
+                    level.getBlockState(engine).useItemOn(new net.minecraft.world.item.ItemStack(part), level, p, net.minecraft.world.InteractionHand.MAIN_HAND,
+                            new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(engine), net.minecraft.core.Direction.UP, engine, false));
+                }
+                c.getSource().sendSuccess(() -> Component.literal("Rift engine at " + engine.toShortString() + " restored"), true);
+                return 1;
+            }
+        }
+        c.getSource().sendFailure(Component.literal("No rift engine within 32 blocks"));
+        return 0;
+    }
+
     /** CI: plays a creature's fight against a dummy (see CreatureTrial). */
     private static int trial(CommandContext<CommandSourceStack> c) {
         ServerLevel level = frontier(c);
@@ -326,8 +365,13 @@ public final class FrontierCommand {
             case "gnashback" -> com.unstablefrontiers.debug.CreatureTrial.gnashback(level, at);
             case "shrikewing" -> com.unstablefrontiers.debug.CreatureTrial.shrikewing(level, at);
             case "matriarch" -> com.unstablefrontiers.debug.CreatureTrial.matriarch(level, at);
+            case "warden" -> com.unstablefrontiers.debug.AbyssTrial.warden(level, at);
+            case "mite" -> com.unstablefrontiers.debug.AbyssTrial.mite(level, at);
+            case "observatory" -> com.unstablefrontiers.debug.AbyssTrial.observatory(level, at);
+            case "abyss" -> com.unstablefrontiers.debug.AbyssTrial.places(level);
+            case "leviathan" -> com.unstablefrontiers.debug.AbyssTrial.leviathan(level);
             default -> {
-                c.getSource().sendFailure(Component.literal("gnashback, shrikewing or matriarch"));
+                c.getSource().sendFailure(Component.literal("gnashback, shrikewing, matriarch, warden, mite, observatory, abyss or leviathan"));
                 return 0;
             }
         }

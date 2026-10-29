@@ -3,7 +3,9 @@
 # full client (all pack mods, software OpenGL under Xvfb) opens that world and plays ci/client_shots.txt. Screenshots land
 # in run_client/screenshots. Run after fetch_pack.py and `gradle build`, from the addon folder.
 set -u
-UF_WORLD_ONLY=1 UF_SMOKE_FILE="$PWD/ci/client_world_commands.txt" bash ci/pack_server.sh || { echo "FAIL world preparation"; exit 1; }
+# UF_SHOT_SET picks a set: ci/client_world_commands_<set>.txt and ci/client_shots_<set>.txt (none: the original set).
+SET="${UF_SHOT_SET:-}"
+UF_WORLD_ONLY=1 UF_SMOKE_FILE="$PWD/ci/client_world_commands${SET:+_$SET}.txt" bash ci/pack_server.sh || { echo "FAIL world preparation"; exit 1; }
 
 rm -rf run_client
 mkdir -p run_client/mods run_client/saves
@@ -29,7 +31,7 @@ opts.update({'renderDistance': '8', 'simulationDistance': '6', 'guiScale': '2', 
              'fullscreen': 'false', 'joinedFirstServer': 'true', 'fov': '0.25', 'gamma': '0.6'})
 open(p, 'w').write(''.join(f'{k}:{v}\n' for k, v in opts.items()))
 PY
-export UF_SHOTS="$PWD/ci/client_shots.txt"
+export UF_SHOTS="$PWD/ci/client_shots${SET:+_$SET}.txt"
 export LIBGL_ALWAYS_SOFTWARE=1
 export MESA_GL_VERSION_OVERRIDE=4.6
 export MESA_GLSL_VERSION_OVERRIDE=460

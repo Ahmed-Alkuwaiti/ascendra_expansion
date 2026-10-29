@@ -7,12 +7,18 @@ on:
   push:
     paths:
       - 'unstable-frontiers/ci/client_shots.txt'
+      - 'unstable-frontiers/ci/client_shots_abyss.txt'
+      - 'unstable-frontiers/ci/client_world_commands_abyss.txt'
       - 'unstable-frontiers/ci/pack_client.sh'
       - '.github/workflows/pack_client.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
+
+env:
+  # which screenshot set to take (ci/client_shots_<set>.txt); its pictures go to docs/screenshots/ingame/<set>
+  UF_SHOT_SET: abyss
 
 jobs:
   pack-client:
@@ -54,13 +60,14 @@ jobs:
           shopt -s nullglob
           shots=(run_client/screenshots/*.png)
           [ ${#shots[@]} -gt 0 ] || { echo "no screenshots"; exit 0; }
-          mkdir -p docs/screenshots/ingame
-          rm -f docs/screenshots/ingame/*.png
+          out=docs/screenshots/ingame${UF_SHOT_SET:+/$UF_SHOT_SET}
+          mkdir -p $out
+          rm -f $out/*.png
           for f in "${shots[@]}"; do
             python3 -c "from PIL import Image" 2>/dev/null || pip install --quiet pillow
-            python3 -c "import sys; from PIL import Image; Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2], optimize=True)" "$f" "docs/screenshots/ingame/$(basename "$f")"
+            python3 -c "import sys; from PIL import Image; Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2], optimize=True)" "$f" "$out/$(basename "$f")"
           done
-          grep -E "SHOTS|ERROR" run_client/logs/latest.log | cut -c1-300 | head -400 > docs/screenshots/ingame/client_log_excerpt.txt || true
+          grep -E "SHOTS|ERROR" run_client/logs/latest.log | cut -c1-300 | head -400 > $out/client_log_excerpt.txt || true
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
           git add docs/screenshots/ingame

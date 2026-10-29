@@ -42,16 +42,16 @@ public final class CreatureTrial {
     private static final Logger LOGGER = LogUtils.getLogger();
     /** Logs every creature state change while a CI run is active. */
     public static final boolean VERBOSE = System.getenv("UF_SMOKE") != null;
-    private static final Deque<Step> STEPS = new ArrayDeque<>();
+    static final Deque<Step> STEPS = new ArrayDeque<>();
     @Nullable
     private static Step current;
     private static int elapsed;
     /** Runs every tick while a trial is active (keeps a landmark fight engaged with nobody standing in it). */
     @Nullable
-    private static Runnable keepAlive;
+    static Runnable keepAlive;
     /** What the creature under trial is doing, logged when a step times out. */
     @Nullable
-    private static java.util.function.Supplier<String> status;
+    static java.util.function.Supplier<String> status;
 
     private record Step(String name, int timeout, IntPredicate body) {}
 
@@ -69,15 +69,15 @@ public final class CreatureTrial {
         }
     }
 
-    private static void step(String name, int timeout, IntPredicate body) {
+    static void step(String name, int timeout, IntPredicate body) {
         STEPS.add(new Step(name, timeout, body));
     }
 
-    private static void pass(String what, Object... args) {
+    static void pass(String what, Object... args) {
         LOGGER.info("TRIAL PASS " + what, args);
     }
 
-    private static void fail(String what, Object... args) {
+    static void fail(String what, Object... args) {
         LOGGER.info("TRIAL FAIL " + what, args);
     }
 
@@ -112,7 +112,7 @@ public final class CreatureTrial {
 
     // ---------------------------------------------------------------------------------------------------- arenas
     /** A stone floor high above the terrain with clear air above, and an obsidian wall across its far (+z) end. */
-    private static void arena(ServerLevel level, BlockPos c) {
+    static void arena(ServerLevel level, BlockPos c) {
         for (int x = -16; x <= 16; x++) {
             for (int z = -16; z <= 24; z++) {
                 for (int y = -1; y <= 14; y++) {
@@ -127,7 +127,7 @@ public final class CreatureTrial {
         }
     }
 
-    private static IronGolem dummy(ServerLevel level, Vec3 at) {
+    static IronGolem dummy(ServerLevel level, Vec3 at) {
         IronGolem g = EntityType.IRON_GOLEM.create(level);
         g.moveTo(at.x, at.y, at.z, 180, 0);
         g.setNoAi(true);
@@ -139,14 +139,14 @@ public final class CreatureTrial {
         return g;
     }
 
-    private static <T extends Mob> T spawn(ServerLevel level, EntityType<T> type, Vec3 at) {
+    static <T extends Mob> T spawn(ServerLevel level, EntityType<T> type, Vec3 at) {
         Mob m = Creatures.create(level, type, at, true);
         level.addFreshEntity(m);
         @SuppressWarnings("unchecked") T t = (T) m;
         return t;
     }
 
-    private static String describe(AnimatedMonster m) {
+    static String describe(AnimatedMonster m) {
         var t = m.getTarget();
         return String.format("state %d, target %s at %.1f, alive %s, on ground %s, no AI %s, pos %s, %s", m.state(),
                 t == null ? "none" : t.getType().toShortString(), t == null ? -1.0D : m.distanceTo(t), m.isAlive(), m.onGround(),
@@ -154,7 +154,7 @@ public final class CreatureTrial {
     }
 
     /** Damage dealt by a fixed armour-bypassing hit, after the creature's own rules. */
-    private static float probe(Mob m, float amount) {
+    static float probe(Mob m, float amount) {
         float before = m.getHealth();
         m.invulnerableTime = 0;
         m.hurt(m.level().damageSources().magic(), amount);

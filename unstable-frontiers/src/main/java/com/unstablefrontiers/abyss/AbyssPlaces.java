@@ -69,6 +69,32 @@ public final class AbyssPlaces extends SavedData {
         return new Vec3(a.x() + 0.5D, a.top() + 2, a.z() + 0.5D);
     }
 
+    /**
+     * Somewhere to stand on an anchor's island: the arrival point for the landing, otherwise the first open, solid-floored
+     * column found spiralling out from the centre (the Tether Spire's centre is the spire itself, the Starwell's the well).
+     */
+    public static Vec3 safeSpot(ServerLevel level, AbyssTerrain.Anchor a) {
+        if (a == AbyssTerrain.LANDING) {
+            return standing(a).add(0, 0, 5);
+        }
+        for (int r = 0; r <= a.radius(); r += 2) {
+            for (int k = 0; k < Math.max(1, r * 2); k++) {
+                double ang = k * Math.PI * 2 / Math.max(1, r * 2);
+                int x = a.x() + (int) Math.round(Math.cos(ang) * r), z = a.z() + (int) Math.round(Math.sin(ang) * r);
+                level.getChunk(x >> 4, z >> 4);
+                int y = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                BlockPos feet = new BlockPos(x, y, z);
+                if (y > AbyssDimension.CATCH_Y + 8 && y < a.top() + 8 && level.getFluidState(feet.below()).isEmpty()
+                        && level.getBlockState(feet).getCollisionShape(level, feet).isEmpty()
+                        && level.getBlockState(feet.above()).getCollisionShape(level, feet.above()).isEmpty()
+                        && !level.getBlockState(feet.below()).getCollisionShape(level, feet.below()).isEmpty()) {
+                    return Vec3.atBottomCenterOf(feet);
+                }
+            }
+        }
+        return standing(a);
+    }
+
     /** Builds what is near players (every second). */
     public static void tick(ServerLevel level) {
         if (level.getGameTime() % 20 != 0) {
