@@ -185,7 +185,7 @@ dome make the sky part of the fight.
 ### Commands
 
 * `/frontier return` — everyone, in the frontier: go home (60 s cooldown). For when your shard is lost.
-* Operators: `/frontier go`, `/frontier locate <any|cage|lair|camp|great_cage>`, `/frontier stats`,
+* Operators: `/frontier go`, `/frontier locate <any|cage|lair|camp|great_cage|observatory>`, `/frontier stats`,
   `/frontier landmark build <id> [rotation]`, `/frontier landmark info`, `/frontier landmark zone <zone> start|clear|reset`,
   `/frontier landmark forget`, `/frontier debug rosters`, `/frontier debug dump <namespace>`,
   `/frontier debug trial <gnashback|shrikewing|matriarch|warden|mite|observatory|abyss|leviathan>` (CI's scripted fights),

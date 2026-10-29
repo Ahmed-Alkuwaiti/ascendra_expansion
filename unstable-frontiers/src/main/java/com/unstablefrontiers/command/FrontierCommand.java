@@ -52,7 +52,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public final class FrontierCommand {
     private static final String RETURN_USED = "unstable_frontiers.return_used";
     private static final Map<String, TagKey<Structure>> GROUPS = Map.of("any", ModStructures.LANDMARKS, "cage", ModStructures.CAGES,
-            "lair", ModStructures.LAIRS, "camp", ModStructures.CAMPS, "great_cage", ModStructures.GREAT_CAGE);
+            "lair", ModStructures.LAIRS, "camp", ModStructures.CAMPS, "great_cage", ModStructures.GREAT_CAGE, "observatory", ModStructures.OBSERVATORY);
 
     private FrontierCommand() {}
 

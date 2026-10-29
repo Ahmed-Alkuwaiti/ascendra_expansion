@@ -1,10 +1,49 @@
-# Test report — Unstable Frontiers 0.4.0-rc1
+# Test report — Unstable Frontiers 0.5.0-rc1
 
 Everything below comes from automated runs on GitHub Actions (Ubuntu, Java 21). Nobody has played it: "pass" means a
 scripted check passed, not that a fight feels right. The in-game screenshots come from a scripted client (section 4), not
 from play.
 
 There are four kinds of check, reported separately.
+
+## 0.5.0: the Rift Observatory and the Astral Abyss
+
+Same pack server as sections 2 and 3 (138 of Integrated Boogaloo 1.0.8's jars, its configs and KubeJS scripts), with
+`debug/AbyssTrial.java` added to the trials. **Result of the last run: CHECKS_RESULT.** Real numbers from that run:
+
+| Area | What was checked | Result |
+|---|---|---|
+| Observatory | builds; the gatehouse ambush, the Hall's waves and the Vaults' brood start with creatures | pass |
+| | the Lens Dome is sealed at first; clearing the Hall and the Vaults unseals it; its guardian then spawns | pass |
+| | the engine takes the three parts in any order and wakes; the gate beside it was closed and is now open; the lift unseals; a woken engine takes no more parts | pass |
+| Abyss | all five places build on their islands, each with safe ground found (landing 0,102,5; Starwell 232,95,−148; Archive −224,124,−72; Tether Spire 68,98,268; Crown 24,114,560) | pass |
+| | arrivals stand on solid ground; the landing's return gate is open; the Crown's floor is solid at its middle | pass |
+| | a fall into the void is caught: back on safe ground for a fifth of max health (4 of 20); on 1 health the catch does not kill | pass |
+| | an item dropped into the void is moved to safe ground at the nearest place | pass |
+| | no natural spawns on the landing; the Starwell's waves start with creatures | pass |
+| Orrery Warden | 150 health, armour 8 after the pack's scaling; ring tell before the beam; the beam hits in the open (12); it stalls after and takes 20 from a 10 hit; cover taken during the tell stops the beam | pass |
+| Lumen Mite | 25 health; stays aloft; swells before it spits; its bolts are gone within 3 s | pass |
+| Eclipse Leviathan | the altar takes the sigil and it rises (1750 health, armour 12 after scaling); it cannot be hurt while rising; a second call while it is awake does nothing | pass |
+| | phase one: beam, low pass and gravity wells, each told first; it stays inside the arena (9.4 blocks from the middle at the check) | pass |
+| | phase two at two thirds with a roar; calls mites (2 alive, cap 4) | pass |
+| | phase three: the eclipse dive leaves it exposed, 20 from a 10 hit | pass |
+| | its phase, arena and mites survive a save and load; a Leviathan with no fight to belong to is refused | pass |
+| | with nobody in the arena for 30 s the fight resets: boss and mites removed, altar charged; the charged altar calls it again without a sigil, at full health | pass |
+| | victory: Eclipse Scales, Starmetal and the Corona are owed to a fighter who is away, kept until they log in | pass |
+
+**A bug these trials found and that is fixed in this release:** the first run showed the altar taking the sigil while no
+Leviathan appeared. The check that refuses a Leviathan with no fight was running before the fight recorded its boss, so it
+refused the fight's own Leviathan. The fight now records the boss first.
+
+**Client screenshots** (`docs/screenshots/ingame/abyss/`), scripted with the whole pack's client: the observatory from
+outside and inside, the engine restored, then the player walks into the gate and arrives in the Abyss. The "Through the
+Rift" advancement fired, so the gate travel ran for real. Then the Abyss's sky and places, the creatures posed, and the
+Leviathan called at the Hollow Crown. Software rendering, no shaders.
+
+**Not tested in 0.5.0:** a person playing the fights (timing, feel); the Blinkstone, Corona beam and tiers, Astrolabe
+guidance and updraft vents in someone's hands; two real players (health scaling and shared rewards are code paths the
+trials touch only with one stand-in); sounds by ear; frame rate and tick time on your PC; how Antarchy's elite abilities
+behave in the observatory; how often you meet an observatory across many worlds (the locate run measures two distances in one world: LOCATE_RESULT).
 
 ## 1. Standalone checks (no Integrated Boogaloo)
 
