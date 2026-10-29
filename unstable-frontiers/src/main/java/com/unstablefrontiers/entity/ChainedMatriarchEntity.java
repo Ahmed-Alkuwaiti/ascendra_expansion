@@ -85,7 +85,7 @@ public class ChainedMatriarchEntity extends AnimatedMonster {
 
     public static AttributeSupplier.Builder attributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 900.0D)
+                .add(Attributes.MAX_HEALTH, 700.0D)
                 .add(Attributes.ATTACK_DAMAGE, 20.0D)
                 .add(Attributes.ARMOR, 14.0D)
                 .add(Attributes.ARMOR_TOUGHNESS, 6.0D)

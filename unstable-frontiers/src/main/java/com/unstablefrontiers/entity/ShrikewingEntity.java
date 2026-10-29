@@ -73,7 +73,7 @@ public class ShrikewingEntity extends AnimatedMonster {
 
     public static AttributeSupplier.Builder attributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.MAX_HEALTH, 60.0D)
                 .add(Attributes.ATTACK_DAMAGE, 14.0D)
                 .add(Attributes.ARMOR, 4.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)

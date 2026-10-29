@@ -179,14 +179,14 @@ public final class CreatureTrial {
             return false;
         });
         step("gnashback sidestep", 40, t -> {
-            if (t == 6) {
-                dummy[0].teleportTo(c.getX() + 7.5D, c.getY(), c.getZ() + 11.5D);   // step aside during the tell
+            if (t == 18) {
+                dummy[0].teleportTo(c.getX() + 7.5D, c.getY(), c.getZ() + 11.5D);   // step aside late in the tell
             }
             if (g[0].state() == GnashbackEntity.STUNNED) {
                 pass("a dodged charge into a wall stuns the gnashback");
                 return true;
             }
-            if (t > 6 && g[0].state() == GnashbackEntity.IDLE) {
+            if (t > 18 && g[0].state() == GnashbackEntity.IDLE) {
                 fail("dodged gnashback charge ended without a stun");
                 return true;
             }

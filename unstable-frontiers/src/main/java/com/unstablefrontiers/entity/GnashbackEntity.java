@@ -35,12 +35,14 @@ import software.bernie.geckolib.animation.RawAnimation;
  *
  * <p>It ignores you until you come within about ten blocks (or hit it). Close in, it bites. At range it charges: it
  * lowers its head, cracks its shell open and scrapes the ground for over a second (the tell), then runs in a straight
- * line at the place you stood. Step aside and let it hit a wall or a tree, and it stuns itself for several seconds with
+ * line. It fixes that line half a second before it runs, so stepping aside in the last half of the tell is the dodge. Step aside and let it hit a wall or a tree, and it stuns itself for several seconds with
  * its soft back exposed: it takes double damage and cannot fight back. A charge that hits you is brutal.
  */
 public class GnashbackEntity extends AnimatedMonster {
     public static final int IDLE = 0, TELL = 1, CHARGE = 2, STUNNED = 3;
     private static final int TELL_TICKS = 25;
+    /** When in the tell it fixes its line (half a second before it runs): after this, stepping aside is the dodge. */
+    private static final int AIM_TICKS = 15;
     private static final int CHARGE_TICKS = 40;
     private static final int STUN_TICKS = 80;
 
@@ -161,6 +163,7 @@ public class GnashbackEntity extends AnimatedMonster {
         @Override
         public void start() {
             getNavigation().stop();
+            chargeDir = Vec3.ZERO;
             setState(TELL);
             sound(ModSounds.GNASHBACK_SCRAPE.get(), 1.6F, 1.0F);
         }
@@ -169,17 +172,20 @@ public class GnashbackEntity extends AnimatedMonster {
         public void tick() {
             LivingEntity t = getTarget();
             if (state() == TELL) {
-                if (t != null) {
+                if (t != null && stateTicks <= AIM_TICKS) {
                     getLookControl().setLookAt(t, 30.0F, 30.0F);
                     lookAtTarget(t);
+                    Vec3 to = t.position().subtract(position());
+                    chargeDir = new Vec3(to.x, 0, to.z).normalize();
                 }
                 if (stateTicks % 4 == 0) {
                     BlockState ground = level().getBlockState(blockPosition().below());
                     particles(new BlockParticleOption(ParticleTypes.BLOCK, ground), position().add(getLookAngle().scale(1.5D)), 8, 0.6D);
                 }
                 if (stateTicks >= TELL_TICKS) {
-                    Vec3 to = t != null ? t.position().subtract(position()) : getLookAngle();
-                    chargeDir = new Vec3(to.x, 0, to.z).normalize();
+                    if (chargeDir.lengthSqr() < 1.0E-4) {
+                        chargeDir = new Vec3(getLookAngle().x, 0, getLookAngle().z).normalize();
+                    }
                     setState(CHARGE);
                     sound(ModSounds.GNASHBACK_CHARGE.get(), 2.0F, 1.0F);
                 }
