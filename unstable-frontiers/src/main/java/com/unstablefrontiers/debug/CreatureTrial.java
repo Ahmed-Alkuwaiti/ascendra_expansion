@@ -194,7 +194,7 @@ public final class CreatureTrial {
             }
             return false;
         });
-        step("gnashback sidestep", 40, t -> {
+        step("gnashback sidestep", 120, t -> {   // the rest of the tell, then the whole charge
             if (t == 18) {
                 dummy[0].teleportTo(c.getX() + 7.5D, c.getY(), c.getZ() + 11.5D);   // step aside late in the tell
             }
@@ -224,13 +224,13 @@ public final class CreatureTrial {
                 dummyHp[0] = dummy[0].getHealth();
             }
             g[0].setTarget(dummy[0]);
-            if (g[0].distanceTo(dummy[0]) < 8 && g[0].state() == GnashbackEntity.IDLE) {
-                g[0].teleportTo(c.getX() + 0.5D, c.getY(), c.getZ() + 0.5D);
-                dummyHp[0] = dummy[0].getHealth();   // bites do not count: only the charge
-            }
             if (dummy[0].getHealth() < dummyHp[0] - 5) {
                 pass("an undodged gnashback charge hits for {}", dummyHp[0] - dummy[0].getHealth());
                 return true;
+            }
+            if (g[0].distanceTo(dummy[0]) < 8 && g[0].state() == GnashbackEntity.IDLE) {
+                g[0].teleportTo(c.getX() + 0.5D, c.getY(), c.getZ() + 0.5D);
+                dummyHp[0] = dummy[0].getHealth();   // bites do not count: only the charge
             }
             return false;
         });
