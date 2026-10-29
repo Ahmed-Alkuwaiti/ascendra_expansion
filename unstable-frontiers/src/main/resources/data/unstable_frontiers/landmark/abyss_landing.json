@@ -1,0 +1,19 @@
+{
+ "template": "unstable_frontiers:abyss_landing",
+ "size": [
+  33,
+  26,
+  33
+ ],
+ "zones": [],
+ "points": {
+  "gate": [
+   16,
+   7,
+   9
+  ]
+ },
+ "kind": "abyss_landing",
+ "title": "The Landing",
+ "ground": 6
+}

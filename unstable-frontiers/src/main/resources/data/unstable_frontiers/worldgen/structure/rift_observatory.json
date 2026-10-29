@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/rift_observatory",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:rift_observatory",
+  "ground": 13,
+  "max_slope": 40,
+  "max_water": 3,
+  "foundation": true,
+  "clear_site": true
+}

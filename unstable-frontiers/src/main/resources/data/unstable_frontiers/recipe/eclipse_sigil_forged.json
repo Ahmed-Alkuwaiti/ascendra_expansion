@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "SCS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "unstable_frontiers:starmetal_ingot"
+    },
+    "C": {
+      "item": "unstable_frontiers:lumen_core"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:eclipse_sigil",
+    "count": 1
+  }
+}

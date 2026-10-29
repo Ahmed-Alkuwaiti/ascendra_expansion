@@ -1,0 +1,77 @@
+{
+ "template": "unstable_frontiers:abyss_tether_spire",
+ "size": [
+  41,
+  74,
+  41
+ ],
+ "zones": [
+  {
+   "id": "tether",
+   "name": "The Tether Spire",
+   "box": [
+    10,
+    49,
+    1,
+    28,
+    63,
+    19
+   ],
+   "trigger": [
+    15,
+    51,
+    6,
+    23,
+    55,
+    14
+   ],
+   "spawns": [
+    [
+     21,
+     52,
+     10
+    ],
+    [
+     18,
+     52,
+     12
+    ],
+    [
+     18,
+     52,
+     8
+    ]
+   ],
+   "roster": "abyss_tether",
+   "kind": "ambush",
+   "waves": 2,
+   "flyer_spawns": [
+    [
+     26,
+     56,
+     10
+    ],
+    [
+     19,
+     56,
+     17
+    ],
+    [
+     12,
+     56,
+     10
+    ],
+    [
+     19,
+     56,
+     3
+    ]
+   ],
+   "reward": "sigil_shard"
+  }
+ ],
+ "points": {},
+ "kind": "abyss_place",
+ "title": "The Tether Spire",
+ "ground": 8
+}

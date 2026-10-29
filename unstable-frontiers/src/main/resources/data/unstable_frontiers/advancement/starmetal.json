@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:starmetal_ingot"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.starmetal"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.starmetal.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:starmetal_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:abyss"
+}

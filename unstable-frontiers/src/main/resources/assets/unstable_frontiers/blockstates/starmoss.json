@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "unstable_frontiers:block/starmoss"
+      },
+      {
+        "model": "unstable_frontiers:block/starmoss",
+        "y": 90
+      },
+      {
+        "model": "unstable_frontiers:block/starmoss",
+        "y": 180
+      },
+      {
+        "model": "unstable_frontiers:block/starmoss",
+        "y": 270
+      }
+    ]
+  }
+}

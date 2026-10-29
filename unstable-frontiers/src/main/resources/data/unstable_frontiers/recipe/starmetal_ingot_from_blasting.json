@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "unstable_frontiers:raw_starmetal"
+  },
+  "result": {
+    "id": "unstable_frontiers:starmetal_ingot"
+  }
+}

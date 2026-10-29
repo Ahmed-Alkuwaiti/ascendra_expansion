@@ -1,0 +1,78 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "unstable_frontiers:block/void_cyst",
+    "all": "unstable_frontiers:block/void_cyst"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        13,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#all",
+          "uv": [
+            2,
+            3,
+            14,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#all",
+          "uv": [
+            2,
+            3,
+            14,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#all",
+          "uv": [
+            2,
+            3,
+            14,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#all",
+          "uv": [
+            2,
+            3,
+            14,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#all",
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ]
+        },
+        "down": {
+          "texture": "#all",
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ]
+        }
+      }
+    }
+  ]
+}

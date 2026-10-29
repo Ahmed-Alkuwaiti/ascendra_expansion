@@ -33,6 +33,31 @@ for f in glob.glob('src/main/java/**/ModItems.java', recursive=True):
     src = open(f).read()
     items |= set(re.findall(r'ITEMS\.register(?:SimpleBlockItem|SimpleItem)?\("([a-z_]+)"', src))
     items |= set(re.findall(r'= armor\("([a-z_]+)"', src))
+# the Rift Observatory's and the Astral Abyss's items and blocks
+blocks = set()
+for f in glob.glob('src/main/java/**/AbyssRegistry.java', recursive=True):
+    src = open(f).read()
+    items |= set(re.findall(r'ITEMS\.register(?:SimpleItem)?\("([a-z_]+)"', src))
+    blocks |= set(re.findall(r'block\("([a-z_]+)"', src))
+for bl in sorted(blocks):
+    st = load(A + '/blockstates/' + bl + '.json') if os.path.exists(A + '/blockstates/' + bl + '.json') else None
+    if st is None:
+        problems.append(f'block {bl}: no blockstate')
+        continue
+    for v in st.get('variants', {}).values():
+        for m in (v if isinstance(v, list) else [v]):
+            mp = A + '/models/block/' + m['model'].split(':')[1].split('/', 1)[1] + '.json'
+            mod = load(mp) if os.path.exists(mp) else None
+            if mod is None:
+                problems.append(f'block {bl}: model {mp} missing')
+                continue
+            for t in mod.get('textures', {}).values():
+                if t.startswith('unstable_frontiers:') and not os.path.exists(A + '/textures/' + t.split(':')[1] + '.png'):
+                    problems.append(f'block {bl}: texture {t} missing')
+    if not os.path.exists(A + '/models/item/' + bl + '.json'):
+        problems.append(f'block {bl}: no item model')
+    if not os.path.exists(D + '/loot_table/blocks/' + bl + '.json') and bl not in ('abyss_gate', 'rift_engine', 'eclipse_altar'):
+        problems.append(f'block {bl}: no loot table')
 
 for f in sorted(glob.glob(D + '/landmark/*.json')):
     name = os.path.basename(f)[:-5]
@@ -52,7 +77,8 @@ for f in sorted(glob.glob(D + '/landmark/*.json')):
         size = [int(v) for v in t['size']]
         if size != lm['size']:
             problems.append(f'{name}: sidecar size {lm["size"]} != template {size}')
-    if not os.path.exists(D + '/worldgen/structure/' + name + '.json'):
+    if not name.startswith('abyss_') and not os.path.exists(D + '/worldgen/structure/' + name + '.json'):
+        # (the abyss's places are built at runtime by AbyssPlaces, not by world generation)
         problems.append(f'{name}: no worldgen structure')
     ids = {z['id'] for z in lm['zones']}
     for z in lm['zones']:
@@ -79,7 +105,7 @@ for f in sorted(glob.glob(D + '/landmark/*.json')):
         if r['roster'] not in rosters:
             problems.append(f'{name}: resident roster {r["roster"]} missing')
 
-for i in items:
+for i in items - blocks:
     model = A + '/models/item/' + i + '.json'
     if not os.path.exists(model):
         problems.append(f'item {i}: no model')
@@ -88,7 +114,7 @@ for i in items:
 
 lang = load(A + '/lang/en_us.json') or {}
 for i in items:
-    key = ('block' if i == 'cage_beacon' else 'item') + '.unstable_frontiers.' + i
+    key = ('block' if i == 'cage_beacon' or i in blocks else 'item') + '.unstable_frontiers.' + i
     if key not in lang:
         problems.append(f'lang: {key} missing')
 for f in glob.glob('src/main/java/**/*.java', recursive=True):
@@ -119,8 +145,8 @@ entities = []
 for f in glob.glob('src/main/java/**/ModEntities.java', recursive=True):
     entities = re.findall(r'TYPES\.register\("([a-z_]+)"', open(f).read())
 for e in entities:
-    if e == 'acid_glob':
-        continue
+    if e in ('acid_glob', 'star_bolt'):
+        continue      # projectiles drawn as their item
     for path in (f'/geo/entity/{e}.geo.json', f'/animations/entity/{e}.animation.json', f'/textures/entity/{e}.png'):
         if not os.path.exists(A + path):
             problems.append(f'entity {e}: {path} missing')

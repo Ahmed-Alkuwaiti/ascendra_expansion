@@ -1,5 +1,11 @@
 {
   "values": [
-    "unstable_frontiers:cage_beacon"
+    "unstable_frontiers:cage_beacon",
+    "unstable_frontiers:astral_shale",
+    "unstable_frontiers:astral_bricks",
+    "unstable_frontiers:chiseled_astral",
+    "unstable_frontiers:astral_ore",
+    "unstable_frontiers:lumen_crystal",
+    "unstable_frontiers:updraft_vent"
   ]
 }

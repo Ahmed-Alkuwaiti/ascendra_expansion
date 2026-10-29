@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "unstable_frontiers:block/rift_engine"
+    },
+    "active=true": {
+      "model": "unstable_frontiers:block/rift_engine_active"
+    }
+  }
+}

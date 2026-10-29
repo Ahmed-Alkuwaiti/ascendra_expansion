@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "unstable_frontiers:block/abyss_gate"
+    },
+    "open=true": {
+      "model": "unstable_frontiers:block/abyss_gate_open"
+    }
+  }
+}

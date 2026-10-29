@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:rift_engine"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.observatory"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.observatory.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "unstable_frontiers:rift_observatory"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:enter"
+}

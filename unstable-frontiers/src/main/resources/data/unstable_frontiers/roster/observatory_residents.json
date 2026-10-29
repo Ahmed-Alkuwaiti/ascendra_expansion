@@ -1,0 +1,14 @@
+{
+  "mobs": [
+    {
+      "id": "unstable_frontiers:lumen_mite",
+      "weight": 1
+    }
+  ],
+  "flyers": [
+    {
+      "id": "unstable_frontiers:lumen_mite",
+      "weight": 1
+    }
+  ]
+}

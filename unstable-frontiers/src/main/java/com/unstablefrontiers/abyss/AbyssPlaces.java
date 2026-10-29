@@ -100,7 +100,8 @@ public final class AbyssPlaces extends SavedData {
             return;
         }
         BlockPos size = new BlockPos(t.get().getSize());
-        BlockPos origin = new BlockPos(a.x() - size.getX() / 2, a.top() + 2 - def.ground(), a.z() - size.getZ() / 2);
+        // the template's ground row is its floor: it replaces the island's top surface (top + 1), so players stand at top + 2
+        BlockPos origin = new BlockPos(a.x() - size.getX() / 2, a.top() + 1 - def.ground(), a.z() - size.getZ() / 2);
         for (int cx = origin.getX() >> 4; cx <= (origin.getX() + size.getX()) >> 4; cx++) {
             for (int cz = origin.getZ() >> 4; cz <= (origin.getZ() + size.getZ()) >> 4; cz++) {
                 level.getChunk(cx, cz);

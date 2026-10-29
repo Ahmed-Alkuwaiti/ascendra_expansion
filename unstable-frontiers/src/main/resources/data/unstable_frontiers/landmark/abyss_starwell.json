@@ -1,0 +1,79 @@
+{
+ "template": "unstable_frontiers:abyss_starwell",
+ "size": [
+  47,
+  52,
+  47
+ ],
+ "zones": [
+  {
+   "id": "starwell",
+   "name": "The Starwell",
+   "box": [
+    5,
+    3,
+    5,
+    41,
+    34,
+    41
+   ],
+   "trigger": [
+    8,
+    23,
+    8,
+    38,
+    32,
+    38
+   ],
+   "spawns": [
+    [
+     34,
+     23,
+     25
+    ],
+    [
+     29,
+     23,
+     32
+    ],
+    [
+     21,
+     23,
+     34
+    ],
+    [
+     14,
+     23,
+     29
+    ],
+    [
+     12,
+     23,
+     21
+    ],
+    [
+     17,
+     23,
+     14
+    ],
+    [
+     25,
+     23,
+     12
+    ],
+    [
+     32,
+     23,
+     17
+    ]
+   ],
+   "roster": "abyss_starwell",
+   "kind": "waves",
+   "reward": "blinkstone,sigil_shard"
+  }
+ ],
+ "points": {},
+ "kind": "abyss_place",
+ "title": "The Starwell",
+ "ground": 22
+}

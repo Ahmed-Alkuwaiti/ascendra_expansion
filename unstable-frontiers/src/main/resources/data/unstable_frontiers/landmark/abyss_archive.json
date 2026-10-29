@@ -1,0 +1,60 @@
+{
+ "template": "unstable_frontiers:abyss_archive",
+ "size": [
+  57,
+  52,
+  57
+ ],
+ "zones": [
+  {
+   "id": "archive",
+   "name": "The Archivist",
+   "box": [
+    18,
+    37,
+    18,
+    38,
+    48,
+    38
+   ],
+   "trigger": [
+    17,
+    34,
+    17,
+    39,
+    48,
+    39
+   ],
+   "spawns": [
+    [
+     35,
+     37,
+     29
+    ],
+    [
+     26,
+     37,
+     35
+    ],
+    [
+     21,
+     37,
+     26
+    ],
+    [
+     30,
+     37,
+     21
+    ]
+   ],
+   "roster": "abyss_archive",
+   "kind": "guardian",
+   "reward": "sigil_shard",
+   "final": true
+  }
+ ],
+ "points": {},
+ "kind": "abyss_place",
+ "title": "The Drifting Archive",
+ "ground": 8
+}

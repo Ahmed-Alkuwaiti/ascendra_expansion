@@ -1,0 +1,79 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 1051170,
+    "fog_color": 2366016,
+    "water_color": 3824344,
+    "water_fog_color": 725040,
+    "grass_color": 3122074,
+    "foliage_color": 2920330,
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.004
+    },
+    "ambient_sound": "unstable_frontiers:abyss.ambient",
+    "mood_sound": {
+      "sound": "unstable_frontiers:abyss.ambient",
+      "tick_delay": 4000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "music": {
+      "sound": "minecraft:music.end",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    }
+  },
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "unstable_frontiers:lumen_mite",
+        "weight": 20,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "unstable_frontiers:orrery_warden",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "spawn_costs": {
+    "unstable_frontiers:lumen_mite": {
+      "energy_budget": 0.6,
+      "charge": 0.5
+    },
+    "unstable_frontiers:orrery_warden": {
+      "energy_budget": 0.3,
+      "charge": 0.7
+    }
+  },
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
+}

@@ -253,5 +253,155 @@
     "sounds": [
       "unstable_frontiers:matriarch/acid"
     ]
+  },
+  "mite.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.mite.ambient",
+    "sounds": [
+      "unstable_frontiers:abyss/mite_ambient"
+    ]
+  },
+  "mite.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.mite.hurt",
+    "sounds": [
+      "unstable_frontiers:abyss/mite_hurt"
+    ]
+  },
+  "mite.death": {
+    "subtitle": "subtitles.unstable_frontiers.mite.death",
+    "sounds": [
+      "unstable_frontiers:abyss/mite_death"
+    ]
+  },
+  "mite.tell": {
+    "subtitle": "subtitles.unstable_frontiers.mite.tell",
+    "sounds": [
+      "unstable_frontiers:abyss/mite_tell"
+    ]
+  },
+  "mite.spit": {
+    "subtitle": "subtitles.unstable_frontiers.mite.spit",
+    "sounds": [
+      "unstable_frontiers:abyss/mite_spit"
+    ]
+  },
+  "warden.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.warden.ambient",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_ambient"
+    ]
+  },
+  "warden.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.warden.hurt",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_hurt"
+    ]
+  },
+  "warden.death": {
+    "subtitle": "subtitles.unstable_frontiers.warden.death",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_death"
+    ]
+  },
+  "warden.tell": {
+    "subtitle": "subtitles.unstable_frontiers.warden.tell",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_tell"
+    ]
+  },
+  "warden.beam": {
+    "subtitle": "subtitles.unstable_frontiers.warden.beam",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_beam"
+    ]
+  },
+  "warden.stall": {
+    "subtitle": "subtitles.unstable_frontiers.warden.stall",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_stall"
+    ]
+  },
+  "warden.recover": {
+    "subtitle": "subtitles.unstable_frontiers.warden.recover",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_recover"
+    ]
+  },
+  "warden.pulse": {
+    "subtitle": "subtitles.unstable_frontiers.warden.pulse",
+    "sounds": [
+      "unstable_frontiers:abyss/warden_pulse"
+    ]
+  },
+  "leviathan.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.ambient",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_ambient"
+    ]
+  },
+  "leviathan.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.hurt",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_hurt"
+    ]
+  },
+  "leviathan.death": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.death",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_death"
+    ]
+  },
+  "leviathan.roar": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.roar",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_roar"
+    ]
+  },
+  "leviathan.beam_tell": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.beam_tell",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_beam_tell"
+    ]
+  },
+  "leviathan.beam": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.beam",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_beam"
+    ]
+  },
+  "leviathan.well": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.well",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_well"
+    ]
+  },
+  "leviathan.pass": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.pass",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_pass"
+    ]
+  },
+  "leviathan.summon": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.summon",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_summon"
+    ]
+  },
+  "leviathan.slam": {
+    "subtitle": "subtitles.unstable_frontiers.leviathan.slam",
+    "sounds": [
+      "unstable_frontiers:abyss/leviathan_slam"
+    ]
+  },
+  "rift.open": {
+    "subtitle": "subtitles.unstable_frontiers.rift.open",
+    "sounds": [
+      "unstable_frontiers:abyss/rift_open"
+    ]
+  },
+  "abyss.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.abyss.ambient",
+    "sounds": [
+      "unstable_frontiers:abyss/abyss_ambient"
+    ]
   }
 }

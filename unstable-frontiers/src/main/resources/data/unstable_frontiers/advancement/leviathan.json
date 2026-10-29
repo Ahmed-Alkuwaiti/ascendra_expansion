@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:corona"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.leviathan"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.leviathan.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:eclipse_scale"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:sigil"
+}

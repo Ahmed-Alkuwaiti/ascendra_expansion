@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "item": "unstable_frontiers:astral_shale"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:astral_bricks",
+    "count": 4
+  }
+}

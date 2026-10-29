@@ -27,6 +27,7 @@ VOID = 'minecraft:structure_void'
 
 def h(x, y, z, salt=0):
     """Stable pseudo-random 0..1 for a position, so details never shift between runs."""
+    x, y, z = int(round(x)), int(round(y)), int(round(z))
     n = (x * 73856093) ^ (y * 19349663) ^ (z * 83492791) ^ (salt * 2654435761)
     n = (n ^ (n >> 13)) * 0x5bd1e995 & 0xffffffff
     return ((n ^ (n >> 15)) & 0xffffff) / 0xffffff

@@ -1,0 +1,12 @@
+{
+  "type": "unstable_frontiers:astral_abyss",
+  "generator": {
+    "type": "unstable_frontiers:abyss",
+    "biome_source": {
+      "type": "unstable_frontiers:abyss",
+      "shoals": "unstable_frontiers:starlit_shoals",
+      "reach": "unstable_frontiers:shattered_reach",
+      "hollow": "unstable_frontiers:eclipse_hollow"
+    }
+  }
+}

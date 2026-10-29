@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "unstable_frontiers:block/updraft_vent_top",
+    "side": "unstable_frontiers:block/updraft_vent_side",
+    "bottom": "unstable_frontiers:block/astral_bricks"
+  }
+}

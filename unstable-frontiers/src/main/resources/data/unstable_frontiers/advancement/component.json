@@ -1,0 +1,57 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:focusing_lens"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.component"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.component.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "lens": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:focusing_lens"
+          }
+        ]
+      }
+    },
+    "heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:coolant_heart"
+          }
+        ]
+      }
+    },
+    "chart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:star_chart"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:observatory",
+  "requirements": [
+    [
+      "lens",
+      "heart",
+      "chart"
+    ]
+  ]
+}

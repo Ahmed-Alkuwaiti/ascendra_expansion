@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "unstable_frontiers:sigil_shard"
+    },
+    {
+      "item": "unstable_frontiers:sigil_shard"
+    },
+    {
+      "item": "unstable_frontiers:sigil_shard"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:eclipse_sigil",
+    "count": 1
+  }
+}

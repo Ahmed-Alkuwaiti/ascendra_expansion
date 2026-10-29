@@ -40,6 +40,11 @@ BASE = {
     'honeycomb_block': (229, 148, 29), 'honey_block': (240, 170, 40), 'bee_nest': (200, 160, 80), 'amethyst_block': (133, 97, 191),
     'crying_obsidian': (60, 10, 120), 'obsidian': (20, 18, 30), 'iron_block': (210, 210, 214), 'oxidized_copper': (82, 160, 136),
     'weathered_copper': (108, 154, 110), 'exposed_copper': (161, 125, 103), 'copper_block': (192, 107, 79), 'lightning_rod': (200, 110, 80),
+    'astral_bricks': (66, 62, 98), 'chiseled_astral': (84, 80, 120), 'astral_shale': (38, 34, 58), 'starmoss': (40, 120, 124),
+    'lumen_crystal': (140, 215, 250), 'rift_glass': (150, 100, 220), 'void_tendril': (90, 44, 130), 'void_cyst': (140, 80, 196),
+    'abyss_gate': (60, 30, 90), 'rift_engine': (210, 170, 70), 'updraft_vent': (60, 150, 150), 'eclipse_altar': (200, 150, 60),
+    'starbloom': (150, 220, 250), 'astral_ore': (60, 58, 86), 'oxidized_cut_copper': (82, 160, 136), 'weathered_cut_copper': (108, 154, 110),
+    'chiseled_copper': (180, 110, 80), 'purple_stained_glass': (127, 63, 178), 'light_blue_stained_glass': (102, 153, 216),
     'redstone_lamp': (180, 110, 60), 'chitin_block': (96, 72, 46), 'ochre_froglight': (250, 220, 150), 'honey_block': (240, 170, 40), 'mycelium': (111, 99, 105), 'podzol': (91, 63, 24), 'target': (220, 200, 180), 'tinted_glass': (44, 38, 52), 'black_stained_glass': (30, 30, 34),
 }
 THIN = ('bars', 'chain', 'fence', '_wall', 'rod', 'lantern', 'ladder', 'cobweb', 'dead_bush', 'short_grass', 'roots', 'skull',
@@ -119,7 +124,7 @@ def render(name, out, cut=None, cutx=None, rot=0, size=1000, title=None, ground=
         n = vis[(x, y, z)]
         c = base_color(n)
         sh = lambda f: tuple(min(255, int(v * f)) for v in c)
-        glow = any(k in n for k in ('shroomlight', 'lantern', 'campfire', 'end_rod', 'froglight', 'glowstone', 'lamp'))
+        glow = any(k in n for k in ('shroomlight', 'lantern', 'campfire', 'end_rod', 'froglight', 'glowstone', 'lamp', 'lumen', 'rift_glass', 'crying'))
         if any(t in n for t in THIN):
             cx, cz = x + 0.5, z + 0.5
             if 'bars' in n:

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "unstable_frontiers:rift_observatory",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 18,
+    "salt": 551187213,
+    "exclusion_zone": {
+      "other_set": "unstable_frontiers:major_landmarks",
+      "chunk_count": 5
+    }
+  }
+}

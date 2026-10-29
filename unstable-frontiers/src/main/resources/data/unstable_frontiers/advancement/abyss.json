@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:abyss_gate"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.abyss"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.abyss.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "unstable_frontiers:astral_abyss"
+      }
+    }
+  },
+  "parent": "unstable_frontiers:component"
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BLB",
+    "BCB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "unstable_frontiers:astral_bricks"
+    },
+    "L": {
+      "item": "unstable_frontiers:lumen_core"
+    },
+    "C": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:updraft_vent",
+    "count": 2
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "mobs": [
+    {
+      "id": "unstable_frontiers:lumen_mite",
+      "weight": 5
+    },
+    {
+      "id": "unstable_frontiers:orrery_warden",
+      "weight": 1,
+      "max": 1
+    }
+  ]
+}

@@ -46,7 +46,7 @@ public final class AbyssTravel {
     private static final String GATE_COOLDOWN = "uf_gate_cooldown";
     private static final String WELCOMED = "abyss_welcomed";
 
-    private AbyssTravel() {}
+    public AbyssTravel() {}
 
     /** Stepped into an open gate: the observatory's takes you in, the landing's takes you out. */
     public static void throughGate(ServerPlayer p, BlockPos gate) {
