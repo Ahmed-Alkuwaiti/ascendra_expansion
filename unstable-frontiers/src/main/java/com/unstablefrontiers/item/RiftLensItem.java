@@ -37,7 +37,7 @@ public class RiftLensItem extends TrophyItem {
     private static final int RADIUS = 32;
 
     public RiftLensItem(Properties properties) {
-        super(properties, 2);
+        super(properties, 3);
     }
 
     @Override
@@ -61,12 +61,16 @@ public class RiftLensItem extends TrophyItem {
             } else {
                 sp.displayClientMessage(Component.translatable("message.unstable_frontiers.lens_clouded").withStyle(ChatFormatting.DARK_GRAY), false);
             }
+            // the Rift Observatories show once the Great Cage has fallen (or to whoever already carries an astrolabe)
+            if (Progress.count(sp, "great_cage") > 0 || sp.getInventory().contains(new ItemStack(com.unstablefrontiers.registry.AbyssRegistry.ASTROLABE.get()))) {
+                survey(sl, sp, ModStructures.OBSERVATORY, "observatory");
+            }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     private static void survey(ServerLevel level, ServerPlayer p, TagKey<Structure> tag, String what) {
-        BlockPos found = level.findNearestMapStructure(tag, p.blockPosition(), what.equals("great_cage") ? RADIUS * 3 : RADIUS, false);
+        BlockPos found = level.findNearestMapStructure(tag, p.blockPosition(), what.equals("great_cage") || what.equals("observatory") ? RADIUS * 3 : RADIUS, false);
         Component label = Component.translatable("lens.unstable_frontiers." + what);
         if (found == null) {
             p.displayClientMessage(Component.translatable("message.unstable_frontiers.lens_none", label).withStyle(ChatFormatting.GRAY), false);

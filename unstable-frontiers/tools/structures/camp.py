@@ -27,6 +27,8 @@ JOURNALS = {
         'Day 21. The scar where the bones turn red. The Great Cage stands in the middle of it, taller than anything here.',
         'Day 22. Four pylons hold the beast inside. While they stand, it cannot be hurt for long. Break them.',
         'Day 23. They came at night, from above. If you are reading this, take the lens and go on without us.',
+        'Day 24. Past the Scar, ruins older than the Cagewright: an observatory split by a light in the sky. Its gate is '
+        'dark. The lens will find it once the Great Cage is broken.',
     ]),
 }
 

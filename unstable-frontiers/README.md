@@ -1,4 +1,4 @@
-# Unstable Frontiers 0.4.0-rc1 — an adventure expansion for Integrated Boogaloo
+# Unstable Frontiers 0.5.0-rc1 — an adventure expansion for Integrated Boogaloo
 
 **Target: [Integrated Boogaloo](https://www.curseforge.com/minecraft/modpacks/integrated-boogaloo) 1.0.8** (CurseForge
 project 1501592, file 9325863): Minecraft 1.21.1, NeoForge 21.1.264, with the pack's
@@ -12,8 +12,12 @@ the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar, whe
 0.4.0 adds the frontier's own animals, made for this addon: the **Gnashback** (a giant charging beetle), the **Shrikewing**
 (a diving sky predator that hunts the insects below) and the **Chained Matriarch** (the Great Cage's boss), with their gear.
 
+0.5.0 adds the **Rift Observatory**, a ruined observatory split by a cosmic rift, and through its restored engine the
+**Astral Abyss**: a dimension of floating islands under a fixed night sky, five places to explore, and the **Eclipse
+Leviathan** at the Hollow Crown. See [the Rift Observatory and the Astral Abyss](#the-rift-observatory-and-the-astral-abyss).
+
 **About the pictures.** Three kinds, each labelled:
-* `docs/screenshots/ingame/` — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
+* `docs/screenshots/ingame/` (0.4.0) and `docs/screenshots/ingame/abyss/` (0.5.0) — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
   its mods, software rendering under a virtual display, so no shaders and plain lighting). See
   [the client test](#testing-what-was-checked-and-what-was-not).
 * `docs/renders/creature_*_model_sheet.png` — **model previews** drawn offline from the creature model files by
@@ -25,7 +29,7 @@ the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar, whe
 ## Install
 
 1. Install Integrated Boogaloo **1.0.8** from CurseForge (or use your existing instance of that version).
-2. Download `unstable-frontiers/dist/unstable_frontiers-0.4.0-rc1.jar` from this branch (its SHA-256 is in the
+2. Download `unstable-frontiers/dist/unstable_frontiers-0.5.0-rc1.jar` from this branch (its SHA-256 is in the
    `.sha256` file next to it) and put it in the instance's `mods` folder. Nothing else is needed: Antarchy and GeckoLib
    are in the pack. Remove any older `unstable_frontiers-*.jar` first.
 3. Start the game. In a world, craft an **Unstable Rift Shard** (amethyst shards in the corners, crying obsidian on the
@@ -184,7 +188,140 @@ dome make the sky part of the fight.
 * Operators: `/frontier go`, `/frontier locate <any|cage|lair|camp|great_cage>`, `/frontier stats`,
   `/frontier landmark build <id> [rotation]`, `/frontier landmark info`, `/frontier landmark zone <zone> start|clear|reset`,
   `/frontier landmark forget`, `/frontier debug rosters`, `/frontier debug dump <namespace>`,
-  `/frontier debug trial <gnashback|shrikewing|matriarch>` (CI's scripted fights), `/frontier debug pose <entities> <state>`.
+  `/frontier debug trial <gnashback|shrikewing|matriarch|warden|mite|observatory|abyss|leviathan>` (CI's scripted fights),
+  `/frontier debug pose <entities> <state>`, `/frontier abyss` (go to the Abyss), `/frontier abyss restore` (the nearest
+  rift engine takes all three parts), `/frontier abyss summon|reset` (call or dismiss the Leviathan).
+* `/frontier return` also works in the Astral Abyss: back to where you came in.
+
+## The Rift Observatory and the Astral Abyss
+
+The arc: **find a Rift Observatory in the frontier → learn what happened there → win the engine's three parts back →
+restore the engine and open the rift → explore the Astral Abyss's places for the Sigil Shards and the Blinkstone → call
+and defeat the Eclipse Leviathan → the Corona, and Eclipse Scales to grow it.**
+
+### Finding the observatory
+
+Rift Observatories generate in the Hushed Barrens, Talon Spires and Gnashwood Wilds, about half as often as the other
+major landmarks (they never overlap them). Once the Great Cage has fallen, the **Rift Lens** also names the nearest
+observatory; the last camp journal says so. Whoever holds an **Astrolabe** (the observatory's Archive has one) gets the
+direction from it too.
+
+### The observatory ([render](docs/renders/rift_observatory.png), [west side](docs/renders/rift_observatory_west.png), [cutaway](docs/renders/rift_observatory_section.png))
+
+81×98×81. An octagonal containment wall around a courtyard split diagonally by a fissure (it falls through into the
+vaults). In the middle the roofless **Containment Well**: the rift engine on its dais, the sealed gate beside it, two inner
+galleries, copper containment pylons, and above it the **tear** — a jagged sheet of rift glass and crying obsidian rising
+70 blocks — inside three broken **containment rings** that float with nothing holding them (the widest is a walkable band).
+Behind it the **Lens Tower** with its shattered observing dome, the great telescope still aimed at the tear, and a broken
+bridge to the Well's upper gallery. The **Orrery Hall** (west) has a ring fragment through its roof; the **Archive**
+(east); the **Gatehouse** (south); the **Coolant Vaults** run under the courtyard. Void tendrils, lumen crystal, starmoss
+and amethyst grow where the rift touched the stone.
+
+| Section | Fight | Layout | Reward |
+|---|---|---|---|
+| The Gatehouse | ambush, once | narrow gate passage, mites from the towers and the air | — |
+| The Orrery Hall | waves | long hall, mezzanine, flyers among the hanging planets | **Star Chart**; the workshop chest |
+| The Coolant Vaults | brood | ring tunnels and four tank chambers; mites hatch from Void Cysts until you break them | **Coolant Heart**; two caches |
+| The Lens Dome | guardian: **the Astronomer's Warden** (an Orrery Warden at 3× health with escorts) | open dome, instrument consoles as cover from its beam; **sealed until the Hall and the Vaults are cleared** | **Focusing Lens**; the vault chest |
+
+Six journals tell the story in the order you meet them (the Standing Orders in the courtyard, the Engine Log beside the
+engine, Notes on the Hollow Star in the Hall, the Survey of the Far Side in the Archive, Coolant Maintenance in the vaults,
+The Last Watch in the dome). The Archive's chest always holds an **Astrolabe**.
+
+**The engine.** Use the three parts on it, in any order (using it empty-handed says what is still missing). When the third
+goes in, the gate beside it opens to the Astral Abyss **for good**, and the **updraft lift** up the Lens Tower is unsealed:
+the permanent shortcut. The gate in the Abyss brings you back to the same spot.
+
+**Flight.** Breaches in the Well, the rings, the broken bridge and the fissure all give other ways in. None of them skips a
+part: the dome stays sealed until the Hall and the Vaults are won, and the parts come only from their fights.
+
+### The Astral Abyss ([map of the islands](docs/renders/abyss_map.png))
+
+A void dimension of floating islands at fixed night. The sky is drawn by the mod: 2600 stars, a nebula band, a great
+eclipsed world, drifting silhouettes, and a coloured beam of light over each place (fading in from 200 blocks). No
+shaders or extra render distance are needed; it was made for render distance 8–12.
+
+The islands come from a fixed recipe (the same in every world), with three layers of floating land, ores (Astral Ore →
+Starmetal), lumen crystal, starmoss and starbloom on top and void tendrils underneath. Paths of stepping stones join the
+places, so no flight is needed; updraft vents lift you where the routes climb.
+
+| Place | Where | What |
+|---|---|---|
+| **The Landing** ([render](docs/renders/abyss_landing.png)) | 0, 0 | where you arrive, in front of the gate home; a guide on the lectern, signposts to the other places |
+| **The Starwell** ([render](docs/renders/abyss_starwell.png)) | 232, −148 | standing stones round a well of light (stairs down, an updraft back up): waves of mites with a warden; **the Blinkstone** and a **Sigil Shard**; a cache at the bottom |
+| **The Drifting Archive** ([render](docs/renders/abyss_archive.png)) | −236, −72 | a roofless library; climb to the walkway, ride the draught to the floating reading room: **the Archivist** (an Orrery Warden at 3.5× health with escorts) among the shelves; a **Sigil Shard** |
+| **The Tether Spire** ([render](docs/renders/abyss_tether_spire.png)) | 64, 268 | a needle chained to three platforms you climb by updraft (a pool at its foot breaks a fall from the lower ones): an ambush on the wing at the top; a **Sigil Shard** |
+| **The Hollow Crown** ([render](docs/renders/abyss_hollow_crown.png)) | 24, 560 | the boss arena: 80 blocks across, six obelisks, a knee-high rim with gaps, a crown of broken spires, the **Eclipse Altar** at the north edge |
+
+The **Astrolabe** shows the way to a place while you hold it (use it to pick the next; sneak-use lists them all, visited or
+not). Places are built when someone first comes within 96 blocks.
+
+**Void safety** (changes nothing outside the Abyss):
+* Falling below the islands: the rift sets you back on the last solid ground you stood on, costing a fifth of your
+  maximum health (never the last of it), with a moment of slow falling.
+* Items that fall drift to safe ground at the nearest place.
+* Dying there: your drops keep for fifteen minutes (vanilla is five), and on respawn you are told where they are.
+* Ways home: the Landing's gate, the Rift Shard (used in the Abyss), or `/frontier return`. All take you back to where you
+  came in; if that place is gone, to the frontier. Losing everything still leaves `/frontier return`.
+* Disconnecting or restarting: fights, places and the Leviathan's state are saved with the world.
+
+### The creatures ([mite](docs/renders/creature_lumen_mite_model_sheet.png), [warden](docs/renders/creature_orrery_warden_model_sheet.png), [Leviathan](docs/renders/creature_eclipse_leviathan_model_sheet.png))
+
+* **Lumen Mite**: a lantern-insect that circles you. Its lantern swells (tell), then it spits a slow star bolt (expires
+  after 3 s, no knockback). Fragile up close.
+* **Orrery Warden**: a floating orrery that guards a place (it never chases more than 48 blocks from home). Its rings stop
+  and its lens flares (1 s tell, the aim line drawn), then a beam that turns slowly after you and stops at any block. After
+  firing it stalls and takes double damage. Up close, a short pulse that in the Abyss barely nudges.
+* Each gives a one-line hint the first time it hunts you. At most 8 of them near any spot from natural spawning, none on
+  the Landing or the Hollow Crown.
+
+### The Eclipse Leviathan
+
+Three Sigil Shards and an eye of ender make the **Eclipse Sigil** (later ones can be forged from Starmetal and a Lumen
+Core). Use it on the Hollow Crown's altar and the Leviathan rises from the void; it cannot be hurt while it rises.
+
+| Attack | Tell | Answer |
+|---|---|---|
+| **Eclipse Beam** | it hangs at the edge, its corona flares, and the whole sweep is drawn on the floor (1.5 s) | get behind an obelisk or where the line has passed; in phase 2+ it sweeps back again |
+| **Gravity Wells** | violet rings close on each fighter (1.5 s) | step out of your ring; the pull goes to the ring's middle, never outward |
+| **Low Pass** | a line of soul fire across the arena (1.25 s) | step off the line; it then hangs low at the far end: the melee window |
+| **Brood** (phase 2+) | it rears and calls | up to two Lumen Mites at a time, never more than four alive |
+| **Eclipse** (phase 3) | it climbs, the arena darkens, a ring of fire marks the middle (2.5 s) | leave the ring; it crashes down there and lies **exposed** for 6 s (double damage) |
+
+Phases change at two thirds and one third of its health, each with a roar (half damage while it roars). Its health grows
+by half for each extra fighter in the arena (up to three extra). Nothing it does pushes anyone outward, and its landing
+deals damage without knockback. It never leaves the arena. Ranged builds have the whole arena and the obelisks; melee
+builds have the low pass, the wells and the eclipse windows.
+
+If everyone leaves the arena (or logs off) for 30 s, it sinks back: it and its mites are removed and the altar keeps the
+charge, so the next call costs nothing. A Leviathan that somehow loads without a fight (an old save) is turned away.
+
+**Rewards** (each fighter in the arena during the fight; rewards for anyone offline at the end wait for their next login):
+the **Corona** the first time, and every time two **Eclipse Scales** and two **Starmetal Ingots**.
+
+### Rewards of the Abyss
+
+| Item | From | Use |
+|---|---|---|
+| **Astrolabe** | the observatory's Archive (always); Starmetal + compass + Lumen Core | in the frontier points to the nearest observatory; in the Abyss to its places |
+| **Blinkstone** | the Starwell | a 10-block step through the air, never into a block; 3 s cooldown, 240 uses, repaired with Starmetal |
+| **Starmetal** | Astral Ore on the islands (iron pickaxe; Fortune works), wardens, caches | forges Eclipse Sigils, repairs the Blinkstone |
+| **Lumen Core** | Orrery Wardens (50%), Lumen Mites (6%), caches | sigils, astrolabes, updraft vents |
+| **Updraft Vent** | astral bricks + Lumen Core + phantom membrane | build your own lifts (24 blocks, sneak to sink, no fall damage) |
+| **Corona** | the Leviathan, once per player | a sword (38 damage, Better Combat glaive moves) that stores light with each melee hit (5 charges, +2 per tier) and releases it as a piercing beam (10 per charge, 20+ blocks, stopped by blocks). Sneak-use with an Eclipse Scale in the off hand to raise its tier (up to 3). Below Antarchy's Nightmare Sword (50) and Ultimate Sword (100) in melee; its point is reach |
+| **Eclipse Scale** | the Leviathan, every victory | Corona tiers and repair |
+| Astral blocks | the islands, crafting | building: astral shale, bricks, chiseled bricks, rift glass, lumen crystal, starmoss |
+
+Seven advancements: Stargazers, Parts of the Engine, Through the Rift, Between the Stars, The Eclipse Sigil, Fallen Metal and
+Totality.
+
+### About the reference
+
+The request pointed to Stellaria (a Fabric 1.21.1 mod on Modrinth) as an inspiration. Modrinth could not be reached from
+the build environment (blocked by its network policy), so its pages, gallery and footage were **not** viewed; what is
+known about it here comes only from search-engine summaries. It is a Fabric mod and is not installable in this NeoForge
+pack. Nothing from it is used: the names, the dimension, the structures, the creatures, the models, the textures, the
+sounds and the code here are all original.
 
 ## Performance
 
@@ -213,6 +350,11 @@ are meant to be met, not swarmed by). Their AI looks only at their own target; a
 heightmap columns once every 45–90 seconds, and its prey check runs once every 20 seconds. The Matriarch exists only in
 a Great Cage with a player near it, and her brood call is capped at the cage's escort count plus two. Acid puddles
 last 4 seconds.
+
+The Abyss: nothing is force-loaded. Its places are built once, when a player first comes near; its fights run only near
+players; the Leviathan exists only while its fight is active and never leaves the arena. Star bolts last 3 s, the
+Leviathan's mites are capped at four, natural spawns at eight within 48 blocks. The sky is a few hundred quads per frame;
+the particle multiplier applies to all its effects.
 
 The addon's cost when nothing is fighting: one structure-reference lookup per player every 2 seconds and a short loop over
 known landmarks every half second. It never scans the world: every search is a box around one landmark or one player.
@@ -249,9 +391,16 @@ python3 tools/models/<gnashback|shrikewing|matriarch>.py   # creature model, tex
 python3 tools/models/preview.py <creature> <out_dir>      # offline preview renders of every pose
 python3 tools/sounds/synth.py                             # the creatures' sounds (needs numpy and ffmpeg)
 python3 tools/gen_creature_textures.py                    # gear icons and Carapace armour layers
+python3 tools/structures/rift_observatory.py              # the observatory template
+python3 tools/structures/abyss_places.py                  # the abyss's five place templates
+python3 tools/abyss_textures.py                           # abyss blocks, items, sky textures
+python3 tools/abyss/preview.py                            # map and section of the abyss's islands (same maths as the game)
+python3 tools/models/<lumen_mite|orrery_warden|eclipse_leviathan>.py
 ```
+`tools/abyss_data.py` holds the observatory's and the abyss's data (dimension, biomes, loot, recipes, advancements,
+text, sounds); `datagen.py` folds it in.
 
-The jar is `build/libs/unstable_frontiers-0.4.0-rc1.jar`.
+The jar is `build/libs/unstable_frontiers-0.5.0-rc1.jar`.
 
 ## How the creatures were made
 

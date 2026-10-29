@@ -329,6 +329,8 @@ LANG = {
     'item.unstable_frontiers.corona.tip1': 'Use to release it all as a piercing beam (10 per charge).',
     'item.unstable_frontiers.corona.tip2': 'Tier %s of 3. Sneak-use with an Eclipse Scale in the off hand to raise it.',
     'item.unstable_frontiers.corona.tip3': 'Durability %s / %s',
+    'lens.unstable_frontiers.observatory': 'Rift Observatory',
+    'item.unstable_frontiers.rift_lens.tip2': 'Once the Great Cage has fallen, it also finds the Rift Observatories.',
     'place.unstable_frontiers.landing': 'the Landing',
     'place.unstable_frontiers.starwell': 'the Starwell',
     'place.unstable_frontiers.archive': 'the Drifting Archive',
