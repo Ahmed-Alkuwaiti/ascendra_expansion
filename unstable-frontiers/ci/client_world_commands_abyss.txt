@@ -4,10 +4,9 @@ gamerule doWeatherCycle false
 gamerule doMobSpawning false
 time set 13500
 weather clear
-# The observatory, corner at 3000 ~ 3000 (centre 3040 ~ 3040); a marker stands on the Well's floor beside the engine.
-execute in unstable_frontiers:frontier run forceload add 2992 2992 3088 3088
+# The observatory, centred on 3000 ~ 3000.
+execute in unstable_frontiers:frontier run forceload add 2952 2952 3048 3048
 execute in unstable_frontiers:frontier positioned 3000 0 3000 run frontier landmark build rift_observatory
-execute in unstable_frontiers:frontier positioned 3040 0 3040 positioned over motion_blocking run summon minecraft:armor_stand ~ ~-82 ~ {Tags:["obs"],Invisible:1b,Marker:1b,NoGravity:1b,PersistenceRequired:1b}
 execute in unstable_frontiers:frontier positioned 3000 0 3000 positioned over motion_blocking run frontier landmark info
 execute in unstable_frontiers:frontier run forceload remove all
 # The abyss's five places, built in advance (the trial also checks safe ground at each).
