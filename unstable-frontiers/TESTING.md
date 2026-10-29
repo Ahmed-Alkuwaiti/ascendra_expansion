@@ -49,20 +49,31 @@ MobScaling scripts). It is a dedicated server, not the single-player client, at 
 Same server as section 2. `/frontier debug trial <creature>` (`debug/CreatureTrial.java`) plays each fight against a
 motionless iron golem standing in for the player, moving it the way a player would dodge, and logs each step.
 
-| Trial step | Result (run 40866196539) |
+**Result of the last run (40871127131): all 21 trial checks pass, and all 19 landmark checks of section 2.**
+
+| Trial step | Result |
 |---|---|
-| Matriarch waits in her chains before the fight; she cannot be hurt then | pass |
+| Matriarch waits in her chains before the fight (1750 health after the pack's scaling); she cannot be hurt then | pass |
 | The key wakes the same Matriarch, chained; chained she takes 7 of a 20 hit | pass |
 | Scythe sweep: tell, then strike | pass |
-| Acid volley: tell, globs, poison puddles | pass |
+| Acid volley at mid range: tell, globs, poison puddles | pass |
 | Brood call: the open sac takes 30 of a 20 hit even while chained; escorts arrive (6 creatures in the fight) | pass |
 | Breaking the pylons snaps the chains (roar); free, she takes 20 of 20 | pass |
-| Leap: crouch with landing ring, then the jump (landed 4.3 blocks from the target's spot) | pass |
+| Leap: crouch with landing ring, then the jump (landed 3.7 blocks from the target's spot) | pass |
 | Killing her clears the Great Cage and opens its gates | pass |
+| Gnashback tells its charge; a charge dodged late in the tell runs into the wall and stuns it | pass |
+| The stunned Gnashback takes 20 from a hit that deals 10 normally; an undodged charge hits for 33.6 | pass |
 | Shrikewing stays aloft; screeches and marks the spot before diving | pass |
-| A dodged dive leaves it climbing and open; an undodged dive hits (28) | pass |
-| Gnashback tells its charge; an undodged charge hits (24) | pass |
-| A dodged charge into a wall stuns the Gnashback; its stunned back takes double | **failed in that run**: it re-aimed at the target until the very end of the tell, so stepping aside during the tell did not work. Fixed (it now fixes its line half a second before running); see the result of the following run below |
+| A dodged dive leaves it climbing and open; an undodged dive hits | pass |
+
+**What the trials found and changed** (earlier runs):
+* The Gnashback re-aimed at its target until the very last tick of its tell, so stepping aside during the tell did not
+  work. It now fixes its line half a second before running.
+* After a sweep, the Matriarch walked back into scythe range during her cooldown, so her acid was almost never used
+  against someone standing a few blocks off. She now holds her ground at mid range and spits; she only walks after
+  prey more than 12 blocks away.
+* Health was set from these runs: the pack multiplied the Matriarch's base health by 2.5 (900 → 2250, too much next to
+  the Hive Tyrant's 1625), so her base is now 700 (1750 measured).
 
 **Measured numbers** (from `/frontier debug dump`, after the pack's scaling, Normal difficulty):
 
@@ -71,9 +82,9 @@ motionless iron golem standing in for the player, moving it the way a player wou
   brutalfly 1250/30, Hercules beetle 1625/60, king 8500/150, queen 10750/90. Red ants and termites are passive (12.5).
 * Antarchy weapons: Nightmare Sword 50, Ultimate Sword 100, Royal Guardian Sword 500 attack damage.
 * This addon's Swarmbreaker: 40 (1 base + 39). It was 8 before this run; the numbers above are why it changed.
-* This addon's creatures: the pack multiplied health by 2.5 and attack by 2 in every run here (Gnashback 110 → 275,
-  attack 12 → 24; Matriarch 700 base). One earlier dump read a Shrikewing at 5× health, so the pack's scaling is not
-  always the same factor; the base values were set from these measurements.
+* This addon's creatures (last run): Gnashback 275 / 24, Shrikewing 150 / 28, Chained Matriarch 1750 / 40. The pack
+  multiplied health by 2.5 and attack by 2 in every run but one, where a Shrikewing read 5× health, so the pack's
+  scaling is not always the same factor.
 
 These numbers changed the design: the Gaol's warden had been a manticore (150) guarding a Hercules beetle (1625); the
 cells now hold mid-tier prisoners and the Gaoler is the brutalfly. Elite slams now scale from the elite's own attack.

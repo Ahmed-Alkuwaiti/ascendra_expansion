@@ -25,7 +25,8 @@ the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar, whe
 ## Install
 
 1. Install Integrated Boogaloo **1.0.8** from CurseForge (or use your existing instance of that version).
-2. Put `unstable_frontiers-0.4.0-rc1.jar` in the instance's `mods` folder. Nothing else is needed: Antarchy and GeckoLib
+2. Download `unstable-frontiers/dist/unstable_frontiers-0.4.0-rc1.jar` from this branch (its SHA-256 is in the
+   `.sha256` file next to it) and put it in the instance's `mods` folder. Nothing else is needed: Antarchy and GeckoLib
    are in the pack. Remove any older `unstable_frontiers-*.jar` first.
 3. Start the game. In a world, craft an **Unstable Rift Shard** (amethyst shards in the corners, crying obsidian on the
    sides, an eye of ender in the middle) and use it.
@@ -79,7 +80,7 @@ the Matriarch is what both came from.
 | Behaviour | territorial: ignores you beyond ~10 blocks unless hit | circles high over its home ground, perches on high points, hunts players and (now and then) insects | waits in her chains; the key starts the fight |
 | Its attack and tell | **Charge**: lowers its head, cracks its shell open and scrapes the ground twice (about 1.25 s, with a scraping sound and dust), then runs straight at where you stood. Close in, it bites | **Dive**: circles you, then hangs with wings raised and screeches while a ring marks the spot. The ring stops following you half way through the tell; then it dives | see below |
 | Weakness | dodge the charge so it hits a wall or tree: stunned for 4 s with its back open, **double damage** | a missed dive leaves it climbing slowly (+50% damage) or, if it hits the ground, **grounded for 3 s (double damage)**. The Shrike Impaler knocks it out of the sky | the brood sac, and her chains |
-| Measured in the pack | 275 health, 24 attack (charge ×1.4) | about 250 health (measured 350 at 70 base; base lowered to 50), 28 attack | 1250 health, 40 attack, armour 14 |
+| Measured in the pack | 275 health, 24 attack (charge ×1.4) | 150 health, 28 attack | 1750 health, 40 attack, armour 14 |
 | Drops | 2–4 Gnashback Plates (+Looting), bug meat, chitin | 1–2 Shrike Talons (+Looting), phantom membrane, feathers | 6–10 plates, 2–3 talons, diamonds, netherite scrap |
 
 Health and attack are after Integrated Boogaloo's own mob scaling (Boogaloo Core), read from a pack server by CI. The first
@@ -94,8 +95,9 @@ The fight is decided by what you do, not by her health:
   and each one that falls brings flyers (Shrikewings, stratosharks) down from the dome.
 * **Scythe Sweep** — she rears with both scythes back and sparks trace a 120° arc in front of her (1.1 s). The arc is fixed
   when the tell ends: get behind her or out of reach (7 blocks).
-* **Acid Volley** — her sac swells and her head draws back (0.9 s), then three globs land around where you stand, each
-  leaving a poison puddle for a few seconds. Keep moving.
+* **Acid Volley** — at mid range she holds her ground; her sac swells and her head draws back (0.9 s), then three globs
+  land around where you stand, each leaving a poison puddle for a few seconds. Keep moving, or close in (and face the
+  scythes).
 * **Brood Call** — the plates on her sac lift and it pulses for 3 s while young (from the cage's roster) climb out. She does
   not attack and the open sac takes **150% damage, even while chained**: this is the opening.
 * **The chains snap** when the last pylon falls: she roars, takes full damage, moves faster and gains the **Leap**: she
@@ -119,8 +121,8 @@ Numbers measured in Integrated Boogaloo 1.0.8 (Boogaloo Core's scaling applied, 
 | emperor scorpion | 1050 / 56 | the Gaol's heavy cell |
 | **The Gaoler** (brutalfly) | 1250 / 30 | Hanging Gaol |
 | **Hive Tyrant** (Hercules beetle) | 1625 / 60 | Brood Hive |
-| Gnashback / Shrikewing | 275 / 24, about 250 / 28 | the wilds, roosts, aeries, Carrion Fields |
-| **The Chained Matriarch** | 1250 / 40; a third of the damage while chained, 150% on the open sac | the Great Cage |
+| Gnashback / Shrikewing | 275 / 24, 150 / 28 | the wilds, roosts, aeries, Carrion Fields |
+| **The Chained Matriarch** | 1750 / 40; a third of the damage while chained, 150% on the open sac | the Great Cage |
 
 The frontier is **mid-to-late game**: come with Antarchy gear at least at the Nightmare tier, or a superhero suit. The Rift
 Shard needs an eye of ender, which keeps early players out. Antarchy's King and Queen are not used: they stay where Antarchy
@@ -206,6 +208,12 @@ four cores, and Integrated Boogaloo's 174 mods already load the server thread; H
 Minecraft 8–10 GB in the launcher (more than that does not help and lengthens garbage-collection pauses). If you see lag
 during the Great Cage fight, set `simultaneousEncounters = 1` and `particleDensity = 0.5` rather than switching preset.
 
+The creatures: natural Gnashbacks and Shrikewings count against the normal monster cap (spawn weights are low: they
+are meant to be met, not swarmed by). Their AI looks only at their own target; a Shrikewing picking a perch reads ten
+heightmap columns once every 45–90 seconds, and its prey check runs once every 20 seconds. The Matriarch exists only in
+a Great Cage with a player near it, and her brood call is capped at the cage's escort count plus two. Acid puddles
+last 4 seconds.
+
 The addon's cost when nothing is fighting: one structure-reference lookup per player every 2 seconds and a short loop over
 known landmarks every half second. It never scans the world: every search is a box around one landmark or one player.
 
@@ -219,8 +227,14 @@ See [TESTING.md](TESTING.md) for the full report from the last CI runs. In short
   Electric Boogaloo, KubeJS, Lootr, Curios, Better Combat, Witchery and their dependencies, plus the pack's configs and
   KubeJS server scripts) on a dedicated server: every roster resolves, every landmark builds, every kind of fight starts
   with real Antarchy creatures, gates open, and the landmarks generate naturally.
-* **Not tested**: the game client (I cannot run one), the full 174-mod pack at once, and actual play. How Antarchy's
-  creatures move and fight inside these structures has not been watched by a person.
+* **Creature trials** on the same pack server: each creature's fight is played against a stand-in target, checking that
+  every tell comes before its attack, that dodging works and leaves the creature open, that openings take the damage
+  promised, and that the Matriarch's chains, brood call, acid, leap and death work in the Great Cage. Last run: all 40
+  server checks pass.
+* **In-game screenshots** from the full Integrated Boogaloo client (every jar of the pack), scripted, under software
+  rendering: [docs/screenshots/ingame](docs/screenshots/ingame).
+* **Not tested**: real play by a person (timing with a mouse and keyboard, how it feels), sound by ear, multiplayer with
+  two clients, frame rate on your PC, and the Carapace set bonus, Impaler bonus and Mantle in actual use.
 
 ## Building from source
 
