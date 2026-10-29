@@ -371,6 +371,12 @@ public class ChainedMatriarchEntity extends AnimatedMonster {
         }
     }
 
+    @Override
+    public String debugInfo() {
+        return super.debugInfo() + String.format(", cooldowns attack %d brood %d leap %d, chained %s", attackCooldown, broodCooldown,
+                leapCooldown, chained);
+    }
+
     private void face(LivingEntity target) {
         Vec3 d = target.position().subtract(position());
         float yaw = (float) Math.toDegrees(Math.atan2(-d.x, d.z));

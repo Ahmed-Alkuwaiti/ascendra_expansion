@@ -49,6 +49,9 @@ public final class CreatureTrial {
     /** Runs every tick while a trial is active (keeps a landmark fight engaged with nobody standing in it). */
     @Nullable
     private static Runnable keepAlive;
+    /** What the creature under trial is doing, logged when a step times out. */
+    @Nullable
+    private static java.util.function.Supplier<String> status;
 
     private record Step(String name, int timeout, IntPredicate body) {}
 
@@ -99,7 +102,7 @@ public final class CreatureTrial {
             done = true;
         }
         if (!done && ++elapsed > current.timeout()) {
-            fail("{}: timed out after {} ticks", current.name(), current.timeout());
+            fail("{}: timed out after {} ticks ({})", current.name(), current.timeout(), status == null ? "-" : status.get());
             done = true;
         }
         if (done) {
@@ -129,7 +132,9 @@ public final class CreatureTrial {
         g.moveTo(at.x, at.y, at.z, 180, 0);
         g.setNoAi(true);
         g.setPersistenceRequired();
-        g.setInvulnerable(false);
+        // a stand-in that cannot die, so a long trial never loses its target (damage still shows as lost health)
+        g.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(100000.0D);
+        g.setHealth(100000.0F);
         level.addFreshEntity(g);
         return g;
     }
@@ -139,6 +144,13 @@ public final class CreatureTrial {
         level.addFreshEntity(m);
         @SuppressWarnings("unchecked") T t = (T) m;
         return t;
+    }
+
+    private static String describe(AnimatedMonster m) {
+        var t = m.getTarget();
+        return String.format("state %d, target %s at %.1f, alive %s, on ground %s, no AI %s, pos %s, %s", m.state(),
+                t == null ? "none" : t.getType().toShortString(), t == null ? -1.0D : m.distanceTo(t), m.isAlive(), m.onGround(),
+                m.isNoAi(), m.blockPosition().toShortString(), m.debugInfo());
     }
 
     /** Damage dealt by a fixed armour-bypassing hit, after the creature's own rules. */
@@ -161,6 +173,7 @@ public final class CreatureTrial {
             g[0] = spawn(level, ModEntities.GNASHBACK.get(), Vec3.atBottomCenterOf(c));
             dummy[0] = dummy(level, Vec3.atBottomCenterOf(c.offset(0, 0, 11)));
             g[0].setTarget(dummy[0]);
+            status = () -> describe(g[0]);
             LOGGER.info("TRIAL gnashback hp {} armor {} attack {}", g[0].getMaxHealth(), g[0].getArmorValue(),
                     g[0].getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE));
             return true;
@@ -172,6 +185,9 @@ public final class CreatureTrial {
         });
         step("gnashback tells its charge", 300, t -> {
             g[0].setTarget(dummy[0]);
+            if (g[0].distanceTo(dummy[0]) < 8 && g[0].state() == GnashbackEntity.IDLE) {
+                g[0].teleportTo(c.getX() + 0.5D, c.getY(), c.getZ() + 0.5D);   // back off to charging range, as a player would
+            }
             if (g[0].state() == GnashbackEntity.TELL) {
                 pass("gnashback tells its charge (scrape) before charging");
                 return true;
@@ -208,6 +224,10 @@ public final class CreatureTrial {
                 dummyHp[0] = dummy[0].getHealth();
             }
             g[0].setTarget(dummy[0]);
+            if (g[0].distanceTo(dummy[0]) < 8 && g[0].state() == GnashbackEntity.IDLE) {
+                g[0].teleportTo(c.getX() + 0.5D, c.getY(), c.getZ() + 0.5D);
+                dummyHp[0] = dummy[0].getHealth();   // bites do not count: only the charge
+            }
             if (dummy[0].getHealth() < dummyHp[0] - 5) {
                 pass("an undodged gnashback charge hits for {}", dummyHp[0] - dummy[0].getHealth());
                 return true;
@@ -231,6 +251,7 @@ public final class CreatureTrial {
             s[0] = spawn(level, ModEntities.SHRIKEWING.get(), Vec3.atBottomCenterOf(c.offset(0, 10, 0)));
             dummy[0] = dummy(level, Vec3.atBottomCenterOf(c.offset(0, 0, 6)));
             s[0].setTarget(dummy[0]);
+            status = () -> describe(s[0]);
             LOGGER.info("TRIAL shrikewing hp {} armor {}", s[0].getMaxHealth(), s[0].getArmorValue());
             return true;
         });
@@ -335,6 +356,7 @@ public final class CreatureTrial {
             Vec3 front = m[0].position().add(Vec3.directionFromRotation(0, m[0].getYRot()).scale(4.0D));
             dummy[0] = dummy(level, front);
             m[0].setTarget(dummy[0]);
+            status = () -> describe(m[0]);
             return true;
         });
         step("matriarch chained damage", 3, t -> {

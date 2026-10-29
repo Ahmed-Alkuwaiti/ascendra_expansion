@@ -54,7 +54,7 @@ public class GnashbackEntity extends AnimatedMonster {
     private static final RawAnimation A_DEATH = RawAnimation.begin().thenPlayAndHold("animation.gnashback.death");
     private static final RawAnimation A_BITE = RawAnimation.begin().thenPlay("animation.gnashback.bite");
 
-    private int chargeCooldown = 60;
+    private int chargeCooldown = 20;
     private Vec3 chargeDir = Vec3.ZERO;
 
     public GnashbackEntity(EntityType<? extends Monster> type, Level level) {
@@ -132,6 +132,12 @@ public class GnashbackEntity extends AnimatedMonster {
         if (chargeCooldown > 0) {
             chargeCooldown--;
         }
+    }
+
+    @Override
+    public String debugInfo() {
+        return super.debugInfo() + ", charge cooldown " + chargeCooldown + ", goals " + goalSelector.getAvailableGoals().stream()
+                .filter(net.minecraft.world.entity.ai.goal.WrappedGoal::isRunning).map(w -> w.getGoal().getClass().getSimpleName()).toList();
     }
 
     @Override

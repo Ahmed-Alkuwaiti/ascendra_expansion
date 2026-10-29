@@ -48,6 +48,11 @@ public abstract class AnimatedMonster extends Monster implements GeoEntity {
         }
     }
 
+    /** For the CI trials' logs: cooldowns and whatever else explains what the creature is waiting for. */
+    public String debugInfo() {
+        return "state ticks " + stateTicks;
+    }
+
     /** For screenshots and tests: holds a creature (with its AI off) in one of its states, so its pose can be seen. */
     public void debugPose(int state) {
         setState(state);
