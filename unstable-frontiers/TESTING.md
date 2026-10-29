@@ -9,11 +9,11 @@ There are four kinds of check, reported separately.
 ## 0.5.0: the Rift Observatory and the Astral Abyss
 
 Same pack server as sections 2 and 3 (138 of Integrated Boogaloo 1.0.8's jars, its configs and KubeJS scripts), with
-`debug/AbyssTrial.java` added to the trials. **Result of the last run: CHECKS_RESULT.** Real numbers from that run:
+`debug/AbyssTrial.java` added to the trials. **Result of the last run: all 78 checks pass (the 40 from 0.4.0 and 38 new), run 40931695160.** Real numbers from that run:
 
 | Area | What was checked | Result |
 |---|---|---|
-| Observatory | builds; the gatehouse ambush, the Hall's waves and the Vaults' brood start with creatures | pass |
+| Observatory | generates naturally (nearest from two points: 471 and 388 blocks); builds; the gatehouse ambush, the Hall's waves and the Vaults' brood start with creatures | pass |
 | | the Lens Dome is sealed at first; clearing the Hall and the Vaults unseals it; its guardian then spawns | pass |
 | | the engine takes the three parts in any order and wakes; the gate beside it was closed and is now open; the lift unseals; a woken engine takes no more parts | pass |
 | Abyss | all five places build on their islands, each with safe ground found (landing 0,102,5; Starwell 232,95,−148; Archive −224,124,−72; Tether Spire 68,98,268; Crown 24,114,560) | pass |
@@ -43,7 +43,7 @@ Leviathan called at the Hollow Crown. Software rendering, no shaders.
 **Not tested in 0.5.0:** a person playing the fights (timing, feel); the Blinkstone, Corona beam and tiers, Astrolabe
 guidance and updraft vents in someone's hands; two real players (health scaling and shared rewards are code paths the
 trials touch only with one stand-in); sounds by ear; frame rate and tick time on your PC; how Antarchy's elite abilities
-behave in the observatory; how often you meet an observatory across many worlds (the locate run measures two distances in one world: LOCATE_RESULT).
+behave in the observatory; how often you meet an observatory across many worlds (the locate run measures two distances in one world: the nearest observatory was 471 and 388 blocks away).
 
 ## 1. Standalone checks (no Integrated Boogaloo)
 

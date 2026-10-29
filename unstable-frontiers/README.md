@@ -373,6 +373,10 @@ See [TESTING.md](TESTING.md) for the full report from the last CI runs. In short
   every tell comes before its attack, that dodging works and leaves the creature open, that openings take the damage
   promised, and that the Matriarch's chains, brood call, acid, leap and death work in the Great Cage. Last run: all 40
   server checks pass.
+* **0.5.0** (see TESTING.md): the observatory's seal and engine, the Abyss's places, safe arrival, void catch and item
+  rescue, the Orrery Warden and Lumen Mite, and the Eclipse Leviathan's whole fight (summon, phases, mites, eclipse,
+  arena bounds, save and load, abandonment reset, free recall, rewards): all 78 server checks pass. The client run
+  walked through the restored gate into the Abyss and called the Leviathan: [screenshots](docs/screenshots/ingame/abyss).
 * **In-game screenshots** from the full Integrated Boogaloo client (every jar of the pack), scripted, under software
   rendering: [docs/screenshots/ingame](docs/screenshots/ingame).
 * **Not tested**: real play by a person (timing with a mouse and keyboard, how it feels), sound by ear, multiplayer with
