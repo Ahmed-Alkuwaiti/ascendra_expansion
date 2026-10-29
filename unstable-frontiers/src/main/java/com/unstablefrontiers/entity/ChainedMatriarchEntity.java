@@ -181,7 +181,8 @@ public class ChainedMatriarchEntity extends AnimatedMonster {
         }
         getLookControl().setLookAt(target, 20.0F, 20.0F);
         double d = distanceTo(target);
-        if (d > 5.0D) {
+        // she closes in only on prey that is far off; in mid range she holds her ground and spits
+        if (d > 12.0D) {
             getNavigation().moveTo(target, 1.0D);
         } else {
             getNavigation().stop();
