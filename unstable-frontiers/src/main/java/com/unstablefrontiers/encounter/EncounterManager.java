@@ -145,6 +145,16 @@ public final class EncounterManager {
                     data(level).setDirty();
                 }
             }
+            if (z.kind() == Kind.FINALE && zs.status == ZoneState.Status.IDLE && !zs.dormantPlaced && requirementsMet(s, def, z)) {
+                // the beast is visible in its cage before the fight, struggling in its chains
+                Roster r = usable(z.roster());
+                if (r != null && r.elite() != null) {
+                    zs.session++;
+                    zs.dormantPlaced = true;
+                    Elites.spawnElite(level, s, z, zs, r, null, true);
+                    data(level).setDirty();
+                }
+            }
         }
         if (!def.residents().isEmpty()) {
             pruneResidents(level, s);
@@ -283,8 +293,8 @@ public final class EncounterManager {
         }
         Zone z = def.zones().get(Creatures.zone(e));
         ZoneState zs = s.zone(z);
-        if (zs.status != ZoneState.Status.IDLE) {
-            return;
+        if (zs.status != ZoneState.Status.IDLE || z.kind() == Kind.FINALE) {
+            return;   // the finale only starts at its lock
         }
         List<ServerPlayer> who = new ArrayList<>(players(level, s.world(z.box()), 12));
         if (by != null && !who.contains(by)) {
@@ -638,13 +648,18 @@ public final class EncounterManager {
         data(level).setDirty();
     }
 
+    /** Gives each participant the zone's reward items (a comma-separated list), once per player per landmark. */
     private static void reward(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs) {
-        ResourceLocation id = z.reward().contains(":") ? ResourceLocation.parse(z.reward()) : UnstableFrontiers.id(z.reward());
-        if (!BuiltInRegistries.ITEM.containsKey(id)) {
-            UnstableFrontiers.LOGGER.error("Landmark {} zone {} names reward {}, which is not an item", s.id, z.id(), id);
-            return;
+        List<Item> items = new ArrayList<>();
+        for (String name : z.reward().split(",")) {
+            name = name.trim();
+            ResourceLocation id = name.contains(":") ? ResourceLocation.parse(name) : UnstableFrontiers.id(name);
+            if (!BuiltInRegistries.ITEM.containsKey(id)) {
+                UnstableFrontiers.LOGGER.error("Landmark {} zone {} names reward {}, which is not an item", s.id, z.id(), id);
+                return;
+            }
+            items.add(BuiltInRegistries.ITEM.get(id));
         }
-        Item item = BuiltInRegistries.ITEM.get(id);
         for (UUID u : zs.participants) {
             if (!(level.getPlayerByUUID(u) instanceof ServerPlayer p) || p.distanceToSqr(s.world(z.centre()).getCenter()) > 96 * 96) {
                 continue;
@@ -652,12 +667,14 @@ public final class EncounterManager {
             if (!s.rewarded.add(u)) {
                 continue;
             }
-            ItemStack stack = new ItemStack(item);
-            if (!p.getInventory().add(stack)) {
-                p.drop(stack, false);
+            for (Item item : items) {
+                ItemStack stack = new ItemStack(item);
+                if (!p.getInventory().add(stack)) {
+                    p.drop(stack, false);
+                }
+                p.displayClientMessage(Component.translatable("message.unstable_frontiers.reward", new ItemStack(item).getHoverName())
+                        .withStyle(ChatFormatting.GOLD), false);
             }
-            p.displayClientMessage(Component.translatable("message.unstable_frontiers.reward", new ItemStack(item).getHoverName())
-                    .withStyle(ChatFormatting.GOLD), false);
         }
     }
 

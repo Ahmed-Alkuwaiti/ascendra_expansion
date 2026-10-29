@@ -35,3 +35,11 @@ Antarchy; it never substitutes other creatures.
     versionRange="[2.2.9,)"
     ordering="AFTER"
     side="BOTH"
+
+# Required: the frontier's own creatures are GeckoLib models (Integrated Boogaloo ships GeckoLib 4.9.3).
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    type="required"
+    versionRange="[${geckolib_version},)"
+    ordering="AFTER"
+    side="BOTH"

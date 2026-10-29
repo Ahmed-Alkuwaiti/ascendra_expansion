@@ -3,6 +3,7 @@ package com.unstablefrontiers.encounter;
 import com.unstablefrontiers.config.FrontierConfig;
 import com.unstablefrontiers.ecology.Creatures;
 import com.unstablefrontiers.ecology.Roster;
+import com.unstablefrontiers.entity.ChainedMatriarchEntity;
 import com.unstablefrontiers.landmark.FrontierData;
 import com.unstablefrontiers.landmark.LandmarkDef;
 import com.unstablefrontiers.landmark.LandmarkDef.Kind;
@@ -43,7 +44,13 @@ public final class Elites {
     private Elites() {}
 
     static void begin(ServerLevel level, LandmarkState s, LandmarkDef def, Zone z, ZoneState zs, Roster r, ServerPlayer target) {
-        spawnElite(level, s, z, zs, r, target);
+        if (zs.elite != null && level.getEntity(zs.elite) instanceof Mob waiting && Creatures.isDormant(waiting)) {
+            // the beast was already there, waiting in its chains: the fight wakes it
+            Creatures.setDormant(waiting, false);
+            waiting.setTarget(target);
+        } else {
+            spawnElite(level, s, z, zs, r, target);
+        }
         List<EntityType<?>> escorts = Roster.pick(r.mobs(), r.escorts(), level.random);
         for (int i = 0; i < escorts.size(); i++) {
             BlockPos at = z.spawns().isEmpty() ? z.centre() : z.spawns().get((i + 1) % z.spawns().size());
@@ -57,16 +64,25 @@ public final class Elites {
     }
 
     private static void spawnElite(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Roster r, @Nullable ServerPlayer target) {
+        spawnElite(level, s, z, zs, r, target, false);
+    }
+
+    /** Places the elite (dormant: visible, waiting for its fight). The finale's beast stands in the middle of the cage. */
+    static void spawnElite(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Roster r, @Nullable ServerPlayer target, boolean dormant) {
         EntityType<?> type = r.elite() != null ? Roster.type(r.elite().type()) : Roster.pick(r.mobs(), 1, level.random).get(0);
         BlockPos at = z.spawns().isEmpty() ? z.centre() : z.spawns().get(0);
-        Mob elite = EncounterManager.spawn(level, type, s.feet(at));
+        Vec3 where = z.kind() == Kind.FINALE ? post(s, z) : s.feet(at);
+        Mob elite = EncounterManager.spawn(level, type, where);
         if (elite == null) {
             return;
         }
         if (r.elite() != null && !r.elite().title().isEmpty()) {
             elite.setCustomName(Component.literal(r.elite().title()).withStyle(ChatFormatting.DARK_RED));
         }
-        EncounterManager.enlist(level, s, z, zs, elite, false, target);
+        if (elite instanceof ChainedMatriarchEntity m) {
+            m.setChained(true, post(s, z));
+        }
+        EncounterManager.enlist(level, s, z, zs, elite, dormant, target);
         zs.elite = elite.getUUID();
         Feedback.burst(level, ParticleTypes.LARGE_SMOKE, elite.position().add(0, 1, 0), 20, 1.0D);
     }
@@ -175,6 +191,42 @@ public final class Elites {
         return Math.max(7.0F, (float) (attack == null ? 7.0D : attack.getValue() * 0.8D));
     }
 
+    /** The middle of the finale's floor, where the beast is chained. */
+    static Vec3 post(LandmarkState s, Zone z) {
+        BlockPos floor = z.spawns().isEmpty() ? z.centre() : z.spawns().get(0);
+        return s.feet(new BlockPos(z.centre().getX(), floor.getY(), z.centre().getZ()));
+    }
+
+    /**
+     * The Matriarch's Brood Call: up to n of the roster's creatures climb out around her, while the fight has fewer than
+     * its escort count plus two. Creatures outside a landmark fight call nobody.
+     */
+    public static void broodCall(ServerLevel level, Mob mother, int n) {
+        if (!Creatures.isEncounter(mother)) {
+            return;
+        }
+        LandmarkState s = EncounterManager.data(level).get(Creatures.landmark(mother));
+        LandmarkDef def = s == null ? null : FrontierData.landmark(s.id);
+        if (def == null || Creatures.zone(mother) >= def.zones().size()) {
+            return;
+        }
+        Zone z = def.zones().get(Creatures.zone(mother));
+        ZoneState zs = s.zone(z);
+        Roster r = FrontierData.roster(z.roster());
+        if (r == null || zs.status != ZoneState.Status.ACTIVE) {
+            return;
+        }
+        int room = r.escorts() + 2 - (zs.mobs.size() - 1);
+        for (EntityType<?> type : Roster.pick(r.mobs(), Math.max(0, Math.min(n, room)), level.random)) {
+            Vec3 at = mother.position().add(level.random.nextInt(9) - 4, 0, level.random.nextInt(9) - 4);
+            Mob m = EncounterManager.spawn(level, type, at);
+            if (m != null) {
+                EncounterManager.enlist(level, s, z, zs, m, false, mother.getTarget());
+                Feedback.burst(level, ParticleTypes.ITEM_SLIME, m.position().add(0, 0.5D, 0), 8, 0.4D);
+            }
+        }
+    }
+
     // ---------------------------------------------------------------------------------------------------- pylons
     public static List<BlockPos> pylons(ServerLevel level, LandmarkState s, Zone z) {
         List<BlockPos> out = new ArrayList<>();
@@ -190,6 +242,9 @@ public final class Elites {
     private static void pylonTick(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Roster r, Mob elite, long t,
                                   List<ServerPlayer> engaged) {
         List<BlockPos> standing = pylons(level, s, z);
+        if (elite instanceof ChainedMatriarchEntity m) {
+            m.setChained(!standing.isEmpty(), post(s, z));
+        }
         if (zs.pylonsSeen < 0) {
             zs.pylonsSeen = standing.size();
         }
@@ -233,7 +288,8 @@ public final class Elites {
         }
         Zone z = def.zones().get(Creatures.zone(victim));
         ZoneState zs = s.zone(z);
-        if (z.kind() != Kind.FINALE || !victim.getUUID().equals(zs.elite) || pylons(level, s, z).isEmpty()) {
+        if (z.kind() != Kind.FINALE || !victim.getUUID().equals(zs.elite) || pylons(level, s, z).isEmpty()
+                || victim instanceof ChainedMatriarchEntity) {   // she wears her chains herself (see the class)
             return amount;
         }
         Feedback.burst(level, ParticleTypes.ENCHANTED_HIT, victim.position().add(0, victim.getBbHeight() / 2, 0), 8, 0.6D);

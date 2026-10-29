@@ -392,14 +392,45 @@ SOUNDS = {
     'item.shackle': ('block.chain.place', 0.7, 'The shackle binds'),
     'item.lens': ('item.spyglass.use', 0.8, 'The lens focuses'),
 }
+# The creatures' own sounds: files synthesised by tools/sounds/synth.py (event: (files, subtitle)).
+CREATURE_SOUNDS = {
+    'gnashback.ambient': (['gnashback/ambient'], 'Gnashback chitters'),
+    'gnashback.hurt': (['gnashback/hurt'], 'Gnashback hurts'),
+    'gnashback.death': (['gnashback/death'], 'Gnashback dies'),
+    'gnashback.bite': (['gnashback/bite'], 'Gnashback bites'),
+    'gnashback.scrape': (['gnashback/scrape'], 'Gnashback scrapes the ground'),
+    'gnashback.charge': (['gnashback/charge'], 'Gnashback charges'),
+    'gnashback.impact': (['gnashback/impact'], 'Gnashback crashes'),
+    'shrikewing.ambient': (['shrikewing/ambient1', 'shrikewing/ambient2'], 'Shrikewing cries'),
+    'shrikewing.hurt': (['shrikewing/hurt'], 'Shrikewing hurts'),
+    'shrikewing.death': (['shrikewing/death'], 'Shrikewing dies'),
+    'shrikewing.screech': (['shrikewing/screech'], 'Shrikewing screeches: it is about to dive'),
+    'shrikewing.flap': (['shrikewing/flap'], 'Wings beat'),
+    'matriarch.ambient': (['matriarch/ambient1', 'matriarch/ambient2'], 'The Matriarch rumbles'),
+    'matriarch.hurt': (['matriarch/hurt1', 'matriarch/hurt2'], 'The Matriarch hurts'),
+    'matriarch.death': (['matriarch/death'], 'The Matriarch falls'),
+    'matriarch.roar': (['matriarch/roar'], 'The Matriarch roars'),
+    'matriarch.brood': (['matriarch/brood'], 'The brood sac opens'),
+    'matriarch.sweep_tell': (['matriarch/sweep_tell'], 'Scythes drawn back'),
+    'matriarch.sweep': (['matriarch/sweep'], 'Scythes sweep'),
+    'matriarch.spit': (['matriarch/spit'], 'The Matriarch spits acid'),
+    'matriarch.slam': (['matriarch/slam'], 'The Matriarch lands'),
+    'matriarch.acid': (['matriarch/acid'], 'Acid sizzles'),
+}
 
 
 def sounds():
     out = {}
     for name, (event, pitch, sub) in SOUNDS.items():
         out[name] = {'subtitle': f'subtitles.{NS}.{name}', 'sounds': [{'name': f'minecraft:{event}', 'type': 'event', 'pitch': pitch}]}
+    for name, (files, sub) in CREATURE_SOUNDS.items():
+        missing = [f for f in files if not os.path.exists(os.path.join(ASSETS, 'sounds', f + '.ogg'))]
+        assert not missing, f'run tools/sounds/synth.py first: missing {missing}'
+        out[name] = {'subtitle': f'subtitles.{NS}.{name}', 'sounds': [f'{NS}:{f}' for f in files]}
     write(os.path.join(ASSETS, 'sounds.json'), out)
-    return {f'subtitles.{NS}.{k}': v[2] for k, v in SOUNDS.items()}
+    subs = {f'subtitles.{NS}.{k}': v[2] for k, v in SOUNDS.items()}
+    subs.update({f'subtitles.{NS}.{k}': v[1] for k, v in CREATURE_SOUNDS.items()})
+    return subs
 
 
 # -------------------------------------------------------------------------------------------------------- models

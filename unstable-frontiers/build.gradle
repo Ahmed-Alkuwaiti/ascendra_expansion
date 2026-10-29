@@ -40,11 +40,31 @@ tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version_range: minecraft_version_range, neo_version_range: neo_version_range,
             loader_version_range: loader_version_range, mod_id: mod_id, mod_name: mod_name,
-            mod_license: mod_license, mod_version: mod_version
+            mod_license: mod_license, mod_version: mod_version, geckolib_version: geckolib_version
     ]
     inputs.properties replaceProperties
     filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
+    }
+}
+
+repositories {
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content { includeGroup 'software.bernie.geckolib' }
+    }
+}
+
+// GeckoLib animates the frontier's creatures. It is not bundled: Integrated Boogaloo ships it (Antarchy needs it too).
+// When the pack has been downloaded (CI), compile against the very jar the pack ships; otherwise use the same version
+// from GeckoLib's Maven.
+dependencies {
+    def packGecko = fileTree(dir: 'pack/mods', include: "geckolib-neoforge-${minecraft_version}-${geckolib_version}.jar")
+    if (!packGecko.isEmpty()) {
+        compileOnly packGecko
+    } else {
+        compileOnly "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     }
 }
 

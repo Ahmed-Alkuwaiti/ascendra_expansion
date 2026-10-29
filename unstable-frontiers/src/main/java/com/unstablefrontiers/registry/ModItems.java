@@ -49,6 +49,9 @@ public final class ModItems {
             () -> new SwarmbreakerItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant()
                     .attributes(SwarmbreakerItem.attributes())));
 
+    /** The Matriarch's projectile, as an item only so it can be drawn in flight. Not obtainable. */
+    public static final DeferredItem<Item> ACID_GLOB = ITEMS.registerSimpleItem("acid_glob");
+
     public static final DeferredBlock<Block> CAGE_BEACON = BLOCKS.register("cage_beacon",
             () -> new CageBeaconBlock(Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(5.0F, 1200.0F)
                     .requiresCorrectToolForDrops().lightLevel(s -> 13).sound(SoundType.LODESTONE)));
