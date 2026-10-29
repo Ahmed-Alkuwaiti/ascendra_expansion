@@ -8,29 +8,29 @@ gui off
 wait 600
 # (a spectator does not count as a visitor, so the camera switches only once she is in place)
 /gamemode spectator
-/execute at @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] run tp @s ~ ~70 ~-120 facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
+/execute at @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] run tp @s ~ ~38 ~-85 facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
 wait 500
 shot 01_great_cage_approach
 /execute as @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] at @s run tp @p ^ ^4 ^14 facing entity @s eyes
 wait 300
 shot 02_matriarch_in_chains
-# A clean stage for the portraits: a platform of scarred ground high over the Rustbone Scar (x 3200, y 190, z 2800).
+# A clean stage for the portraits: a platform of scarred ground over the Rustbone Scar, below the cloud layer (x 3200, y 160, z 2800).
 # Go there first (spectator: no falling) so its chunks load before anything is built.
 /gamemode spectator
-/execute in unstable_frontiers:frontier run tp @s 3200 192 2790 0 10
+/execute in unstable_frontiers:frontier run tp @s 3200 162 2790 0 10
 wait 300
-/execute in unstable_frontiers:frontier run fill 3180 189 2780 3220 189 2820 minecraft:coarse_dirt
-/execute in unstable_frontiers:frontier run fill 3180 190 2780 3220 205 2820 minecraft:air
-/execute in unstable_frontiers:frontier run fill 3190 190 2812 3190 196 2812 minecraft:bone_block
-/execute in unstable_frontiers:frontier run fill 3210 190 2812 3210 196 2812 minecraft:bone_block
-/execute in unstable_frontiers:frontier run fill 3190 197 2812 3210 197 2812 minecraft:bone_block
-/execute in unstable_frontiers:frontier run fill 3196 190 2814 3196 194 2814 minecraft:chain
-/execute in unstable_frontiers:frontier run setblock 3206 190 2809 minecraft:dead_bush
-/execute in unstable_frontiers:frontier run setblock 3193 190 2803 minecraft:dead_bush
+/execute in unstable_frontiers:frontier run fill 3180 159 2780 3220 159 2820 minecraft:coarse_dirt
+/execute in unstable_frontiers:frontier run fill 3180 160 2780 3220 175 2820 minecraft:air
+/execute in unstable_frontiers:frontier run fill 3190 160 2812 3190 166 2812 minecraft:bone_block
+/execute in unstable_frontiers:frontier run fill 3210 160 2812 3210 166 2812 minecraft:bone_block
+/execute in unstable_frontiers:frontier run fill 3190 167 2812 3210 167 2812 minecraft:bone_block
+/execute in unstable_frontiers:frontier run fill 3196 160 2814 3196 164 2814 minecraft:chain
+/execute in unstable_frontiers:frontier run setblock 3206 160 2809 minecraft:dead_bush
+/execute in unstable_frontiers:frontier run setblock 3193 160 2803 minecraft:dead_bush
 wait 100
 # The Matriarch's tells (AI off, held in each pose). She faces north (towards the camera).
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:chained_matriarch 3200 190 2806 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f],Tags:["shot"]}
-/execute in unstable_frontiers:frontier run tp @s 3194 195 2793 facing 3200 192 2806
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:chained_matriarch 3200 160 2806 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:frontier run tp @s 3196 164 2797 facing 3200 162 2806
 wait 200
 shot 03_matriarch_idle
 /frontier debug pose @e[tag=shot] 1
@@ -48,8 +48,8 @@ shot 07_matriarch_leap_crouch
 /kill @e[tag=shot]
 wait 60
 # The Gnashback.
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3200 190 2803 {NoAI:1b,PersistenceRequired:1b,Rotation:[150f,0f],Tags:["shot"]}
-/execute in unstable_frontiers:frontier run tp @s 3197 192.5 2795 facing 3200 190.8 2803
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3200 160 2803 {NoAI:1b,PersistenceRequired:1b,Rotation:[150f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:frontier run tp @s 3197 162.5 2795 facing 3200 160.8 2803
 wait 200
 shot 08_gnashback
 /frontier debug pose @e[tag=shot] 1
@@ -61,8 +61,8 @@ shot 10_gnashback_stunned
 /kill @e[tag=shot]
 wait 60
 # The Shrikewing, hovering over the stage.
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3200 195 2804 {NoAI:1b,PersistenceRequired:1b,Rotation:[200f,0f],Tags:["shot"]}
-/execute in unstable_frontiers:frontier run tp @s 3196 193 2795 facing 3200 195.6 2804
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3200 165 2804 {NoAI:1b,PersistenceRequired:1b,Rotation:[200f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:frontier run tp @s 3196 163 2795 facing 3200 165.6 2804
 wait 200
 shot 11_shrikewing_flying
 /frontier debug pose @e[tag=shot] 1
@@ -71,12 +71,12 @@ shot 12_shrikewing_dive_tell
 /kill @e[tag=shot]
 wait 60
 # The food chain, AI on: two Shrikewings over two Gnashbacks on the stage.
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3196 190 2806
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3206 190 2810
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3200 200 2806
-/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3204 203 2812
-/execute in unstable_frontiers:frontier run tp @s 3200 196 2784 facing 3201 194 2808
-wait 300
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3196 160 2806
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:gnashback 3206 160 2810
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3200 170 2806
+/execute in unstable_frontiers:frontier run summon unstable_frontiers:shrikewing 3204 173 2812
+/execute in unstable_frontiers:frontier run tp @s 3200 166 2784 facing 3201 164 2808
+wait 80
 shot 13_food_chain
 /kill @e[type=unstable_frontiers:gnashback]
 /kill @e[type=unstable_frontiers:shrikewing]
@@ -92,7 +92,7 @@ shot 13_food_chain
 /give @s unstable_frontiers:gnashback_plate 12
 /give @s unstable_frontiers:shrike_talon 6
 /give @s unstable_frontiers:great_cage_heart
-/execute in unstable_frontiers:frontier run tp @s 3200 190 2800 160 10
+/execute in unstable_frontiers:frontier run tp @s 3200 160 2800 160 10
 camera front
 wait 300
 shot 14_carapace_worn
