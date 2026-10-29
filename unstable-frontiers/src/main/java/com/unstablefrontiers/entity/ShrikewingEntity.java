@@ -304,6 +304,12 @@ public class ShrikewingEntity extends AnimatedMonster {
     }
 
     @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        setNoGravity(false);   // it falls out of the sky while its death plays
+    }
+
+    @Override
     public boolean causeFallDamage(float distance, float multiplier, DamageSource source) {
         return false;
     }

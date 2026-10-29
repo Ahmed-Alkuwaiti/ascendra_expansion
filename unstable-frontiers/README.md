@@ -1,27 +1,36 @@
-# Unstable Frontiers 0.3.0 — an adventure expansion for Integrated Boogaloo
+# Unstable Frontiers 0.4.0-rc1 — an adventure expansion for Integrated Boogaloo
 
 **Target: [Integrated Boogaloo](https://www.curseforge.com/minecraft/modpacks/integrated-boogaloo) 1.0.8** (CurseForge
 project 1501592, file 9325863): Minecraft 1.21.1, NeoForge 21.1.264, with the pack's
-**Antarchy 2.2.9+1.21.1** (required). The addon is built against exactly that NeoForge version and was tested against the
+**Antarchy 2.2.9+1.21.1** and **GeckoLib 4.9.3** (both required, both already in the pack). The addon is built against exactly that NeoForge version and was tested against the
 pack's own jars, configs and KubeJS server scripts (see [Testing](#testing-what-was-checked-and-what-was-not)).
 
 It adds the **Unstable Frontier**: a wilderness the Cagewright once fenced in to hold Antarchy's monsters. You enter with a
 Rift Shard, follow a surveyor's journals from camp to camp, break open cages, rookeries and hives for the three parts of
-the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar.
+the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar, where the **Chained Matriarch** waits.
 
-All structure pictures in this repository are **renders of the actual template files the game places**, drawn by
-`tools/structures/view.py`. They are not in-game screenshots.
+0.4.0 adds the frontier's own animals, made for this addon: the **Gnashback** (a giant charging beetle), the **Shrikewing**
+(a diving sky predator that hunts the insects below) and the **Chained Matriarch** (the Great Cage's boss), with their gear.
+
+**About the pictures.** Three kinds, each labelled:
+* `docs/screenshots/ingame/` — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
+  its mods, software rendering under a virtual display, so no shaders and plain lighting). See
+  [the client test](#testing-what-was-checked-and-what-was-not).
+* `docs/renders/creature_*_model_sheet.png` — **model previews** drawn offline from the creature model files by
+  `tools/models/render.py` (not the game's renderer).
+* `docs/renders/<landmark>.png` — **structure renders** of the template files the game places, by `tools/structures/view.py`.
 
 ---
 
 ## Install
 
 1. Install Integrated Boogaloo **1.0.8** from CurseForge (or use your existing instance of that version).
-2. Put `unstable_frontiers-0.3.0.jar` in the instance's `mods` folder. Nothing else is needed: Antarchy is in the pack.
+2. Put `unstable_frontiers-0.4.0-rc1.jar` in the instance's `mods` folder. Nothing else is needed: Antarchy and GeckoLib
+   are in the pack. Remove any older `unstable_frontiers-*.jar` first.
 3. Start the game. In a world, craft an **Unstable Rift Shard** (amethyst shards in the corners, crying obsidian on the
    sides, an eye of ender in the middle) and use it.
 
-If Antarchy is missing or too old, NeoForge stops at the loading screen and names it. If a datapack breaks a roster (or a
+If Antarchy or GeckoLib is missing or too old, NeoForge stops at the loading screen and names it. If a datapack breaks a roster (or a
 future Antarchy renames a creature), the affected fight refuses to start and says which creature is missing, in chat and in
 `latest.log`; operators are told on login. The addon never swaps in other creatures.
 
@@ -55,7 +64,47 @@ and plain overworld terrain put two thirds of landmark sites under water. A land
 | **Carrion Field** ([render](docs/renders/carrion_field.png)) | 67×34×41 | not a fight you start: a giant's skeleton still being eaten. Insects live in the ribs, predators on the spine, and they fight each other whether or not you are there | the gullet's chest |
 | **Expedition camps** (3 kinds) ([render](docs/renders/camp_torn.png)) | 29×16×29 | Ilsa Vane's camps: intact, ransacked from below, torn open from above. Each has a different journal on its lectern | supplies; the Rift Lens (60%) |
 | **Waysides** (4 kinds) ([render](docs/renders/wayside_impaled.png)) | ≤11 wide | a fallen gibbet, an impaled carcass, an egg cluster, a claw-raked stone: small marks between the big landmarks | — |
-| **The Great Cage** ([render](docs/renders/great_cage.png), [cutaway](docs/renders/great_cage_section.png)) | 115×100×115 | a ring-walled prison with drum towers, eight cell blocks and a domed birdcage. The Cagewright's Key opens the lock by the south door and wakes **the Cagewright's Beast** (Antarchy basilisk). While its four pylons stand it takes only a sixth of the damage; the pylon cores break quickly once the fight is on, and every one that falls brings flyers down from the dome | Heart of the Great Cage; the vault below |
+| **The Great Cage** ([render](docs/renders/great_cage.png), [cutaway](docs/renders/great_cage_section.png)) | 115×100×115 | a ring-walled prison with drum towers, eight cell blocks and a domed birdcage. **The Chained Matriarch** hangs in her chains in the middle, visible from the walls before anything starts. The Cagewright's Key at the lock by the south door wakes her (see [the boss](#the-chained-matriarch)) | Heart of the Great Cage and the Matriarch's Mantle (each fighter); the vault below |
+
+### The frontier's own creatures
+
+Original creatures made for this addon (models, textures, animations and sounds all made here; see
+[how they were made](#how-the-creatures-were-made)). They belong together: the Shrikewing hunts what the Gnashback is, and
+the Matriarch is what both came from.
+
+| | The Gnashback | The Shrikewing | The Chained Matriarch |
+|---|---|---|---|
+| What | a giant beetle whose shell grew around old cage bars | a pale, hook-beaked flyer with ragged membrane wings | the brood queen the Cagewright shackled in the Great Cage |
+| Where | Gnashwood Wilds, Hushed Barrens, Rustbone Scar; Gibbet Spire pens; Carrion Fields | Talon Spires, Rustbone Scar; rookery roosts, spire aeries, Carrion Fields, night overflights, the Great Cage dome | the Great Cage only |
+| Behaviour | territorial: ignores you beyond ~10 blocks unless hit | circles high over its home ground, perches on high points, hunts players and (now and then) insects | waits in her chains; the key starts the fight |
+| Its attack and tell | **Charge**: lowers its head, cracks its shell open and scrapes the ground twice (about 1.25 s, with a scraping sound and dust), then runs straight at where you stood. Close in, it bites | **Dive**: circles you, then hangs with wings raised and screeches while a ring marks the spot. The ring stops following you half way through the tell; then it dives | see below |
+| Weakness | dodge the charge so it hits a wall or tree: stunned for 4 s with its back open, **double damage** | a missed dive leaves it climbing slowly (+50% damage) or, if it hits the ground, **grounded for 3 s (double damage)**. The Shrike Impaler knocks it out of the sky | the brood sac, and her chains |
+| Measured in the pack | 275 health, 24 attack (charge ×1.4) | about 250 health (measured 350 at 70 base; base lowered to 50), 28 attack | 1250 health, 40 attack, armour 14 |
+| Drops | 2–4 Gnashback Plates (+Looting), bug meat, chitin | 1–2 Shrike Talons (+Looting), phantom membrane, feathers | 6–10 plates, 2–3 talons, diamonds, netherite scrap |
+
+Health and attack are after Integrated Boogaloo's own mob scaling (Boogaloo Core), read from a pack server by CI. The first
+time each creature hunts you, a one-line hint in chat says how to fight it.
+
+### The Chained Matriarch
+
+The fight is decided by what you do, not by her health:
+
+* **Chained** (while any of the four pylons stands): she is tethered within about 9 blocks of the middle of the cage and
+  takes a **third** of the damage. Lines of light show which pylons hold her. Pylon cores break quickly during the fight,
+  and each one that falls brings flyers (Shrikewings, stratosharks) down from the dome.
+* **Scythe Sweep** — she rears with both scythes back and sparks trace a 120° arc in front of her (1.1 s). The arc is fixed
+  when the tell ends: get behind her or out of reach (7 blocks).
+* **Acid Volley** — her sac swells and her head draws back (0.9 s), then three globs land around where you stand, each
+  leaving a poison puddle for a few seconds. Keep moving.
+* **Brood Call** — the plates on her sac lift and it pulses for 3 s while young (from the cage's roster) climb out. She does
+  not attack and the open sac takes **150% damage, even while chained**: this is the opening.
+* **The chains snap** when the last pylon falls: she roars, takes full damage, moves faster and gains the **Leap**: she
+  crouches while a ring of flame marks where she will land (fixed half a second before she jumps). Leave the ring; the
+  landing throws back everything near it, and she pauses after it.
+
+There is no enrage and no hidden phase: the only change in the fight is the one the players cause by breaking the chains.
+Leave the cage for 20 s and the fight resets (she is back in her chains, at full health). Her own health bar shows how many
+pylons still stand.
 
 ### Who you fight, and when to come
 
@@ -70,7 +119,8 @@ Numbers measured in Integrated Boogaloo 1.0.8 (Boogaloo Core's scaling applied, 
 | emperor scorpion | 1050 / 56 | the Gaol's heavy cell |
 | **The Gaoler** (brutalfly) | 1250 / 30 | Hanging Gaol |
 | **Hive Tyrant** (Hercules beetle) | 1625 / 60 | Brood Hive |
-| **The Cagewright's Beast** (basilisk) | 800 / 72, shielded to a sixth while pylons stand | the Great Cage |
+| Gnashback / Shrikewing | 275 / 24, about 250 / 28 | the wilds, roosts, aeries, Carrion Fields |
+| **The Chained Matriarch** | 1250 / 40; a third of the damage while chained, 150% on the open sac | the Great Cage |
 
 The frontier is **mid-to-late game**: come with Antarchy gear at least at the Nightmare tier, or a superhero suit. The Rift
 Shard needs an eye of ender, which keeps early players out. Antarchy's King and Queen are not used: they stay where Antarchy
@@ -103,7 +153,10 @@ The rewards are built around Antarchy's own progression rather than bigger numbe
 | **Rookery Talon** | the Rookmother | key part; forges and repairs the Shackle |
 | **Hive Heart** | the Hive Tyrant | key part; forges the Swarmbreaker |
 | **Cagewright's Key** | trophy + talon + heart + Antarchy uranium ingot + tripwire hook | opens the Great Cage |
-| **Heart of the Great Cage** | the Cagewright's Beast | builds a Cage Beacon |
+| **Heart of the Great Cage** | the Chained Matriarch (each fighter) | builds a Cage Beacon |
+| **Matriarch's Mantle** | the Chained Matriarch (each fighter) | in the hotbar or off hand: **Wingsail** (long falls become a slow glide, sneak to drop; no fall damage) and the **brood truce** (wild insects, Antarchy's arthropods included, leave you alone until you strike them; landmark fights and bosses are not wild). It changes how you travel the frontier's spires and cliffs |
+| **Gnashback Carapace** (4 pieces) | a netherite piece + 3 Gnashback Plates, any grid | netherite's protection (3/8/6/3) with toughness 3.5 and knockback resistance 0.15; **full set**: no knockback at all, and insects deal 25% less. Repaired with plates |
+| **Shrike Impaler** | 3 Shrike Talons + netherite ingot + stick | a spear (Better Combat spear moves and reach in the pack): 34 damage, **double against anything airborne** (flyers, leaping or knocked-up creatures); a struck flyer is driven down and a Shrikewing is grounded. Repaired with talons |
 | **Rift Lens** | camps (60%), or spyglass + amethyst + Antarchy chitin | in the frontier: names the nearest cage, lair and camp with distance, direction and whether you have conquered it; shows the Great Cage once you carry the key |
 | **Swarmbreaker** | Hive Heart + 2 Antarchy mantis claws + netherite sword | brood-breaker glaive (Better Combat glaive moves in the pack). 40 damage (60 vs insects); Pounce lands in a shockwave (24, 36 vs insects) that smashes egg clutches (ending a hatchery's waves sooner) and staggers insects. Below Antarchy's Nightmare Sword (50) and Ultimate Sword (100) as measured in the pack: a crowd and nest tool, not a replacement |
 | **Cagewright's Shackle** | Rookery Talon + chains + lead | binds a hostile creature below a third of its health as an ally for 60 s; it then crumbles with no drops. Not on bosses (`c:bosses`, Antarchy's spell-resistant bosses) or elites. 6 uses |
@@ -128,7 +181,8 @@ dome make the sky part of the fight.
 * `/frontier return` — everyone, in the frontier: go home (60 s cooldown). For when your shard is lost.
 * Operators: `/frontier go`, `/frontier locate <any|cage|lair|camp|great_cage>`, `/frontier stats`,
   `/frontier landmark build <id> [rotation]`, `/frontier landmark info`, `/frontier landmark zone <zone> start|clear|reset`,
-  `/frontier landmark forget`, `/frontier debug rosters`, `/frontier debug dump <namespace>`.
+  `/frontier landmark forget`, `/frontier debug rosters`, `/frontier debug dump <namespace>`,
+  `/frontier debug trial <gnashback|shrikewing|matriarch>` (CI's scripted fights), `/frontier debug pose <entities> <state>`.
 
 ## Performance
 
@@ -177,11 +231,31 @@ python3 tools/datagen.py                  # rosters, worldgen, loot, recipes, ad
 python3 tools/textures.py                 # item and block textures
 python3 tools/check_data.py               # standalone data checks
 gradle build                              # Java 21, Gradle 8.10.2
+python3 tools/models/<gnashback|shrikewing|matriarch>.py   # creature model, texture, glow mask and animations
+python3 tools/models/preview.py <creature> <out_dir>      # offline preview renders of every pose
+python3 tools/sounds/synth.py                             # the creatures' sounds (needs numpy and ffmpeg)
+python3 tools/gen_creature_textures.py                    # gear icons and Carapace armour layers
 ```
 
-The jar is `build/libs/unstable_frontiers-0.3.0.jar`.
+The jar is `build/libs/unstable_frontiers-0.4.0-rc1.jar`.
+
+## How the creatures were made
+
+No Blockbench or Blender was used, and no other creator's models, animations or sounds. Each creature is written as a
+Python script (`tools/models/*.py`) that builds a Bedrock-format GeckoLib model (`geo/entity/*.geo.json`, box UV, bones
+and pivots), paints its texture and glow mask procedurally from named materials (chitin, rusted plate, membrane, bone,
+eye), and writes its keyframe animations (`animations/entity/*.animation.json`). The `.geo.json` and `.animation.json`
+files are standard GeckoLib formats, so they open and can be edited in Blockbench (GeckoLib Animation Utils plugin).
+`tools/models/render.py` draws previews using GeckoLib's own bone maths, which is how every pose was checked before it
+went into the game; the in-game screenshots then show how GeckoLib actually renders them.
+
+The 25 sounds are synthesised from noise, oscillators and filters by `tools/sounds/synth.py` (seeded, so re-running gives
+the same files) and were checked as spectrograms, not by ear.
+
+The landmark cues (discovery, gates, waves) still play vanilla sound events at other pitches through this mod's own sound
+definitions.
 
 ## Licence and credits
 
-Original code, structures, textures and writing. Antarchy (All Rights Reserved) is referenced by id only: no Antarchy code
-or assets are included. Sounds are vanilla sound events played through this mod's own sound definitions.
+Original code, structures, creature models, animations, textures, sounds and writing. Antarchy (All Rights Reserved) is
+referenced by id only: no Antarchy code or assets are included. GeckoLib (MIT) is a runtime dependency, not bundled.
