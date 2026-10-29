@@ -1,11 +1,13 @@
 # In-game screenshots (ci/pack_client.sh). The Great Cage was built with its corner at 3000 ~ 3000 (centre about 3057 ~ 3057).
 /gamerule doMobSpawning false
-/gamemode spectator
+/gamemode creative
 /effect give @s minecraft:night_vision infinite 0 true
 gui off
 # Arrive near the cage: the Matriarch is placed in her chains when a player comes near.
 /execute in unstable_frontiers:frontier run tp @s 3057 160 2960
 wait 600
+# (a spectator does not count as a visitor, so the camera switches only once she is in place)
+/gamemode spectator
 /execute at @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] run tp @s ~ ~70 ~-120 facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
 wait 500
 shot 01_great_cage_approach
