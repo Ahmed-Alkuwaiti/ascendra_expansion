@@ -664,9 +664,10 @@ public final class EncounterManager {
             if (!(level.getPlayerByUUID(u) instanceof ServerPlayer p) || p.distanceToSqr(s.world(z.centre()).getCenter()) > 96 * 96) {
                 continue;
             }
-            if (!s.rewarded.add(u)) {
-                continue;
+            if (!s.zoneRewards.add(z.index() + ":" + u)) {
+                continue;   // each rewarding fight pays each player once
             }
+            s.rewarded.add(u);
             for (Item item : items) {
                 ItemStack stack = new ItemStack(item);
                 if (!p.getInventory().add(stack)) {

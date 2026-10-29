@@ -123,7 +123,9 @@ public final class CreatureGearEvents {
         }
         // the first time each frontier creature hunts a player, one line on how to fight it
         String key = hunter instanceof GnashbackEntity ? "gnashback" : hunter instanceof ShrikewingEntity ? "shrikewing"
-                : hunter instanceof ChainedMatriarchEntity ? "chained_matriarch" : null;
+                : hunter instanceof ChainedMatriarchEntity ? "chained_matriarch"
+                : hunter instanceof com.unstablefrontiers.entity.LumenMiteEntity ? "lumen_mite"
+                : hunter instanceof com.unstablefrontiers.entity.OrreryWardenEntity ? "orrery_warden" : null;
         if (key != null) {
             CompoundTag d = ModAttachments.of(p);
             if (!d.getBoolean("hint_" + key)) {

@@ -43,6 +43,12 @@ public final class FrontierEvents {
         for (ServerLevel l : event.getServer().getAllLevels()) {
             ShackleItem.tick(l, l.getGameTime());
         }
+        ServerLevel abyss = event.getServer().getLevel(com.unstablefrontiers.abyss.AbyssDimension.LEVEL);
+        if (abyss != null && (!abyss.players().isEmpty() || com.unstablefrontiers.abyss.EclipseEncounter.get(abyss).active())) {
+            com.unstablefrontiers.abyss.AbyssPlaces.tick(abyss);
+            com.unstablefrontiers.abyss.EclipseEncounter.tick(abyss);
+            EncounterManager.tick(abyss);
+        }
         ServerLevel level = event.getServer().getLevel(FrontierDimension.LEVEL);
         if (level == null || level.players().isEmpty() && !EncounterManager.anyActive(level)) {
             return;
@@ -60,7 +66,7 @@ public final class FrontierEvents {
         if (!(event.getLevel() instanceof ServerLevel level) || !Creatures.isEncounter(e)) {
             return;
         }
-        if (!FrontierDimension.is(level) || !EncounterManager.belongs(level, e)) {
+        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level) || !EncounterManager.belongs(level, e)) {
             event.setCanceled(true);
         }
     }
@@ -108,6 +114,12 @@ public final class FrontierEvents {
         if (event.getLevel().getLevel() instanceof ServerLevel level && FrontierDimension.is(level)
                 && (event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION)
                 && CageBeacons.covers(level, event.getEntity().blockPosition())) {
+            event.setSpawnCancelled(true);
+        }
+        // The Abyss: no natural spawns on the landing or in the Hollow Crown, and at most 8 of its creatures near any spot.
+        if (event.getLevel().getLevel() instanceof ServerLevel level && com.unstablefrontiers.abyss.AbyssDimension.is(level)
+                && (event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION)
+                && com.unstablefrontiers.abyss.AbyssDimension.crowded(level, event.getEntity().position())) {
             event.setSpawnCancelled(true);
         }
     }

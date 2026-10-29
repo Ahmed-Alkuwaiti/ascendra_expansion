@@ -79,6 +79,14 @@ class Material:
             c = self.base if n > 0.3 else self.dark
             if n > 0.92:
                 c = self.light
+        elif k == 'void':
+            # night-sky hide: a deep gradient with scattered stars (the stars alone glow, see glows())
+            g = y / max(1, hgt - 1) if face not in ('up', 'down') else (0.2 if face == 'up' else 0.9)
+            c = mix(self.light, self.base, min(1.0, 0.25 + 0.75 * g))
+            if n < 0.08:
+                c = mix(c, self.dark, 0.5)
+            if self.star(x, y):
+                c = (255, 248, 220) if h(x, y, s + 5) > 0.4 else (150, 230, 255)
         elif k == 'glow':
             c = mix(self.base, self.light, 0.5 + 0.5 * h(x // 2, y // 2, s)) if n > 0.15 else self.dark
         else:
@@ -91,6 +99,19 @@ class Material:
         if self.rim and (x == 0 or y == 0 or x == w - 1 or y == hgt - 1) and w > 2 and hgt > 2:
             c = shade(c, 0.72)
         return c + (a,)
+
+
+def _star(self, x, y):
+    return self.kind == 'void' and h(x, y, self.seed + 3) > (1.0 - self.stars)
+
+
+def _glows(self, face, x, y):
+    return self.glow or self.star(x, y)
+
+
+Material.star = _star
+Material.glows = _glows
+Material.stars = 0.02
 
 
 def faces(cube):
@@ -113,7 +134,7 @@ def paint(model, path, extra=None):
                     for x in range(fw):
                         col = m.color(face, x, y, fw, fh)
                         img.putpixel((fx + x, fy + y), col)
-                        if m.glow:
+                        if m.glows(face, x, y):
                             glow.putpixel((fx + x, fy + y), col[:3] + (255,))
                             any_glow = True
             if extra:

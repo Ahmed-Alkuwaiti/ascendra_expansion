@@ -56,6 +56,16 @@ def render(model, texture, out, anim=None, t=0.0, yaw=35.0, pitch=22.0, size=640
             x0, x1 = -(ox + sw) - inf, -ox + inf
             y0, y1, z0, z1 = oy - inf, oy + sh + inf, oz - inf, oz + sd + inf
             regions = face_regions(c)
+            if c.rotation:
+                cp = c.cpivot or [c.origin[i] + c.size[i] / 2 for i in range(3)]
+                cpv = np.array([-cp[0], cp[1], cp[2]])
+                CR = rot(math.radians(-c.rotation[0]), math.radians(-c.rotation[1]), math.radians(c.rotation[2]))
+                CM = np.eye(4)
+                CM[:3, :3] = CR
+                CM[:3, 3] = cpv - CR @ cpv
+                Mc = M @ CM
+            else:
+                Mc = M
             # face: (corner origin, u axis, v axis (downwards on the texture), normal)
             spec = {
                 'north': ((x1, y1, z0), (x0 - x1, 0, 0), (0, y0 - y1, 0), (0, 0, -1)),
@@ -68,7 +78,7 @@ def render(model, texture, out, anim=None, t=0.0, yaw=35.0, pitch=22.0, size=640
             for face, (o, ua, va, nrm) in spec.items():
                 fx, fy, fw, fh = regions[face]
                 o, ua, va = np.array(o, float), np.array(ua, float), np.array(va, float)
-                n = M[:3, :3] @ np.array(nrm, float)
+                n = Mc[:3, :3] @ np.array(nrm, float)
                 lum = 0.55 + 0.45 * max(0.0, float(n @ light))
                 for j in range(fh):
                     for i in range(fw):
@@ -77,7 +87,7 @@ def render(model, texture, out, anim=None, t=0.0, yaw=35.0, pitch=22.0, size=640
                             continue
                         p = [o + ua * (i / fw) + va * (j / fh), o + ua * ((i + 1) / fw) + va * (j / fh),
                              o + ua * ((i + 1) / fw) + va * ((j + 1) / fh), o + ua * (i / fw) + va * ((j + 1) / fh)]
-                        pts = [(M @ np.append(q, 1.0))[:3] for q in p]
+                        pts = [(Mc @ np.append(q, 1.0))[:3] for q in p]
                         quads.append((pts, tuple(int(v * lum) for v in col[:3]) + (col[3],)))
     # camera: turn the model by yaw, tilt by pitch, look along -z from +z
     ya, pa = math.radians(yaw), math.radians(pitch)

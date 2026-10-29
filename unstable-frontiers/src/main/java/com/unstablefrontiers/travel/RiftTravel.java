@@ -36,7 +36,9 @@ public final class RiftTravel {
 
     /** In the frontier: go home. Anywhere else: go to the frontier. */
     public static void use(ServerPlayer player) {
-        if (FrontierDimension.is(player.level())) {
+        if (com.unstablefrontiers.abyss.AbyssDimension.is(player.level())) {
+            com.unstablefrontiers.abyss.AbyssTravel.leave(player);
+        } else if (FrontierDimension.is(player.level())) {
             goHome(player);
         } else {
             goToFrontier(player);
@@ -50,12 +52,15 @@ public final class RiftTravel {
             player.displayClientMessage(Component.translatable("message.unstable_frontiers.no_frontier").withStyle(ChatFormatting.RED), false);
             return;
         }
-        CompoundTag ret = new CompoundTag();
-        ret.putString("Dim", player.level().dimension().location().toString());
-        ret.putDouble("X", player.getX());
-        ret.putDouble("Y", player.getY());
-        ret.putDouble("Z", player.getZ());
-        persisted(player).put(RETURN, ret);
+        if (!com.unstablefrontiers.abyss.AbyssDimension.is(player.level())) {
+            // (from the abyss the way home stays the one remembered when you entered the frontier)
+            CompoundTag ret = new CompoundTag();
+            ret.putString("Dim", player.level().dimension().location().toString());
+            ret.putDouble("X", player.getX());
+            ret.putDouble("Y", player.getY());
+            ret.putDouble("Z", player.getZ());
+            persisted(player).put(RETURN, ret);
+        }
 
         BlockPos anchor = CageBeaconBlock.anchor(player, frontier);
         BlockPos at;
@@ -83,7 +88,7 @@ public final class RiftTravel {
             if (id != null) {
                 level = server.getLevel(ResourceKey.create(Registries.DIMENSION, id));
             }
-            if (level != null && !FrontierDimension.is(level)) {
+            if (level != null && !FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level)) {
                 at = BlockPos.containing(ret.getDouble("X"), ret.getDouble("Y"), ret.getDouble("Z"));
                 level.getChunk(at); // load the destination before checking it
                 if (!clear(level, at)) {
@@ -95,7 +100,7 @@ public final class RiftTravel {
             // No saved spot (lost, or that dimension is gone): respawn point, then world spawn.
             level = server.getLevel(player.getRespawnDimension());
             BlockPos respawn = player.getRespawnPosition();
-            if (level == null || respawn == null || FrontierDimension.is(level)) {
+            if (level == null || respawn == null || FrontierDimension.is(level) || com.unstablefrontiers.abyss.AbyssDimension.is(level)) {
                 level = server.overworld();
                 respawn = level.getSharedSpawnPos();
             }

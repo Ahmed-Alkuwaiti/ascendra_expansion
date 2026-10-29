@@ -64,6 +64,10 @@ public final class FrontierCommand {
                     RiftTravel.goToFrontier(c.getSource().getPlayerOrException());
                     return 1;
                 }))
+                .then(Commands.literal("abyss").requires(s -> s.hasPermission(2)).executes(c -> {
+                    com.unstablefrontiers.abyss.AbyssTravel.enter(c.getSource().getPlayerOrException(), null);
+                    return 1;
+                }))
                 .then(Commands.literal("locate").requires(s -> s.hasPermission(2))
                         .then(Commands.argument("group", StringArgumentType.word())
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(GROUPS.keySet(), b))
@@ -106,7 +110,8 @@ public final class FrontierCommand {
 
     private static int returnHome(CommandContext<CommandSourceStack> c) throws CommandSyntaxException {
         ServerPlayer p = c.getSource().getPlayerOrException();
-        if (!FrontierDimension.is(p.level())) {
+        boolean abyss = com.unstablefrontiers.abyss.AbyssDimension.is(p.level());
+        if (!FrontierDimension.is(p.level()) && !abyss) {
             c.getSource().sendFailure(Component.translatable("message.unstable_frontiers.return_not_here"));
             return 0;
         }
@@ -118,7 +123,11 @@ public final class FrontierCommand {
             return 0;
         }
         d.putLong(RETURN_USED, now);
-        RiftTravel.goHome(p);
+        if (abyss) {
+            com.unstablefrontiers.abyss.AbyssTravel.leave(p);
+        } else {
+            RiftTravel.goHome(p);
+        }
         return 1;
     }
 
@@ -335,7 +344,7 @@ public final class FrontierCommand {
 
     private static ServerLevel frontier(CommandContext<CommandSourceStack> c) {
         ServerLevel level = c.getSource().getLevel();
-        if (!FrontierDimension.is(level)) {
+        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level)) {
             c.getSource().sendFailure(Component.literal("Run this in the frontier (or with: execute in unstable_frontiers:frontier ...)"));
             return null;
         }

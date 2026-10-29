@@ -8,7 +8,9 @@ import math
 
 
 class Cube:
-    def __init__(self, origin, size, material, inflate=0.0, mirror=False):
+    def __init__(self, origin, size, material, inflate=0.0, mirror=False, rotation=None, pivot=None):
+        self.rotation = [float(v) for v in rotation] if rotation else None
+        self.cpivot = [float(v) for v in pivot] if pivot else None
         self.origin = [float(v) for v in origin]
         self.size = [float(v) for v in size]
         self.material = material
@@ -87,6 +89,9 @@ class Model:
                         cj['inflate'] = c.inflate
                     if c.mirror:
                         cj['mirror'] = True
+                    if c.rotation:
+                        cj['rotation'] = c.rotation
+                        cj['pivot'] = c.cpivot or [c.origin[i] + c.size[i] / 2 for i in range(3)]
                     cs.append(cj)
                 j['cubes'] = cs
             if b.locators:

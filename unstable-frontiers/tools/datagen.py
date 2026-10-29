@@ -9,6 +9,8 @@ import json
 import os
 import shutil
 
+import abyss_data
+
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'src', 'main', 'resources')
 DATA = os.path.join(ROOT, 'data', 'unstable_frontiers')
 ASSETS = os.path.join(ROOT, 'assets', 'unstable_frontiers')
@@ -112,6 +114,11 @@ SETS = {
 }
 LENS = {'cages': ['gibbet_spire', 'hanging_gaol'], 'lairs': ['rookery', 'brood_hive', 'carrion_field'],
         'camps': ['camp_intact', 'camp_ransacked', 'camp_torn'], 'great_cage': ['great_cage']}
+# The Rift Observatory and the Astral Abyss (tools/abyss_data.py).
+ROSTERS.update(abyss_data.ROSTERS)
+LANDMARKS.update(abyss_data.LANDMARKS)
+SETS.update(abyss_data.SETS)
+LENS.update(abyss_data.LENS)
 
 
 def worldgen():
@@ -400,6 +407,7 @@ def advancements():
     adv('carapace', 'gnashback', U + 'carapace_chestplate', {'c': has(U + 'carapace_chestplate')})
     adv('shrikewing', 'enter', U + 'shrike_talon', {'c': has(U + 'shrike_talon')})
     adv('impaler', 'shrikewing', U + 'shrike_impaler', {'c': has(U + 'shrike_impaler')})
+    abyss_data.advancements(adv, has, at)
 
 
 # ------------------------------------------------------------------------------------------------------------ tags
@@ -454,6 +462,7 @@ CREATURE_SOUNDS = {
     'matriarch.slam': (['matriarch/slam'], 'The Matriarch lands'),
     'matriarch.acid': (['matriarch/acid'], 'Acid sizzles'),
 }
+CREATURE_SOUNDS.update(abyss_data.SOUNDS)
 
 
 def sounds():
@@ -664,6 +673,7 @@ LANG = {
 }
 for k in ('east', 'southeast', 'south', 'southwest', 'west', 'northwest', 'north', 'northeast'):
     LANG[f'direction.unstable_frontiers.{k}'] = k
+LANG.update(abyss_data.LANG)
 
 
 def lang(extra):
@@ -685,5 +695,6 @@ if __name__ == '__main__':
     advancements()
     tags()
     models()
+    abyss_data.write_all()   # after models(): its block tags extend the ones models() writes
     lang(sounds())
     print('data written')

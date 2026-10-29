@@ -98,6 +98,18 @@ public abstract class AnimatedMonster extends Monster implements GeoEntity {
         }
     }
 
+    /** A line of particles from a to b: a beam, or the path an attack will take. */
+    protected void line(ParticleOptions p, Vec3 a, Vec3 b, double spacing) {
+        if (level() instanceof ServerLevel sl) {
+            double len = a.distanceTo(b);
+            int n = Math.min(80, FrontierConfig.particleCount((int) (len / spacing)));
+            for (int i = 0; i <= n; i++) {
+                Vec3 q = a.lerp(b, i / (double) Math.max(1, n));
+                sl.sendParticles(p, q.x, q.y, q.z, 1, 0, 0, 0, 0);
+            }
+        }
+    }
+
     /** A ring of particles on the ground: where an attack is about to land. */
     protected void ring(ParticleOptions p, Vec3 centre, double radius) {
         if (level() instanceof ServerLevel sl) {

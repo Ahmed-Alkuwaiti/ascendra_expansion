@@ -79,6 +79,15 @@ public final class Elites {
         if (r.elite() != null && !r.elite().title().isEmpty()) {
             elite.setCustomName(Component.literal(r.elite().title()).withStyle(ChatFormatting.DARK_RED));
         }
+        if (r.elite() != null && r.elite().health() != 1.0D) {
+            var hp = elite.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+            if (hp != null) {
+                hp.addOrReplacePermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("unstable_frontiers", "elite_health"),
+                        r.elite().health() - 1.0D, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                elite.setHealth(elite.getMaxHealth());
+            }
+        }
         if (elite instanceof ChainedMatriarchEntity m) {
             m.setChained(true, post(s, z));
         }
@@ -242,6 +251,15 @@ public final class Elites {
     private static void pylonTick(ServerLevel level, LandmarkState s, Zone z, ZoneState zs, Roster r, Mob elite, long t,
                                   List<ServerPlayer> engaged) {
         List<BlockPos> standing = pylons(level, s, z);
+        if (r.elite() != null && r.elite().health() != 1.0D) {
+            var hp = elite.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+            if (hp != null) {
+                hp.addOrReplacePermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("unstable_frontiers", "elite_health"),
+                        r.elite().health() - 1.0D, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                elite.setHealth(elite.getMaxHealth());
+            }
+        }
         if (elite instanceof ChainedMatriarchEntity m) {
             m.setChained(!standing.isEmpty(), post(s, z));
         }

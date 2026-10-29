@@ -116,6 +116,7 @@ public final class ModItems {
                 out.accept(CARAPACE_BOOTS.get());
                 out.accept(SHRIKE_IMPALER.get());
                 out.accept(MATRIARCH_MANTLE.get());
+                AbyssRegistry.addToTab(out);
             })
             .build());
 

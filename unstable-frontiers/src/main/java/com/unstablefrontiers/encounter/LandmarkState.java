@@ -33,6 +33,8 @@ public final class LandmarkState {
     public final Set<UUID> rewarded = new HashSet<>();
     public final Set<UUID> visitors = new HashSet<>();
     public final Set<String> openGates = new HashSet<>();
+    /** "zone index:player UUID" for every reward given, so a landmark with several rewarding fights pays each once per player. */
+    public final Set<String> zoneRewards = new HashSet<>();
 
     public LandmarkState(ResourceLocation id, BlockPos origin, Rotation rotation) {
         this.id = id;
@@ -96,6 +98,11 @@ public final class LandmarkState {
             gates.add(StringTag.valueOf(g));
         }
         t.put("Gates", gates);
+        ListTag zr = new ListTag();
+        for (String g : zoneRewards) {
+            zr.add(StringTag.valueOf(g));
+        }
+        t.put("ZoneRewards", zr);
         return t;
     }
 
@@ -116,6 +123,9 @@ public final class LandmarkState {
         ZoneState.read(t.getList("Visitors", Tag.TAG_INT_ARRAY), s.visitors);
         for (Tag g : t.getList("Gates", Tag.TAG_STRING)) {
             s.openGates.add(g.getAsString());
+        }
+        for (Tag g : t.getList("ZoneRewards", Tag.TAG_STRING)) {
+            s.zoneRewards.add(g.getAsString());
         }
         return s;
     }

@@ -20,7 +20,8 @@ import net.minecraft.world.entity.EntityType;
 public record Roster(ResourceLocation id, List<Entry> mobs, List<Entry> flyers, @Nullable Elite elite, int escorts) {
     public record Entry(ResourceLocation type, int weight, int max) {}
 
-    public record Elite(ResourceLocation type, String title, String bar, List<String> abilities) {}
+    /** {@code health} multiplies the elite's maximum health (1 = unchanged). */
+    public record Elite(ResourceLocation type, String title, String bar, List<String> abilities, double health) {}
 
     public static Roster parse(ResourceLocation id, JsonObject o) {
         Elite elite = null;
@@ -31,7 +32,7 @@ public record Roster(ResourceLocation id, List<Entry> mobs, List<Entry> flyers, 
                 ab.add(a.getAsString());
             }
             elite = new Elite(ResourceLocation.parse(GsonHelper.getAsString(e, "id")), GsonHelper.getAsString(e, "title", ""),
-                    GsonHelper.getAsString(e, "bar", "red"), ab);
+                    GsonHelper.getAsString(e, "bar", "red"), ab, GsonHelper.getAsDouble(e, "health", 1.0D));
         }
         return new Roster(id, entries(o, "mobs"), entries(o, "flyers"), elite, GsonHelper.getAsInt(o, "escorts", 0));
     }

@@ -51,6 +51,33 @@ public final class ModSounds {
     public static final Supplier<SoundEvent> MATRIARCH_SLAM = event("matriarch.slam");
     public static final Supplier<SoundEvent> MATRIARCH_ACID = event("matriarch.acid");
 
+    // the Rift Observatory and the Astral Abyss
+    public static final Supplier<SoundEvent> MITE_AMBIENT = event("mite.ambient");
+    public static final Supplier<SoundEvent> MITE_HURT = event("mite.hurt");
+    public static final Supplier<SoundEvent> MITE_DEATH = event("mite.death");
+    public static final Supplier<SoundEvent> MITE_TELL = event("mite.tell");
+    public static final Supplier<SoundEvent> MITE_SPIT = event("mite.spit");
+    public static final Supplier<SoundEvent> WARDEN_AMBIENT = event("warden.ambient");
+    public static final Supplier<SoundEvent> WARDEN_HURT = event("warden.hurt");
+    public static final Supplier<SoundEvent> WARDEN_DEATH = event("warden.death");
+    public static final Supplier<SoundEvent> WARDEN_TELL = event("warden.tell");
+    public static final Supplier<SoundEvent> WARDEN_BEAM = event("warden.beam");
+    public static final Supplier<SoundEvent> WARDEN_STALL = event("warden.stall");
+    public static final Supplier<SoundEvent> WARDEN_RECOVER = event("warden.recover");
+    public static final Supplier<SoundEvent> WARDEN_PULSE = event("warden.pulse");
+    public static final Supplier<SoundEvent> LEVIATHAN_AMBIENT = event("leviathan.ambient");
+    public static final Supplier<SoundEvent> LEVIATHAN_HURT = event("leviathan.hurt");
+    public static final Supplier<SoundEvent> LEVIATHAN_DEATH = event("leviathan.death");
+    public static final Supplier<SoundEvent> LEVIATHAN_ROAR = event("leviathan.roar");
+    public static final Supplier<SoundEvent> LEVIATHAN_BEAM_TELL = event("leviathan.beam_tell");
+    public static final Supplier<SoundEvent> LEVIATHAN_BEAM = event("leviathan.beam");
+    public static final Supplier<SoundEvent> LEVIATHAN_WELL = event("leviathan.well");
+    public static final Supplier<SoundEvent> LEVIATHAN_PASS = event("leviathan.pass");
+    public static final Supplier<SoundEvent> LEVIATHAN_SUMMON = event("leviathan.summon");
+    public static final Supplier<SoundEvent> LEVIATHAN_SLAM = event("leviathan.slam");
+    public static final Supplier<SoundEvent> RIFT_OPEN = event("rift.open");
+    public static final Supplier<SoundEvent> ABYSS_AMBIENT = event("abyss.ambient");
+
     private ModSounds() {}
 
     private static Supplier<SoundEvent> event(String name) {

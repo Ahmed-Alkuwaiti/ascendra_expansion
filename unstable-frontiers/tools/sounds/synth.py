@@ -363,6 +363,207 @@ def matriarch_acid(rng):
     return 0.6 * sizzle + band(pops, 1500, 6000) * env(d, 0.01, 0.6) + splat
 
 
+
+# ------------------------------------------------------------------------------------------------ the Astral Abyss
+def bell(f, d, rng, partials=((1, 1.0), (2.76, 0.5), (5.4, 0.25), (8.9, 0.12)), tau=0.6, detune=0.002):
+    """A glassy struck tone: inharmonic partials, each decaying faster the higher it is."""
+    x = np.zeros(int(d * SR))
+    for k, g in partials:
+        x += g * osc(f * k * (1 + rng.uniform(-detune, detune)), d) * decay(d, tau / k ** 0.5)
+    return x
+
+
+def shimmer(d, rng, lo=3000, hi=9000, density=0.004):
+    """Sparkle: sparse high pings."""
+    x = np.zeros(int(d * SR))
+    hits = np.nonzero(rng.random(int(d * SR)) < density / 40)[0]
+    for i in hits:
+        f = rng.uniform(lo, hi)
+        x = place(x, osc(f, 0.08) * decay(0.08, 0.015) * rng.uniform(0.2, 0.6), i / SR)
+    return x
+
+
+def hum(f, d, rng, beat=0.7):
+    """A low drone of two slightly detuned tones (a slow beating), softly driven."""
+    return drive(osc(f, d, 'tri', rng=rng, jitter=0.01) + osc(f * 1.007 + beat, d) + 0.4 * osc(f * 2.01, d), 1.4)
+
+
+def mite_ambient(rng):
+    d = 1.4
+    wings = band(noise(d, rng), 180, 520) * (0.6 + 0.4 * np.sin(2 * np.pi * 34 * t_(d)))
+    return 0.5 * wings * env(d, 0.2, 0.5) + 0.7 * osc(glide(880, 990), d, vib=0.02, vib_rate=5) * env(d, 0.3, 0.6) * 0.4 + shimmer(d, rng)
+
+
+def mite_hurt(rng):
+    d = 0.35
+    return bell(1320, d, rng, tau=0.12) + osc(glide(1500, 700), d, 'tri') * env(d, 0.005, 0.25) * 0.6
+
+
+def mite_death(rng):
+    d = 0.9
+    x = osc(glide(1400, 220, power=0.6), d, 'tri') * env(d, 0.005, 0.7) * 0.6
+    for i in range(6):   # the lantern shatters
+        x = place(x, bell(rng.uniform(2000, 4000), 0.4, rng, tau=0.08) * (1 - i / 7), 0.1 + i * 0.05)
+    return x
+
+
+def mite_tell(rng):
+    d = 0.75
+    swell = osc(glide(500, 1600, power=2.0), d, 'sine', vib=0.03, vib_rate=14) * env(d, 0.4, 0.1)
+    return swell + 0.4 * band(noise(d, rng), 2000, 6000) * env(d, 0.6, 0.1) ** 2
+
+
+def mite_spit(rng):
+    d = 0.45
+    x = osc(glide(1800, 400, power=0.5), d, 'tri') * decay(d, 0.08)
+    return x + 0.6 * sweep_band(noise(d, rng), 3000, 6000, 600, 1500, 8) * decay(d, 0.1)
+
+
+def warden_ambient(rng):
+    d = 2.0
+    x = 0.6 * hum(55, d, rng) * env(d, 0.4, 0.6)
+    at = 0.1
+    while at < d - 0.1:   # gears: regular ticks
+        x = place(x, click(rng.uniform(2500, 3200), rng, 0.04, 0.004) * 0.5, at)
+        at += 0.25
+    return x
+
+
+def warden_hurt(rng):
+    d = 0.6
+    return bell(310, d, rng, ((1, 1.0), (2.41, 0.7), (3.9, 0.5), (6.2, 0.3)), tau=0.25) + band(noise(d, rng), 1500, 5000) * decay(d, 0.03)
+
+
+def warden_death(rng):
+    d = 2.6
+    x = hum(70, d, rng) * env(d, 0.01, 2.0) * np.interp(t_(d), [0, d], [1, 0.2])
+    x = place(x, 0.9 * bell(180, 1.8, rng, tau=0.8), 0.0)
+    for at in (0.9, 1.3, 1.5):   # the rings drop
+        x = place(x, bell(rng.uniform(250, 420), 1.0, rng, tau=0.4) * 0.7, at)
+    return x
+
+
+def warden_tell(rng):
+    d = 1.0
+    rising = osc(glide(220, 880, power=1.5), d, 'saw') * env(d, 0.6, 0.05)
+    return 0.5 * lowpass(rising, 3000) + 0.5 * hum(110, d, rng) * env(d, 0.1, 0.1)
+
+
+def warden_beam(rng):
+    d = 1.5
+    core = osc(440, d, 'saw', vib=0.01, vib_rate=30) + osc(660, d, 'square') * 0.3
+    return lowpass(drive(core, 2), 4000) * env(d, 0.02, 0.3) * 0.7 + 0.4 * band(noise(d, rng), 4000, 9000) * env(d, 0.02, 0.3)
+
+
+def warden_stall(rng):
+    d = 1.1
+    return place(osc(glide(440, 60, power=0.5), d, 'saw') * env(d, 0.005, 0.8) * 0.6, click(1800, rng, 0.08, 0.02), 0.0)
+
+
+def warden_recover(rng):
+    d = 0.7
+    return place(osc(glide(80, 330, power=0.7), d, 'tri') * env(d, 0.05, 0.2), 0.5 * click(2600, rng, 0.05, 0.006), 0.6)
+
+
+def warden_pulse(rng):
+    d = 1.0
+    boom = osc(glide(120, 40), d) * decay(d, 0.25)
+    return boom + 0.6 * sweep_band(noise(d, rng), 200, 800, 1500, 5000, 10) * decay(d, 0.2)
+
+
+def leviathan_voice(rng, d, f0, f1, power=1.0):
+    """A whale-like song through a crystalline resonance: slow sine glides, a hollow octave, glassy formants."""
+    v = osc(glide(f0, f1, power=power), d, 'sine', vib=0.015, vib_rate=3.5, rng=rng, jitter=0.02)
+    v += 0.5 * osc(glide(f0 * 2.02, f1 * 2.02, power=power), d, 'tri')
+    v += 0.25 * osc(glide(f0 * 3.01, f1 * 3.01, power=power), d, 'saw')
+    return formant(drive(v, 1.6), [(400, 1.0), (900, 0.6), (2400, 0.35)], 0.35) + 0.3 * v
+
+
+def leviathan_ambient(rng):
+    d = 3.2
+    return leviathan_voice(rng, d, 110, 165, 0.5) * env(d, 0.6, 1.4) + 0.3 * shimmer(d, rng, 2000, 6000)
+
+
+def leviathan_hurt(rng):
+    d = 0.9
+    return leviathan_voice(rng, d, 260, 150, 0.7) * env(d, 0.01, 0.6) + 0.5 * bell(900, d, rng, tau=0.15)
+
+
+def leviathan_death(rng):
+    d = 4.5
+    x = leviathan_voice(rng, d, 220, 45, 0.6) * env(d, 0.05, 3.2)
+    for i in range(18):   # the scales fall like glass
+        x = place(x, bell(rng.uniform(1200, 3600), 0.6, rng, tau=0.15) * 0.4 * (1 - i / 20), 1.5 + i * 0.12 + rng.uniform(0, 0.05))
+    return x + 0.5 * hum(40, d, rng) * env(d, 1.0, 2.0)
+
+
+def leviathan_roar(rng):
+    d = 2.6
+    v = leviathan_voice(rng, d, 90, 140, 0.4) + 0.7 * leviathan_voice(rng, d, 134, 210, 0.4)
+    breath = sweep_band(noise(d, rng), 200, 1200, 800, 4000) * 0.5
+    return drive((v + breath) * env(d, 0.3, 0.9), 1.8)
+
+
+def leviathan_beam_tell(rng):
+    d = 1.6
+    rising = sum(osc(glide(f, f * 3, power=2.0), d, 'sine') * (0.6 ** i) for i, f in enumerate((220, 331, 440)))
+    return rising * env(d, 1.2, 0.05) + 0.5 * shimmer(d, rng, 4000, 10000, 0.02) * env(d, 1.0, 0.1)
+
+
+def leviathan_beam(rng):
+    d = 2.8
+    core = drive(osc(150, d, 'saw', vib=0.02, vib_rate=8) + osc(301, d, 'saw') * 0.6, 2.5)
+    return lowpass(core, 2500) * env(d, 0.03, 0.4) * 0.6 + 0.5 * band(noise(d, rng), 2000, 7000) * env(d, 0.03, 0.4)
+
+
+def leviathan_well(rng):
+    d = 1.8
+    suck = osc(glide(60, 25, power=0.6), d) * env(d, 0.2, 0.4) * 1.2
+    return suck + 0.6 * sweep_band(noise(d, rng), 2000, 6000, 100, 400, 16) * env(d, 0.1, 0.4)
+
+
+def leviathan_pass(rng):
+    d = 1.6
+    whoosh = sweep_band(noise(d, rng), 200, 600, 1200, 3000, 16) * np.hanning(int(d * SR))
+    return whoosh + 0.4 * leviathan_voice(rng, d, 180, 120) * np.hanning(int(d * SR))
+
+
+def leviathan_summon(rng):
+    d = 1.8
+    x = leviathan_voice(rng, d, 300, 420, 0.5) * env(d, 0.1, 0.8) * 0.7
+    for i in range(5):
+        x = place(x, bell(660 * (1.25 ** i), 0.8, rng, tau=0.3) * 0.5, 0.2 + i * 0.18)
+    return x
+
+
+def leviathan_slam(rng):
+    d = 1.6
+    boom = 1.4 * osc(glide(70, 28), d) * decay(d, 0.35) + lowpass(noise(d, rng), 600) * decay(d, 0.2)
+    return drive(boom, 1.5) + 0.5 * bell(420, d, rng, tau=0.5)
+
+
+def rift_open(rng):
+    d = 4.0
+    tones = sum(osc(f, d, 'sine', vib=0.004, vib_rate=0.5 + i) * g for i, (f, g) in enumerate(((110, 1.0), (165, 0.7), (220, 0.6), (330, 0.4), (440, 0.3))))
+    swell = tones * env(d, 1.8, 1.6)
+    rush = sweep_band(noise(d, rng), 100, 400, 2000, 8000, 20) * env(d, 2.5, 1.0) * 0.6
+    return swell + rush + 0.4 * shimmer(d, rng, 3000, 9000, 0.02) * env(d, 2.0, 1.0)
+
+
+def abyss_ambient(rng):
+    d = 8.0
+    x = 0.8 * hum(41, d, rng, 0.3) + 0.4 * hum(61.5, d, rng, 0.2)
+    x = lowpass(x, 400) * (0.7 + 0.3 * np.sin(2 * np.pi * 0.125 * t_(d)))
+    wind = sweep_band(noise(d, rng), 300, 900, 600, 1600, 32) * 0.3
+    return (x + wind) * env(d, 1.5, 1.5) + 0.25 * shimmer(d, rng, 2500, 7000, 0.006)
+
+
+ABYSS = ['mite_ambient', 'mite_hurt', 'mite_death', 'mite_tell', 'mite_spit', 'warden_ambient', 'warden_hurt', 'warden_death',
+         'warden_tell', 'warden_beam', 'warden_stall', 'warden_recover', 'warden_pulse', 'leviathan_ambient', 'leviathan_hurt',
+         'leviathan_death', 'leviathan_roar', 'leviathan_beam_tell', 'leviathan_beam', 'leviathan_well', 'leviathan_pass',
+         'leviathan_summon', 'leviathan_slam', 'rift_open', 'abyss_ambient']
+
+
 RECIPES = {
     'gnashback/ambient': gnashback_ambient,
     'gnashback/hurt': gnashback_hurt,
@@ -390,6 +591,7 @@ RECIPES = {
     'matriarch/slam': matriarch_slam,
     'matriarch/acid': matriarch_acid,
 }
+RECIPES.update({'abyss/' + n: globals()[n] for n in ABYSS})
 
 
 def render(name):
@@ -438,7 +640,10 @@ def main():
         del args[args.index('--sheet'):args.index('--sheet') + 2]
     out = args[0] if args else OUT
     done = []
+    only = os.environ.get('ONLY', '')
     for name in RECIPES:
+        if not name.startswith(only):
+            continue
         x = render(name)
         write_ogg(x, os.path.join(out, name + '.ogg'))
         done.append((name, x))

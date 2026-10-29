@@ -3,7 +3,11 @@ package com.unstablefrontiers.registry;
 import com.unstablefrontiers.UnstableFrontiers;
 import com.unstablefrontiers.entity.AcidGlobEntity;
 import com.unstablefrontiers.entity.ChainedMatriarchEntity;
+import com.unstablefrontiers.entity.EclipseLeviathanEntity;
 import com.unstablefrontiers.entity.GnashbackEntity;
+import com.unstablefrontiers.entity.LumenMiteEntity;
+import com.unstablefrontiers.entity.OrreryWardenEntity;
+import com.unstablefrontiers.entity.StarBoltEntity;
 import com.unstablefrontiers.entity.ShrikewingEntity;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
@@ -34,6 +38,19 @@ public final class ModEntities {
             () -> EntityType.Builder.<AcidGlobEntity>of(AcidGlobEntity::new, MobCategory.MISC).sized(0.5F, 0.5F)
                     .clientTrackingRange(6).updateInterval(10).build("acid_glob"));
 
+    public static final Supplier<EntityType<LumenMiteEntity>> LUMEN_MITE = TYPES.register("lumen_mite",
+            () -> EntityType.Builder.<LumenMiteEntity>of(LumenMiteEntity::new, MobCategory.MONSTER).sized(0.8F, 0.6F).eyeHeight(0.35F)
+                    .clientTrackingRange(8).build("lumen_mite"));
+    public static final Supplier<EntityType<OrreryWardenEntity>> ORRERY_WARDEN = TYPES.register("orrery_warden",
+            () -> EntityType.Builder.<OrreryWardenEntity>of(OrreryWardenEntity::new, MobCategory.MONSTER).sized(1.8F, 2.0F).eyeHeight(1.25F)
+                    .fireImmune().clientTrackingRange(10).build("orrery_warden"));
+    public static final Supplier<EntityType<EclipseLeviathanEntity>> ECLIPSE_LEVIATHAN = TYPES.register("eclipse_leviathan",
+            () -> EntityType.Builder.<EclipseLeviathanEntity>of(EclipseLeviathanEntity::new, MobCategory.MONSTER).sized(8.0F, 2.6F).eyeHeight(1.6F)
+                    .fireImmune().clientTrackingRange(16).updateInterval(2).build("eclipse_leviathan"));
+    public static final Supplier<EntityType<StarBoltEntity>> STAR_BOLT = TYPES.register("star_bolt",
+            () -> EntityType.Builder.<StarBoltEntity>of(StarBoltEntity::new, MobCategory.MISC).sized(0.4F, 0.4F)
+                    .clientTrackingRange(6).updateInterval(5).build("star_bolt"));
+
     private ModEntities() {}
 
     public static void register(IEventBus bus) {
@@ -46,6 +63,9 @@ public final class ModEntities {
         event.put(GNASHBACK.get(), GnashbackEntity.attributes().build());
         event.put(SHRIKEWING.get(), ShrikewingEntity.attributes().build());
         event.put(CHAINED_MATRIARCH.get(), ChainedMatriarchEntity.attributes().build());
+        event.put(LUMEN_MITE.get(), LumenMiteEntity.attributes().build());
+        event.put(ORRERY_WARDEN.get(), OrreryWardenEntity.attributes().build());
+        event.put(ECLIPSE_LEVIATHAN.get(), EclipseLeviathanEntity.attributes().build());
     }
 
     private static void placements(RegisterSpawnPlacementsEvent event) {
@@ -53,6 +73,11 @@ public final class ModEntities {
                 Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         // Both live in the open by day as well as by night (the biome spawn weights keep them few).
         event.register(SHRIKEWING.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // the abyss's creatures hover over the islands they spawn on
+        event.register(LUMEN_MITE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(ORRERY_WARDEN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }
