@@ -69,6 +69,8 @@ execute in unstable_frontiers:astral_abyss run forceload add -40 496 88 624
 execute in unstable_frontiers:astral_abyss run forceload add 200 -180 264 -116
 execute in unstable_frontiers:astral_abyss run frontier debug trial abyss
 execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark zone starwell start
+frontier stats
+frontier stats
 execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark info
 execute in unstable_frontiers:astral_abyss run frontier debug trial leviathan
 # The rest of the set builds cleanly.
