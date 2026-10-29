@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_chestplate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:carapace_chestplate",
+    "count": 1
+  }
+}

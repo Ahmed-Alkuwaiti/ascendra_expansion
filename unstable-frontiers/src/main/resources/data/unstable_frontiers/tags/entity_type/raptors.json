@@ -13,6 +13,7 @@
       "id": "antarchy:nightmare",
       "required": false
     },
-    "minecraft:phantom"
+    "minecraft:phantom",
+    "unstable_frontiers:shrikewing"
   ]
 }

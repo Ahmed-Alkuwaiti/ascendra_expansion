@@ -43,6 +43,7 @@ public final class UnstableFrontiers {
         game.register(new FrontierEvents());
         game.register(new FrontierData());
         game.register(new SwarmbreakerEvents());
+        game.register(new com.unstablefrontiers.item.CreatureGearEvents());
         game.addListener(FrontierCommand::register);
         game.register(new SmokeTest());
 

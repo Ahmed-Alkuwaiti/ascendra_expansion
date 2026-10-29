@@ -282,7 +282,7 @@ def zones(b):
     sp = [(round(C + 8 * math.cos(math.radians(a))), floor, round(C + 8 * math.sin(math.radians(a)))) for a in range(0, 360, 45)]
     sky = [(round(C + 14 * math.cos(math.radians(a))), floor + 18, round(C + 14 * math.sin(math.radians(a)))) for a in (0, 120, 240)]
     b.zone('finale', 'The Great Cage', box, sp, 'great_cage_finale', kind='finale', flyer_spawns=sky, gate='finale',
-           reward='great_cage_heart', final=True, pylons=b.meta['pylons'], lock=b.points['lock'], lock_gate='lock')
+           reward='great_cage_heart,matriarch_mantle', final=True, pylons=b.meta['pylons'], lock=b.points['lock'], lock_gate='lock')
 
 
 if __name__ == '__main__':

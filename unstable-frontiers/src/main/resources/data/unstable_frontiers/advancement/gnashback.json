@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:gnashback_plate"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.gnashback"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.gnashback.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:gnashback_plate"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:enter"
+}

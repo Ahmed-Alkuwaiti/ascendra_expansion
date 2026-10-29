@@ -49,6 +49,18 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
+      },
+      {
+        "type": "unstable_frontiers:shrikewing",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "unstable_frontiers:gnashback",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 1
       }
     ],
     "underground_water_creature": [],

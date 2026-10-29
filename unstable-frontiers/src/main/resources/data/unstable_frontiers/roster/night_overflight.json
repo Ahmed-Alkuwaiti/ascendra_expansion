@@ -6,7 +6,11 @@
     },
     {
       "id": "antarchy:stratoshark",
-      "weight": 3
+      "weight": 2
+    },
+    {
+      "id": "unstable_frontiers:shrikewing",
+      "weight": 2
     }
   ]
 }

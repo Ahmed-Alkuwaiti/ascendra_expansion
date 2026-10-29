@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " TT",
+    " NT",
+    "S  "
+  ],
+  "key": {
+    "T": {
+      "item": "unstable_frontiers:shrike_talon"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:shrike_impaler",
+    "count": 1
+  }
+}

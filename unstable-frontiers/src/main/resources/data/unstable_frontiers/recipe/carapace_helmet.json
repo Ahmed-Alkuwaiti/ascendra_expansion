@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_helmet"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:carapace_helmet",
+    "count": 1
+  }
+}

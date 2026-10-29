@@ -7,6 +7,11 @@
     {
       "id": "antarchy:scorpion",
       "weight": 3
+    },
+    {
+      "id": "unstable_frontiers:gnashback",
+      "weight": 2,
+      "max": 1
     }
   ]
 }

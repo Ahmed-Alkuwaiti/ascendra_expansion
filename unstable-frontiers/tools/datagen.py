@@ -39,15 +39,16 @@ def elite(id_, title, bar, abilities):
 
 
 A = 'antarchy:'
+F = 'unstable_frontiers:'   # the frontier's own creatures
 ROSTERS = {
     # Gibbet Spire: insects below, flyers above, the Alpha Mantis in the crown.
     # Health and attack as measured in Integrated Boogaloo 1.0.8 (Boogaloo Core scaling applied), see TESTING.md:
     # mantis 125/18, scorpion 75/10, wasp 40/8, springbug 250/24, stratoshark 100/10, manticore 150/22,
     # alpha mantis 950/36, nightmare 950/32, emperor scorpion 1050/56, brutalfly 1250/30, Hercules beetle 1625/60,
     # basilisk 800/72. Red ants and termites are passive creatures (12.5 health), used only as hive colour.
-    'tower_swarm_pen': {'mobs': [m(A + 'mantis', 3, 2), m(A + 'scorpion', 4)]},
+    'tower_swarm_pen': {'mobs': [m(A + 'mantis', 3, 2), m(A + 'scorpion', 4), m(F + 'gnashback', 1, 1)]},
     'tower_hatchery': {'mobs': [m(A + 'wasp', 3), m(A + 'scorpion', 2), m(A + 'springbug', 1, 1)]},
-    'tower_aerie': {'mobs': [m(A + 'wasp', 2)], 'flyers': [m(A + 'stratoshark', 3, 2), m(A + 'brutalfly', 1, 1)]},
+    'tower_aerie': {'mobs': [m(A + 'wasp', 2)], 'flyers': [m(A + 'stratoshark', 3, 2), m(A + 'brutalfly', 1, 1), m(F + 'shrikewing', 2, 1)]},
     'tower_crown': {'mobs': [m(A + 'mantis')], 'escorts': 2,
                     'elite': elite(A + 'alpha_mantis', 'The Crowned Mantis', 'green', ['slam', 'pounce', 'rally'])},
     # Hanging Gaol: every cell holds one prisoner worth hunting for Antarchy's own recipes.
@@ -60,8 +61,8 @@ ROSTERS = {
     'gaol_warden': {'mobs': [m(A + 'scorpion')], 'escorts': 2,
                     'elite': elite(A + 'brutalfly', 'The Gaoler', 'yellow', ['pounce', 'screech', 'rally'])},
     # Rookery: predators on their perches, scavengers in the tunnel, the Nightmare as its mother.
-    'rookery_roost': {'mobs': [m(A + 'scorpion')], 'flyers': [m(A + 'stratoshark', 3), m(A + 'brutalfly', 1, 1)]},
-    'rookery_mother': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(A + 'stratoshark')], 'escorts': 1,
+    'rookery_roost': {'mobs': [m(A + 'scorpion')], 'flyers': [m(F + 'shrikewing', 3), m(A + 'stratoshark', 2), m(A + 'brutalfly', 1, 1)]},
+    'rookery_mother': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(F + 'shrikewing')], 'escorts': 1,
                        'elite': elite(A + 'nightmare', 'The Rookmother', 'purple', ['screech', 'pounce'])},
     'rookery_scavengers': {'mobs': [m(A + 'scorpion', 3), m(A + 'springbug', 1, 1)]},
     # Brood Hive.
@@ -70,14 +71,15 @@ ROSTERS = {
     'hive_tyrant': {'mobs': [m(A + 'wasp'), m(A + 'termite')], 'escorts': 3,
                     'elite': elite(A + 'hercules_beetle', 'The Hive Tyrant', 'yellow', ['slam', 'rally'])},
     # Carrion Field residents: insects feed in the ribs, predators stand on the spine.
-    'carrion_swarm': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 3)]},
-    'carrion_raptors': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(A + 'stratoshark', 3), m(A + 'brutalfly', 1, 1)]},
+    'carrion_swarm': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 3), m(F + 'gnashback', 2, 1)]},
+    'carrion_raptors': {'mobs': [m(A + 'stratoshark')], 'flyers': [m(F + 'shrikewing', 3), m(A + 'stratoshark', 2), m(A + 'brutalfly', 1, 1)]},
     # The Great Cage.
     'great_cage_finale': {'mobs': [m(A + 'mantis', 2), m(A + 'scorpion', 2), m(A + 'springbug', 1, 1)],
-                          'flyers': [m(A + 'stratoshark', 3), m(A + 'nightmare', 1, 1)], 'escorts': 3,
-                          'elite': elite(A + 'basilisk', 'The Cagewright\'s Beast', 'red', ['slam', 'screech', 'rally', 'pounce'])},
+                          'flyers': [m(F + 'shrikewing', 3), m(A + 'stratoshark', 2), m(A + 'nightmare', 1, 1)], 'escorts': 3,
+                          # The Chained Matriarch has her own telegraphed attacks (ChainedMatriarchEntity), so no added abilities.
+                          'elite': elite(F + 'chained_matriarch', 'The Chained Matriarch', 'purple', [])},
     # Between landmarks, after dark.
-    'night_overflight': {'flyers': [m(A + 'nightmare', 1), m(A + 'stratoshark', 3)]},
+    'night_overflight': {'flyers': [m(A + 'nightmare', 1), m(A + 'stratoshark', 2), m(F + 'shrikewing', 2)]},
 }
 
 # --------------------------------------------------------------------------------------------------------- landmarks
@@ -147,8 +149,8 @@ def biomes():
 
     # Natural spawns are deliberately thin (the mob cap still applies): the landmarks are where the fights are.
     base['spawners'] = spawners([(A + 'mantis', 20, 1, 2), (A + 'scorpion', 15, 1, 2), (A + 'termite', 10, 2, 3),
-                                 ('minecraft:spider', 30, 1, 2)])
-    barrens['spawners'] = spawners([(A + 'scorpion', 10, 1, 1), ('minecraft:husk', 20, 1, 2)])
+                                 ('minecraft:spider', 30, 1, 2), (F + 'gnashback', 8, 1, 1)])
+    barrens['spawners'] = spawners([(A + 'scorpion', 10, 1, 1), ('minecraft:husk', 20, 1, 2), (F + 'gnashback', 4, 1, 1)])
     write(d('worldgen', 'biome', 'gnashwood_wilds.json'), base)
     write(d('worldgen', 'biome', 'hushed_barrens.json'), barrens)
 
@@ -157,7 +159,7 @@ def biomes():
     talon['downfall'] = 0.4
     talon['effects'].update({'sky_color': 9016271, 'fog_color': 10530494, 'grass_color': 8429428, 'foliage_color': 7186292})
     talon['effects']['particle'] = {'options': {'type': 'minecraft:white_ash'}, 'probability': 0.002}
-    talon['spawners'] = spawners([(A + 'scorpion', 10, 1, 1), ('minecraft:spider', 10, 1, 1)])
+    talon['spawners'] = spawners([(A + 'scorpion', 10, 1, 1), ('minecraft:spider', 10, 1, 1), (F + 'shrikewing', 8, 1, 1)])
     talon['features'][1] = []
     talon['features'][9] = [f'{NS}:talon_spire', f'{NS}:islet', 'minecraft:patch_grass_taiga', 'minecraft:trees_windswept_hills']
     write(d('worldgen', 'biome', 'talon_spires.json'), talon)
@@ -169,7 +171,7 @@ def biomes():
     scar['effects'].update({'sky_color': 12870492, 'fog_color': 10052676, 'grass_color': 10119514, 'foliage_color': 9467226,
                             'water_color': 9845049})
     scar['effects']['particle'] = {'options': {'type': 'minecraft:crimson_spore'}, 'probability': 0.004}
-    scar['spawners'] = spawners([(A + 'scorpion', 15, 1, 2), (A + 'mantis', 5, 1, 1)])
+    scar['spawners'] = spawners([(A + 'scorpion', 15, 1, 2), (A + 'mantis', 5, 1, 1), (F + 'shrikewing', 4, 1, 1), (F + 'gnashback', 4, 1, 1)])
     feats = scar['features']
     feats[9] = [f'{NS}:scar_ground', f'{NS}:rib_arch'] + [f for f in feats[9] if 'tree' not in f]
     write(d('worldgen', 'biome', 'rustbone_scar.json'), scar)
@@ -289,9 +291,28 @@ LOOT = {
 }
 
 
+def looting(e, per=1):
+    e.setdefault('functions', []).append({'function': 'minecraft:enchanted_count_increase', 'enchantment': 'minecraft:looting',
+                                          'count': {'type': 'minecraft:uniform', 'min': 0, 'max': per}})
+    return e
+
+
+ENTITY_LOOT = {
+    'gnashback': [pool([looting(item(U + 'gnashback_plate', 1, 2, 4))]), pool([item(A + 'raw_bug_meat', 1, 1, 2)]),
+                  pool([item(A + 'chitin', 1, 1, 2)], chance=0.5)],
+    'shrikewing': [pool([looting(item(U + 'shrike_talon', 1, 1, 2))]), pool([item('minecraft:phantom_membrane', 1, 1, 2)], chance=0.5),
+                   pool([item('minecraft:feather', 1, 2, 5)])],
+    # The Great Cage gives each fighter the Heart and the Mantle; her body gives what the armour and weapon need.
+    'chained_matriarch': [pool([item(U + 'gnashback_plate', 1, 6, 10)]), pool([item(U + 'shrike_talon', 1, 2, 3)]),
+                          pool([item('minecraft:diamond', 1, 3, 6)]), pool([item('minecraft:netherite_scrap', 1, 1, 2)])],
+}
+
+
 def loot():
     for name, t in LOOT.items():
         write(d('loot_table', 'chests', name + '.json'), t)
+    for name, pools in ENTITY_LOOT.items():
+        write(d('loot_table', 'entities', name + '.json'), {'type': 'minecraft:entity', 'pools': pools})
     # Only loaded when Marvel Superheroes is present: an X-Gene for the serums (the Hulk serum also wants the vault's uranium).
     compat = table(pool([item('marvel:x_genes')], chance=0.35))
     compat['neoforge:conditions'] = [{'type': 'neoforge:mod_loaded', 'modid': 'marvel'}]
@@ -322,6 +343,12 @@ def recipes():
            U + 'rift_lens', category='equipment')
     shaped('cagewright_shackle', ['C C', 'CTC', ' L '], {'C': 'minecraft:chain', 'T': U + 'rookery_talon', 'L': 'minecraft:lead'},
            U + 'cagewright_shackle', category='equipment')
+    for piece in ('helmet', 'chestplate', 'leggings', 'boots'):
+        # smithing would hide it from the recipe book's crafting grid; three plates and a netherite piece, in any grid
+        shapeless('carapace_' + piece, ['minecraft:netherite_' + piece] + [U + 'gnashback_plate'] * 3, U + 'carapace_' + piece,
+                  category='equipment')
+    shaped('shrike_impaler', [' TT', ' NT', 'S  '], {'T': U + 'shrike_talon', 'N': 'minecraft:netherite_ingot', 'S': 'minecraft:stick'},
+           U + 'shrike_impaler', category='equipment')
     shaped('cage_beacon', ['BOB', 'OHO', 'BOB'], {'B': 'minecraft:iron_bars', 'O': 'minecraft:crying_obsidian', 'H': U + 'great_cage_heart'},
            U + 'cage_beacon')
 
@@ -368,6 +395,11 @@ def advancements():
     adv('great_cage', 'key', 'minecraft:lodestone', {'c': at(f'{NS}:great_cage')})
     adv('cage_heart', 'great_cage', U + 'great_cage_heart', {'c': has(U + 'great_cage_heart')}, frame='challenge')
     adv('beacon', 'cage_heart', U + 'cage_beacon', {'c': has(U + 'cage_beacon')})
+    adv('mantle', 'cage_heart', U + 'matriarch_mantle', {'c': has(U + 'matriarch_mantle')}, frame='goal')
+    adv('gnashback', 'enter', U + 'gnashback_plate', {'c': has(U + 'gnashback_plate')})
+    adv('carapace', 'gnashback', U + 'carapace_chestplate', {'c': has(U + 'carapace_chestplate')})
+    adv('shrikewing', 'enter', U + 'shrike_talon', {'c': has(U + 'shrike_talon')})
+    adv('impaler', 'shrikewing', U + 'shrike_impaler', {'c': has(U + 'shrike_impaler')})
 
 
 # ------------------------------------------------------------------------------------------------------------ tags
@@ -375,6 +407,11 @@ def tags():
     write(d('tags', 'block', 'brood.json'), {'values': ['minecraft:turtle_egg', 'minecraft:frogspawn']})
     # Better Combat (in Integrated Boogaloo) gives the Swarmbreaker glaive move sets; ignored when Better Combat is absent.
     write(os.path.join(DATA, 'weapon_attributes', 'swarmbreaker.json'), {'parent': 'bettercombat:glaive'})
+    write(os.path.join(DATA, 'weapon_attributes', 'shrike_impaler.json'), {'parent': 'bettercombat:spear'})
+    # Bane of Arthropods works on the frontier's insects; the Matriarch counts as a boss for other mods.
+    write(os.path.join(ROOT, 'data', 'minecraft', 'tags', 'entity_type', 'arthropod.json'),
+          {'replace': False, 'values': [U + 'gnashback', U + 'chained_matriarch']})
+    write(os.path.join(ROOT, 'data', 'c', 'tags', 'entity_type', 'bosses.json'), {'replace': False, 'values': [U + 'chained_matriarch']})
 
 
 # ------------------------------------------------------------------------------------------------------------ sounds
@@ -435,12 +472,14 @@ def sounds():
 
 # -------------------------------------------------------------------------------------------------------- models
 ITEMS = ['rift_shard', 'cage_trophy', 'swarmbreaker', 'rookery_talon', 'hive_heart', 'great_cage_heart', 'cagewright_key', 'rift_lens',
-         'cagewright_shackle']
+         'cagewright_shackle', 'gnashback_plate', 'shrike_talon', 'carapace_helmet', 'carapace_chestplate', 'carapace_leggings',
+         'carapace_boots', 'shrike_impaler', 'matriarch_mantle', 'acid_glob']
+HANDHELD = ('swarmbreaker', 'shrike_impaler')
 
 
 def models():
     for i in ITEMS:
-        parent = 'minecraft:item/handheld' if i == 'swarmbreaker' else 'minecraft:item/generated'
+        parent = 'minecraft:item/handheld' if i in HANDHELD else 'minecraft:item/generated'
         write(os.path.join(ASSETS, 'models', 'item', i + '.json'), {'parent': parent, 'textures': {'layer0': f'{NS}:item/{i}'}})
     write(os.path.join(ASSETS, 'models', 'block', 'cage_beacon.json'), {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
         'top': f'{NS}:block/cage_beacon_top', 'bottom': f'{NS}:block/cage_beacon_bottom', 'side': f'{NS}:block/cage_beacon_side'}})
@@ -491,6 +530,42 @@ LANG = {
     'item.unstable_frontiers.swarmbreaker.tip1': 'Use to Pounce: leap, and land in a shockwave that smashes egg clutches',
     'item.unstable_frontiers.swarmbreaker.tip2': 'and staggers the insects it hits. Repair with Cage Trophies.',
     'block.unstable_frontiers.cage_beacon': 'Cage Beacon',
+    'entity.unstable_frontiers.gnashback': 'Gnashback',
+    'entity.unstable_frontiers.shrikewing': 'Shrikewing',
+    'entity.unstable_frontiers.chained_matriarch': 'The Chained Matriarch',
+    'entity.unstable_frontiers.acid_glob': 'Acid Glob',
+    'item.unstable_frontiers.acid_glob': 'Acid Glob',
+    'item.unstable_frontiers.gnashback_plate': 'Gnashback Plate',
+    'item.unstable_frontiers.gnashback_plate.tip0': 'Three plates over a netherite piece make Gnashback Carapace.',
+    'item.unstable_frontiers.shrike_talon': 'Shrike Talon',
+    'item.unstable_frontiers.shrike_talon.tip0': 'Three talons, a netherite ingot and a stick make the Shrike Impaler.',
+    'item.unstable_frontiers.carapace_helmet': 'Gnashback Carapace Helm',
+    'item.unstable_frontiers.carapace_chestplate': 'Gnashback Carapace',
+    'item.unstable_frontiers.carapace_leggings': 'Gnashback Carapace Greaves',
+    'item.unstable_frontiers.carapace_boots': 'Gnashback Carapace Boots',
+    'item.unstable_frontiers.shrike_impaler': 'Shrike Impaler',
+    'item.unstable_frontiers.shrike_impaler.tip0': 'Double damage to anything in the air.',
+    'item.unstable_frontiers.shrike_impaler.tip1': 'Drives flyers down; knocks a Shrikewing out of the sky.',
+    'item.unstable_frontiers.matriarch_mantle': 'Matriarch\'s Mantle',
+    'item.unstable_frontiers.matriarch_mantle.tip0': 'Works in your hotbar or off hand.',
+    'item.unstable_frontiers.matriarch_mantle.tip1': 'Wingsail: long falls become a glide (sneak to drop). No fall damage.',
+    'item.unstable_frontiers.matriarch_mantle.tip2': 'Brood truce: wild insects leave you be until you strike them.',
+    'item.unstable_frontiers.matriarch_mantle.tip3': 'Landmark guardians are not wild.',
+    'hint.unstable_frontiers.gnashback': 'A Gnashback has your scent. When it scrapes the ground, step aside: a charge into a wall or tree stuns it, and its open back takes double damage.',
+    'hint.unstable_frontiers.shrikewing': 'A Shrikewing is circling you. When it screeches, leave the marked spot: a missed dive leaves it climbing slowly or stranded on the ground.',
+    'hint.unstable_frontiers.chained_matriarch': 'The Matriarch: get behind her when the sparks show the scythe arc, keep moving under acid, strike the sac when it opens, and break the pylons to snap her chains.',
+    'message.unstable_frontiers.matriarch_free': 'The chains snap! She is free, and she can leap.',
+    'message.unstable_frontiers.matriarch_brood': 'She opens her brood sac. Strike it now!',
+    'advancement.unstable_frontiers.mantle': 'Wingsail',
+    'advancement.unstable_frontiers.mantle.desc': 'Take the Matriarch\'s Mantle from the Great Cage',
+    'advancement.unstable_frontiers.gnashback': 'Hard Shell',
+    'advancement.unstable_frontiers.gnashback.desc': 'Take a plate from a Gnashback (let it charge into something hard)',
+    'advancement.unstable_frontiers.carapace': 'Shell Game',
+    'advancement.unstable_frontiers.carapace.desc': 'Make a Gnashback Carapace',
+    'advancement.unstable_frontiers.shrikewing': 'Grounded',
+    'advancement.unstable_frontiers.shrikewing.desc': 'Take a talon from a Shrikewing',
+    'advancement.unstable_frontiers.impaler': 'Anti-Air',
+    'advancement.unstable_frontiers.impaler.desc': 'Make the Shrike Impaler',
     'biome.unstable_frontiers.gnashwood_wilds': 'Gnashwood Wilds',
     'biome.unstable_frontiers.hushed_barrens': 'Hushed Barrens',
     'biome.unstable_frontiers.talon_spires': 'Talon Spires',
@@ -513,7 +588,7 @@ LANG = {
     'zone.unstable_frontiers.cell.start': 'The prisoner wakes.',
     'zone.unstable_frontiers.roost.start': 'The roost takes wing.',
     'zone.unstable_frontiers.guardian.start': 'The guardian rises.',
-    'zone.unstable_frontiers.finale.start': 'Break the four pylons. While they stand, it cannot be hurt for long.',
+    'zone.unstable_frontiers.finale.start': 'The Matriarch wakes. Break the four pylons to snap her chains.',
     'elite.unstable_frontiers.slam.tell': '%s rears up. Get out of the ring!',
     'elite.unstable_frontiers.rally.tell': '%s calls its kin.',
     'elite.unstable_frontiers.pounce.tell': '%s crouches to spring.',
@@ -583,7 +658,7 @@ LANG = {
     'advancement.unstable_frontiers.great_cage': 'The Great Cage',
     'advancement.unstable_frontiers.great_cage.desc': 'Stand in the Rustbone Scar, inside the Great Cage',
     'advancement.unstable_frontiers.cage_heart': 'Heart of the Cage',
-    'advancement.unstable_frontiers.cage_heart.desc': 'Break the pylons and kill the Cagewright\'s Beast',
+    'advancement.unstable_frontiers.cage_heart.desc': 'Break the pylons and kill the Chained Matriarch',
     'advancement.unstable_frontiers.beacon': 'Safe Ground',
     'advancement.unstable_frontiers.beacon.desc': 'Build a Cage Beacon',
 }

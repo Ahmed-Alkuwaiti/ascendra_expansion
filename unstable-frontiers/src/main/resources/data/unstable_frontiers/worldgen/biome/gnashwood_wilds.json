@@ -61,6 +61,12 @@
         "weight": 30,
         "minCount": 1,
         "maxCount": 2
+      },
+      {
+        "type": "unstable_frontiers:gnashback",
+        "weight": 8,
+        "minCount": 1,
+        "maxCount": 1
       }
     ],
     "underground_water_creature": [],

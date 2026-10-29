@@ -7,8 +7,12 @@
   ],
   "flyers": [
     {
-      "id": "antarchy:stratoshark",
+      "id": "unstable_frontiers:shrikewing",
       "weight": 3
+    },
+    {
+      "id": "antarchy:stratoshark",
+      "weight": 2
     },
     {
       "id": "antarchy:brutalfly",

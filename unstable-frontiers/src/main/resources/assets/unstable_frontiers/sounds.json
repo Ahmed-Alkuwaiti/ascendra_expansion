@@ -118,5 +118,140 @@
         "pitch": 0.8
       }
     ]
+  },
+  "gnashback.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.ambient",
+    "sounds": [
+      "unstable_frontiers:gnashback/ambient"
+    ]
+  },
+  "gnashback.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.hurt",
+    "sounds": [
+      "unstable_frontiers:gnashback/hurt"
+    ]
+  },
+  "gnashback.death": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.death",
+    "sounds": [
+      "unstable_frontiers:gnashback/death"
+    ]
+  },
+  "gnashback.bite": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.bite",
+    "sounds": [
+      "unstable_frontiers:gnashback/bite"
+    ]
+  },
+  "gnashback.scrape": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.scrape",
+    "sounds": [
+      "unstable_frontiers:gnashback/scrape"
+    ]
+  },
+  "gnashback.charge": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.charge",
+    "sounds": [
+      "unstable_frontiers:gnashback/charge"
+    ]
+  },
+  "gnashback.impact": {
+    "subtitle": "subtitles.unstable_frontiers.gnashback.impact",
+    "sounds": [
+      "unstable_frontiers:gnashback/impact"
+    ]
+  },
+  "shrikewing.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.shrikewing.ambient",
+    "sounds": [
+      "unstable_frontiers:shrikewing/ambient1",
+      "unstable_frontiers:shrikewing/ambient2"
+    ]
+  },
+  "shrikewing.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.shrikewing.hurt",
+    "sounds": [
+      "unstable_frontiers:shrikewing/hurt"
+    ]
+  },
+  "shrikewing.death": {
+    "subtitle": "subtitles.unstable_frontiers.shrikewing.death",
+    "sounds": [
+      "unstable_frontiers:shrikewing/death"
+    ]
+  },
+  "shrikewing.screech": {
+    "subtitle": "subtitles.unstable_frontiers.shrikewing.screech",
+    "sounds": [
+      "unstable_frontiers:shrikewing/screech"
+    ]
+  },
+  "shrikewing.flap": {
+    "subtitle": "subtitles.unstable_frontiers.shrikewing.flap",
+    "sounds": [
+      "unstable_frontiers:shrikewing/flap"
+    ]
+  },
+  "matriarch.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.ambient",
+    "sounds": [
+      "unstable_frontiers:matriarch/ambient1",
+      "unstable_frontiers:matriarch/ambient2"
+    ]
+  },
+  "matriarch.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.hurt",
+    "sounds": [
+      "unstable_frontiers:matriarch/hurt1",
+      "unstable_frontiers:matriarch/hurt2"
+    ]
+  },
+  "matriarch.death": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.death",
+    "sounds": [
+      "unstable_frontiers:matriarch/death"
+    ]
+  },
+  "matriarch.roar": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.roar",
+    "sounds": [
+      "unstable_frontiers:matriarch/roar"
+    ]
+  },
+  "matriarch.brood": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.brood",
+    "sounds": [
+      "unstable_frontiers:matriarch/brood"
+    ]
+  },
+  "matriarch.sweep_tell": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.sweep_tell",
+    "sounds": [
+      "unstable_frontiers:matriarch/sweep_tell"
+    ]
+  },
+  "matriarch.sweep": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.sweep",
+    "sounds": [
+      "unstable_frontiers:matriarch/sweep"
+    ]
+  },
+  "matriarch.spit": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.spit",
+    "sounds": [
+      "unstable_frontiers:matriarch/spit"
+    ]
+  },
+  "matriarch.slam": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.slam",
+    "sounds": [
+      "unstable_frontiers:matriarch/slam"
+    ]
+  },
+  "matriarch.acid": {
+    "subtitle": "subtitles.unstable_frontiers.matriarch.acid",
+    "sounds": [
+      "unstable_frontiers:matriarch/acid"
+    ]
   }
 }

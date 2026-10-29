@@ -30,7 +30,9 @@ rosters = {os.path.basename(f)[:-5] for f in glob.glob(D + '/roster/*.json')}
 loot = {f[len(D) + len('/loot_table/'):-5] for f in glob.glob(D + '/loot_table/**/*.json', recursive=True)}
 items = set()
 for f in glob.glob('src/main/java/**/ModItems.java', recursive=True):
-    items |= set(re.findall(r'ITEMS\.register(?:SimpleBlockItem)?\("([a-z_]+)"', open(f).read()))
+    src = open(f).read()
+    items |= set(re.findall(r'ITEMS\.register(?:SimpleBlockItem|SimpleItem)?\("([a-z_]+)"', src))
+    items |= set(re.findall(r'= armor\("([a-z_]+)"', src))
 
 for f in sorted(glob.glob(D + '/landmark/*.json')):
     name = os.path.basename(f)[:-5]
@@ -56,8 +58,9 @@ for f in sorted(glob.glob(D + '/landmark/*.json')):
     for z in lm['zones']:
         if z['roster'] not in rosters:
             problems.append(f'{name}/{z["id"]}: roster {z["roster"]} missing')
-        if z.get('reward') and z['reward'] not in items:
-            problems.append(f'{name}/{z["id"]}: reward {z["reward"]} is not an item of this mod')
+        for reward in (z.get('reward') or '').split(','):
+            if reward and reward.strip() not in items:
+                problems.append(f'{name}/{z["id"]}: reward {reward} is not an item of this mod')
         for g in (z.get('gate'), z.get('lock_gate')):
             if g and g not in lm.get('gates', {}):
                 problems.append(f'{name}/{z["id"]}: gate {g} not defined')
@@ -105,6 +108,36 @@ for f in glob.glob('src/main/java/**/ModSounds.java', recursive=True):
     for s in re.findall(r'event\("([a-z_.]+)"\)', open(f).read()):
         if s not in sounds:
             problems.append(f'sound {s} not in sounds.json')
+
+for name, files in sounds.items():
+    for s in files['sounds']:
+        if isinstance(s, str) and s.startswith('unstable_frontiers:') and not os.path.exists(A + '/sounds/' + s.split(':')[1] + '.ogg'):
+            problems.append(f'sound {name}: file {s} missing')
+
+# The creatures: every model, animation and texture GeckoLib will look for, and every animation the code plays.
+entities = []
+for f in glob.glob('src/main/java/**/ModEntities.java', recursive=True):
+    entities = re.findall(r'TYPES\.register\("([a-z_]+)"', open(f).read())
+for e in entities:
+    if e == 'acid_glob':
+        continue
+    for path in (f'/geo/entity/{e}.geo.json', f'/animations/entity/{e}.animation.json', f'/textures/entity/{e}.png'):
+        if not os.path.exists(A + path):
+            problems.append(f'entity {e}: {path} missing')
+    if f'entity.unstable_frontiers.{e}' not in lang:
+        problems.append(f'lang: entity.unstable_frontiers.{e} missing')
+    if not os.path.exists(D + f'/loot_table/entities/{e}.json'):
+        problems.append(f'entity {e}: no loot table')
+anims = {}
+for f in glob.glob(A + '/animations/entity/*.animation.json'):
+    anims.update((load(f) or {}).get('animations', {}))
+for f in glob.glob('src/main/java/**/entity/*.java', recursive=True):
+    for a in re.findall(r'"(animation\.[a-z_]+\.[a-z_]+)"', open(f).read()):
+        if a not in anims:
+            problems.append(f'{os.path.basename(f)}: plays {a}, which no animation file defines')
+for layer in ('carapace_layer_1', 'carapace_layer_2'):
+    if not os.path.exists(A + f'/textures/models/armor/{layer}.png'):
+        problems.append(f'armour texture {layer} missing')
 
 for p in problems:
     print('PROBLEM', p)

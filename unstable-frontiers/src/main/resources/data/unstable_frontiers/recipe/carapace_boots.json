@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_boots"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    },
+    {
+      "item": "unstable_frontiers:gnashback_plate"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:carapace_boots",
+    "count": 1
+  }
+}

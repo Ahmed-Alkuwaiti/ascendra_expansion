@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:matriarch_mantle"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.mantle"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.mantle.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:matriarch_mantle"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:cage_heart"
+}

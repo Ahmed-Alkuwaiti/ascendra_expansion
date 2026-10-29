@@ -16,8 +16,12 @@
   ],
   "flyers": [
     {
-      "id": "antarchy:stratoshark",
+      "id": "unstable_frontiers:shrikewing",
       "weight": 3
+    },
+    {
+      "id": "antarchy:stratoshark",
+      "weight": 2
     },
     {
       "id": "antarchy:nightmare",
@@ -27,14 +31,9 @@
   ],
   "escorts": 3,
   "elite": {
-    "id": "antarchy:basilisk",
-    "title": "The Cagewright's Beast",
-    "bar": "red",
-    "abilities": [
-      "slam",
-      "screech",
-      "rally",
-      "pounce"
-    ]
+    "id": "unstable_frontiers:chained_matriarch",
+    "title": "The Chained Matriarch",
+    "bar": "purple",
+    "abilities": []
   }
 }
