@@ -1,18 +1,22 @@
 # In-game screenshots (ci/pack_client.sh). The Great Cage was built with its corner at 3000 ~ 3000 (centre about 3057 ~ 3057).
 /gamerule doMobSpawning false
-/gamemode creative
+/gamemode spectator
 /effect give @s minecraft:night_vision infinite 0 true
 gui off
 # Arrive near the cage: the Matriarch is placed in her chains when a player comes near.
 /execute in unstable_frontiers:frontier run tp @s 3057 160 2960
 wait 600
-/execute at @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] run tp @s ~ ~45 ~-95 facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
+/execute at @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] run tp @s ~ ~70 ~-120 facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
 wait 500
 shot 01_great_cage_approach
 /execute as @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] at @s run tp @p ^ ^4 ^14 facing entity @s eyes
 wait 300
 shot 02_matriarch_in_chains
 # A clean stage for the portraits: a platform of scarred ground high over the Rustbone Scar (x 3200, y 190, z 2800).
+# Go there first (spectator: no falling) so its chunks load before anything is built.
+/gamemode spectator
+/execute in unstable_frontiers:frontier run tp @s 3200 192 2790 0 10
+wait 300
 /execute in unstable_frontiers:frontier run fill 3180 189 2780 3220 189 2820 minecraft:coarse_dirt
 /execute in unstable_frontiers:frontier run fill 3180 190 2780 3220 205 2820 minecraft:air
 /execute in unstable_frontiers:frontier run fill 3190 190 2812 3190 196 2812 minecraft:bone_block
@@ -21,8 +25,7 @@ shot 02_matriarch_in_chains
 /execute in unstable_frontiers:frontier run fill 3196 190 2814 3196 194 2814 minecraft:chain
 /execute in unstable_frontiers:frontier run setblock 3206 190 2809 minecraft:dead_bush
 /execute in unstable_frontiers:frontier run setblock 3193 190 2803 minecraft:dead_bush
-/execute in unstable_frontiers:frontier run tp @s 3200 192 2790 0 10
-wait 200
+wait 100
 # The Matriarch's tells (AI off, held in each pose). She faces north (towards the camera).
 /execute in unstable_frontiers:frontier run summon unstable_frontiers:chained_matriarch 3200 190 2806 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f],Tags:["shot"]}
 /execute in unstable_frontiers:frontier run tp @s 3194 195 2793 facing 3200 192 2806
@@ -99,6 +102,8 @@ shot 15_inventory_gear
 screen none
 # The fight starts at the lock: the title, the boss bar with the pylons.
 /gamemode creative
+/execute in unstable_frontiers:frontier run tp @s 3057 130 2960
+wait 300
 /execute as @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] at @s run tp @p ^ ^5 ^16 facing entity @s eyes
 wait 200
 /frontier landmark zone finale start
