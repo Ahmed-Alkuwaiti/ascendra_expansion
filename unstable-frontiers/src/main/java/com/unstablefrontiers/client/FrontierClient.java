@@ -21,6 +21,7 @@ public final class FrontierClient {
 
     public static void init(IEventBus modBus) {
         modBus.addListener(FrontierClient::renderers);
+        ClientShots.init(net.neoforged.neoforge.common.NeoForge.EVENT_BUS);
     }
 
     private static void renderers(EntityRenderersEvent.RegisterRenderers event) {

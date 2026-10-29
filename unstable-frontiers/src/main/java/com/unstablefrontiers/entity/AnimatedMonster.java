@@ -48,6 +48,11 @@ public abstract class AnimatedMonster extends Monster implements GeoEntity {
         }
     }
 
+    /** For screenshots and tests: holds a creature (with its AI off) in one of its states, so its pose can be seen. */
+    public void debugPose(int state) {
+        setState(state);
+    }
+
     @Override
     public void tick() {
         super.tick();

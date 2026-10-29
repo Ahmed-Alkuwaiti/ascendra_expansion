@@ -25,6 +25,18 @@ neoForge {
         }
         client {
             client()
+            // its own folder, so a client test never disturbs the server test's world and mods
+            gameDirectory = project.file('run_client')
+            jvmArgument '-Xmx8G'
+            // CI screenshots (ci/pack_client.sh): straight into the prepared world, at a fixed window size
+            if (System.getenv('UF_SHOTS')) {
+                programArgument '--quickPlaySingleplayer'
+                programArgument 'world'
+                programArgument '--width'
+                programArgument '1280'
+                programArgument '--height'
+                programArgument '720'
+            }
         }
     }
 

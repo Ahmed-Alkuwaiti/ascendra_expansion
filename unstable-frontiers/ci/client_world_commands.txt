@@ -1,0 +1,10 @@
+# Server run that prepares the world the screenshot client opens (ci/pack_client.sh). No players; builds the landmarks.
+gamerule doDaylightCycle false
+gamerule doWeatherCycle false
+gamerule doMobSpawning false
+time set 6000
+weather clear
+execute in unstable_frontiers:frontier run forceload add 2992 2848 3120 3120
+execute in unstable_frontiers:frontier positioned 3000 0 3000 run frontier landmark build great_cage
+execute in unstable_frontiers:frontier positioned 3000 0 3000 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier run forceload remove all

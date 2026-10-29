@@ -1,0 +1,98 @@
+# In-game screenshots (ci/pack_client.sh). The Great Cage was built with its corner at 3000 ~ 3000 (centre about 3057 ~ 3057).
+/gamerule doMobSpawning false
+/gamemode creative
+/effect give @s minecraft:night_vision infinite 0 true
+gui off
+# Arrive near the cage: the Matriarch is placed in her chains when a player comes near.
+/execute in unstable_frontiers:frontier run tp @s 3057 160 2960
+wait 600
+/execute in unstable_frontiers:frontier positioned 3057 0 2965 positioned over motion_blocking run tp @s ~ ~28 ~ facing entity @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] feet
+wait 500
+shot 01_great_cage_approach
+/execute as @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] at @s run tp @p ^ ^4 ^14 facing entity @s eyes
+wait 300
+shot 02_matriarch_in_chains
+# The Matriarch's tells, on open ground south of the cage (AI off, held in each pose).
+/execute in unstable_frontiers:frontier positioned 3057 0 2900 positioned over motion_blocking run summon unstable_frontiers:chained_matriarch ~ ~ ~ {NoAI:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["shot"]}
+wait 40
+/execute as @e[tag=shot,limit=1] at @s run tp @p ^-6 ^5 ^13 facing entity @s eyes
+wait 300
+shot 03_matriarch_idle
+/frontier debug pose @e[tag=shot] 1
+wait 60
+shot 04_matriarch_sweep_tell
+/frontier debug pose @e[tag=shot] 5
+wait 60
+shot 05_matriarch_brood_sac_open
+/frontier debug pose @e[tag=shot] 6
+wait 40
+shot 06_matriarch_leap_crouch
+/kill @e[tag=shot]
+wait 80
+# The Gnashback.
+/execute in unstable_frontiers:frontier positioned 3010 0 2880 positioned over motion_blocking run summon unstable_frontiers:gnashback ~ ~ ~ {NoAI:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["shot"]}
+wait 40
+/execute as @e[tag=shot,limit=1] at @s run tp @p ^-4 ^2.5 ^6 facing entity @s eyes
+wait 300
+shot 07_gnashback
+/frontier debug pose @e[tag=shot] 1
+wait 30
+shot 08_gnashback_charge_tell
+/frontier debug pose @e[tag=shot] 3
+wait 30
+shot 09_gnashback_stunned
+/kill @e[tag=shot]
+wait 60
+# The Shrikewing.
+/execute in unstable_frontiers:frontier positioned 3030 0 2860 positioned over motion_blocking run summon unstable_frontiers:shrikewing ~ ~5 ~ {NoAI:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["shot"]}
+wait 40
+/execute as @e[tag=shot,limit=1] at @s run tp @p ^-5 ^-1 ^7 facing entity @s eyes
+wait 300
+shot 10_shrikewing_flying
+/frontier debug pose @e[tag=shot] 1
+wait 30
+shot 11_shrikewing_dive_tell
+/kill @e[tag=shot]
+wait 60
+# The ecosystem with AI on: Shrikewings hunting over Gnashbacks.
+/execute in unstable_frontiers:frontier positioned 3020 0 2830 positioned over motion_blocking run summon unstable_frontiers:gnashback ~ ~ ~
+/execute in unstable_frontiers:frontier positioned 3026 0 2836 positioned over motion_blocking run summon unstable_frontiers:gnashback ~ ~ ~
+/execute in unstable_frontiers:frontier positioned 3024 0 2828 positioned over motion_blocking run summon unstable_frontiers:shrikewing ~ ~14 ~
+/execute in unstable_frontiers:frontier positioned 3030 0 2834 positioned over motion_blocking run summon unstable_frontiers:shrikewing ~ ~16 ~
+/execute in unstable_frontiers:frontier positioned 3024 0 2808 positioned over motion_blocking run tp @s ~ ~8 ~ facing 3024 ~4 2834
+wait 400
+shot 12_ecosystem
+/kill @e[type=unstable_frontiers:gnashback]
+/kill @e[type=unstable_frontiers:shrikewing]
+# The gear: worn in third person, then in the inventory.
+/gamemode survival
+/effect give @s minecraft:resistance infinite 4 true
+/item replace entity @s armor.head with unstable_frontiers:carapace_helmet
+/item replace entity @s armor.chest with unstable_frontiers:carapace_chestplate
+/item replace entity @s armor.legs with unstable_frontiers:carapace_leggings
+/item replace entity @s armor.feet with unstable_frontiers:carapace_boots
+/item replace entity @s weapon.mainhand with unstable_frontiers:shrike_impaler
+/item replace entity @s weapon.offhand with unstable_frontiers:matriarch_mantle
+/give @s unstable_frontiers:gnashback_plate 12
+/give @s unstable_frontiers:shrike_talon 6
+/give @s unstable_frontiers:great_cage_heart
+/execute in unstable_frontiers:frontier positioned 3010 0 2880 positioned over motion_blocking run tp @s ~ ~ ~ 160 10
+camera front
+wait 300
+shot 13_carapace_worn
+camera first
+gui on
+screen inventory
+wait 60
+shot 14_inventory_gear
+screen none
+# The fight starts at the lock: the title, the boss bar with the pylons.
+/gamemode creative
+/execute as @e[type=unstable_frontiers:chained_matriarch,limit=1,sort=nearest] at @s run tp @p ^ ^3 ^12 facing entity @s eyes
+wait 200
+/frontier landmark zone finale start
+wait 30
+shot 15_finale_starts
+wait 200
+shot 16_finale_fight
+quit

@@ -19,7 +19,7 @@ cp -r pack/overrides/defaultconfigs run/defaultconfigs 2>/dev/null || true
 echo "eula=true" > run/eula.txt
 printf "level-seed=frontiers\nmax-tick-time=-1\nspawn-protection=0\nonline-mode=false\ndifficulty=normal\n" > run/server.properties
 rm -f run/logs/latest.log
-export UF_SMOKE="$PWD/ci/pack_smoke_commands.txt"
+export UF_SMOKE="${UF_SMOKE_FILE:-$PWD/ci/pack_smoke_commands.txt}"
 # Client-only mods that the name list missed refuse to construct on a dedicated server ("invalid dist"); drop each one
 # named in the crash report or seen in the stack trace and boot again, at most 8 times. Each dropped mod is listed in pack_selection.txt.
 for attempt in 1 2 3 4 5 6 7 8; do
@@ -33,6 +33,11 @@ for attempt in 1 2 3 4 5 6 7 8; do
   for j in $bad; do echo "SKIP (client-only, refused on a server) $(basename $j)" | tee -a pack_selection.txt; rm -f "$j"; done
 done
 echo "server exited: $code"
+if [ -n "${UF_WORLD_ONLY:-}" ]; then
+  grep -E "SMOKE>|SMOKE FAILED|LANDMARK |Built " run/logs/latest.log | cut -c1-300
+  grep -q "SMOKE finished" run/logs/latest.log
+  exit $?
+fi
 L=run/logs/latest.log
 echo "==== mods loaded ===="
 grep -E "Unstable Frontiers loading|Loading [0-9]+ mods|Done \(" $L | cut -c1-200

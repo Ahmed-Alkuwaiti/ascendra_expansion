@@ -456,7 +456,7 @@ public class ChainedMatriarchEntity extends AnimatedMonster {
             if (isDeadOrDying()) {
                 return s.setAndContinue(A_DEATH);
             }
-            if (isNoAi()) {
+            if (isNoAi() && state() == IDLE) {   // waiting in her chains before the fight
                 return s.setAndContinue(A_STRUGGLE);
             }
             return s.setAndContinue(switch (state()) {

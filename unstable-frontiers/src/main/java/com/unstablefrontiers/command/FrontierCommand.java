@@ -74,6 +74,17 @@ public final class FrontierCommand {
                                 .executes(c -> RegistryDump.dump(c.getSource().getLevel(), StringArgumentType.getString(c, "namespace")))))
                         .then(Commands.literal("rosters").executes(FrontierCommand::rosters))
                         .then(Commands.literal("sites").executes(FrontierCommand::sites))
+                        .then(Commands.literal("pose").then(Commands.argument("targets", net.minecraft.commands.arguments.EntityArgument.entities())
+                                .then(Commands.argument("state", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 15)).executes(c -> {
+                                    int n = 0;
+                                    for (var e : net.minecraft.commands.arguments.EntityArgument.getEntities(c, "targets")) {
+                                        if (e instanceof com.unstablefrontiers.entity.AnimatedMonster m) {
+                                            m.debugPose(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "state"));
+                                            n++;
+                                        }
+                                    }
+                                    return n;
+                                }))))
                         .then(Commands.literal("trial").then(Commands.argument("creature", StringArgumentType.word()).executes(FrontierCommand::trial))))
                 .then(Commands.literal("landmark").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("build").then(Commands.argument("id", StringArgumentType.string())
