@@ -1,9 +1,13 @@
 name: Release jar into the branch
 
-# Manual: builds the addon (against the pack's own GeckoLib jar), runs the data checks, and commits the jar and its
+# On a change to the changelog (or by hand): builds the addon (against the pack's own GeckoLib jar), runs the data checks, and commits the jar and its
 # SHA-256 to unstable-frontiers/dist/ on the same branch, so it can be downloaded without opening the Actions page.
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'unstable-frontiers/CHANGELOG.md'
+      - '.github/workflows/release_jar.yml'
 
 permissions:
   contents: write
