@@ -1,0 +1,58 @@
+name: Release jar into the branch
+
+# Manual: builds the addon (against the pack's own GeckoLib jar), runs the data checks, and commits the jar and its
+# SHA-256 to unstable-frontiers/dist/ on the same branch, so it can be downloaded without opening the Actions page.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: unstable-frontiers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.10.2'
+      - name: Restore the pack download
+        uses: actions/cache/restore@v4
+        with:
+          path: unstable-frontiers/pack
+          key: integrated-boogaloo-1.0.8-v1
+      - name: Data checks
+        run: |
+          pip install --quiet nbtlib
+          python3 tools/check_data.py
+      - name: Build
+        run: gradle build --no-daemon --console=plain
+      - name: Commit the jar
+        run: |
+          mkdir -p dist
+          rm -f dist/*.jar dist/*.sha256
+          for j in build/libs/*.jar; do
+            case "$j" in *-sources.jar|*-javadoc.jar) continue;; esac
+            cp "$j" dist/
+            (cd dist && sha256sum "$(basename "$j")" > "$(basename "$j").sha256")
+          done
+          ls -la dist
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -f dist
+          git commit -qm "Release jar built by CI (run ${{ github.run_id }})" || exit 0
+          for i in 1 2 3 4; do
+            git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && break
+            sleep $((i * 5))
+          done
