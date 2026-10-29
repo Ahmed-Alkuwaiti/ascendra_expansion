@@ -52,7 +52,8 @@ public final class CreatureTrial {
 
     private record Step(String name, int timeout, IntPredicate body) {}
 
-    private CreatureTrial() {}
+    /** Registered on the game bus for its tick; the trials themselves are static. */
+    public CreatureTrial() {}
 
     public static boolean running() {
         return current != null || !STEPS.isEmpty();
@@ -258,8 +259,8 @@ public final class CreatureTrial {
                 dummy[0].teleportTo(dummy[0].getX() + 8, dummy[0].getY(), dummy[0].getZ());   // leave the ring after it locks
             }
             if (s[0].state() == ShrikewingEntity.GROUNDED || s[0].state() == ShrikewingEntity.RECOVER) {
-                (s[0].state() == ShrikewingEntity.GROUNDED ? (Runnable) () -> pass("a dodged dive grounds the shrikewing")
-                        : () -> pass("a dodged dive leaves the shrikewing climbing (open)")).run();
+                pass(s[0].state() == ShrikewingEntity.GROUNDED ? "a dodged dive grounds the shrikewing"
+                        : "a dodged dive leaves the shrikewing climbing (open)");
                 return true;
             }
             return false;
