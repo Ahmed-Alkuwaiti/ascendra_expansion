@@ -1,0 +1,20 @@
+jars geckolib
+jars curios
+jars bettercombat
+cat geckolib META-INF/neoforge.mods.toml
+list geckolib software/bernie/geckolib/(animatable/GeoEntity|animatable/GeoAnimatable|animatable/instance/AnimatableInstanceCache|util/GeckoLibUtil|animation/AnimationController|animation/RawAnimation|animation/AnimatableManager|animation/PlayState|animation/AnimationState|model/DefaultedEntityGeoModel|model/GeoModel|renderer/GeoEntityRenderer|animation/Animation)\.class
+javap geckolib software.bernie.geckolib.animatable.GeoEntity
+javap geckolib software.bernie.geckolib.animatable.GeoAnimatable
+javap geckolib software.bernie.geckolib.util.GeckoLibUtil
+javap geckolib software.bernie.geckolib.animation.AnimationController
+javap geckolib software.bernie.geckolib.animation.RawAnimation
+javap geckolib software.bernie.geckolib.animation.AnimatableManager$ControllerRegistrar
+javap geckolib software.bernie.geckolib.animation.AnimationState
+javap geckolib software.bernie.geckolib.animation.PlayState
+javap geckolib software.bernie.geckolib.model.DefaultedEntityGeoModel
+javap geckolib software.bernie.geckolib.model.DefaultedGeoModel
+javap geckolib software.bernie.geckolib.renderer.GeoEntityRenderer
+javap geckolib software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer
+list antarchy assets/antarchy/(geo|animations)/.*(mantis|nightmare).*
+cat antarchy assets/antarchy/animations/entity/mantis.animation.json
+list bettercombat data/bettercombat/weapon_attributes/.*

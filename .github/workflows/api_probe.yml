@@ -1,0 +1,39 @@
+name: Pack API probe
+
+# Prints class signatures and files from the Integrated Boogaloo jars (listed in ci/api_probe.txt), so the addon is
+# written against the exact APIs and data the pack ships rather than from memory.
+on:
+  push:
+    paths:
+      - 'unstable-frontiers/ci/api_probe.txt'
+      - 'unstable-frontiers/ci/api_probe.py'
+      - '.github/workflows/api_probe.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: unstable-frontiers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore the pack download
+        id: pack
+        uses: actions/cache/restore@v4
+        with:
+          path: unstable-frontiers/pack
+          key: integrated-boogaloo-1.0.8-v1
+      - name: Fetch Integrated Boogaloo (skipped when cached)
+        if: steps.pack.outputs.cache-hit != 'true'
+        run: python3 ci/pack/fetch_pack.py pack
+      - name: Probe
+        run: python3 ci/api_probe.py pack/mods ci/api_probe.txt
