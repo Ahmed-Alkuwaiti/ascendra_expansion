@@ -134,6 +134,9 @@ public final class AbyssTravel {
         p.stopRiding();
         p.fallDistance = 0;
         p.teleportTo(level, at.x, at.y, at.z, yaw, p.getXRot());
+        if (p instanceof net.neoforged.neoforge.common.util.FakePlayer && p.level() == level) {
+            p.moveTo(at.x, at.y, at.z, yaw, p.getXRot());   // a mod's fake player has no connection to carry the move
+        }
         level.playSound(null, BlockPos.containing(at), ModSounds.RIFT_OPEN.get(), SoundSource.PLAYERS, 1.0F, 1.4F);
     }
 

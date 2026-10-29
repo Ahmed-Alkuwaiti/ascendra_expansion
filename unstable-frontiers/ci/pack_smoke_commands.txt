@@ -66,6 +66,7 @@ execute in unstable_frontiers:frontier positioned 1208 0 8 positioned over motio
 # The Astral Abyss: its places, safe arrival, the void catch, item rescue; then the Eclipse Leviathan at the Hollow Crown.
 execute in unstable_frontiers:astral_abyss run forceload add 288 288 312 312
 execute in unstable_frontiers:astral_abyss run forceload add -40 496 88 624
+execute in unstable_frontiers:astral_abyss run forceload add 200 -180 264 -116
 execute in unstable_frontiers:astral_abyss run frontier debug trial abyss
 execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark zone starwell start
 execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark info

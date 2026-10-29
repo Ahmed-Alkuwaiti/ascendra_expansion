@@ -106,8 +106,11 @@ public final class EclipseEncounter extends SavedData {
         boss.moveTo(c.x, c.y - 24, c.z, 0, 0);
         boss.setCenter(c);
         boss.setPersistenceRequired();
-        level.addFreshEntity(boss);
-        e.boss = boss.getUUID();
+        e.boss = boss.getUUID();   // first: the join check turns away any Leviathan the fight does not name
+        if (!level.addFreshEntity(boss)) {
+            e.boss = null;
+            return false;
+        }
         e.charged = false;
         e.lastEngaged = level.getGameTime();
         e.participants.clear();
