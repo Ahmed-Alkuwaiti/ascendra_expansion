@@ -43,6 +43,13 @@ execute in unstable_frontiers:frontier positioned 808 0 8 run frontier landmark 
 execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier landmark zone finale start
 frontier stats
 execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier landmark info
+# The Chained Matriarch: dormant in the cage, woken by the key, chained, sweep, acid, brood, chains snap, leap, death.
+execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier debug trial matriarch
+execute in unstable_frontiers:frontier positioned 808 0 8 positioned over motion_blocking run frontier landmark info
+# The Gnashback and the Shrikewing, each against a motionless dummy on a platform high over the terrain.
+execute in unstable_frontiers:frontier run forceload add 1968 -32 2032 48
+execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial gnashback
+execute in unstable_frontiers:frontier positioned 2000 220 0 run frontier debug trial shrikewing
 # The rest of the set builds cleanly.
 execute in unstable_frontiers:frontier positioned 1000 0 8 run frontier landmark build carrion_field
 execute in unstable_frontiers:frontier positioned 1100 0 8 run frontier landmark build camp_torn

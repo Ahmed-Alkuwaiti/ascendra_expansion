@@ -46,6 +46,7 @@ public final class UnstableFrontiers {
         game.register(new com.unstablefrontiers.item.CreatureGearEvents());
         game.addListener(FrontierCommand::register);
         game.register(new SmokeTest());
+        game.register(new com.unstablefrontiers.debug.CreatureTrial());
 
         // Antarchy is a required dependency (neoforge.mods.toml), so NeoForge itself refuses to start without it and names
         // the missing mod. The version is logged so a mismatch with the targeted 2.2.9 build is visible in latest.log.

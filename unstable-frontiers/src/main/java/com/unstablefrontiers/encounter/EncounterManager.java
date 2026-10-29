@@ -133,7 +133,7 @@ public final class EncounterManager {
     }
 
     /** A player is near: place dormant prisoners and roosting flyers, and move residents in. */
-    private static void wake(ServerLevel level, LandmarkState s, LandmarkDef def, long t) {
+    public static void wake(ServerLevel level, LandmarkState s, LandmarkDef def, long t) {   // public for the CI trial
         for (Zone z : def.zones()) {
             ZoneState zs = s.zone(z);
             if ((z.kind() == Kind.CELL || z.kind() == Kind.ROOST) && zs.status == ZoneState.Status.IDLE && !zs.dormantPlaced) {

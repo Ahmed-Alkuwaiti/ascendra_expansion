@@ -42,6 +42,7 @@ public abstract class AnimatedMonster extends Monster implements GeoEntity {
 
     protected void setState(int state) {
         if (state() != state) {
+            com.unstablefrontiers.debug.CreatureTrial.log(this, state(), state);
             entityData.set(STATE, state);
             stateTicks = 0;
         }

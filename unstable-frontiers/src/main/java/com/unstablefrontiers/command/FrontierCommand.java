@@ -73,7 +73,8 @@ public final class FrontierCommand {
                         .then(Commands.literal("dump").then(Commands.argument("namespace", StringArgumentType.word())
                                 .executes(c -> RegistryDump.dump(c.getSource().getLevel(), StringArgumentType.getString(c, "namespace")))))
                         .then(Commands.literal("rosters").executes(FrontierCommand::rosters))
-                        .then(Commands.literal("sites").executes(FrontierCommand::sites)))
+                        .then(Commands.literal("sites").executes(FrontierCommand::sites))
+                        .then(Commands.literal("trial").then(Commands.argument("creature", StringArgumentType.word()).executes(FrontierCommand::trial))))
                 .then(Commands.literal("landmark").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("build").then(Commands.argument("id", StringArgumentType.string())
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(
@@ -291,6 +292,25 @@ public final class FrontierCommand {
                 + " rivalry fights=" + Rivalry.fightCount() + " | " + FrontierConfig.describe();
         c.getSource().sendSuccess(() -> Component.literal(msg), false);
         UnstableFrontiers.LOGGER.info("STATS {}", msg);
+        return 1;
+    }
+
+    /** CI: plays a creature's fight against a dummy (see CreatureTrial). */
+    private static int trial(CommandContext<CommandSourceStack> c) {
+        ServerLevel level = frontier(c);
+        if (level == null) {
+            return 0;
+        }
+        BlockPos at = BlockPos.containing(c.getSource().getPosition());
+        switch (StringArgumentType.getString(c, "creature")) {
+            case "gnashback" -> com.unstablefrontiers.debug.CreatureTrial.gnashback(level, at);
+            case "shrikewing" -> com.unstablefrontiers.debug.CreatureTrial.shrikewing(level, at);
+            case "matriarch" -> com.unstablefrontiers.debug.CreatureTrial.matriarch(level, at);
+            default -> {
+                c.getSource().sendFailure(Component.literal("gnashback, shrikewing or matriarch"));
+                return 0;
+            }
+        }
         return 1;
     }
 

@@ -51,7 +51,7 @@ import software.bernie.geckolib.animation.RawAnimation;
  */
 public class ChainedMatriarchEntity extends AnimatedMonster {
     public static final int IDLE = 0, SWEEP_TELL = 1, SWEEP = 2, SPIT_TELL = 3, SPIT = 4, BROOD = 5, LEAP_TELL = 6, LEAP = 7, ROAR = 8;
-    private static final int SWEEP_TELL_TICKS = 22, SPIT_TELL_TICKS = 18, BROOD_TICKS = 60, LEAP_TELL_TICKS = 18, ROAR_TICKS = 40;
+    private static final int SWEEP_TELL_TICKS = 22, SPIT_TELL_TICKS = 18, BROOD_TICKS = 60, LEAP_TELL_TICKS = 24, ROAR_TICKS = 40;
     private static final double TETHER = 9.0D;
     private static final double SWEEP_REACH = 7.0D;
     private static final double LEAP_RADIUS = 4.0D;
@@ -312,7 +312,7 @@ public class ChainedMatriarchEntity extends AnimatedMonster {
 
     private void leapTell(@Nullable LivingEntity target) {
         getNavigation().stop();
-        if (target != null && stateTicks < LEAP_TELL_TICKS - 4) {
+        if (target != null && stateTicks < LEAP_TELL_TICKS - 10) {   // the spot is fixed well before she jumps
             face(target);
             leapAt = target.position();
         }

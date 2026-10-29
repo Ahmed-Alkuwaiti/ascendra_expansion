@@ -55,7 +55,7 @@ public class SmokeTest {
 
     @SubscribeEvent
     public void onTick(ServerTickEvent.Post event) {
-        if (!active || --wait > 0) {
+        if (!active || CreatureTrial.running() || --wait > 0) {
             return;
         }
         MinecraftServer server = event.getServer();

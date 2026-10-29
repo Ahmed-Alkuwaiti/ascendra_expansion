@@ -39,7 +39,7 @@ import software.bernie.geckolib.animation.RawAnimation;
  * <p>It circles high over its home ground and sometimes perches on the highest point near it. It hunts players and, now
  * and then, insects (Gnashbacks and Antarchy's arthropods), which is how the sky and the ground come to fight. Its attack
  * is a dive: it circles its prey, then hangs in the air with its wings flared and screeches while a ring marks the place
- * it has chosen (the tell), and dives at that place. Step out of the ring. A missed dive leaves it climbing slowly and
+ * it has chosen (the tell; the ring stops following you half way through), and dives at that place. Step out of the ring. A missed dive leaves it climbing slowly and
  * open to attack (+50% damage); crashing into the ground grounds it, flapping helplessly, for three seconds (double
  * damage).
  */
@@ -222,12 +222,15 @@ public class ShrikewingEntity extends AnimatedMonster {
     private void tell(@Nullable LivingEntity target) {
         setNoGravity(true);
         setDeltaMovement(getDeltaMovement().scale(0.6D));
-        if (target != null) {
+        if (target != null && stateTicks <= 10) {
+            // it picks its spot early in the tell; after that the ring stays put, and stepping out of it is the dodge
             getLookControl().setLookAt(target, 30, 30);
             Vec3 d = target.position().subtract(position());
             setYRot((float) Math.toDegrees(Math.atan2(-d.x, d.z)));
             yBodyRot = getYRot();
             diveAt = target.position();
+        }
+        if (stateTicks % 2 == 0) {
             ring(ParticleTypes.ANGRY_VILLAGER, diveAt, 1.6D);
         }
         if (stateTicks >= 22) {
