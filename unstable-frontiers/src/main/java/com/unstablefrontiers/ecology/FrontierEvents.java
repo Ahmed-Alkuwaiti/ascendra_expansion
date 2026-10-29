@@ -44,7 +44,9 @@ public final class FrontierEvents {
             ShackleItem.tick(l, l.getGameTime());
         }
         ServerLevel abyss = event.getServer().getLevel(com.unstablefrontiers.abyss.AbyssDimension.LEVEL);
-        if (abyss != null && (!abyss.players().isEmpty() || com.unstablefrontiers.abyss.EclipseEncounter.get(abyss).active())) {
+        // the abyss's fights and places run while someone is there, while the Leviathan's fight is on, or where an operator force-loads it
+        if (abyss != null && (!abyss.players().isEmpty() || com.unstablefrontiers.abyss.EclipseEncounter.get(abyss).active()
+                || !abyss.getForcedChunks().isEmpty())) {
             com.unstablefrontiers.abyss.AbyssPlaces.tick(abyss);
             com.unstablefrontiers.abyss.EclipseEncounter.tick(abyss);
             EncounterManager.tick(abyss);
