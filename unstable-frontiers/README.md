@@ -1,4 +1,4 @@
-# Unstable Frontiers 0.5.0-rc1 — an adventure expansion for Integrated Boogaloo
+# Unstable Frontiers 0.6.0-rc1 — an adventure expansion for Integrated Boogaloo
 
 **Target: [Integrated Boogaloo](https://www.curseforge.com/minecraft/modpacks/integrated-boogaloo) 1.0.8** (CurseForge
 project 1501592, file 9325863): Minecraft 1.21.1, NeoForge 21.1.264, with the pack's
@@ -16,6 +16,11 @@ the Cagewright's Key, and use it on the **Great Cage** in the Rustbone Scar, whe
 **Astral Abyss**: a dimension of floating islands under a fixed night sky, five places to explore, and the **Eclipse
 Leviathan** at the Hollow Crown. See [the Rift Observatory and the Astral Abyss](#the-rift-observatory-and-the-astral-abyss).
 
+0.6.0 adds the **Drowned Expanse**, a dimension entirely under water, entered through the frontier's Sunken Gates by
+divers in goggles and a rig: five places from a sunlit research station down to the trench, the Lanternray, the Murkjaw
+and the **Deepcaller**. See [the Drowned Expanse](#the-drowned-expanse). [AUDIT.md](AUDIT.md) lists what is verified,
+what is only implemented, and how each part is reached in survival.
+
 **About the pictures.** Three kinds, each labelled:
 * `docs/screenshots/ingame/` (0.4.0) and `docs/screenshots/ingame/abyss/` (0.5.0) — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
   its mods, software rendering under a virtual display, so no shaders and plain lighting). See
@@ -29,9 +34,9 @@ Leviathan** at the Hollow Crown. See [the Rift Observatory and the Astral Abyss]
 ## Install
 
 1. Install Integrated Boogaloo **1.0.8** from CurseForge (or use your existing instance of that version).
-2. Download `unstable-frontiers/dist/unstable_frontiers-0.5.0-rc1.jar` from this branch (its SHA-256 is in the
-   `.sha256` file next to it) and put it in the instance's `mods` folder. Nothing else is needed: Antarchy and GeckoLib
-   are in the pack. Remove any older `unstable_frontiers-*.jar` first.
+2. Download `unstable-frontiers/dist/unstable_frontiers-0.6.0-rc1.jar` from this branch (its SHA-256 is in the
+   `.sha256` file next to it) and put it in the instance's `mods` folder. Nothing else is needed: Antarchy 2.2.9+1.21.1,
+   GeckoLib 4.9.3 and Curios 9.5.1+1.21.1 (optional, used for the diving-gear slots) are in the pack. Remove any older `unstable_frontiers-*.jar` first.
 3. Start the game. In a world, craft an **Unstable Rift Shard** (amethyst shards in the corners, crying obsidian on the
    sides, an eye of ender in the middle) and use it.
 
@@ -323,6 +328,120 @@ known about it here comes only from search-engine summaries. It is a Fabric mod 
 pack. Nothing from it is used: the names, the dimension, the structures, the creatures, the models, the textures, the
 sounds and the code here are all original.
 
+## The Drowned Expanse
+
+0.6.0 adds a third dimension, entirely under water, entered from the frontier. It is a side branch: nothing else in the
+adventure requires it, and what it gives is useful in the frontier and the Abyss too.
+
+### Getting there: the Sunken Gate and the gear
+
+* **Find a Sunken Gate** in the frontier (Hushed Barrens, Gnashwood Wilds, Talon Spires). It is a flooded stone well with a
+  tide gate at the bottom and the expedition's diving camp beside it: a chest of supplies and a journal with the recipes.
+  The Rift Lens lists the nearest one from the start (`Sunken Gate: N blocks <direction>`); `/frontier locate sunken` for
+  operators.
+* **Craft the gear.** Both pieces use a **Gnashback plate**, which you get by fighting the frontier's Gnashbacks, so the
+  frontier leads into the sea:
+  * **Abyssal Goggles**: leather, Gnashback plate, leather / glass pane, (empty), glass pane.
+  * **Diving Rig**: copper, Gnashback plate, copper / copper, bucket, copper / leather, (empty), leather.
+* **Wear them.** With Curios (as Integrated Boogaloo has it) the goggles go in the **head** slot and the rig in the
+  **back** slot, so your armour stays on. Without Curios they also work in the helmet and chest slots.
+* **Walk into the gate.** Missing a piece, it stays shut and says which one ("you need a Diving Rig ... worn, not carried").
+  With both worn, it takes you to **Tidewatch Station's** air dome.
+
+### Breathing: one system, the rig
+
+* The rig holds **3 minutes** of air. While it has air and your head is under water, you do not lose breath. The gauge
+  above the hunger bar shows `Rig m:ss` and a bar (cyan, amber under 30 s, flashing red under 10 s), with chat warnings
+  and a tone at 30 s, 10 s and empty.
+* **Refills**: in open air (slowly anywhere, faster in the Expanse), and fast over a **Breath Vent** (the bubbling columns
+  on the sea floor, and in the stations and the vault). Shelters are air domes: stand in one and the rig refills.
+* **The deep line (y 100)**: below it a plain rig drains three times as fast (you are told once). The **Deep Rig**
+  (7 minutes, no extra drain) is crafted from your rig, Deepwork's **Pressure Valve** and the wreck's **Keel Plate**.
+* **Natural breathing wins.** Water breathing (potions, a conduit, a transformation or power from another mod, the
+  Breath Charm) takes over and the rig's tank is not used. Nothing changes how breathing, swimming, flight or water
+  work anywhere else: the rig only acts while worn, and everything else here only in the Expanse.
+* **Out of air**: when the rig is empty you hold your breath the vanilla way. If you are about to drown (health at a
+  third) the tide **carries you back to your shelter** with full breath and a moment of nausea, at most once a minute.
+  Taking the rig off inside is not punished beyond that: it is the same rescue.
+
+### Finding your way
+
+* **Charting**: Tidewatch, Deepwork Station and the Choir Temple are charted when you arrive. A place's fight, won,
+  charts the next: Deepwork or the Choir chart the wreck, the wreck charts the vault. Reaching a place charts it too.
+* **Echo Sounder** (Tidewatch's chest, or amethyst, copper and redstone): hold it to see the distance, direction and
+  depth (▲/▼) to a charted place; use it to pick the next; sneak and use to list them.
+* **Tide glyph posts** stand every 24 blocks along the routes between places; through goggles they glow.
+* **Lanternrays**: feed one glow berries and it leads you (for up to 40 s, waiting if you fall behind) toward the
+  nearest place you have not charted.
+* **Tide bells**: each place has one in its shelter. Ring it to make the shelter yours (the rescue returns you there);
+  **sneak and ring** to travel to the next bell you have rung. That is the shortcut back up from the deep.
+* No coordinates to remember, and the longest swim between places is a few hundred blocks with vents and posts on the way.
+
+### The places (a seedless map, the same in every world)
+
+| Place | Where | Depth (floor) | Silhouette and inside | Fight | Reward |
+|---|---|---|---|---|---|
+| **Tidewatch Station** | 0, 0 | y 262, sunlit shallows | a glass dome on copper legs; a mast with a beacon nearly to the surface; reef around it. Inside: the return tide gate, a tide bell, a guide, stores. Enter through the moon pool in the deck | none | Echo Sounder, food, glow berries |
+| **Deepwork Station** | −330, 150 | y 196, kelpwood | a flooded copper pump hall, half its roof gone; a crane with a **diving bell** hanging from it (air inside, entered from below) | ambush in the pump hall (drowned salvagers, Murkjaws) | **Pressure Valve**, **Swim Fins** |
+| **The Choir Temple** | 300, −250 | y 158, the reach | a drowned basilica: columns, a broken vault, a rose window of lumen coral; a bell tower with an air loft | three waves in the nave (drowned, Murkjaws, a guardian) | **Choir Pearl** (Deep-Sight Goggles) |
+| **The Wreck of the Long Patience** | −150, −560 | y 112, just above the deep line | a broken hull half sunk in the slope, fallen masts and sails; the capsized stern a little apart traps air | **The Wreckmaw** (a Murkjaw elite) in the hold | **Keel Plate**, a heart of the sea in the captain's chest |
+| **The Sunless Vault** | 90, −800 | y 30, the trench | a flooded dome 52 across with an oculus, six pillars, breath vents, the abyssal bell; an air antechamber outside the south door | **the Deepcaller** | Abyssal Pearls; the **Undertow** (first victory) |
+
+Every place's interior is deliberately flooded; only the shelters hold air, and the template generator refuses a build
+where a shelter would leak or air would be left anywhere else.
+
+### Creatures
+
+* **Lanternray** (ambient, never attacks): a broad ray with rows of lights, gliding in pairs over reefs and kelp.
+  Struck, it flashes and flees. Fed glow berries, it guides.
+* **Murkjaw** (predator): a long eel of caves, kelp and wrecks that hunts swimmers. It holds off at eight or nine
+  blocks, then its jaw unhinges and its lure flares for a second while a trail of bubbles marks its line (fixed half way
+  through). Swim off the line: if it misses into a wall it is **stunned for 3 s (double damage)**, otherwise it drifts
+  open for 1.5 s (+50%). Up close it bites. It never chases more than 32 blocks from its lair.
+* **The Deepcaller** (boss, 600 health, +50% per extra player up to four): an angler leviathan with a lantern on a stalk.
+  * **Lure flash**: the lantern rises and swells for 1.5 s; whoever is looking at it with a clear line of sight is
+    slowed, weakened and hurt. Look away or put a pillar between you.
+  * **Charge**: it coils for 1.25 s (the line locks half way), then drives straight. Off the line, and if it hits the
+    dome wall it is **stunned for 5 s and takes double damage**: the main opening for melee.
+  * **Vortex**: the water turns for 4 s, pulling gently inward and hurting only close in. Swim outward.
+  * **Phase two** at half health: a roar (takes half damage while roaring), two charges in a row, and its **brood**:
+    at most three young Murkjaws at a time.
+  * Ranged works throughout (tridents, crossbows; the Undertow cannot drag it), melee in the stun windows. It is
+    bounded to its dome, never drowns you (the vents are on the floor and the antechamber is one swim away), never
+    immobilises you, and the darkness is not the difficulty: goggles show the whole dome.
+  * Nobody in the vault for 30 s: it sinks and its brood goes; ring the bell again any time. Rewards are owed to
+    fighters who log off.
+
+### Rewards and how they fit beside Integrated Boogaloo's gear
+
+| Item | From | Why it exists |
+|---|---|---|
+| **Abyssal Goggles** | crafted | the way in; far sight under water; glowing route glyphs |
+| **Diving Rig** | crafted | the way in; 3 minutes of air anywhere (also in overworld oceans) |
+| **Echo Sounder** | Tidewatch; crafted | navigation in the Expanse |
+| **Swim Fins** (feet slot) | Deepwork | much faster swimming in any water, without giving up boots |
+| **Deep Rig** | rig + Pressure Valve (Deepwork) + Keel Plate (the wreck) | 7 minutes, no deep-line drain: what the trench needs |
+| **Deep-Sight Goggles** | goggles + Choir Pearl + glow ink sac | further sight in the trench; hostile creatures within 16 blocks glow while you are under water |
+| **Undertow** | the Deepcaller, first victory | a harpoon-sword: use to cast a 24-block line; a creature is dragged to you, a wall drags you to it (a grapple on frontier cliffs and Abyss islands too); +6 damage against anything in water or of the sea. Repaired with Abyssal Pearls. Bosses cannot be dragged |
+| **Abyssal Pearl** | the Deepcaller, every victory | Undertow repair; Breath Charm |
+| **Breath Charm** (necklace slot) | 3 Abyssal Pearls + string + a heart of the sea (the wreck) or an Eclipse Scale (the Abyss) | permanent water breathing anywhere; the gate accepts it in place of a rig. The capstone, deliberately last |
+| Brine blocks, lumen coral | the Expanse | building |
+
+The first chest (Tidewatch) holds an echo sounder, food and glow berries: nothing that replaces the rig.
+
+Seven advancements: Sunken Stair, Suited Up, Into the Drowned Expanse, Below the Line, Clear Water, Lights Out, Gills.
+
+### Death, lost gear, disconnects, multiplayer
+
+* What you drop when you die in the Expanse **sinks and stays** (it does not float off) and keeps for fifteen minutes;
+  on respawn you are told where. You respawn at your normal spawn point, unless you slept in a bed inside a shelter.
+* Logging out inside is safe: you log back in where you were. The rig keeps its air in the item.
+* The gate, the Rift Shard and `/frontier return` take you back to the Sunken Gate you came through (beside the pool, on
+  dry ground), or to the frontier if that is gone. A gate cannot be broken or blocked (the gates and bells are
+  unbreakable), and arrival is always the dry dome.
+* Multiplayer: places are built once for everyone; charting, bells and shelters are per player; fight rewards are per
+  player per place; the Deepcaller scales with the divers in the vault and pays everyone who fought.
+
 ## Performance
 
 `config/unstable_frontiers-common.toml`. The limits protect the **server thread** (in single player, the integrated
@@ -355,6 +474,13 @@ The Abyss: nothing is force-loaded. Its places are built once, when a player fir
 players; the Leviathan exists only while its fight is active and never leaves the arena. Star bolts last 3 s, the
 Leviathan's mites are capped at four, natural spawns at eight within 48 blocks. The sky is a few hundred quads per frame;
 the particle multiplier applies to all its effects.
+
+The Drowned Expanse: nothing is force-loaded and no water volume is ever scanned. Its sea floor is a few noise samples
+per column at generation; the water column is plain water. Places are built once, near a player. Per diver per second:
+one short look straight down for a vent (at most 10 blocks), one rig update; the Deep-Sight glow looks at monsters within
+16 blocks every 2 s. Natural spawns stop at ten non-fish creatures within 40 blocks and never happen inside a place; the
+Murkjaw's leash is 32 blocks, the Deepcaller never leaves its dome and its brood is capped at three. Fog and the air
+gauge are drawn by the client in the Expanse only.
 
 The addon's cost when nothing is fighting: one structure-reference lookup per player every 2 seconds and a short loop over
 known landmarks every half second. It never scans the world: every search is a box around one landmark or one player.
@@ -400,11 +526,16 @@ python3 tools/structures/abyss_places.py                  # the abyss's five pla
 python3 tools/abyss_textures.py                           # abyss blocks, items, sky textures
 python3 tools/abyss/preview.py                            # map and section of the abyss's islands (same maths as the game)
 python3 tools/models/<lumen_mite|orrery_warden|eclipse_leviathan>.py
+python3 tools/structures/drowned_places.py                # the Sunken Gate and the Expanse's five places (checks shelters for leaks)
+python3 tools/drowned_textures.py                         # Drowned blocks and items
+python3 tools/models/<lanternray|murkjaw|deepcaller>.py
+javac -d /tmp/t src/main/java/com/unstablefrontiers/abyss/AbyssTerrain.java src/main/java/com/unstablefrontiers/drowned/DrownedTerrain.java \
+  && java -cp /tmp/t com.unstablefrontiers.drowned.DrownedTerrain map.png 900   # map and section of the Expanse (the game's own maths)
 ```
-`tools/abyss_data.py` holds the observatory's and the abyss's data (dimension, biomes, loot, recipes, advancements,
+`tools/drowned_data.py` holds the Expanse's data the same way, and `tools/abyss_data.py` holds the observatory's and the abyss's data (dimension, biomes, loot, recipes, advancements,
 text, sounds); `datagen.py` folds it in.
 
-The jar is `build/libs/unstable_frontiers-0.5.0-rc1.jar`.
+The jar is `build/libs/unstable_frontiers-0.6.0-rc1.jar`.
 
 ## How the creatures were made
 
