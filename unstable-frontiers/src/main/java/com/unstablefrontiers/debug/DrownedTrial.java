@@ -294,6 +294,9 @@ public final class DrownedTrial {
         });
         step("murkjaw swims", 60, t -> {
             m[0].setTarget(dummy[0]);
+            if (m[0].state() == MurkjawEntity.TELL) {
+                toldAt[0] = t;      // a tell that starts while it is still settling counts for the next step
+            }
             if (t == 59) {
                 if (m[0].isInWater() && m[0].getY() > c.getY() + 1.5D) {
                     pass("murkjaw swims in open water (y {} over floor {})", (int) m[0].getY(), c.getY());
@@ -367,6 +370,7 @@ public final class DrownedTrial {
         step("lanternray setup", 5, t -> {
             Vec3 at = new Vec3(c.getX() + 0.5, DrownedTerrain.floor(c.getX(), c.getZ()) + 8, c.getZ() + 0.5);
             r[0] = spawn(level, ModEntities.LANTERNRAY.get(), at);
+            CreatureTrial.status = () -> "lanternray at " + r[0].blockPosition().toShortString() + ", leading " + r[0].leading() + ", in water " + r[0].isInWater();
             p[0] = FakePlayerFactory.getMinecraft(level);
             p[0].moveTo(at.add(2, 0, 0));
             DrownedPlaces.chart(p[0], DrownedTerrain.TIDEWATCH, false);

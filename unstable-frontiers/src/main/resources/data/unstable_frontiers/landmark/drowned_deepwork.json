@@ -59,7 +59,8 @@
    ],
    "roster": "drowned_deepwork",
    "kind": "ambush",
-   "reward": "pressure_valve,swim_fins"
+   "reward": "pressure_valve,swim_fins",
+   "final": true
   }
  ],
  "points": {

@@ -60,7 +60,8 @@
    "roster": "drowned_choir",
    "kind": "waves",
    "waves": 3,
-   "reward": "choir_pearl"
+   "reward": "choir_pearl",
+   "final": true
   }
  ],
  "points": {

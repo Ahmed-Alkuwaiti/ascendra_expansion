@@ -57,6 +57,8 @@ public class LanternrayEntity extends PathfinderMob implements GeoEntity {
     private UUID leader;
     @Nullable
     private Vec3 leadTo;
+    /** The feeder as fed (the UUID alone cannot find a player that is not in the level's list, such as a fake player). */
+    private java.lang.ref.WeakReference<Player> leaderRef = new java.lang.ref.WeakReference<>(null);
 
     public LanternrayEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -91,7 +93,7 @@ public class LanternrayEntity extends PathfinderMob implements GeoEntity {
         }
         Vec3 want;
         double speed;
-        if (leadTicks > 0 && leadTo != null && leader != null && level().getPlayerByUUID(leader) instanceof Player p && p.isAlive()) {
+        if (leadTicks > 0 && leadTo != null && leader != null && leaderOf() instanceof Player p && p.isAlive() && p.level() == level()) {
             leadTicks--;
             double behind = p.distanceTo(this);
             Vec3 toward = leadTo.subtract(position());
@@ -128,6 +130,12 @@ public class LanternrayEntity extends PathfinderMob implements GeoEntity {
             setYRot((float) Math.toDegrees(Math.atan2(-m.x, m.z)));
             yBodyRot = getYRot();
         }
+    }
+
+    @Nullable
+    private Player leaderOf() {
+        Player p = leaderRef.get();
+        return p != null && !p.isRemoved() ? p : level().getPlayerByUUID(leader);
     }
 
     private void stopLeading() {
@@ -173,6 +181,7 @@ public class LanternrayEntity extends PathfinderMob implements GeoEntity {
                 player.displayClientMessage(Component.translatable("message.unstable_frontiers.ray_content"), true);
             } else {
                 leader = player.getUUID();
+                leaderRef = new java.lang.ref.WeakReference<>(player);
                 leadTo = new Vec3(target.x() + 0.5D, target.floor() + 6, target.z() + 0.5D);
                 leadTicks = 800;
                 entityData.set(LEADING, true);

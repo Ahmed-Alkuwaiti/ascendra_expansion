@@ -187,7 +187,9 @@ public final class DrownedPlaces extends SavedData {
                 level.getChunk(cx, cz);
             }
         }
-        t.get().placeInWorld(level, origin, origin, LandmarkPiece.settings(Rotation.NONE), level.random, 2);
+        // the template says exactly which blocks are waterlogged: with liquids kept, a gate or a bell inside a shelter
+        // would be waterlogged by the sea that stood there before, and pour water into the air dome
+        t.get().placeInWorld(level, origin, origin, LandmarkPiece.settings(Rotation.NONE).setKeepLiquids(false), level.random, 2);
         LandmarkData data = EncounterManager.data(level);
         if (data.get(origin.asLong()) == null) {
             data.add(new LandmarkState(id, origin, Rotation.NONE));

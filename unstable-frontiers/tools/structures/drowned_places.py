@@ -393,7 +393,7 @@ def deepwork():
     zone_box = (x0 + 1, G + 1, z0 + 1, x1 - 1, G + 9, z1 - 1)
     spawns = [(x0 + 3, G + 1, C - 3), (x0 + 8, G + 1, C + 3), (x0 + 13, G + 1, C - 2), (x1 - 2, G + 3, C + 4),
               (x0 + 6, G + 4, C), (x1 - 4, G + 2, C - 4)]
-    b.zone('hall', 'The Pump Hall', zone_box, spawns, 'drowned_deepwork', kind='ambush', reward='pressure_valve,swim_fins',
+    b.zone('hall', 'The Pump Hall', zone_box, spawns, 'drowned_deepwork', kind='ambush', reward='pressure_valve,swim_fins', final=True,
            trigger=(x0 + 2, G + 1, z0 + 2, x1 - 2, G + 8, z1 - 2))
     # the crane: a lattice tower east of the hall, its arm out over the sea floor, a diving bell hung from it
     bx, bz = C + 14, C + 9                           # the diving bell hangs here
@@ -487,7 +487,7 @@ def choir():
     spawns = [(C - 3, G + 1, z0 + 8), (C + 3, G + 1, z0 + 12), (C, G + 1, z0 + 18), (C - 4, G + 3, z0 + 24), (C + 4, G + 2, z0 + 6),
               (C, G + 5, z0 + 14)]
     b.zone('nave', 'The Drowned Choir', (x0 + 1, G + 1, z0 + 1, x1 - 1, G + 14, z1 - 1), spawns, 'drowned_choir', kind='waves', waves=3,
-           reward='choir_pearl', trigger=(x0 + 2, G + 1, z0 + 2, x1 - 2, G + 12, z1 - 4))
+           reward='choir_pearl', final=True, trigger=(x0 + 2, G + 1, z0 + 2, x1 - 2, G + 12, z1 - 4))
     # the bell tower, east of the door: flooded below, an air loft at the top reached from a pool in its floor
     tx0, tz0 = x1 + 2, z1 - 8
     for x in range(tx0, tx0 + 9):
@@ -557,7 +557,7 @@ def wreck():
     # the hold: the Wreckmaw's lair, a deck above it partly gone
     spawns = [(C - 10, G + 1, C), (C - 4, G + 2, C - 2), (C - 15, G + 2, C + 2), (C - 7, G + 4, C + 3)]
     b.zone('hold', 'The Hold of the Long Patience', (C - 20, G - 1, C - 6, C + 1, G + 9, C + 6), spawns, 'drowned_wreck', kind='guardian',
-           reward='keel_plate', trigger=(C - 18, G, C - 4, C - 1, G + 7, C + 4))
+           reward='keel_plate', final=True, trigger=(C - 18, G, C - 4, C - 1, G + 7, C + 4))
     # the captain's cabin at the broken end, the chest and a heart of the sea
     for x in range(C - 3, C + 3):
         for z in range(C - 3, C + 4):
