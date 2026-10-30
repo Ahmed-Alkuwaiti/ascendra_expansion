@@ -53,9 +53,9 @@ public final class DrownedClientHooks {
         float f = depthLight(event.getCamera().getPosition().y);
         float far;
         if (DrownedGear.deepSight(p)) {
-            far = 72 + 32 * f;
+            far = 80 + 24 * f;
         } else if (!DrownedGear.goggles(p).isEmpty()) {
-            far = 44 + 36 * f;
+            far = 52 + 28 * f;
         } else {
             far = 14 + 10 * f;
         }
@@ -74,9 +74,9 @@ public final class DrownedClientHooks {
         }
         float f = depthLight(event.getCamera().getPosition().y);
         float lift = DrownedGear.goggles(mc.player).isEmpty() ? 1.0F : 1.25F;
-        event.setRed(Math.min(1.0F, Mth.lerp(f, 0.03F, 0.10F) * lift));
-        event.setGreen(Math.min(1.0F, Mth.lerp(f, 0.09F, 0.42F) * lift));
-        event.setBlue(Math.min(1.0F, Mth.lerp(f, 0.16F, 0.55F) * lift));
+        event.setRed(Math.min(1.0F, Mth.lerp(f, 0.05F, 0.10F) * lift));
+        event.setGreen(Math.min(1.0F, Mth.lerp(f, 0.14F, 0.42F) * lift));
+        event.setBlue(Math.min(1.0F, Mth.lerp(f, 0.22F, 0.55F) * lift));
     }
 
     private static void layers(RegisterGuiLayersEvent event) {

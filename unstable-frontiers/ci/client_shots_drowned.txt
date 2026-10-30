@@ -8,7 +8,7 @@ gui off
 /execute in unstable_frontiers:frontier run tp @s 3000 140 -2960
 wait 500
 # The Sunken Gate in the frontier: the flooded well, the gate at its foot, the expedition's camp.
-/execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run tp @s ~14 ~10 ~14 facing ~ ~-6 ~
+/execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run tp @s ~9 ~22 ~9 facing ~ ~-4 ~
 wait 300
 shot 50_sunken_gate
 # Refused: in survival with no gear, standing in the gate (the chat shows what it wants).
@@ -70,10 +70,12 @@ shot 64_trench_and_vault
 wait 200
 shot 65_vault_interior
 # The creatures, posed outside Tidewatch (AI off).
-/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:lanternray 4 268 -26 {NoAI:1b,PersistenceRequired:1b,Rotation:[160f,0f],Tags:["shot"]}
-/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:murkjaw -5 266 -24 {NoAI:1b,PersistenceRequired:1b,Rotation:[220f,0f],Tags:["shot"]}
+# (the camera goes there first: a summon in an unloaded chunk does nothing)
 /execute in unstable_frontiers:drowned_expanse run tp @s 0 268 -34 facing 0 267 -24
 wait 250
+/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:lanternray 3 268 -27 {NoAI:1b,PersistenceRequired:1b,Rotation:[150f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:murkjaw -3 266 -26 {NoAI:1b,PersistenceRequired:1b,Rotation:[230f,0f],Tags:["shot"]}
+wait 60
 shot 66_lanternray_and_murkjaw
 /frontier debug pose @e[tag=shot] 1
 wait 30
@@ -91,7 +93,7 @@ wait 100
 shot 68_deepcaller_rises
 wait 140
 /gamemode spectator
-/execute at @e[type=unstable_frontiers:deepcaller,limit=1] run tp @s ~ ~3 ~-14 facing entity @e[type=unstable_frontiers:deepcaller,limit=1] eyes
+/execute at @e[type=unstable_frontiers:deepcaller,limit=1] run tp @s ~ ~5 ~12 facing entity @e[type=unstable_frontiers:deepcaller,limit=1] eyes
 wait 40
 shot 69_deepcaller_close
 /gamemode creative

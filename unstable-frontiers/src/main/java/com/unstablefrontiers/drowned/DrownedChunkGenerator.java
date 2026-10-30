@@ -159,8 +159,8 @@ public class DrownedChunkGenerator extends ChunkGenerator {
             }
             case DrownedTerrain.KELPWOOD -> {
                 double forest = DrownedTerrain.fbm(x / 30.0, z / 30.0, 37, 2);
-                if (forest > 0.42 && r < 0.42) {
-                    kelp(chunk, sections, lx, lz, y, 12 + (int) (DrownedTerrain.rnd(x, 1, z, 39) * 24), a, b);
+                if (forest > 0.48 && r < 0.22) {     // stands of kelp with clearings between, so stations and routes stay in sight
+                    kelp(chunk, sections, lx, lz, y, 8 + (int) (DrownedTerrain.rnd(x, 1, z, 39) * 16), a, b);
                 } else if (r < 0.62) {
                     set(chunk, sections, lx, y, lz, r < 0.5 ? Blocks.SEAGRASS.defaultBlockState() : Blocks.TALL_SEAGRASS.defaultBlockState(), a, b);
                     if (r >= 0.5) {
