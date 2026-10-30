@@ -323,6 +323,7 @@ public final class AbyssTrial {
         });
         step("mite flies", 60, t -> {
             m[0].setTarget(dummy[0]);
+            told[0] |= m[0].state() == LumenMiteEntity.TELL;   // a tell that starts while it settles counts for the next step
             if (t == 59) {
                 if (m[0].getY() > c.getY() + 1.5D) {
                     pass("lumen mite stays aloft (y {} over floor {})", (int) m[0].getY(), c.getY());
