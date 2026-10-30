@@ -9,6 +9,8 @@ on:
       - 'unstable-frontiers/ci/client_shots.txt'
       - 'unstable-frontiers/ci/client_shots_abyss.txt'
       - 'unstable-frontiers/ci/client_world_commands_abyss.txt'
+      - 'unstable-frontiers/ci/client_shots_drowned.txt'
+      - 'unstable-frontiers/ci/client_world_commands_drowned.txt'
       - 'unstable-frontiers/ci/pack_client.sh'
       - '.github/workflows/pack_client.yml'
   workflow_dispatch:
@@ -18,7 +20,7 @@ permissions:
 
 env:
   # which screenshot set to take (ci/client_shots_<set>.txt); its pictures go to docs/screenshots/ingame/<set>
-  UF_SHOT_SET: abyss
+  UF_SHOT_SET: drowned
 
 jobs:
   pack-client:
