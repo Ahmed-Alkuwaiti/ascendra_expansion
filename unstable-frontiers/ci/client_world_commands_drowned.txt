@@ -1,0 +1,13 @@
+# Server run that prepares the world for the Drowned Expanse screenshots (ci/pack_client.sh, set "drowned").
+gamerule doDaylightCycle false
+gamerule doWeatherCycle false
+gamerule doMobSpawning false
+time set 6000
+weather clear
+# A Sunken Gate in the frontier, centred on 3000 ~ -3000.
+execute in unstable_frontiers:frontier run forceload add 2976 -3024 3024 -2976
+execute in unstable_frontiers:frontier positioned 3000 0 -3000 run frontier landmark build sunken_gate
+execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run frontier landmark info
+execute in unstable_frontiers:frontier run forceload remove all
+# The Expanse's five places, built in advance.
+frontier drowned build

@@ -127,8 +127,8 @@ public class DeepcallerEntity extends AnimatedMonster {
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
+    public boolean canDrownInFluidType(net.neoforged.neoforge.fluids.FluidType type) {
+        return false;   // a sea creature (LivingEntity#canBreatheUnderwater is final in NeoForge)
     }
 
     /** Divers in the dome. */
@@ -197,7 +197,7 @@ public class DeepcallerEntity extends AnimatedMonster {
                 }
             }
             case VORTEX -> vortex(divers);
-            case BROOD -> brood();
+            case BROOD -> callBrood();
             case ROAR -> {
                 setDeltaMovement(getDeltaMovement().scale(0.8D));
                 if (stateTicks == 1) {
@@ -380,7 +380,7 @@ public class DeepcallerEntity extends AnimatedMonster {
         }
     }
 
-    private void brood() {
+    private void callBrood() {
         setDeltaMovement(getDeltaMovement().scale(0.8D));
         if (stateTicks == 15 && level() instanceof ServerLevel sl) {
             int want = Math.min(2, MAX_BROOD - liveBrood());

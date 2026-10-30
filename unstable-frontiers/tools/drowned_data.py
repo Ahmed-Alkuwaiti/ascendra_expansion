@@ -36,9 +36,10 @@ BIOMES = {'glassreef_shallows': (0x3fc8d8, 0x1a6f86, 0x9fd8e8, 0x7cc6ec),
 def dimension():
     write(d('dimension_type', 'drowned_expanse.json'), {
         'ultrawarm': False, 'natural': False, 'coordinate_scale': 1.0, 'has_skylight': True, 'has_ceiling': False,
+        # beds work (a bed in a shelter sets your spawn there; with bed_works false a bed would explode)
         # light for the deep: water drinks skylight, so a little ambient light keeps the floor readable without shaders
         'ambient_light': 0.28, 'monster_spawn_light_level': {'type': 'minecraft:uniform', 'min_inclusive': 0, 'max_inclusive': 7},
-        'monster_spawn_block_light_limit': 0, 'piglin_safe': False, 'bed_works': False, 'respawn_anchor_works': False, 'has_raids': False,
+        'monster_spawn_block_light_limit': 0, 'piglin_safe': False, 'bed_works': True, 'respawn_anchor_works': False, 'has_raids': False,
         'logical_height': 320, 'min_y': 0, 'height': 320, 'infiniburn': '#minecraft:infiniburn_overworld', 'effects': f'{NS}:drowned_expanse'})
     write(d('dimension', 'drowned_expanse.json'), {'type': f'{NS}:drowned_expanse', 'generator': {
         'type': f'{NS}:drowned', 'biome_source': {'type': f'{NS}:drowned', 'shallows': f'{NS}:glassreef_shallows', 'kelpwood': f'{NS}:kelpwood',

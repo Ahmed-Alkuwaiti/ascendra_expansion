@@ -1,0 +1,102 @@
+# In-game screenshots of the Drowned Expanse (ci/pack_client.sh with UF_SHOT_SET=drowned). No night vision anywhere: it
+# rescales the underwater fog, and the point is to show what a diver with goggles sees.
+# Heights: Tidewatch's deck is at y 268 (floor 262), Deepwork's floor 196, the Choir's 158, the wreck's 112, the vault's 30.
+/gamerule doMobSpawning false
+/time set 6000
+/gamemode spectator
+gui off
+/execute in unstable_frontiers:frontier run tp @s 3000 140 -2960
+wait 500
+# The Sunken Gate in the frontier: the flooded well, the gate at its foot, the expedition's camp.
+/execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run tp @s ~14 ~10 ~14 facing ~ ~-6 ~
+wait 300
+shot 50_sunken_gate
+# Refused: in survival with no gear, standing in the gate (the chat shows what it wants).
+/gamemode survival
+/effect give @s minecraft:water_breathing 60 0 true
+/execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run tp @s ~ ~-7 ~ facing ~ ~-7 ~-3
+gui on
+wait 80
+shot 51_tide_gate_refuses
+# Geared (goggles and rig in the armour slots here; with Curios they go in the head and back slots): through the gate.
+/effect clear @s minecraft:water_breathing
+/item replace entity @s armor.head with unstable_frontiers:abyssal_goggles
+/item replace entity @s armor.chest with unstable_frontiers:diving_rig
+/execute in unstable_frontiers:frontier positioned 3000 0 -3000 positioned over motion_blocking run tp @s ~ ~-6 ~
+wait 300
+shot 52_tidewatch_arrival_dome
+/gamemode spectator
+gui off
+# Tidewatch from outside, the mast reaching for the surface; the reef around it.
+/execute in unstable_frontiers:drowned_expanse run tp @s 24 274 30 facing 0 271 0
+wait 300
+shot 53_tidewatch_station
+/execute in unstable_frontiers:drowned_expanse run tp @s 6 263 14 facing 0 270 0
+wait 150
+shot 54_tidewatch_moon_pool_from_below
+/execute in unstable_frontiers:drowned_expanse run tp @s 30 296 -10 facing 0 280 0
+wait 150
+shot 55_shallows_from_the_surface
+# Along the route west: the kelpwood and the glyph posts (they glow through goggles).
+/execute in unstable_frontiers:drowned_expanse positioned -96 0 44 positioned over ocean_floor run tp @s ~6 ~4 ~6 facing ~-6 ~1 ~-2
+wait 400
+shot 56_route_glyph_posts
+/execute in unstable_frontiers:drowned_expanse run tp @s -250 225 120 facing -330 210 150
+wait 400
+shot 57_kelpwood_toward_deepwork
+/execute in unstable_frontiers:drowned_expanse run tp @s -300 212 178 facing -333 204 150
+wait 300
+shot 58_deepwork_station
+/execute in unstable_frontiers:drowned_expanse run tp @s -333 204 150 facing -320 202 150
+wait 150
+shot 59_deepwork_pump_hall
+/execute in unstable_frontiers:drowned_expanse run tp @s -316 210 159 facing -316 214 159
+wait 150
+shot 60_diving_bell_from_below
+# The Choir Temple, the wreck, the trench and the Sunless Vault.
+/execute in unstable_frontiers:drowned_expanse run tp @s 300 182 -200 facing 300 170 -250
+wait 400
+shot 61_choir_temple
+/execute in unstable_frontiers:drowned_expanse run tp @s 300 165 -258 facing 300 168 -275
+wait 150
+shot 62_choir_nave_rose_window
+/execute in unstable_frontiers:drowned_expanse run tp @s -118 126 -540 facing -150 116 -560
+wait 400
+shot 63_wreck_of_the_long_patience
+/execute in unstable_frontiers:drowned_expanse run tp @s 40 70 -830 facing 90 40 -800
+wait 400
+shot 64_trench_and_vault
+/execute in unstable_frontiers:drowned_expanse run tp @s 90 40 -778 facing 90 44 -800
+wait 200
+shot 65_vault_interior
+# The creatures, posed outside Tidewatch (AI off).
+/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:lanternray 4 268 -26 {NoAI:1b,PersistenceRequired:1b,Rotation:[160f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:drowned_expanse run summon unstable_frontiers:murkjaw -5 266 -24 {NoAI:1b,PersistenceRequired:1b,Rotation:[220f,0f],Tags:["shot"]}
+/execute in unstable_frontiers:drowned_expanse run tp @s 0 268 -34 facing 0 267 -24
+wait 250
+shot 66_lanternray_and_murkjaw
+/frontier debug pose @e[tag=shot] 1
+wait 30
+shot 67_murkjaw_tell
+/kill @e[tag=shot]
+# The Deepcaller, woken in the vault.
+/execute in unstable_frontiers:drowned_expanse run tp @s 90 46 -780 facing 90 46 -800
+wait 200
+/gamemode creative
+/effect give @s minecraft:resistance infinite 4 true
+/effect give @s minecraft:water_breathing infinite 0 true
+/frontier drowned summon
+gui on
+wait 100
+shot 68_deepcaller_rises
+wait 140
+/gamemode spectator
+/execute at @e[type=unstable_frontiers:deepcaller,limit=1] run tp @s ~ ~3 ~-14 facing entity @e[type=unstable_frontiers:deepcaller,limit=1] eyes
+wait 40
+shot 69_deepcaller_close
+/gamemode creative
+/execute in unstable_frontiers:drowned_expanse run tp @s 98 44 -788 facing 90 46 -800
+wait 200
+shot 70_deepcaller_fight
+/frontier drowned reset
+quit

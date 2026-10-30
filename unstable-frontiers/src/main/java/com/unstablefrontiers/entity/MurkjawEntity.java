@@ -72,8 +72,8 @@ public class MurkjawEntity extends AnimatedMonster {
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
+    public boolean canDrownInFluidType(net.neoforged.neoforge.fluids.FluidType type) {
+        return false;   // a sea creature (LivingEntity#canBreatheUnderwater is final in NeoForge)
     }
 
     @Override

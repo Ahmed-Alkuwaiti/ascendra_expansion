@@ -76,7 +76,7 @@ public class EchoSounderItem extends Item {
         return InteractionResultHolder.sidedSuccess(stack, false);
     }
 
-    private static Component line(ServerPlayer p, DrownedTerrain.Anchor a) {
+    private static net.minecraft.network.chat.MutableComponent line(ServerPlayer p, DrownedTerrain.Anchor a) {
         double dx = a.x() + 0.5 - p.getX(), dz = a.z() + 0.5 - p.getZ();
         int dy = a.floor() + 2 - (int) p.getY();
         return Component.translatable("message.unstable_frontiers.sounder_line", Component.translatable("place.unstable_frontiers." + a.name()),
