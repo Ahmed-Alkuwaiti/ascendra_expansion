@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "unstable_frontiers:diving_rig"
+    },
+    {
+      "item": "unstable_frontiers:pressure_valve"
+    },
+    {
+      "item": "unstable_frontiers:keel_plate"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:deep_rig",
+    "count": 1
+  }
+}

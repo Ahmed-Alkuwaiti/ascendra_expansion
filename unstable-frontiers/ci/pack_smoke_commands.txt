@@ -73,6 +73,25 @@ frontier stats
 frontier stats
 execute in unstable_frontiers:astral_abyss positioned 232 0 -148 positioned over motion_blocking run frontier landmark info
 execute in unstable_frontiers:astral_abyss run frontier debug trial leviathan
+# The Drowned Expanse: the tide gate's gear check in the frontier, a murkjaw in a water tank, then the sea itself.
+execute in unstable_frontiers:frontier positioned 2100 220 0 run frontier debug trial gate
+execute in unstable_frontiers:frontier run forceload add 2176 -16 2224 32
+execute in unstable_frontiers:frontier positioned 2200 200 0 run frontier debug trial murkjaw
+execute in unstable_frontiers:drowned_expanse run forceload add -24 -24 24 24
+execute in unstable_frontiers:drowned_expanse run forceload add -360 120 -300 180
+execute in unstable_frontiers:drowned_expanse run forceload add 260 -290 340 -210
+execute in unstable_frontiers:drowned_expanse run forceload add -190 -600 -110 -520
+execute in unstable_frontiers:drowned_expanse run forceload add 40 -850 140 -750
+execute in unstable_frontiers:drowned_expanse run forceload add -200 30 -60 110
+frontier drowned build
+execute in unstable_frontiers:drowned_expanse run frontier debug trial drowned
+execute in unstable_frontiers:drowned_expanse run frontier debug trial breathing
+execute in unstable_frontiers:drowned_expanse positioned -333 201 150 run frontier landmark zone hall start
+frontier stats
+frontier stats
+execute in unstable_frontiers:drowned_expanse positioned -333 201 150 run frontier landmark info
+execute in unstable_frontiers:drowned_expanse positioned -100 0 70 run frontier debug trial lanternray
+execute in unstable_frontiers:drowned_expanse run frontier debug trial deepcaller
 # The rest of the set builds cleanly.
 execute in unstable_frontiers:frontier positioned 1000 0 8 run frontier landmark build carrion_field
 execute in unstable_frontiers:frontier positioned 1100 0 8 run frontier landmark build camp_torn
@@ -83,6 +102,7 @@ execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate
 execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate great_cage
 execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate observatory
 execute in unstable_frontiers:frontier positioned 3000 100 0 run frontier locate observatory
+execute in unstable_frontiers:frontier positioned 0 100 3000 run frontier locate sunken
 # Density: the nearest landmark of any kind from four more points (distances go into TESTING.md).
 execute in unstable_frontiers:frontier positioned 3000 100 0 run frontier locate any
 execute in unstable_frontiers:frontier positioned -3000 100 0 run frontier locate any

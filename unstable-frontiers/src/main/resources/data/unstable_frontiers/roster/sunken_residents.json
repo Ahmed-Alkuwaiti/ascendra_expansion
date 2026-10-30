@@ -1,0 +1,8 @@
+{
+  "mobs": [
+    {
+      "id": "minecraft:drowned",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+ "template": "unstable_frontiers:drowned_vault",
+ "size": [
+  75,
+  44,
+  75
+ ],
+ "zones": [],
+ "points": {
+  "centre": [
+   37,
+   19,
+   37
+  ],
+  "bell": [
+   37,
+   5,
+   59
+  ],
+  "shelter_bell": [
+   33,
+   7,
+   67
+  ]
+ },
+ "kind": "drowned_vault",
+ "title": "The Sunless Vault",
+ "ground": 3
+}

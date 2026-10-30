@@ -9,7 +9,9 @@ import math
 import nbtlib
 from PIL import Image, ImageDraw, ImageFont
 
-COLORS = {'netherite_block': (66, 61, 63), 'sculk': (12, 40, 52), 'sculk_vein': (20, 60, 72), 
+COLORS = {'brine_slate': (48, 62, 74), 'brine_bricks': (64, 86, 94), 'chiseled_brine': (84, 120, 124), 'lumen_coral': (120, 210, 240),
+    'breath_vent': (90, 170, 190), 'tide_glyph': (70, 90, 100), 'tide_gate': (60, 170, 210), 'tide_bell': (210, 170, 80), 'abyssal_bell': (100, 80, 140),
+    'netherite_block': (66, 61, 63), 'sculk': (12, 40, 52), 'sculk_vein': (20, 60, 72), 
     'cracked_stone_bricks': (118, 117, 118), 'chiseled_stone_bricks': (120, 119, 120), 'polished_andesite': (132, 135, 134), 'granite': (149, 103, 85),
     'cracked_deepslate_tiles': (52, 52, 53), 'cracked_polished_blackstone_bricks': (44, 37, 43), 'chiseled_polished_blackstone': (53, 48, 56),
     'smooth_red_sandstone': (181, 98, 31), 'cut_sandstone': (217, 206, 159), 'chiseled_sandstone': (216, 203, 155), 'smooth_sandstone': (223, 214, 170),

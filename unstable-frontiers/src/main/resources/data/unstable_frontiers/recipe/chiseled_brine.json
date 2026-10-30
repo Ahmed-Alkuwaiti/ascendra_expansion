@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "B",
+    "G"
+  ],
+  "key": {
+    "B": {
+      "item": "unstable_frontiers:brine_bricks"
+    },
+    "G": {
+      "item": "minecraft:glow_ink_sac"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:chiseled_brine",
+    "count": 1
+  }
+}

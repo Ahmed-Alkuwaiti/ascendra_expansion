@@ -1,0 +1,19 @@
+{
+ "template": "unstable_frontiers:sunken_gate",
+ "size": [
+  25,
+  24,
+  25
+ ],
+ "zones": [],
+ "points": {
+  "gate": [
+   12,
+   2,
+   12
+  ]
+ },
+ "kind": "sunken_gate",
+ "title": "The Sunken Gate",
+ "ground": 9
+}

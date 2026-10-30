@@ -1,0 +1,65 @@
+{
+ "template": "unstable_frontiers:drowned_wreck",
+ "size": [
+  57,
+  30,
+  57
+ ],
+ "zones": [
+  {
+   "id": "hold",
+   "name": "The Hold of the Long Patience",
+   "box": [
+    8,
+    3,
+    22,
+    29,
+    13,
+    34
+   ],
+   "trigger": [
+    10,
+    4,
+    24,
+    27,
+    11,
+    32
+   ],
+   "spawns": [
+    [
+     18,
+     5,
+     28
+    ],
+    [
+     24,
+     6,
+     26
+    ],
+    [
+     13,
+     6,
+     30
+    ],
+    [
+     21,
+     8,
+     31
+    ]
+   ],
+   "roster": "drowned_wreck",
+   "kind": "guardian",
+   "reward": "keel_plate"
+  }
+ ],
+ "points": {
+  "bell": [
+   37,
+   10,
+   24
+  ]
+ },
+ "kind": "drowned_place",
+ "title": "The Wreck of the Long Patience",
+ "ground": 4
+}

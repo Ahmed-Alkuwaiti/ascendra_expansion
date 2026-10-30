@@ -180,14 +180,20 @@ public final class DrownedTravel {
         if (!travel) {
             p.displayClientMessage(Component.translatable(fresh ? "message.unstable_frontiers.bell_new" : "message.unstable_frontiers.bell_rung",
                     Component.translatable("place.unstable_frontiers." + here.name())).withStyle(ChatFormatting.AQUA), false);
-            StringBuilder others = new StringBuilder();
+            // names stay translatable here: the server has no language file, the client resolves them
+            net.minecraft.network.chat.MutableComponent others = Component.empty();
+            boolean any = false;
             for (DrownedTerrain.Anchor a : DrownedTerrain.ANCHORS) {
                 if (a != here && bells.contains(a.name())) {
-                    others.append(others.isEmpty() ? "" : ", ").append(Component.translatable("place.unstable_frontiers." + a.name()).getString());
+                    if (any) {
+                        others.append(", ");
+                    }
+                    others.append(Component.translatable("place.unstable_frontiers." + a.name()));
+                    any = true;
                 }
             }
-            p.displayClientMessage(Component.translatable(others.isEmpty() ? "message.unstable_frontiers.bell_none" : "message.unstable_frontiers.bell_list",
-                    others.toString()).withStyle(ChatFormatting.GRAY), false);
+            p.displayClientMessage(Component.translatable(any ? "message.unstable_frontiers.bell_list" : "message.unstable_frontiers.bell_none",
+                    others).withStyle(ChatFormatting.GRAY), false);
             return;
         }
         // travel: the next rung shelter after this one, in the Expanse's order

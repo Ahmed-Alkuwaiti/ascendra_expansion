@@ -10,6 +10,7 @@ import os
 import shutil
 
 import abyss_data
+import drowned_data
 
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'src', 'main', 'resources')
 DATA = os.path.join(ROOT, 'data', 'unstable_frontiers')
@@ -119,6 +120,11 @@ ROSTERS.update(abyss_data.ROSTERS)
 LANDMARKS.update(abyss_data.LANDMARKS)
 SETS.update(abyss_data.SETS)
 LENS.update(abyss_data.LENS)
+# The Drowned Expanse (tools/drowned_data.py).
+ROSTERS.update(drowned_data.ROSTERS)
+LANDMARKS.update(drowned_data.LANDMARKS)
+SETS.update(drowned_data.SETS)
+LENS.update(drowned_data.LENS)
 
 
 def worldgen():
@@ -409,6 +415,7 @@ def advancements():
     adv('shrikewing', 'enter', U + 'shrike_talon', {'c': has(U + 'shrike_talon')})
     adv('impaler', 'shrikewing', U + 'shrike_impaler', {'c': has(U + 'shrike_impaler')})
     abyss_data.advancements(adv, has, at)
+    drowned_data.advancements(adv, has, at)
 
 
 # ------------------------------------------------------------------------------------------------------------ tags
@@ -464,6 +471,7 @@ CREATURE_SOUNDS = {
     'matriarch.acid': (['matriarch/acid'], 'Acid sizzles'),
 }
 CREATURE_SOUNDS.update(abyss_data.SOUNDS)
+CREATURE_SOUNDS.update(drowned_data.SOUNDS)
 
 
 def sounds():
@@ -675,6 +683,7 @@ LANG = {
 for k in ('east', 'southeast', 'south', 'southwest', 'west', 'northwest', 'north', 'northeast'):
     LANG[f'direction.unstable_frontiers.{k}'] = k
 LANG.update(abyss_data.LANG)
+LANG.update(drowned_data.LANG)
 
 
 def lang(extra):
@@ -697,5 +706,6 @@ if __name__ == '__main__':
     tags()
     models()
     abyss_data.write_all()   # after models(): its block tags extend the ones models() writes
+    drowned_data.write_all()   # after abyss_data: extends its pickaxe and boss tags
     lang(sounds())
     print('data written')

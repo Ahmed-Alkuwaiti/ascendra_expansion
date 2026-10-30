@@ -1,0 +1,18 @@
+{
+  "mobs": [
+    {
+      "id": "unstable_frontiers:murkjaw",
+      "weight": 3
+    }
+  ],
+  "escorts": 2,
+  "elite": {
+    "id": "unstable_frontiers:murkjaw",
+    "title": "The Wreckmaw",
+    "bar": "green",
+    "abilities": [
+      "rally"
+    ],
+    "health": 3.5
+  }
+}

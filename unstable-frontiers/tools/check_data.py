@@ -35,7 +35,7 @@ for f in glob.glob('src/main/java/**/ModItems.java', recursive=True):
     items |= set(re.findall(r'= armor\("([a-z_]+)"', src))
 # the Rift Observatory's and the Astral Abyss's items and blocks
 blocks = set()
-for f in glob.glob('src/main/java/**/AbyssRegistry.java', recursive=True):
+for f in glob.glob('src/main/java/**/AbyssRegistry.java', recursive=True) + glob.glob('src/main/java/**/DrownedRegistry.java', recursive=True):
     src = open(f).read()
     items |= set(re.findall(r'ITEMS\.register(?:SimpleItem)?\("([a-z_]+)"', src))
     blocks |= set(re.findall(r'block\("([a-z_]+)"', src))
@@ -56,7 +56,7 @@ for bl in sorted(blocks):
                     problems.append(f'block {bl}: texture {t} missing')
     if not os.path.exists(A + '/models/item/' + bl + '.json'):
         problems.append(f'block {bl}: no item model')
-    if not os.path.exists(D + '/loot_table/blocks/' + bl + '.json') and bl not in ('abyss_gate', 'rift_engine', 'eclipse_altar'):
+    if not os.path.exists(D + '/loot_table/blocks/' + bl + '.json') and bl not in ('abyss_gate', 'rift_engine', 'eclipse_altar', 'tide_gate', 'tide_bell', 'abyssal_bell'):
         problems.append(f'block {bl}: no loot table')
 
 for f in sorted(glob.glob(D + '/landmark/*.json')):
@@ -77,8 +77,8 @@ for f in sorted(glob.glob(D + '/landmark/*.json')):
         size = [int(v) for v in t['size']]
         if size != lm['size']:
             problems.append(f'{name}: sidecar size {lm["size"]} != template {size}')
-    if not name.startswith('abyss_') and not os.path.exists(D + '/worldgen/structure/' + name + '.json'):
-        # (the abyss's places are built at runtime by AbyssPlaces, not by world generation)
+    if not name.startswith(('abyss_', 'drowned_')) and not os.path.exists(D + '/worldgen/structure/' + name + '.json'):
+        # (the abyss's and the Drowned Expanse's places are built at runtime, not by world generation)
         problems.append(f'{name}: no worldgen structure')
     ids = {z['id'] for z in lm['zones']}
     for z in lm['zones']:

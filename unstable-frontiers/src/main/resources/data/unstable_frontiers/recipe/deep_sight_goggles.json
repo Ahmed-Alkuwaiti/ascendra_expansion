@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "unstable_frontiers:abyssal_goggles"
+    },
+    {
+      "item": "unstable_frontiers:choir_pearl"
+    },
+    {
+      "item": "minecraft:glow_ink_sac"
+    }
+  ],
+  "result": {
+    "id": "unstable_frontiers:deep_sight_goggles",
+    "count": 1
+  }
+}

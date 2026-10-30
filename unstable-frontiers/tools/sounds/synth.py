@@ -564,6 +564,229 @@ ABYSS = ['mite_ambient', 'mite_hurt', 'mite_death', 'mite_tell', 'mite_spit', 'w
          'leviathan_summon', 'leviathan_slam', 'rift_open', 'abyss_ambient']
 
 
+# ----------------------------------------------------------------------------------------------- the Drowned Expanse
+def bubbles(d, rng, rate=20, lo=300, hi=1400, size=1.0):
+    """Rising bubbles: short sine chirps that sweep upward as they pop."""
+    x = np.zeros(int(d * SR))
+    for _ in range(int(rate * d)):
+        f = rng.uniform(lo, hi)
+        bd = rng.uniform(0.02, 0.07) * size
+        b = osc(glide(f, f * 1.8, power=2.0), bd) * decay(bd, bd / 3) * rng.uniform(0.2, 0.8)
+        x = place(x, b, rng.uniform(0, max(0.0, d - bd)))
+    return x
+
+
+def murk(x, hi=1600):
+    """Under water: the highs drown."""
+    return lowpass(x, hi)
+
+
+def song(rng, d, f0, f1, power=1.0, grit=0.0):
+    """A whale-like call: a slow glide, its octave, a soft formant."""
+    v = osc(glide(f0, f1, power=power), d, 'sine', vib=0.02, vib_rate=4, rng=rng, jitter=0.03)
+    v += 0.4 * osc(glide(f0 * 2.01, f1 * 2.01, power=power), d, 'tri')
+    if grit:
+        v += grit * band(noise(d, rng), f0, f0 * 6)
+    return formant(v, [(500, 1.0), (1100, 0.5)], 0.4) + 0.4 * v
+
+
+def ray_ambient(rng):
+    d = 2.2
+    return murk(song(rng, d, 520, 640, 0.5) * env(d, 0.5, 1.0) * 0.6 + 0.4 * bell(1560, d, rng, tau=0.8), 3000) + 0.3 * bubbles(d, rng, 4)
+
+
+def ray_hurt(rng):
+    d = 0.5
+    return murk(song(rng, d, 760, 420) * env(d, 0.01, 0.4), 2600) + 0.5 * bubbles(d, rng, 30)
+
+
+def ray_death(rng):
+    d = 1.8
+    x = murk(song(rng, d, 600, 180, 0.6) * env(d, 0.02, 1.4), 2400)
+    return x + 0.6 * bubbles(d, rng, 25) * env(d, 0.01, 1.5)
+
+
+def ray_chime(rng):
+    d = 1.4
+    x = np.zeros(int(d * SR))
+    for i, f in enumerate((784, 988, 1175, 1568)):
+        x = place(x, bell(f, 1.0, rng, tau=0.5) * 0.6, i * 0.11)
+    return murk(x, 5000)
+
+
+def murkjaw_voice(rng, d, f0, f1, grit=0.6):
+    v = osc(glide(f0, f1), d, 'saw', vib=0.04, vib_rate=11, rng=rng, jitter=0.05)
+    return murk(drive(formant(v, [(350, 1.0), (800, 0.6)], 0.3) + grit * band(noise(d, rng), 150, 700), 2.0), 1400)
+
+
+def murkjaw_ambient(rng):
+    d = 1.4
+    return murkjaw_voice(rng, d, 70, 55, 0.8) * env(d, 0.3, 0.6) * 0.7 + 0.3 * bubbles(d, rng, 6, 200, 600)
+
+
+def murkjaw_hurt(rng):
+    d = 0.45
+    return murkjaw_voice(rng, d, 180, 90) * env(d, 0.005, 0.35) + 0.4 * bubbles(d, rng, 40, 300, 900)
+
+
+def murkjaw_death(rng):
+    d = 1.6
+    return murkjaw_voice(rng, d, 140, 35) * env(d, 0.01, 1.2) + 0.6 * bubbles(d, rng, 30, 200, 900) * env(d, 0.01, 1.4)
+
+
+def murkjaw_tell(rng):
+    d = 1.0
+    rattle = band(noise(d, rng), 400, 1400) * (0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 28 * t_(d)))) * env(d, 0.6, 0.05)
+    hiss = osc(glide(200, 520, power=2.0), d, 'tri') * env(d, 0.8, 0.05)
+    return murk(rattle * 0.8 + hiss * 0.6, 2400)
+
+
+def murkjaw_lunge(rng):
+    d = 0.7
+    rush = sweep_band(noise(d, rng), 100, 400, 600, 1800, 12) * np.hanning(int(d * SR))
+    return murk(rush, 2000) + 0.5 * bubbles(d, rng, 60, 300, 1200)
+
+
+def murkjaw_bite(rng):
+    d = 0.3
+    snap = click(900, rng, 0.05, 0.006)
+    x = np.zeros(int(d * SR))
+    x = place(x, snap, 0.0)
+    x = place(x, click(600, rng, 0.05, 0.008) * 0.7, 0.06)
+    return murk(x + 0.6 * osc(glide(110, 60), d) * decay(d, 0.06), 2500)
+
+
+def murkjaw_stun(rng):
+    d = 1.0
+    thud = 1.3 * osc(glide(90, 40), d) * decay(d, 0.18) + lowpass(noise(d, rng), 500) * decay(d, 0.1)
+    return murk(thud, 1200) + 0.5 * bubbles(d, rng, 40, 200, 800) * env(d, 0.01, 0.8)
+
+
+def deep_voice(rng, d, f0, f1, power=1.0):
+    v = song(rng, d, f0, f1, power, grit=0.3) + 0.6 * osc(glide(f0 / 2, f1 / 2, power=power), d, 'tri')
+    return murk(drive(v, 1.6), 1100)
+
+
+def deepcaller_ambient(rng):
+    d = 3.6
+    return deep_voice(rng, d, 70, 96, 0.5) * env(d, 0.8, 1.6) + 0.25 * bubbles(d, rng, 3, 150, 500, 2.0)
+
+
+def deepcaller_hurt(rng):
+    d = 0.9
+    return deep_voice(rng, d, 160, 90, 0.7) * env(d, 0.01, 0.7)
+
+
+def deepcaller_death(rng):
+    d = 5.0
+    x = deep_voice(rng, d, 120, 28, 0.6) * env(d, 0.05, 3.5)
+    return x + 0.6 * bubbles(d, rng, 30, 150, 900, 1.5) * env(d, 0.5, 3.0) + 0.5 * hum(30, d, rng) * env(d, 1.0, 2.0)
+
+
+def deepcaller_roar(rng):
+    d = 2.8
+    v = deep_voice(rng, d, 60, 110, 0.4) + 0.7 * deep_voice(rng, d, 90, 150, 0.4)
+    return drive(v * env(d, 0.3, 1.0) + 0.5 * bubbles(d, rng, 50, 200, 800), 1.6)
+
+
+def deepcaller_lure(rng):
+    d = 1.6
+    rising = sum(osc(glide(f, f * 2.5, power=2.0), d) * (0.6 ** i) for i, f in enumerate((330, 495, 660)))
+    return murk(rising * env(d, 1.3, 0.05), 4000) + 0.4 * bell(1320, d, rng, tau=0.4) * env(d, 1.2, 0.1)
+
+
+def deepcaller_charge_tell(rng):
+    d = 1.3
+    growl = deep_voice(rng, d, 50, 75, 1.5) * env(d, 0.6, 0.1)
+    clicks = np.zeros(int(d * SR))
+    for i in range(10):
+        clicks = place(clicks, click(500 + 60 * i, rng, 0.04, 0.006) * (0.3 + 0.07 * i), 0.1 + i * 0.11)
+    return growl + murk(clicks, 2000)
+
+
+def deepcaller_charge(rng):
+    d = 1.4
+    rush = sweep_band(noise(d, rng), 80, 300, 400, 1400, 16) * np.hanning(int(d * SR))
+    return murk(rush * 1.3, 1600) + 0.6 * bubbles(d, rng, 80, 200, 1000)
+
+
+def deepcaller_slam(rng):
+    d = 1.8
+    boom = 1.4 * osc(glide(65, 25), d) * decay(d, 0.4) + lowpass(noise(d, rng), 400) * decay(d, 0.25)
+    return drive(murk(boom, 900), 1.5) + 0.5 * bubbles(d, rng, 50, 150, 700) * env(d, 0.05, 1.4)
+
+
+def deepcaller_vortex(rng):
+    d = 2.6
+    swirl = sweep_band(noise(d, rng), 200, 600, 60, 200, 20) * (0.6 + 0.4 * np.sin(2 * np.pi * 3 * t_(d)))
+    return murk(swirl * env(d, 0.4, 0.6) * 1.2, 1200) + 0.4 * osc(glide(55, 35), d) * env(d, 0.3, 0.6)
+
+
+def deepcaller_brood(rng):
+    d = 1.6
+    x = deep_voice(rng, d, 110, 150, 0.5) * env(d, 0.1, 0.8) * 0.6
+    for i in range(4):
+        x = place(x, murkjaw_voice(rng, 0.4, 160, 120) * env(0.4, 0.01, 0.3) * 0.5, 0.3 + i * 0.25)
+    return x
+
+
+def tide_gate(rng):
+    d = 2.2
+    rush = sweep_band(noise(d, rng), 100, 500, 900, 3000, 20) * env(d, 0.6, 1.2)
+    return murk(rush, 3000) + 0.8 * bubbles(d, rng, 90, 300, 1500) * env(d, 0.1, 1.5) + 0.4 * bell(392, d, rng, tau=0.9)
+
+
+def tide_gate_refuse(rng):
+    d = 0.9
+    x = bell(196, d, rng, tau=0.3) + 0.6 * bell(185, d, rng, tau=0.3)
+    return murk(x, 2500) + 0.3 * bubbles(d, rng, 15)
+
+
+def tide_bell(rng):
+    d = 3.0
+    return murk(bell(523, d, rng, tau=1.2) + 0.5 * bell(784, d, rng, tau=0.8), 3500)
+
+
+def tide_abyssal_bell(rng):
+    d = 4.0
+    x = bell(131, d, rng, tau=1.8) + 0.6 * bell(98, d, rng, tau=2.0)
+    return murk(drive(x, 1.3), 1500) + 0.3 * hum(49, d, rng) * env(d, 0.5, 2.5)
+
+
+def rig_warn(rng):
+    d = 0.6
+    x = np.zeros(int(d * SR))
+    for i in range(2):
+        x = place(x, osc(880, 0.15, 'square') * env(0.15, 0.005, 0.05) * 0.5, i * 0.25)
+    return murk(x, 3000)
+
+
+def undertow_cast(rng):
+    d = 0.8
+    whip = sweep_band(noise(d, rng), 300, 900, 1500, 4000, 10) * env(d, 0.02, 0.6)
+    return murk(whip, 4000) + 0.5 * bubbles(d, rng, 50, 400, 1600) + 0.4 * osc(glide(220, 110), d) * decay(d, 0.2)
+
+
+def drowned_ambient(rng):
+    d = 9.0
+    x = lowpass(0.8 * hum(36, d, rng, 0.25) + 0.3 * hum(54, d, rng, 0.2), 300)
+    swell = band(brown(d, rng), 40, 220) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.11 * t_(d)))
+    far = place(np.zeros(int(d * SR)), song(rng, 3.0, 180, 240, 0.5) * env(3.0, 1.0, 1.5) * 0.2, 4.0)
+    return (x + 0.6 * swell + murk(far, 900)) * env(d, 1.5, 1.5) + 0.15 * bubbles(d, rng, 3, 200, 900)
+
+
+DROWNED = {'drowned/ray_ambient': ray_ambient, 'drowned/ray_hurt': ray_hurt, 'drowned/ray_death': ray_death, 'drowned/ray_chime': ray_chime,
+           'drowned/murkjaw_ambient': murkjaw_ambient, 'drowned/murkjaw_hurt': murkjaw_hurt, 'drowned/murkjaw_death': murkjaw_death,
+           'drowned/murkjaw_tell': murkjaw_tell, 'drowned/murkjaw_lunge': murkjaw_lunge, 'drowned/murkjaw_bite': murkjaw_bite,
+           'drowned/murkjaw_stun': murkjaw_stun, 'drowned/deepcaller_ambient': deepcaller_ambient, 'drowned/deepcaller_hurt': deepcaller_hurt,
+           'drowned/deepcaller_death': deepcaller_death, 'drowned/deepcaller_roar': deepcaller_roar, 'drowned/deepcaller_lure': deepcaller_lure,
+           'drowned/deepcaller_charge_tell': deepcaller_charge_tell, 'drowned/deepcaller_charge': deepcaller_charge,
+           'drowned/deepcaller_slam': deepcaller_slam, 'drowned/deepcaller_vortex': deepcaller_vortex, 'drowned/deepcaller_brood': deepcaller_brood,
+           'drowned/tide_gate': tide_gate, 'drowned/tide_gate_refuse': tide_gate_refuse, 'drowned/tide_bell': tide_bell,
+           'drowned/tide_abyssal_bell': tide_abyssal_bell, 'drowned/rig_warn': rig_warn, 'drowned/undertow_cast': undertow_cast,
+           'drowned/drowned_ambient': drowned_ambient}
+
+
 RECIPES = {
     'gnashback/ambient': gnashback_ambient,
     'gnashback/hurt': gnashback_hurt,
@@ -592,6 +815,7 @@ RECIPES = {
     'matriarch/acid': matriarch_acid,
 }
 RECIPES.update({'abyss/' + n: globals()[n] for n in ABYSS})
+RECIPES.update(DROWNED)
 
 
 def render(name):

@@ -1,0 +1,76 @@
+{
+ "template": "unstable_frontiers:drowned_choir",
+ "size": [
+  57,
+  46,
+  57
+ ],
+ "zones": [
+  {
+   "id": "nave",
+   "name": "The Drowned Choir",
+   "box": [
+    21,
+    4,
+    13,
+    35,
+    17,
+    43
+   ],
+   "trigger": [
+    22,
+    4,
+    14,
+    34,
+    15,
+    40
+   ],
+   "spawns": [
+    [
+     25,
+     4,
+     20
+    ],
+    [
+     31,
+     4,
+     24
+    ],
+    [
+     28,
+     4,
+     30
+    ],
+    [
+     24,
+     6,
+     36
+    ],
+    [
+     32,
+     5,
+     18
+    ],
+    [
+     28,
+     8,
+     26
+    ]
+   ],
+   "roster": "drowned_choir",
+   "kind": "waves",
+   "waves": 3,
+   "reward": "choir_pearl"
+  }
+ ],
+ "points": {
+  "bell": [
+   44,
+   30,
+   42
+  ]
+ },
+ "kind": "drowned_place",
+ "title": "The Choir Temple",
+ "ground": 3
+}

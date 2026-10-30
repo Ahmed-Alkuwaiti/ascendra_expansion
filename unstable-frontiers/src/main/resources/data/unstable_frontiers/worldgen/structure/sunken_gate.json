@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:landmark",
+  "biomes": "#unstable_frontiers:has_structure/sunken_gate",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "template": "unstable_frontiers:sunken_gate",
+  "ground": 9,
+  "max_slope": 40,
+  "max_water": 6,
+  "foundation": true,
+  "clear_site": true
+}

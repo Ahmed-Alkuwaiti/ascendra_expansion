@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:lumen_coral"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.drowned"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.drowned.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "unstable_frontiers:drowned_expanse"
+      }
+    }
+  },
+  "parent": "unstable_frontiers:diving_gear"
+}

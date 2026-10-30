@@ -1,0 +1,29 @@
+{
+ "template": "unstable_frontiers:drowned_tidewatch",
+ "size": [
+  41,
+  40,
+  41
+ ],
+ "zones": [],
+ "points": {
+  "gate": [
+   20,
+   10,
+   14
+  ],
+  "bell": [
+   16,
+   10,
+   22
+  ],
+  "arrival": [
+   20,
+   10,
+   21
+  ]
+ },
+ "kind": "drowned_station",
+ "title": "Tidewatch Station",
+ "ground": 3
+}

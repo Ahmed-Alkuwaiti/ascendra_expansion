@@ -1,0 +1,13 @@
+{
+  "mobs": [
+    {
+      "id": "minecraft:drowned",
+      "weight": 4
+    },
+    {
+      "id": "unstable_frontiers:murkjaw",
+      "weight": 2,
+      "max": 2
+    }
+  ]
+}

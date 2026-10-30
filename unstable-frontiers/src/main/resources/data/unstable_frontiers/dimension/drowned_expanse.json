@@ -1,0 +1,13 @@
+{
+  "type": "unstable_frontiers:drowned_expanse",
+  "generator": {
+    "type": "unstable_frontiers:drowned",
+    "biome_source": {
+      "type": "unstable_frontiers:drowned",
+      "shallows": "unstable_frontiers:glassreef_shallows",
+      "kelpwood": "unstable_frontiers:kelpwood",
+      "reach": "unstable_frontiers:sunken_reach",
+      "trench": "unstable_frontiers:blackwater_trench"
+    }
+  }
+}

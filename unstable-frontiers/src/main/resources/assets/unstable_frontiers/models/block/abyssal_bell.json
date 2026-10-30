@@ -1,0 +1,214 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "unstable_frontiers:block/abyssal_bell",
+    "bell": "unstable_frontiers:block/abyssal_bell"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        4,
+        4
+      ],
+      "to": [
+        12,
+        13,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#bell",
+          "uv": [
+            4,
+            3,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        2,
+        3
+      ],
+      "to": [
+        13,
+        4,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        },
+        "south": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        },
+        "east": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        },
+        "west": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        },
+        "up": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        },
+        "down": {
+          "texture": "#bell",
+          "uv": [
+            3,
+            0,
+            13,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        13,
+        7
+      ],
+      "to": [
+        9,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        },
+        "south": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        },
+        "east": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        },
+        "west": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        },
+        "up": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        },
+        "down": {
+          "texture": "#bell",
+          "uv": [
+            7,
+            0,
+            9,
+            3
+          ]
+        }
+      }
+    }
+  ]
+}

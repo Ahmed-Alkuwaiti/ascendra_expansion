@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:deep_rig"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.deep_rig"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.deep_rig.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:deep_rig"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:drowned"
+}

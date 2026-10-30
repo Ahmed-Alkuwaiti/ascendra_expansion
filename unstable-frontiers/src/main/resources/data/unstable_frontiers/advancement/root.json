@@ -17,14 +17,7 @@
   },
   "criteria": {
     "c": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": "unstable_frontiers:rift_shard"
-          }
-        ]
-      }
+      "trigger": "minecraft:tick"
     }
   }
 }

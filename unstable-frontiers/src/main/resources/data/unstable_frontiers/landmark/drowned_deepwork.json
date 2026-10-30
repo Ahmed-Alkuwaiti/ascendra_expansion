@@ -1,0 +1,75 @@
+{
+ "template": "unstable_frontiers:drowned_deepwork",
+ "size": [
+  51,
+  38,
+  51
+ ],
+ "zones": [
+  {
+   "id": "hall",
+   "name": "The Pump Hall",
+   "box": [
+    14,
+    4,
+    18,
+    30,
+    12,
+    32
+   ],
+   "trigger": [
+    15,
+    4,
+    19,
+    29,
+    11,
+    31
+   ],
+   "spawns": [
+    [
+     16,
+     4,
+     22
+    ],
+    [
+     21,
+     4,
+     28
+    ],
+    [
+     26,
+     4,
+     23
+    ],
+    [
+     29,
+     6,
+     29
+    ],
+    [
+     19,
+     7,
+     25
+    ],
+    [
+     27,
+     5,
+     21
+    ]
+   ],
+   "roster": "drowned_deepwork",
+   "kind": "ambush",
+   "reward": "pressure_valve,swim_fins"
+  }
+ ],
+ "points": {
+  "bell": [
+   41,
+   15,
+   34
+  ]
+ },
+ "kind": "drowned_place",
+ "title": "Deepwork Station",
+ "ground": 3
+}

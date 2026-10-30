@@ -1,0 +1,48 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:diving_rig"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.diving_gear"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.diving_gear.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "goggles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:abyssal_goggles"
+          }
+        ]
+      }
+    },
+    "rig": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:diving_rig"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:sunken_gate",
+  "requirements": [
+    [
+      "goggles"
+    ],
+    [
+      "rig"
+    ]
+  ]
+}

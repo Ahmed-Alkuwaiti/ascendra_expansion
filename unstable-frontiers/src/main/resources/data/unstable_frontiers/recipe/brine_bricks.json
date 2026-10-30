@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "key": {
+    "S": {
+      "item": "unstable_frontiers:brine_slate"
+    }
+  },
+  "result": {
+    "id": "unstable_frontiers:brine_bricks",
+    "count": 4
+  }
+}

@@ -93,6 +93,17 @@ public final class FrontierCommand {
                     com.unstablefrontiers.drowned.DrownedTravel.enter(c.getSource().getPlayerOrException(), null);
                     return 1;
                 })
+                        // builds every place of the Expanse now (they otherwise build as divers come near)
+                        .then(Commands.literal("build").executes(c -> {
+                            ServerLevel dl = c.getSource().getServer().getLevel(com.unstablefrontiers.drowned.DrownedDimension.LEVEL);
+                            if (dl == null) {
+                                return 0;
+                            }
+                            for (com.unstablefrontiers.drowned.DrownedTerrain.Anchor a : com.unstablefrontiers.drowned.DrownedTerrain.ANCHORS) {
+                                com.unstablefrontiers.drowned.DrownedPlaces.build(dl, a);
+                            }
+                            return 1;
+                        }))
                         // the Deepcaller, called as if its bell were rung; and sent back
                         .then(Commands.literal("summon").executes(c -> {
                             ServerPlayer p = c.getSource().getPlayerOrException();

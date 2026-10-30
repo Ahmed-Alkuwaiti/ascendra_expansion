@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "id": "unstable_frontiers:undertow"
+    },
+    "title": {
+      "translate": "advancement.unstable_frontiers.deepcaller"
+    },
+    "description": {
+      "translate": "advancement.unstable_frontiers.deepcaller.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable_frontiers:abyssal_pearl"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "unstable_frontiers:deep_rig"
+}

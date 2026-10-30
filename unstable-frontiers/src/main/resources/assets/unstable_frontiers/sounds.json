@@ -403,5 +403,173 @@
     "sounds": [
       "unstable_frontiers:abyss/abyss_ambient"
     ]
+  },
+  "ray.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.ray.ambient",
+    "sounds": [
+      "unstable_frontiers:drowned/ray_ambient"
+    ]
+  },
+  "ray.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.ray.hurt",
+    "sounds": [
+      "unstable_frontiers:drowned/ray_hurt"
+    ]
+  },
+  "ray.death": {
+    "subtitle": "subtitles.unstable_frontiers.ray.death",
+    "sounds": [
+      "unstable_frontiers:drowned/ray_death"
+    ]
+  },
+  "ray.chime": {
+    "subtitle": "subtitles.unstable_frontiers.ray.chime",
+    "sounds": [
+      "unstable_frontiers:drowned/ray_chime"
+    ]
+  },
+  "murkjaw.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.ambient",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_ambient"
+    ]
+  },
+  "murkjaw.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.hurt",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_hurt"
+    ]
+  },
+  "murkjaw.death": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.death",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_death"
+    ]
+  },
+  "murkjaw.tell": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.tell",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_tell"
+    ]
+  },
+  "murkjaw.lunge": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.lunge",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_lunge"
+    ]
+  },
+  "murkjaw.bite": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.bite",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_bite"
+    ]
+  },
+  "murkjaw.stun": {
+    "subtitle": "subtitles.unstable_frontiers.murkjaw.stun",
+    "sounds": [
+      "unstable_frontiers:drowned/murkjaw_stun"
+    ]
+  },
+  "deepcaller.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.ambient",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_ambient"
+    ]
+  },
+  "deepcaller.hurt": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.hurt",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_hurt"
+    ]
+  },
+  "deepcaller.death": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.death",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_death"
+    ]
+  },
+  "deepcaller.roar": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.roar",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_roar"
+    ]
+  },
+  "deepcaller.lure": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.lure",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_lure"
+    ]
+  },
+  "deepcaller.charge_tell": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.charge_tell",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_charge_tell"
+    ]
+  },
+  "deepcaller.charge": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.charge",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_charge"
+    ]
+  },
+  "deepcaller.slam": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.slam",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_slam"
+    ]
+  },
+  "deepcaller.vortex": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.vortex",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_vortex"
+    ]
+  },
+  "deepcaller.brood": {
+    "subtitle": "subtitles.unstable_frontiers.deepcaller.brood",
+    "sounds": [
+      "unstable_frontiers:drowned/deepcaller_brood"
+    ]
+  },
+  "tide.gate": {
+    "subtitle": "subtitles.unstable_frontiers.tide.gate",
+    "sounds": [
+      "unstable_frontiers:drowned/tide_gate"
+    ]
+  },
+  "tide.gate_refuse": {
+    "subtitle": "subtitles.unstable_frontiers.tide.gate_refuse",
+    "sounds": [
+      "unstable_frontiers:drowned/tide_gate_refuse"
+    ]
+  },
+  "tide.bell": {
+    "subtitle": "subtitles.unstable_frontiers.tide.bell",
+    "sounds": [
+      "unstable_frontiers:drowned/tide_bell"
+    ]
+  },
+  "tide.abyssal_bell": {
+    "subtitle": "subtitles.unstable_frontiers.tide.abyssal_bell",
+    "sounds": [
+      "unstable_frontiers:drowned/tide_abyssal_bell"
+    ]
+  },
+  "rig.warn": {
+    "subtitle": "subtitles.unstable_frontiers.rig.warn",
+    "sounds": [
+      "unstable_frontiers:drowned/rig_warn"
+    ]
+  },
+  "undertow.cast": {
+    "subtitle": "subtitles.unstable_frontiers.undertow.cast",
+    "sounds": [
+      "unstable_frontiers:drowned/undertow_cast"
+    ]
+  },
+  "drowned.ambient": {
+    "subtitle": "subtitles.unstable_frontiers.drowned.ambient",
+    "sounds": [
+      "unstable_frontiers:drowned/drowned_ambient"
+    ]
   }
 }
