@@ -38,6 +38,12 @@ import net.minecraft.world.phys.Vec3;
 public final class DrownedPlaces extends SavedData {
     private static final String NAME = "unstable_frontiers_drowned_places";
     public static final int BUILD_RANGE = 96;
+    /** Waterloggable blocks the places stand inside their shelters. */
+    private static final java.util.function.Supplier<java.util.List<net.minecraft.world.level.block.Block>> DRY_FURNITURE = () -> java.util.List.of(
+            com.unstablefrontiers.registry.DrownedRegistry.TIDE_GATE.get(), com.unstablefrontiers.registry.DrownedRegistry.TIDE_BELL.get(),
+            com.unstablefrontiers.registry.DrownedRegistry.ABYSSAL_BELL.get(), net.minecraft.world.level.block.Blocks.CHEST,
+            net.minecraft.world.level.block.Blocks.DARK_OAK_SIGN, net.minecraft.world.level.block.Blocks.DARK_OAK_WALL_SIGN,
+            net.minecraft.world.level.block.Blocks.LANTERN);
     private static final String CHARTED = "drowned_charted";
     private final Set<String> built = new HashSet<>();
 
@@ -187,9 +193,19 @@ public final class DrownedPlaces extends SavedData {
                 level.getChunk(cx, cz);
             }
         }
-        // the template says exactly which blocks are waterlogged: with liquids kept, a gate or a bell inside a shelter
-        // would be waterlogged by the sea that stood there before, and pour water into the air dome
-        t.get().placeInWorld(level, origin, origin, LandmarkPiece.settings(Rotation.NONE).setKeepLiquids(false), level.random, 2);
+        net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings settings = LandmarkPiece.settings(Rotation.NONE);
+        t.get().placeInWorld(level, origin, origin, settings, level.random, 2);
+        // Placing keeps the sea that stood there, so it waterlogs every waterloggable block, even a gate or a bell inside
+        // a shelter, which would then pour water into the air. The template says exactly which are dry: restore those now,
+        // in the same tick, before the water's first flow.
+        for (net.minecraft.world.level.block.Block blk : DRY_FURNITURE.get()) {
+            for (StructureTemplate.StructureBlockInfo info : t.get().filterBlocks(origin, settings, blk)) {
+                if (info.state().hasProperty(net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED)
+                        && !info.state().getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED)) {
+                    level.setBlock(info.pos(), info.state(), 2);
+                }
+            }
+        }
         LandmarkData data = EncounterManager.data(level);
         if (data.get(origin.asLong()) == null) {
             data.add(new LandmarkState(id, origin, Rotation.NONE));
