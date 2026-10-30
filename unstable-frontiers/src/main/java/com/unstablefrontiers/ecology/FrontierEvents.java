@@ -51,6 +51,14 @@ public final class FrontierEvents {
             com.unstablefrontiers.abyss.EclipseEncounter.tick(abyss);
             EncounterManager.tick(abyss);
         }
+        ServerLevel drowned = event.getServer().getLevel(com.unstablefrontiers.drowned.DrownedDimension.LEVEL);
+        // the same for the Drowned Expanse and the Deepcaller's fight
+        if (drowned != null && (!drowned.players().isEmpty() || com.unstablefrontiers.drowned.DeepcallerEncounter.get(drowned).active()
+                || !drowned.getForcedChunks().isEmpty())) {
+            com.unstablefrontiers.drowned.DrownedPlaces.tick(drowned);
+            com.unstablefrontiers.drowned.DeepcallerEncounter.tick(drowned);
+            EncounterManager.tick(drowned);
+        }
         ServerLevel level = event.getServer().getLevel(FrontierDimension.LEVEL);
         if (level == null || level.players().isEmpty() && !EncounterManager.anyActive(level)) {
             return;
@@ -68,7 +76,8 @@ public final class FrontierEvents {
         if (!(event.getLevel() instanceof ServerLevel level) || !Creatures.isEncounter(e)) {
             return;
         }
-        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level) || !EncounterManager.belongs(level, e)) {
+        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level)
+                && !com.unstablefrontiers.drowned.DrownedDimension.is(level) || !EncounterManager.belongs(level, e)) {
             event.setCanceled(true);
         }
     }
@@ -122,6 +131,12 @@ public final class FrontierEvents {
         if (event.getLevel().getLevel() instanceof ServerLevel level && com.unstablefrontiers.abyss.AbyssDimension.is(level)
                 && (event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION)
                 && com.unstablefrontiers.abyss.AbyssDimension.crowded(level, event.getEntity().position())) {
+            event.setSpawnCancelled(true);
+        }
+        // The Drowned Expanse: nothing hostile spawns naturally inside a shelter or place, and at most 8 creatures near any spot.
+        if (event.getLevel().getLevel() instanceof ServerLevel level && com.unstablefrontiers.drowned.DrownedDimension.is(level)
+                && (event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION)
+                && com.unstablefrontiers.drowned.DrownedDimension.crowded(level, event.getEntity())) {
             event.setSpawnCancelled(true);
         }
     }

@@ -2,6 +2,9 @@ package com.unstablefrontiers.registry;
 
 import com.unstablefrontiers.UnstableFrontiers;
 import com.unstablefrontiers.entity.AcidGlobEntity;
+import com.unstablefrontiers.entity.DeepcallerEntity;
+import com.unstablefrontiers.entity.LanternrayEntity;
+import com.unstablefrontiers.entity.MurkjawEntity;
 import com.unstablefrontiers.entity.ChainedMatriarchEntity;
 import com.unstablefrontiers.entity.EclipseLeviathanEntity;
 import com.unstablefrontiers.entity.GnashbackEntity;
@@ -51,6 +54,17 @@ public final class ModEntities {
             () -> EntityType.Builder.<StarBoltEntity>of(StarBoltEntity::new, MobCategory.MISC).sized(0.4F, 0.4F)
                     .clientTrackingRange(6).updateInterval(5).build("star_bolt"));
 
+    // the Drowned Expanse
+    public static final Supplier<EntityType<LanternrayEntity>> LANTERNRAY = TYPES.register("lanternray",
+            () -> EntityType.Builder.<LanternrayEntity>of(LanternrayEntity::new, MobCategory.WATER_CREATURE).sized(2.4F, 0.6F).eyeHeight(0.3F)
+                    .clientTrackingRange(10).build("lanternray"));
+    public static final Supplier<EntityType<MurkjawEntity>> MURKJAW = TYPES.register("murkjaw",
+            () -> EntityType.Builder.<MurkjawEntity>of(MurkjawEntity::new, MobCategory.MONSTER).sized(1.4F, 0.8F).eyeHeight(0.4F)
+                    .clientTrackingRange(8).build("murkjaw"));
+    public static final Supplier<EntityType<DeepcallerEntity>> DEEPCALLER = TYPES.register("deepcaller",
+            () -> EntityType.Builder.<DeepcallerEntity>of(DeepcallerEntity::new, MobCategory.MONSTER).sized(4.4F, 3.0F).eyeHeight(1.8F)
+                    .clientTrackingRange(12).updateInterval(2).build("deepcaller"));
+
     private ModEntities() {}
 
     public static void register(IEventBus bus) {
@@ -66,6 +80,9 @@ public final class ModEntities {
         event.put(LUMEN_MITE.get(), LumenMiteEntity.attributes().build());
         event.put(ORRERY_WARDEN.get(), OrreryWardenEntity.attributes().build());
         event.put(ECLIPSE_LEVIATHAN.get(), EclipseLeviathanEntity.attributes().build());
+        event.put(LANTERNRAY.get(), LanternrayEntity.attributes().build());
+        event.put(MURKJAW.get(), MurkjawEntity.attributes().build());
+        event.put(DEEPCALLER.get(), DeepcallerEntity.attributes().build());
     }
 
     private static void placements(RegisterSpawnPlacementsEvent event) {
@@ -79,5 +96,11 @@ public final class ModEntities {
                 Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(ORRERY_WARDEN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkAnyLightMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // the Expanse's creatures spawn anywhere in its water (their numbers are capped by FrontierEvents)
+        event.register(LANTERNRAY.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, reason, pos, random) -> level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER), RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(MURKJAW.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, reason, pos, random) -> level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER)
+                        && level.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

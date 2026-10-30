@@ -65,12 +65,14 @@ public class RiftLensItem extends TrophyItem {
             if (Progress.count(sp, "great_cage") > 0 || sp.getInventory().contains(new ItemStack(com.unstablefrontiers.registry.AbyssRegistry.ASTROLABE.get()))) {
                 survey(sl, sp, ModStructures.OBSERVATORY, "observatory");
             }
+            // the Sunken Gates (the way into the Drowned Expanse) are a side branch, open from the start
+            survey(sl, sp, ModStructures.SUNKEN, "sunken");
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     private static void survey(ServerLevel level, ServerPlayer p, TagKey<Structure> tag, String what) {
-        BlockPos found = level.findNearestMapStructure(tag, p.blockPosition(), what.equals("great_cage") || what.equals("observatory") ? RADIUS * 3 : RADIUS, false);
+        BlockPos found = level.findNearestMapStructure(tag, p.blockPosition(), what.equals("great_cage") || what.equals("observatory") || what.equals("sunken") ? RADIUS * 3 : RADIUS, false);
         Component label = Component.translatable("lens.unstable_frontiers." + what);
         if (found == null) {
             p.displayClientMessage(Component.translatable("message.unstable_frontiers.lens_none", label).withStyle(ChatFormatting.GRAY), false);

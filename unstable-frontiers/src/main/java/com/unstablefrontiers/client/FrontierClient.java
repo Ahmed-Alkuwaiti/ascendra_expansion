@@ -23,6 +23,7 @@ public final class FrontierClient {
         modBus.addListener(FrontierClient::renderers);
         modBus.addListener(FrontierClient::skies);
         ClientShots.init(net.neoforged.neoforge.common.NeoForge.EVENT_BUS);
+        DrownedClientHooks.init(modBus, net.neoforged.neoforge.common.NeoForge.EVENT_BUS);
     }
 
     private static void renderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -34,10 +35,14 @@ public final class FrontierClient {
         event.registerEntityRenderer(ModEntities.ORRERY_WARDEN.get(), ctx -> new Renderer<>(ctx, "orrery_warden", 1.0F, 0.0F));
         event.registerEntityRenderer(ModEntities.ECLIPSE_LEVIATHAN.get(), ctx -> new Renderer<>(ctx, "eclipse_leviathan", 1.6F, 0.0F));
         event.registerEntityRenderer(ModEntities.STAR_BOLT.get(), ctx -> new ThrownItemRenderer<>(ctx, 1.2F, true));
+        event.registerEntityRenderer(ModEntities.LANTERNRAY.get(), ctx -> new Renderer<>(ctx, "lanternray", 1.0F, 0.0F));
+        event.registerEntityRenderer(ModEntities.MURKJAW.get(), ctx -> new Renderer<>(ctx, "murkjaw", 1.0F, 0.0F));
+        event.registerEntityRenderer(ModEntities.DEEPCALLER.get(), ctx -> new Renderer<>(ctx, "deepcaller", 1.0F, 0.0F));
     }
 
     private static void skies(net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent event) {
         event.register(com.unstablefrontiers.abyss.AbyssDimension.EFFECTS, new AbyssSkyEffects());
+        event.register(com.unstablefrontiers.drowned.DrownedDimension.EFFECTS, new DrownedSkyEffects());
     }
 
     /** A creature renderer: the model, a glow layer, a shadow that matches its size, and no vanilla death tip-over. */

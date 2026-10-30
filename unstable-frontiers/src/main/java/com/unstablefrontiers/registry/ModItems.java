@@ -117,6 +117,7 @@ public final class ModItems {
                 out.accept(SHRIKE_IMPALER.get());
                 out.accept(MATRIARCH_MANTLE.get());
                 AbyssRegistry.addToTab(out);
+                DrownedRegistry.addToTab(out);
             })
             .build());
 

@@ -33,6 +33,7 @@ public final class UnstableFrontiers {
         ModSounds.register(modBus);
         ModEntities.register(modBus);
         com.unstablefrontiers.registry.AbyssRegistry.register(modBus);
+        com.unstablefrontiers.registry.DrownedRegistry.register(modBus);
         ModStructures.register(modBus);
         ModAttachments.register(modBus);
         if (FMLEnvironment.dist == Dist.CLIENT) {
@@ -47,6 +48,9 @@ public final class UnstableFrontiers {
         game.register(new com.unstablefrontiers.item.CreatureGearEvents());
         game.register(new com.unstablefrontiers.abyss.AbyssTravel());
         game.register(new com.unstablefrontiers.abyss.EclipseEncounter());
+        game.register(new com.unstablefrontiers.drowned.DrownedTravel());
+        game.register(new com.unstablefrontiers.drowned.DrownedBreathing());
+        game.register(new com.unstablefrontiers.drowned.DeepcallerEncounter());
         game.addListener(FrontierCommand::register);
         game.register(new SmokeTest());
         game.register(new com.unstablefrontiers.debug.CreatureTrial());

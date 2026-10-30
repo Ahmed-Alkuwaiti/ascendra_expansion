@@ -52,7 +52,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public final class FrontierCommand {
     private static final String RETURN_USED = "unstable_frontiers.return_used";
     private static final Map<String, TagKey<Structure>> GROUPS = Map.of("any", ModStructures.LANDMARKS, "cage", ModStructures.CAGES,
-            "lair", ModStructures.LAIRS, "camp", ModStructures.CAMPS, "great_cage", ModStructures.GREAT_CAGE, "observatory", ModStructures.OBSERVATORY);
+            "lair", ModStructures.LAIRS, "camp", ModStructures.CAMPS, "great_cage", ModStructures.GREAT_CAGE, "observatory", ModStructures.OBSERVATORY,
+            "sunken", ModStructures.SUNKEN);
 
     private FrontierCommand() {}
 
@@ -85,6 +86,27 @@ public final class FrontierCommand {
                             ServerLevel abyss = c.getSource().getServer().getLevel(com.unstablefrontiers.abyss.AbyssDimension.LEVEL);
                             if (abyss != null) {
                                 com.unstablefrontiers.abyss.EclipseEncounter.forceReset(abyss);
+                            }
+                            return 1;
+                        })))
+                .then(Commands.literal("drowned").requires(s -> s.hasPermission(2)).executes(c -> {
+                    com.unstablefrontiers.drowned.DrownedTravel.enter(c.getSource().getPlayerOrException(), null);
+                    return 1;
+                })
+                        // the Deepcaller, called as if its bell were rung; and sent back
+                        .then(Commands.literal("summon").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            ServerLevel dl = p.server.getLevel(com.unstablefrontiers.drowned.DrownedDimension.LEVEL);
+                            if (dl == null) {
+                                return 0;
+                            }
+                            com.unstablefrontiers.drowned.DrownedPlaces.build(dl, com.unstablefrontiers.drowned.DrownedTerrain.VAULT);
+                            return com.unstablefrontiers.drowned.DeepcallerEncounter.summon(dl, p) ? 1 : 0;
+                        }))
+                        .then(Commands.literal("reset").executes(c -> {
+                            ServerLevel dl = c.getSource().getServer().getLevel(com.unstablefrontiers.drowned.DrownedDimension.LEVEL);
+                            if (dl != null) {
+                                com.unstablefrontiers.drowned.DeepcallerEncounter.forceReset(dl);
                             }
                             return 1;
                         })))
@@ -131,7 +153,8 @@ public final class FrontierCommand {
     private static int returnHome(CommandContext<CommandSourceStack> c) throws CommandSyntaxException {
         ServerPlayer p = c.getSource().getPlayerOrException();
         boolean abyss = com.unstablefrontiers.abyss.AbyssDimension.is(p.level());
-        if (!FrontierDimension.is(p.level()) && !abyss) {
+        boolean drowned = com.unstablefrontiers.drowned.DrownedDimension.is(p.level());
+        if (!FrontierDimension.is(p.level()) && !abyss && !drowned) {
             c.getSource().sendFailure(Component.translatable("message.unstable_frontiers.return_not_here"));
             return 0;
         }
@@ -145,6 +168,8 @@ public final class FrontierCommand {
         d.putLong(RETURN_USED, now);
         if (abyss) {
             com.unstablefrontiers.abyss.AbyssTravel.leave(p);
+        } else if (drowned) {
+            com.unstablefrontiers.drowned.DrownedTravel.leave(p);
         } else {
             RiftTravel.goHome(p);
         }
@@ -370,8 +395,15 @@ public final class FrontierCommand {
             case "observatory" -> com.unstablefrontiers.debug.AbyssTrial.observatory(level, at);
             case "abyss" -> com.unstablefrontiers.debug.AbyssTrial.places(level);
             case "leviathan" -> com.unstablefrontiers.debug.AbyssTrial.leviathan(level);
+            case "murkjaw" -> com.unstablefrontiers.debug.DrownedTrial.murkjaw(level, at);
+            case "lanternray" -> com.unstablefrontiers.debug.DrownedTrial.lanternray(level, at);
+            case "gate" -> com.unstablefrontiers.debug.DrownedTrial.gate(level, at);
+            case "drowned" -> com.unstablefrontiers.debug.DrownedTrial.places(level);
+            case "breathing" -> com.unstablefrontiers.debug.DrownedTrial.breathing(level);
+            case "deepcaller" -> com.unstablefrontiers.debug.DrownedTrial.deepcaller(level);
             default -> {
-                c.getSource().sendFailure(Component.literal("gnashback, shrikewing, matriarch, warden, mite, observatory, abyss or leviathan"));
+                c.getSource().sendFailure(Component.literal("gnashback, shrikewing, matriarch, warden, mite, observatory, abyss, leviathan, "
+                        + "murkjaw, lanternray, gate, drowned, breathing or deepcaller"));
                 return 0;
             }
         }
@@ -388,7 +420,8 @@ public final class FrontierCommand {
 
     private static ServerLevel frontier(CommandContext<CommandSourceStack> c) {
         ServerLevel level = c.getSource().getLevel();
-        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level)) {
+        if (!FrontierDimension.is(level) && !com.unstablefrontiers.abyss.AbyssDimension.is(level)
+                && !com.unstablefrontiers.drowned.DrownedDimension.is(level)) {
             c.getSource().sendFailure(Component.literal("Run this in the frontier (or with: execute in unstable_frontiers:frontier ...)"));
             return null;
         }

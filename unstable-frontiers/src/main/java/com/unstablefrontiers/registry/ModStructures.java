@@ -32,6 +32,7 @@ public final class ModStructures {
     public static final TagKey<Structure> CAMPS = tag("lens/camps");
     public static final TagKey<Structure> GREAT_CAGE = tag("lens/great_cage");
     public static final TagKey<Structure> OBSERVATORY = tag("lens/observatory");
+    public static final TagKey<Structure> SUNKEN = tag("lens/sunken");
 
     private ModStructures() {}
 

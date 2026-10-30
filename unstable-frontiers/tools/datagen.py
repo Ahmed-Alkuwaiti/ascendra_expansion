@@ -387,7 +387,8 @@ def advancements():
     for old in ('caged', 'trophy'):
         if os.path.exists(d('advancement', old + '.json')):
             os.remove(d('advancement', old + '.json'))
-    adv('root', None, U + 'rift_shard', {'c': has(U + 'rift_shard')})
+    # granted on the first tick in a world, so the tab (and the way in) shows from the start
+    adv('root', None, U + 'rift_shard', {'c': {'trigger': 'minecraft:tick'}})
     adv('enter', 'root', 'minecraft:crying_obsidian', {'c': {'trigger': 'minecraft:changed_dimension',
                                                              'conditions': {'to': f'{NS}:frontier'}}})
     adv('survey', 'enter', U + 'rift_lens', {'camp': at(f'#{NS}:lens/camps'), 'lens': has(U + 'rift_lens')}, requirements=[['camp', 'lens']])
@@ -643,7 +644,7 @@ LANG = {
     'message.unstable_frontiers.return_not_here': 'You are not in the frontier.',
     'message.unstable_frontiers.return_cooldown': 'The rift is still closing. Try again in %s s.',
     'advancement.unstable_frontiers.root': 'Unstable Frontiers',
-    'advancement.unstable_frontiers.root.desc': 'Craft an Unstable Rift Shard (amethyst, crying obsidian, an eye of ender)',
+    'advancement.unstable_frontiers.root.desc': 'Craft an Unstable Rift Shard (amethyst shards in the corners, crying obsidian on the sides, an eye of ender in the middle) and use it',
     'advancement.unstable_frontiers.enter': 'Beyond the Rift',
     'advancement.unstable_frontiers.enter.desc': 'Enter the Unstable Frontier',
     'advancement.unstable_frontiers.survey': 'Survey Party',
