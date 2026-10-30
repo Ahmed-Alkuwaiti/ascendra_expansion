@@ -22,7 +22,7 @@ and the **Deepcaller**. See [the Drowned Expanse](#the-drowned-expanse). [AUDIT.
 what is only implemented, and how each part is reached in survival.
 
 **About the pictures.** Three kinds, each labelled:
-* `docs/screenshots/ingame/` (0.4.0) and `docs/screenshots/ingame/abyss/` (0.5.0) — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
+* `docs/screenshots/ingame/` (0.4.0), `docs/screenshots/ingame/abyss/` (0.5.0) and `docs/screenshots/ingame/drowned/` (0.6.0) — **in-game screenshots** taken by CI from the real Integrated Boogaloo 1.0.8 client (all of
   its mods, software rendering under a virtual display, so no shaders and plain lighting). See
   [the client test](#testing-what-was-checked-and-what-was-not).
 * `docs/renders/creature_*_model_sheet.png` — **model previews** drawn offline from the creature model files by
@@ -503,8 +503,16 @@ See [TESTING.md](TESTING.md) for the full report from the last CI runs. In short
   rescue, the Orrery Warden and Lumen Mite, and the Eclipse Leviathan's whole fight (summon, phases, mites, eclipse,
   arena bounds, save and load, abandonment reset, free recall, rewards): all 78 server checks pass. The client run
   walked through the restored gate into the Abyss and called the Leviathan: [screenshots](docs/screenshots/ingame/abyss).
+* **0.6.0** (see TESTING.md): the tide gate's gear check, the sea's water column and floor, all five places, the dry
+  arrival dome, bells, the rig's rules (capacity, deep-line drain, vents, natural breathing kept, black-out rescue), the
+  Deepwork ambush, the Murkjaw, the Lanternray, and the Deepcaller's whole fight: **all 113 server checks pass**. The
+  client run was refused at the gate without gear, walked through it in goggles and a rig, and woke the Deepcaller:
+  [screenshots](docs/screenshots/ingame/drowned) (three of them are weak: trees hide the Sunken Gate in 50, the distant
+  trench in 64 shows only water, and the close-up camera in 69 ended inside the dome wall).
 * **In-game screenshots** from the full Integrated Boogaloo client (every jar of the pack), scripted, under software
   rendering: [docs/screenshots/ingame](docs/screenshots/ingame).
+* **Not tested in 0.6.0**: see the end of the 0.6.0 section in TESTING.md (a real swimmer's air drain, Curios slots in
+  the client, the gear and the Undertow in use, bell travel, two players, Alex's Caves' diving gear alongside).
 * **Not tested**: real play by a person (timing with a mouse and keyboard, how it feels), sound by ear, multiplayer with
   two clients, frame rate on your PC, and the Carapace set bonus, Impaler bonus and Mantle in actual use.
 

@@ -1,10 +1,57 @@
-# Test report — Unstable Frontiers 0.5.0-rc1
+# Test report — Unstable Frontiers 0.6.0-rc1
 
 Everything below comes from automated runs on GitHub Actions (Ubuntu, Java 21). Nobody has played it: "pass" means a
 scripted check passed, not that a fight feels right. The in-game screenshots come from a scripted client (section 4), not
 from play.
 
 There are four kinds of check, reported separately.
+
+## 0.6.0: the Drowned Expanse
+
+Same pack server (138 of Integrated Boogaloo 1.0.8's jars, its configs and KubeJS scripts) with `debug/DrownedTrial.java`
+added. **Result: all 113 checks pass (the 78 from 0.5.0 and 35 new), runs 41019501430 and 41019667244.** Real numbers from those runs:
+
+| Area | What was checked | Result |
+|---|---|---|
+| Sunken Gate | generates naturally in the frontier (`frontier locate sunken`) | pass |
+| Tide gate | without goggles and a rig it stays shut and the diver stays where they stood; goggles alone are refused; goggles and a rig pass | pass |
+| The sea | water up to y 299 with air above and a solid floor under five sampled columns (shallows, kelpwood, reach, trench) | pass |
+| Places | all five build over their pads: Tidewatch (origin −20, 259, −20), Deepwork (−355, 193, 125), Choir (272, 155, −278), wreck (−178, 108, −588), vault (53, 27, −837) | pass |
+| | arrivals stand on a dry floor inside Tidewatch's dome (0, 269, 1); the dome's return gate is there; every place has its bell; the vault's dome is flooded at the arena's middle; no hostile natural spawns inside a place | pass |
+| | Deepwork's pump-hall ambush starts with creatures | pass |
+| Rig | 180 s (deep rig 420 s), cannot overfill; below y 100 a plain rig drains ×3, a deep rig ×1; a vent refills through open water but not through rock; water breathing from elsewhere takes over; a black-out returns the diver to their shelter, at most once a minute | pass |
+| Murkjaw | 75 health after the pack's scaling; swims in open water; the jaw tell comes before the lunge; an undodged lunge hits (28.8); a dodged lunge into a wall stuns it and it then takes 8 from a hit that deals 4 | pass |
+| Lanternray | fed glow berries it leads toward the nearest uncharted place (12 blocks closer in 59 ticks); struck, it stops leading and flees | pass |
+| Deepcaller | the bell wakes it (1500 health after the pack's scaling, armour 10); it cannot be hurt while rising; one at a time | pass |
+| | phase one: lure flash, charge and vortex, each told first (the stand-in lost 83); it keeps to its dome | pass |
+| | phase two at half health with a roar; its brood (2 alive, cap 3, 45 health each); a charge that misses into the dome wall stuns it: 20 from a hit that deals 10 | pass |
+| | its phase, dome and brood survive a save and load; an orphan Deepcaller is refused; with nobody in the vault for 30 s it resets and its brood goes; the bell calls it again at full health | pass |
+| | victory: 2 Abyssal Pearls and the Undertow owed to a fighter who is away; a second victory pays pearls but no second Undertow | pass |
+
+**Bugs these runs found, fixed in this release:**
+* *The arrival dome flooded.* Placing a template keeps the sea that stood there, so it waterlogged the gate, sign and bell
+  inside Tidewatch's dome, and they poured water into it (the trial found flowing water at the arrival point). The places
+  now set those blocks back to their dry template state in the same tick. The template generator also refuses any build
+  where air would touch water from the side or above.
+* *Winning a place's fight charted nothing.* The three fights were not marked as their places' final fights. Fixed.
+* *The trials' own races:* a creature that began its tell in the step before the one watching for it was reported as
+  attacking without one (Murkjaw, and once the 0.5 Lumen Mite). The creatures only attack from their tell state; the
+  trials now count an earlier tell.
+
+**Client screenshots** (`docs/screenshots/ingame/drowned/`), the whole pack's client, software rendering, no shaders,
+no night vision: the Sunken Gate; the gate refusing a diver without gear (the chat shows what it wants, and the
+"Sunken Stair" advancement fired); with goggles and a rig worn, the walk into the gate and arrival in Tidewatch's dry
+dome (so the gate travel ran for real); the station, the moon pool from below, the routes and kelpwood, Deepwork's pump
+hall and diving bell, the Choir Temple's nave and rose window, the wreck, the trench and the vault; the creatures posed;
+the Deepcaller woken in the vault with its boss bar.
+
+**Not tested in 0.6.0:** a person diving (how far a swim feels, whether the fog is pleasant on your screen); the rig's
+drain on a real player under water (the trials check the rules it follows; a fake player cannot swim); Curios slots in
+the real client (the gear was worn in armour slots in the screenshots; the Curios tags and slot file load without
+errors, but equipping through the Curios screen was not scripted); Swim Fins, Deep-Sight glow, the Undertow and the Breath
+Charm in someone's hands; tide-bell travel and the echo sounder in use; two real players; Alex's Caves' own diving gear
+worn together with this rig (both mods are in the pack; no conflict is expected since the rig only tops up air while worn,
+but it was not tried); frame rate on your PC.
 
 ## 0.5.0: the Rift Observatory and the Astral Abyss
 

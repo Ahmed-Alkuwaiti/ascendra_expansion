@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.6.0-rc1 — the Drowned Expanse
+
+For Integrated Boogaloo 1.0.8 (Minecraft 1.21.1, NeoForge 21.1.264), with Antarchy 2.2.9 and GeckoLib 4.9.3 from the pack;
+Curios 9.5.1 (in the pack) is used when present. Replaces 0.5.0-rc1; worlds carry over (no ids changed, no migration).
+
+### The Drowned Expanse (a new dimension, entirely under water)
+* A seedless sea 0–320 with its surface at y 299: sunlit glass-reef shallows round Tidewatch, kelpwood, the deeper reach,
+  and the blackwater trench in the south. Coral reefs, kelp columns, lumen coral, caves under the floor, seamounts, a
+  terraced trench. Readable without shaders: ambient light, luminous blocks, and fog drawn by the mod that goes from
+  short (no goggles) to long (goggles) and from bright teal near the top to dark blue in the trench.
+* Entered from the frontier's new **Sunken Gate** landmark (a flooded well with a tide gate and the expedition's diving
+  camp) by divers wearing **Abyssal Goggles** and a **Diving Rig** (both need a Gnashback plate). The gate says what is
+  missing. The Rift Lens lists the nearest Sunken Gate.
+* Five places on fixed pads: **Tidewatch Station** (arrival dome, return gate, mast), **Deepwork Station** (ambush in the
+  pump hall; a diving bell shelter), **the Choir Temple** (waves in the nave; a bell-tower loft), **the Wreck of the Long
+  Patience** (the Wreckmaw in the hold; a capsized stern with air) and **the Sunless Vault** (the Deepcaller's dome; an
+  antechamber). Interiors are deliberately flooded; only the shelters hold air, checked by the template generator.
+* Navigation: charting (reaching a place, or winning the fight before it), the **Echo Sounder**, glyph posts along the
+  routes that glow through goggles, Lanternrays that lead you to an uncharted place, tide bells that set your shelter and
+  carry you between rung bells, breath vents on the floor.
+### Breathing
+* One system: the rig's tank (3 min; Deep Rig 7 min). Gauge above the hunger bar, warnings at 30 s, 10 s, empty. Refills in
+  air and over breath vents. Below y 100 a plain rig drains three times as fast. Natural water breathing from anywhere in
+  the pack takes over. Black-out rescue to your last shelter (at most once a minute). Nothing changes breathing, swimming,
+  flight or water outside the Expanse except while you wear the gear.
+### Creatures (original models, textures, animations and sounds)
+* **Lanternray** (harmless, guides when fed glow berries), **Murkjaw** (an eel with a told, line-locked lunge; misses into
+  walls stun it), **the Deepcaller** (boss: lure flash, charge, vortex, brood; bounded to its dome, reset after 30 s alone).
+### Rewards
+* Swim Fins, Deep Rig (Pressure Valve + Keel Plate), Deep-Sight Goggles (Choir Pearl), the **Undertow** (harpoon-sword
+  and grapple, first Deepcaller victory), Abyssal Pearls, the **Breath Charm** (pearls + heart of the sea or eclipse scale).
+* Seven advancements.
+### Other changes
+* Beds work in the Expanse's shelters (a bed sets your spawn there).
+* Fixed during testing: the arrival dome flooded (template placement waterlogged the furniture inside it); the places' fights
+  charted nothing onward. See TESTING.md.
+* The advancement tab now shows from the first tick in a world (it was hidden until a Rift Shard had been crafted), and its
+  first entry names the Rift Shard recipe.
+
 ## 0.5.0-rc1 — the Rift Observatory and the Astral Abyss
 
 For Integrated Boogaloo 1.0.8 (Minecraft 1.21.1, NeoForge 21.1.264), with Antarchy 2.2.9 and GeckoLib 4.9.3 from the pack.

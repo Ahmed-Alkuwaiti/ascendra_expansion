@@ -46,4 +46,23 @@ progress carry over with no migration.
 
 ## The Drowned Expanse (new in 0.6)
 
-Filled in from the 0.6.0 CI run — see the table in TESTING.md.
+| Feature | Evidence | Survival route | Class |
+|---|---|---|---|
+| Dimension (seedless sea, 4 biomes, generator) | `drowned/DrownedChunkGenerator.java`, `DrownedBiomeSource.java`, `DrownedTerrain.java`; `dimension/drowned_expanse.json`; `registry/DrownedRegistry.java` (GENERATOR, BIOMES) | the tide gate | Verified ("water column and floor") |
+| Sunken Gate (frontier landmark) | `worldgen/structure/sunken_gate.json`, `landmark/sunken_gate.json`; Rift Lens survey in `item/RiftLensItem.java` | natural generation, listed by the Rift Lens | Verified ("sunken gates generate naturally") |
+| Gear gate (goggles + rig worn) | `drowned/DrownedTravel.java` (throughGate, missingGear); `block/TideGateBlock.java` | recipes `abyssal_goggles.json`, `diving_rig.json` (Gnashback plate) | Verified (refusal and admission; client shot 51 shows the message) |
+| Curios slots for the gear | `drowned/DrownedGear.java` (reflection, no hard dependency); `data/curios/tags/item/*.json`, `data/unstable_frontiers/curios/entities/diving_gear.json` | wear in head/back/feet/necklace | Untested in the client (armour slots verified instead) |
+| Breathing (rig air, deep line, vents, natural breathing kept) | `drowned/DrownedBreathing.java`, `DivingGearItem.java` | wear the rig | Verified by rule (trials call the same methods); the per-tick drain on a real swimmer: Untested |
+| Air gauge, fog, glyph glow | `client/DrownedClientHooks.java`, `client/DrownedSkyEffects.java` | automatic | Verified visually (client screenshots) |
+| Black-out rescue, shelters, tide bells | `DrownedTravel.rescue`, `ringBell`; `block/TideBellBlock.java` | ring a bell | Rescue Verified; bell travel Untested |
+| Dry arrival, return gate, the five places | `drowned/DrownedPlaces.java`; `structure/drowned_*.nbt`; `tools/structures/drowned_places.py` (leak check) | the gate; the echo sounder | Verified (places, dry arrival, bells, flooded vault; client walked through the gate) |
+| Charting, echo sounder, onward charts | `DrownedPlaces.chart`, `drowned/EchoSounderItem.java` | reach places, win fights | Untested (code path only) |
+| Place fights and their rewards | `landmark/drowned_*.json` zones, rosters `drowned_*` | swim there | Deepwork ambush Verified; Choir and wreck fights Untested (built, not started by a trial) |
+| Lanternray | `entity/LanternrayEntity.java` | natural spawns | Verified (leads, flees) |
+| Murkjaw | `entity/MurkjawEntity.java` | natural spawns, fights | Verified (tell, hit, stun) |
+| Deepcaller | `entity/DeepcallerEntity.java`, `drowned/DeepcallerEncounter.java` | the abyssal bell in the vault | Verified (14 checks) |
+| Rewards: Swim Fins, Deep Rig, Deep-Sight Goggles, Undertow, Abyssal Pearl, Breath Charm | `DrownedRegistry`; recipes `deep_rig.json`, `deep_sight_goggles.json`, `breath_charm*.json` | zone rewards, boss | Obtainable (data check; boss rewards Verified); in-hand behaviour Untested |
+| Item sinking, death drops kept 15 min | `DrownedTravel.onEntityTick`, `onDrops` | automatic | Untested |
+
+Nothing here changes breathing, swimming, inventories or water elsewhere: the rig and fins act only while worn, the
+fog, sinking items and spawn limits only in the Expanse.
